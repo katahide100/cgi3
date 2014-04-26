@@ -76,3 +76,68 @@ td.header a:link, td.header a:visited
 td.header img	{ vertical-align: middle; }
 #messagefield .mess
 		{ width: 100%; }
+
+/* =========== メニューボタン用　ST ============== */
+
+.menuArea2 {
+	width: 740px;
+}
+
+.paging {
+	overflow: auto;
+}
+
+.paging ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.paging ul li {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  list-style-type: none;
+}
+
+.paging ul li em,
+.paging ul li a {
+  margin: 5px 5px 0 0;
+  padding: 8px 6px 10px;
+  display: block;
+  float: left;
+  width: auto;
+  height: 17px;
+  line-height: 24px;
+  color: #ffffff;
+  border-radius:5px;
+
+  background-image:-moz-linear-gradient(
+    top,
+    #49a9d4 0%,
+    #49a9d4 49%,
+    #419cd8 50%,
+    #419cd8);
+    
+	background-image:-webkit-gradient(
+    	linear,left top,left bottom,from(#3FA4D2),color-stop(0.49,#3FA4D2),color-stop(0.50,#2686CB),to(#2686CB));
+}
+
+.centered {
+  position: relative;
+  overflow: hidden;
+}
+
+.centered ul {
+  position: relative;
+  left: 50%;
+  float: left;
+}
+
+.centered ul li {
+  position: relative;
+  left: -50%;
+  float: left;
+}
+
+/* =========== メニューボタン用　ED ============== */
