@@ -1,0 +1,21 @@
+<>一度退室しないと、再度対戦することはできません。<>system<>
+<>2ターン以内の投了・無断退室では勝敗数とポイントは記録されません。<>system<>
+<>koutaの勝ち！<>system<>
+<>おっさんさんが投了しました。<>system<>
+おっさん<>投了しとこう<>message2<>
+おっさん<>あれ、退出したはずなのに。。。<>message2<>
+kouta<>どうしました？<>message1<>
+kouta<>ありがとうございました<>message1<>
+おっさん<>有難うございました<>message2<>
+おっさん<>じゃあ、退出しますね<>message2<>
+kouta<>はい<>message1<>
+おっさん<>退出でいいのか<>message2<>
+kouta<>いいと思います<>message1<>
+kouta<>まぁ<>message1<>
+おっさん<>投了でいいすか<>message2<>
+kouta<>退出でいいと思います<>message1<>
+kouta<>勝負はついたので<>message1<>
+おっさん<>これはどうすれば…<>message2<>
+kouta<>よろしくお願いします<>message1<>
+<>koutaのターン！<>system<>
+<>Fantasia　Festa　tournament、開始！<>system<>

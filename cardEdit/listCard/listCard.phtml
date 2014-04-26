@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTS-8">
+<link rel="stylesheet" type="text/css" href="../duel.css" media="all">
+</head>
+<body>
+<center>
+<b>カード一覧</b><br>
+<input type="button" value="cgiに戻る" onclick="location='../../index.cgi'">　　　　　　　　　　　　　　　　　　　<input type="button" value="カード追加" onclick="location='../insertCard/insertCard.php'"><br>
+<br><br>
+<table border="1">
+<?php foreach($model->getListCard() as $key => $val){?>
+
+<?php if(substr($val[0],0,3) == "★"){?><tr><td>　<a href="../detailCard/detailCard.php?num=<?php echo $key?>"><?php echo @$val[0]?></a></td>
+<td>　<?php echo @$val[1]?></td>
+<td>　<?php echo @$val[2]?></td>
+<td>　<?php echo @$val[3]?></td>
+<td>　<?php echo @$val[4]?></td>
+<td>　<?php echo @$val[5]?></td>
+<td>　<?php echo @$val[6]?></td>
+<td>　<?php echo @$val[7]?></td>
+<td>　<?php echo @$val[8]?></td>
+</tr>
+<?php }?>
+<?php }?>
+</table>
+</center>
+</body>
+</html>

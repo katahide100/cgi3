@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+evpoint	0
+url	
+id	XGB64556
+dendou	1
+lobby	1
+pass	grcWFVkVT0bPY
+name	えめるど
+evtime	0
+deck1	シールド増殖デッキ-3319,3319,3319,3319,2623,2623,2623,2623,2055,2055,2055,2055,3358,1838,1838,1838,1838,2107,2107,2107,2107,3635,3635,3635,3635,1572,1572,1222,1222,1222,1222,2241,2241,2146,2146,2146,2506,2506,315,315-
+comment	
+dpoint	55
+shohai	-1
+drank	1
+c_dname	

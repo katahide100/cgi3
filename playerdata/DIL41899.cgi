@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+evpoint	0
+url	
+id	DIL41899
+dendou	1
+lobby	1
+pass	72SkmRorZlDeQ
+name	マリオネット
+evtime	0
+deck1	阿加担速攻-57,57,57,57,1041,1041,1041,1041,2634,2634,2634,2634,3922,3922,3922,3922,3662,3662,3662,3662,3942,3942,3942,3942,430,430,2049,2049,2049,2049,3786,3786,3786,1292,1292,1292,1271,1271,1271,1271-
+comment	
+dpoint	95
+shohai	1-1
+drank	1
+c_dname	

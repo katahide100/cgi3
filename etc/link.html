@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<LINK REV="MADE" HREF="mailto:mewsyoui@hotmail.com"> 
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=Shift_Jis">
+<META http-equiv="Content-Script-Type" content="text/javascript">
+<META http-equiv="Content-Style-Type" content="text/css">
+<STYLE TYPE="text/css">
+<!--
+body, table, tr, td	{
+	font-size: 12px;						/* ページ全体のフォントサイズ */
+	color: #000000;							/* 文字色 */
+}
+p			{ font-size: 12px; }			/* ページ全体のフォントサイズ */
+a:link, a:visited, a:hover, a:active
+			{ text-decoration: none; }		/* リンクの下線侮ｦ（なし） */
+a:link		{ color: #0000ff; }				/* リンク色（未読リンク） */
+a:visited	{ color: #000099; }				/* リンク色（既読リンク） */
+a:active	{ color: #ff0000; }				/* リンク色（押した時） */
+a:hover		{ color: #ff0000; }				/* リンクをポイントした際の色 */
+
+body		{
+	background-color:#b0d8ff;				/* ページ全体の背景色 */
+//	background-image:url(kabe.gif);			/* 背景画像を使用する場合、そのパス（絶対パスでも相対パスでも可） */
+}
+input,select,textarea {						/* フォームデザイン用 */
+	font-size: 12px;
+	color: #000000;
+	background-color: #ffffcc;
+	border : 1px solid #000000;
+}
+
+table.table, tr.table, td.table
+			{ background-color: #ffffff; }	/* 操作パネルおよびカードを置くフィールドの基本色 */
+
+
+-->
+</STYLE>
+<title>リンク</title>
+</head>
+<body>
+<B>このサイトヘのリンクについて</B><BR>
+<BR>
+デュエルマスターズ対戦ＣＧＩへのリンクは、基本的に自由です。<BR>
+どのような形でリンクを行って頂いても構いませんが、その際には管理人がメシスであることを明記してください。<BR>
+このページのバナーは、一応下記のものですが、別に使っても使わなくても構いません。<BR><BR>
+<A href="http://www.eternie-labs.net/~mesis/dm/index.cgi"><IMG src="./banner/exbanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://www.eternie-labs.net/~mesis/dm/index.cgi"><B>デュエルマスターズ対戦ＣＧＩ ｅｘ</B></A>
+<HR>
+<B>スペシャルサンクス</B><BR>
+<BR>
+<A href="http://mesis.s41.xrea.com/factory/index.html"><IMG src="./banner/mfbanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://mesis.s41.xrea.com/factory/index.html"><B>メシス＠ファクトリー</B></A> - 掲示板とチャットは、ここで配布されているものです。<BR>
+<HR>
+<B>デュエルマスターズ関連の外部サイト</B><BR>
+<BR>
+<A href="http://www.mars.dti.ne.jp/~araiguma/tonton/index.html"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://www.mars.dti.ne.jp/~araiguma/tonton/index.html"><B>デュエルマスターズの翼</B></A><BR>
+<BR>
+<A href="http://www.hpmix.com/home/jilenokiiru/index.htm"><IMG src="./banner/pabanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://www.hpmix.com/home/jilenokiiru/index.htm"><B>Ｐａｎｄｅｍｏｎｉｕｍ</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/ikusutoryi/"><IMG src="./banner/exbanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/ikusutoryi/"><B>イクスの鳥かご</B></A><BR>
+<BR>
+<A href="http://m-space.jp/?burumerukisu"><IMG src="./banner/mebanner.png" width="200" height="40" border="0"></A><BR>
+<A href="http://m-space.jp/?burumerukisu"><B>デュエルマスターズ～光の都～</B></A><BR>
+<BR>
+<A href="http://www.asahi-net.or.jp/~dp6m-mrt/index.htm"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://www.asahi-net.or.jp/~dp6m-mrt/index.htm"><B>デュエル・バードラス</B></A><BR>
+<BR>
+<A href="http://www.geocities.jp/heartdrops_kira/"><IMG src="./banner/ksbanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://www.geocities.jp/heartdrops_kira/"><B>ココロノシズク</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/syugennnokiwami/"><IMG src="./banner/ttbanner.png" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/syugennnokiwami/"><B>魂×魂</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/dmandmyhime/"><IMG src="./banner/kmbanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/dmandmyhime/"><B>kagutsuchi-no-mai</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/DMHAGARENnoMA/"><IMG src="./banner/habanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/DMHAGARENnoMA/"><B>デュエマ・ハガレンの間</B></A><BR>
+<BR>
+<A href="http://scribbling.blog.shinobi.jp/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://scribbling.blog.shinobi.jp/"><B>はしりがき。</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/duel4goldwing5/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/duel4goldwing5/"><B>決闘を極めし者達†黄金の翼</B></A><BR>
+<BR>
+<A href="http://rbqps913.s148.xrea.com/"><IMG src="./banner/kobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://rbqps913.s148.xrea.com/"><B>デュエルマスターズ交流サイト</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/banpaias/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/banpaias/"><B>デュエル・バンパイア</B></A><BR>
+<BR>
+<A href="http://toresisya.web.fc2.com/"><IMG src="./banner/ntbanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://toresisya.web.fc2.com/"><B>Always Everyday</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/duel4goldwing5/"><IMG src="./banner/dobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/duel4goldwing5/"><B>決闘を極めし者達†黄金の翼</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/soccer1/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/soccer1/"><B>真の間</B></A><BR>
+<BR>
+<A href="http://kokuudhimensyonzero.blog37.fc2.com/"><IMG src="./banner/sobanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://kokuudhimensyonzero.blog37.fc2.com/"><B>闇の奏鳴曲</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/midorinosougenn/"><IMG src="./banner/kybanner.png" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/midorinosougenn/"><B>風の豊かな草原</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/ds1212ds1212ds12/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/ds1212ds1212ds12/"><B>DMのHPだがネギまを好きな管理人好きなのでた…</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/fantasy34/"><IMG src="./banner/elbanner.png" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/fantasy34/"><B>～永遠の光～</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/DuelBreeze/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/DuelBreeze/"><B>Duel Breeze － ＤＭと遊戯の非公・・・</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/kuromona/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/kuromona/"><B>DMの事いろいろ書いてくサイト</B></A><BR>
+<BR>
+<A href="http://sky.geocities.jp/duelingman2006/index.html"><IMG src="./banner/fabanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://sky.geocities.jp/duelingman2006/index.html"><B>ファービーのデュエルｌｉｆｅ</B></A><BR>
+<BR>
+<A href="http://www.hamq.jp/i.cfm?i=3286478688"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://www.hamq.jp/i.cfm?i=3286478688"><B>ボルメテウスの村</B></A><BR>
+<BR>
+<A href="http://www.geocities.jp/sarf73367/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://www.geocities.jp/sarf73367/"><B>DM.サーファー</B></A><BR>
+<BR>
+<A href="http://www.geocities.jp/foan10y/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://www.geocities.jp/foan10y/"><B>foanホーム</B></A><BR>
+<BR>
+<A href="http://corile.xxxxxxxx.jp/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://corile.xxxxxxxx.jp/"><B>Corile☆</B></A><BR>
+<BR>
+<A href="http://www.hamq.jp/i.cfm?i=seigo1006&s=9892"><IMG src="./banner/kkbanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://www.hamq.jp/i.cfm?i=seigo1006&s=9892"><B>キャリン㌧協会サブエリア</B></A><BR>
+<BR>
+<A href="http://bakudan.net/blue/2chmona/"><IMG src="./banner/zbbanner.jpg" width="200" height="40" border="0"></A><BR>
+<A href="http://bakudan.net/blue/2chmona/"><B>雑談（・∀・）掲示板</B></A><BR>
+<BR>
+<A href="http://blog.netrend.jp/index.php/zzz55555"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://blog.netrend.jp/index.php/zzz55555"><B>zzz55555のブログ</B></A><BR>
+<BR>
+<A href="http://www.geocities.jp/haya620jp/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://www.geocities.jp/haya620jp/"><B>スケダーの神殿</B></A><BR>
+<BR>
+<A href="http://plaza.rakuten.co.jp/uraryuuou/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://plaza.rakuten.co.jp/uraryuuou/"><B>デュエルマスターズ～りゅうおうの城～</B></A><BR>
+<!--
+<BR>
+<A href=""><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href=""><B></B></A><BR>
+-->
+<HR>
+<!--<B>その他、外部サイト</B><BR>
+<BR>
+<A href="http://mesis.s41.xrea.com/mh/p/"><IMG src="./banner/nobanner.gif" width="200" height="40" border="0"></A><BR>
+<A href="http://mesis.s41.xrea.com/mh/p/"><B>モンスターハンターＰ 小ネタのページ。</B></A> - 私が趣味でしているゲームの小ネタ集。<BR>
+<HR>-->
+<A href="http://hpcgi3.nifty.com/altodias/dm/index.cgi">戻る</A>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<LINK REV="MADE" HREF="mailto:mewsyoui@hotmail.com"> 
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=Shift_Jis">
+<META http-equiv="Content-Script-Type" content="text/javascript">
+<META http-equiv="Content-Style-Type" content="text/css">
+<STYLE TYPE="text/css">
+<!--
+body, table, tr, td	{
+	font-size: 12px;						/* ページ全体のフォントサイズ */
+	color: #000000;							/* 文字色 */
+}
+p			{ font-size: 12px; }			/* ページ全体のフォントサイズ */
+a:link, a:visited, a:hover, a:active
+			{ text-decoration: none; }		/* リンクの下線（なし） */
+a:link		{ color: #0000ff; }				/* リンク色（未読リンク） */
+a:visited	{ color: #000099; }				/* リンク色（既読リンク） */
+a:active	{ color: #ff0000; }				/* リンク色（押した時） */
+a:hover		{ color: #ff0000; }				/* リンクをポイントした際の色 */
+
+body		{
+	background-color:#b0d8ff;				/* ページ全体の背景色 */
+//	background-image:url(kabe.gif);			/* 背景画像を使用する場合、そのパス（絶対パスでも相対パスでも可） */
+}
+input,select,textarea {						/* フォームデザイン用 */
+	font-size: 12px;
+	color: #000000;
+	background-color: #ffffcc;
+	border : 1px solid #000000;
+}
+
+table.table, tr.table, td.table
+			{ background-color: #ffffff; }	/* 操作パネルおよびカードを置くフィールドの基本色 */
+
+#cell_green {
+ background-color: #88ff88;
+}
+#cell_red {
+ background-color: #ff8888;
+}
+#cell_yellow {
+ background-color: #ffff88;
+}
+#cell_blue {
+ background-color: #ccccff;
+}
+#cell_black {
+ background-color: #cccccc;
+}
+#cell_rainbow {
+ background-color: #ffffff;
+}
+-->
+</STYLE>
+<title>デッキ解説 - スピード・ツナーミ</title>
+</head>
+<body>
+【<B>スピード・ツナーミ</B>】<BR><BR>
+デッキの内容<BR>
+<TABLE border="1" cellspacing="0" cellpadding="2">
+<TR><TD>名称</TD><TD>枚数</TD><TD>コスト</TD><TD>文明</TD><TD>パワー</TD><TD>種族</TD><TD>説明文</TD></TR>
+<TR id="cell_black"><TD>デンデン・パーカッション</TD><TD>3</TD><TD>2</TD><TD>闇</TD><TD>1000</TD><TD>ガーゴイル</TD><TD>呪文によってバトルゾーンから離されない<BR>強靭な耐久性を持つクリーチャー。</TD></TR>
+<TR id="cell_black"><TD>光線人形ストリウム</TD><TD>4</TD><TD>2</TD><TD>闇</TD><TD>4000</TD><TD>デスパペット</TD><TD>低いコストで高いパワーを持つクリーチャー。<BR>このクリーチャーが攻撃したターンは、<BR>他のクリーチャーが攻撃できなくなるので、<BR>最後に攻撃するようにしましょう。</TD></TR>
+<TR id="cell_rainbow"><TD>腐敗電脳メルニア</TD><TD>3</TD><TD>2</TD><TD>水/闇</TD><TD>1000</TD><TD>リキッド・ピープル/ゴースト</TD><TD>ブロックされないスレイヤー。<BR>このクリーチャーをバトルゾーンに置くだけで、<BR>相手の大型クリーチャーをけん制できます。</TD></TR>
+<TR id="cell_blue"><TD>アクア・アナライザー</TD><TD>3</TD><TD>3</TD><TD>水</TD><TD>2000</TD><TD>リキッド・ピープル</TD><TD>山札の上から５枚を並び替えるカード。<BR>最初の引きが悪くても、これを出すだけで<BR>流れを大きく変えられます。</TD></TR>
+<TR id="cell_blue"><TD>ストーム・クロウラー</TD><TD>2</TD><TD>4</TD><TD>水</TD><TD>5000</TD><TD>アースイーター</TD><TD>バトルゾーンに出たとき、マナゾーンからカードを１枚<BR>手札に戻すブロッカー。<BR>序盤マナに置いたスパイラル・ゲートとセットで。</TD></TR>
+<TR id="cell_blue"><TD>アクア・サーファー</TD><TD>4</TD><TD>6</TD><TD>水</TD><TD>2000</TD><TD>リキッド・ピープル</TD><TD>クリーチャーを１体手札に戻せる優秀なＳ・トリガー。<BR>序盤に手札に来た場合はマナに送ってしまいましょう。</TD></TR>
+<TR id="cell_blue"><TD>スパイラル・ゲート</TD><TD>3</TD><TD>2</TD><TD>水</TD><TD>-</TD><TD>呪文</TD><TD>汎用的な軽量Ｓ・トリガー呪文。<BR>ツナミ・カタストロフィーが来るまでは<BR>あまり使い道がないので、序盤はマナにするが良し。</TD></TR>
+<TR id="cell_black"><TD>リバース・チャージャー</TD><TD>3</TD><TD>4</TD><TD>闇</TD><TD>-</TD><TD>呪文</TD><TD>墓地からクリーチャーを１体回収するチャージャー呪文。</TD></TR>
+<TR id="cell_blue"><TD>テレポーテーション</TD><TD>2</TD><TD>5</TD><TD>水</TD><TD>-</TD><TD>呪文</TD><TD>クリーチャーを２体手札に戻すスパイラル・ゲートの強化版。<BR>ツナミ・カタストロフィーとセットで。</TD></TR>
+<TR id="cell_rainbow"><TD>英知と追撃の宝剣</TD><TD>2</TD><TD>7</TD><TD>水/闇</TD><TD>-</TD><TD>呪文</TD><TD>バトルゾーンとマナゾーンからカードを２枚消せる<BR>強烈なレインボー呪文。<BR>ツナミで手札を消した後は<BR>バトルゾーンとマナゾーンも消してしまおう。</TD></TR>
+<TR id="cell_black"><TD>クエイク・スタッフ</TD><TD>4</TD><TD>1</TD><TD>闇</TD><TD>-</TD><TD>クロスギア</TD><TD>クロスしたクリーチャーにスレイヤーを与える<BR>軽量で優秀なクロスギア。<BR>ツナミのタネ。</TD></TR>
+<TR id="cell_black"><TD>デモニック・プロテクター</TD><TD>3</TD><TD>1</TD><TD>闇</TD><TD>-</TD><TD>クロスギア</TD><TD>クロスしたクリーチャーが破壊された時、<BR>カードを１枚引ける便利なクロスギア。<BR>メルニアとのセットにするといいかも。<BR>ツナミのタネ。</TD></TR>
+<TR id="cell_rainbow"><TD>ツナミ・カタストロフィー</TD><TD>4</TD><TD>4</TD><TD>水/闇</TD><TD>-</TD><TD>クロスギア/進化</TD><TD>このデッキの最重要カード。<BR>これをどれだけ早く使えるかがカギ。<BR>出るまでは必ず１枚は手札に残す事。</TD></TR>
+</TABLE>
+<HR>
+基本戦術<BR>
+まずは闇マナを確保し、その上でデンデン・パーカッションやストリウムなどの軽量クリーチャーを出し、<BR>
+クエイク・スタッフかデモニック・プロテクターをクロス、<BR>
+４ターン目でツナミ・カタストロフィーを狙うことがこのデッキの最良パターンです。<BR>
+最低でも６ターン目までに決めないとずるずる引きずられて負けることが多いので、<BR>
+アクア・アナライザーを使うなどをして引くようにしましょう。<BR>
+ツナミは１度決まると強力で、手札を全て消し去った後はスパイラル・ゲートが確定除去と化したり、<BR>
+英知と追撃の宝剣がクリーチャー２体とマナゾーン２枚を破壊するカードに化けたりします。
+<HR>
+<A href="http://stardust.sytes.net/~mesis/dm/index.cgi">戻る</A>
+</body>
+</html>

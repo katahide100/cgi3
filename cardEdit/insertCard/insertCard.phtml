@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTS-8">
+		<link rel="stylesheet" type="text/css" href="../duel.css" media="all">
+	</head>
+	<body>
+		<center>
+			<br><br>
+			<table border="1">
+				<tr><td>
+				<center>
+					<br>
+					<h3>オリジナルカード登録画面</h3>
+					<?php if($model->getExecute() =="success"){?>
+						以下の内容で登録しました。<br><br>
+						カード名：<?php echo $model->getName()?><br>
+						文明：<?php echo $model->getCivilization()?><br>
+						種族：<?php echo $model->getKind()?><br>
+						パワー：<?php echo $model->getPower()?><br>
+						コスト：<?php echo $model->getCost()?><br>
+						進化：<?php echo $model->getEvolution()?><br>
+						効果：<?php echo $model->getEffect()?><br>
+						トリガー：<?php echo $model->getTrigger()?><br>
+						能力：<?php echo $model->getStr()?><br><br>
+						<a href="./insertCard.php">続けて登録する</a>
+					<?php }else{?>
+						<br>
+						<?php 
+						if($model->geterrMsg() != ""){
+						echo $model->getErrMsg()."<br>";}?>
+						<form action="./insertCard.php" method="post">
+						カード名<input type="text" name="name" value="<?php echo $model->getName()?>"><br>
+						（★クリーチャー名★）<br><br>
+						以下、各対照表参照（数値入力）<br>
+						複数ある場合は" , "区切りで記入すること。<br>
+						文明：<input type="text" name="civilization" value="<?php echo $model->getCivilization()?>"><br>
+						種族：<input type="text" name="kind" value="<?php echo $model->getKind()?>"><br>
+						パワー：<input type="text" name="power" value="<?php echo $model->getPower()?>"><br>
+						コスト：<input type="text" name="cost" value="<?php echo $model->getCost()?>"><br>
+						進化：<input type="text" name="evolution" value="<?php echo $model->getEvolution()?>"><br>
+						効果：<input type="text" name="effect" value="<?php echo $model->getEffect()?>"><br>
+						トリガー：<input type="text" name="trigger" value="<?php echo $model->getTrigger()?>"><br>
+						使用ユーザー：<input type="text" name="user" value="<?php echo $model->getUser()?>"><br>
+						※使用ユーザー欄に「全員」と入力するとユーザー制約をなくす。<br>
+						能力（文章）：<input type="text" name="str" value="<?php echo $model->getStr()?>"><br>
+						※能力は&lt;br/&gt;区切りで記入。<br><br>
+						<input type="submit" name="execute" value="登録">
+						</form>
+					<?php }?>
+					<br>
+					<input type="button" value="カードリストへ" onclick="location='../listCard/listCard.php'">
+					<br><br>
+				</center>
+				</td></tr>
+			</table>
+		</center>
+	</body>
+</html>

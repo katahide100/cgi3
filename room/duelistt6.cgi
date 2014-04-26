@@ -1,0 +1,13 @@
+dendou	0
+end_flg	1
+start_date	1397997063
+lp1	1
+lp2	0
+side1	XTI68120
+side2	IXU63789
+pn1	kouta
+pn2	おっさん
+pass1	hiubW7hlk7mEU
+pass2	7415p/wtkRToY
+sur_flg1	0
+sur_flg2	0

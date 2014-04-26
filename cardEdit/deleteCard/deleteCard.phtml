@@ -1,0 +1,22 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTS-8">
+<link rel="stylesheet" type="text/css" href="../duel.css" media="all">
+</head>
+<body>
+<br><br>
+<center>
+<?php if($model->getExecute() == "削除"){?>
+カードを削除しました。<br><br><br>
+<input type="button" value="カードリスト" onclick="location='../listCard/listCard.php'">
+<?php }else{?>
+本当に削除しますか？<br>
+（一度削除したカードはもとには戻せません。）<br><br><br>
+<form action="./deleteCard.php" method="get">
+<input type="hidden" name="num" value="<?php echo $model->getNum();?>">
+<input type="submit" name="execute" value="削除">
+</form>
+<?php }?>
+</center>
+</body>
+</html>

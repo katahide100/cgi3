@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+evpoint	0
+url	
+id	SRJ78887
+dendou	1
+pass	hiubW7hlk7mEU
+lobby	1
+name	kouta
+evtime	0
+deck1	ビマナ-2187,2156,2156,117,3307,3307,3307,3307,2306,3107,3107,3232,3232,2579,2579,2579,2579,481,481,481,481,1093,3484,3484,3484,2400,2400,2400,2713,2713,2914,2914,4300,4300,2834,1830,3930,4223,4223,1229-3182,4263
+comment	よろしくお願いします
+dpoint	54
+drank	1
+shohai	1-1
+c_dname	

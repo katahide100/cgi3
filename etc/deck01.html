@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<LINK REV="MADE" HREF="mailto:mewsyoui@hotmail.com"> 
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=Shift_Jis">
+<META http-equiv="Content-Script-Type" content="text/javascript">
+<META http-equiv="Content-Style-Type" content="text/css">
+<STYLE TYPE="text/css">
+<!--
+body, table, tr, td	{
+	font-size: 12px;						/* ページ全体のフォントサイズ */
+	color: #000000;							/* 文字色 */
+}
+p			{ font-size: 12px; }			/* ページ全体のフォントサイズ */
+a:link, a:visited, a:hover, a:active
+			{ text-decoration: none; }		/* リンクの下線（なし） */
+a:link		{ color: #0000ff; }				/* リンク色（未読リンク） */
+a:visited	{ color: #000099; }				/* リンク色（既読リンク） */
+a:active	{ color: #ff0000; }				/* リンク色（押した時） */
+a:hover		{ color: #ff0000; }				/* リンクをポイントした際の色 */
+
+body		{
+	background-color:#b0d8ff;				/* ページ全体の背景色 */
+//	background-image:url(kabe.gif);			/* 背景画像を使用する場合、そのパス（絶対パスでも相対パスでも可） */
+}
+input,select,textarea {						/* フォームデザイン用 */
+	font-size: 12px;
+	color: #000000;
+	background-color: #ffffcc;
+	border : 1px solid #000000;
+}
+
+table.table, tr.table, td.table
+			{ background-color: #ffffff; }	/* 操作パネルおよびカードを置くフィールドの基本色 */
+
+#cell_green {
+ background-color: #88ff88;
+}
+#cell_red {
+ background-color: #ff8888;
+}
+#cell_yellow {
+ background-color: #ffff88;
+}
+#cell_blue {
+ background-color: #8888ff;
+}
+#cell_black {
+ background-color: #cccccc;
+}
+#cell_rainbow {
+ background-color: #ffffff;
+}
+-->
+</STYLE>
+<title>デッキ解説 - カウンター・フェアリー</title>
+</head>
+<body>
+【<B>カウンター・フェアリー</B>】<BR><BR>
+デッキの内容<BR>
+<TABLE border="1" cellspacing="0" cellpadding="2">
+<TR><TD>名称</TD><TD>枚数</TD><TD>コスト</TD><TD>文明</TD><TD>パワー</TD><TD>種族</TD><TD>説明文</TD></TR>
+<TR id="cell_green"><TD>冒険妖精ポレゴン</TD><TD>4</TD><TD>1</TD><TD>自然</TD><TD>2000</TD><TD>スノーフェアリー</TD><TD>キークリーチャー。<BR>序盤から終盤まで数で押します。<BR>シールドを壊すとターン終了時に手札に戻るため、<BR>相手の反撃を気にせず攻撃できます。</TD></TR>
+<TR id="cell_green"><TD>反撃妖精ポコペン</TD><TD>3</TD><TD>2</TD><TD>自然</TD><TD>2000</TD><TD>スノーフェアリー</TD><TD>安定した能力を持つカード。<BR>数を揃えるのに使います。</TD></TR>
+<TR id="cell_green"><TD>薫風妖精コートニー</TD><TD>4</TD><TD>2</TD><TD>自然</TD><TD>2000</TD><TD>スノーフェアリー</TD><TD>バトルゾーンにある間、マナの色を気にしなくて済みます。</TD></TR>
+<TR id="cell_green"><TD>天真妖精オチャッピィ</TD><TD>3</TD><TD>3</TD><TD>自然</TD><TD>1000</TD><TD>スノーフェアリー</TD><TD>ストライク・バックを持つカード。<BR>シールドを破られる時の<BR>反撃用として使うのが主ですが、<BR>使用済みの呪文などをマナに置けるなど、<BR>普通に使う分にも優秀です。</TD></TR>
+<TR id="cell_red"><TD>襲撃者エグゼドライブ</TD><TD>3</TD><TD>3</TD><TD>火</TD><TD>3000</TD><TD>ドラゴノイド</TD><TD>万能スピードアタッカー。<BR>ターン終了時に手札に戻るため、<BR>相手の反撃を受けずに攻撃できます。</TD></TR>
+<TR id="cell_red"><TD>衝撃のロウバンレイ</TD><TD>3</TD><TD>5</TD><TD>火</TD><TD>1000</TD><TD>ブレイブ・スピリット</TD><TD>スピードアタッカー兼ブロッカー対策。<BR>通常に使うと破壊されやすいですが、<BR>最後の攻撃に使うと２体分の働きをするため、<BR>非常に優秀です。</TD></TR>
+<TR id="cell_rainbow"><TD>無頼勇騎ウインドアックス</TD><TD>2</TD><TD>5</TD><TD>火/自然</TD><TD>2000</TD><TD>ヒューマノイド/ビーストフォーク</TD><TD>ブロッカー対策。<BR>マナのカードも増やせます。</TD></TR>
+<TR id="cell_red"><TD>デュアルショック・ドラゴン</TD><TD>3</TD><TD>6</TD><TD>火</TD><TD>8000</TD><TD>アーマード・ドラゴン</TD><TD>ストライク・バックを持つＷブレイカー。<BR>基本的にはこのカードをずっと手札に保つことが<BR>このデッキの重要戦略となります。<BR>相手が攻めてきたら、カウンターで<BR>一気に返しましょう。</TD></TR>
+<TR id="cell_green"><TD>ダイヤモンド・ブリザード</TD><TD>4</TD><TD>3</TD><TD>自然</TD><TD>5000</TD><TD>スノーフェアリー/進化</TD><TD>このデッキのキーカード。<BR>このカードが２枚揃えばスノーフェアリーは不死身と化します。</TD></TR>
+<TR id="cell_green"><TD>母なる大地</TD><TD>3</TD><TD>3</TD><TD>自然</TD><TD>-</TD><TD>呪文</TD><TD>攻防万能のＳトリガー呪文。<BR>相手のクリーチャーを除去したり、<BR>ロウバンレイを出したり万能です。</TD></TR>
+<TR id="cell_red"><TD>地獄スクラッパー</TD><TD>4</TD><TD>7</TD><TD>火</TD><TD>-</TD><TD>呪文</TD><TD>守り専門のＳトリガー呪文。<BR>終盤以外に手札に来たら<BR>迷わずマナに置きましょう。</TD></TR>
+<TR id="cell_red"><TD>クリムゾン・ライフル</TD><TD>4</TD><TD>1</TD><TD>火</TD><TD>-</TD><TD>クロスギア</TD><TD>序盤の守りの要。<BR>これがあるだけで、相手のパワー2000以下を封じれます。</TD></TR>
+</TABLE>
+<HR>
+基本戦術<BR>
+序盤は速攻で攻撃を行いつつ、終盤はスピードアタッカーやストライク・バックで一気に畳み掛けるのが基本となります。<BR>
+ドローカードがまったく入っていませんが、こちらのクリーチャーが破壊されることが少ないのと、<BR>
+途中からはダイヤモンド・ブリザードの効果によって墓地とマナゾーンから全てのスノーフェアリーを<BR>
+回収できるため、耐久性は非常に高いです。<BR>
+また、ブロッカーはありませんが、ＳトリガーとＳバックの存在が防御力を大幅に上げています。<BR>
+<HR>
+<A href="http://stardust.sytes.net/~mesis/dm/index.cgi">戻る</A>
+</body>
+</html>

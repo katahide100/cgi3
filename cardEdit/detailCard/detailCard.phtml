@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTS-8">
+<link rel="stylesheet" type="text/css" href="../duel.css" media="all">
+</head>
+<body>
+<?php 
+$lines = $model->getLines();
+?>
+<center>
+<br><br>
+カード詳細<br><br>
+<table border="1">
+<tr><th>カード名</th><td>　<?php echo $lines[0]?></td></tr>
+<tr><th>文明</th><td>　<?php echo $lines[1]?></td></tr>
+<tr><th>種族</th><td>　<?php echo $lines[2]?></td></tr>
+<tr><th>パワー</th><td>　<?php echo $lines[3]?></td></tr>
+<tr><th>コスト</th><td>　<?php echo $lines[4]?></td></tr>
+<tr><th>進化</th><td>　<?php echo $lines[5]?></td></tr>
+<tr><th>効果</th><td>　<?php echo $lines[6]?></td></tr>
+<tr><th>トリガー</th><td>　<?php echo $lines[7]?></td></tr>
+<tr><th>能力</th><td>　<?php echo $model->getStr()?></td></tr>
+</table><br><br>
+<input type="button" value="このクリーチャーを削除する" onclick="location='../deleteCard/deleteCard.php?num=<?php echo $model->getNum()?>'">
+</center>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+body		{ margin: 0; padding: 0; }
+body, table, tr, td, select, input, textarea
+		{
+	font-size: 12px;			/* ページ全体のフォントサイズ */
+	font-family: MS UI Gothic,Lucida Sans Unicode,Osaka;
+						/* ページ全体の書体 */
+	color: #000000;				/* 文字色 */
+}
+p		{ font-size: 12px; }		/* インデックス等のフォントサイズ */
+a:link, a:visited, a:hover, a:active
+		{ text-decoration: none; }	/* リンクの下線表示（なし） */
+a:link		{ color: #0000ff; }		/* リンク色（未読リンク） */
+a:visited	{ color: #000099; }		/* リンク色（既読リンク） */
+a:active	{ color: #ff0000; }		/* リンク色（押した時） */
+a:hover		{ color: #ff0000; }		/* リンクをポイントした際の色 */
+
+body		{
+	background-color: #a0bbd0;		/* ページ全体の背景色 */
+/*	background-image: url(../images/kabe.gif);
+*/						/* 背景画像を使用する場合、そのパス（絶対パスでも相対パスでも可） */
+}
+input, select, textarea {			/* フォームデザイン用 */
+	border: 1px solid #000000;
+	color: #000000;
+	background-color: #66d0d0;
+	font-size: 12px;
+}
+
+span.message	{ color: #009acd; }		/* メッセージウィンドウで、会話文の文字色 */
+span.message1	{ color: #9a5c00; }		/* メッセージウィンドウで、会話文の文字色 */
+span.message2	{ color: #005c9a; }		/* メッセージウィンドウで、会話文の文字色 */
+span.system	{ color: #000000; }		/* メッセージウィンドウで、システム説明文の文字色 */
+span.taped	{ color: #808080; }		/* メッセージウィンドウで、タップした時の説明文の文字色 */
+span.secret	{ color: #cd5c5c; }		/* メッセージウィンドウで、自分にのみ表示される文章の文字色 */
+span.admin	{ color: #0000ff; }		/* メッセージウィンドウで、管理者発言の文字色 */
+
+table.table, tr.table, td.table, div.message
+		{ background-color: #ffffff; }	/* 操作パネルおよびカードを置くフィールドの基本色 */
+span.table	{ color: #ffffff; }		/* 操作パネルおよびカードを置くフィールドの基本色 */
+div.hikari, div.mizu, div.yami, div.hi, div.sizen, div.zero, div.rainbow, div.shield, div.message, table.god
+		{ border: 1px solid #000000; }	/* 各カードの輪郭線 */
+div.hikari, div.mizu, div.yami, div.hi, div.sizen, div.zero, div.rainbow, div.message
+		{ padding: 2px; text-align: left; }
+div.message	{
+	padding: 5px;
+	width: 200px;
+	height: 400px;
+	overflow: auto;
+}
+span.center	{ display: block; text-align: center;}
+.hikari		{ background-color: #ffffcc; }	/* 光文明のカードの色 */
+span.hikari	{ background-color: #ffff66; }	/* レインボーカードの光の文字の背景色 */
+.mizu		{ background-color: #ccffff; }	/* 水文明のカードの色 */
+span.mizu	{ background-color: #66ffff; }	/* レインボーカードの水の文字の背景色 */
+.yami		{ background-color: #cccccc; }	/* 闇文明のカードの色 */
+span.yami	{ background-color: #666666; }	/* レインボーカードの闇の文字の背景色 */
+.hi		{ background-color: #ffcccc; }	/* 火文明のカードの色 */
+span.hi		{ background-color: #ff6666; }	/* レインボーカードの火の文字の背景色 */
+.sizen		{ background-color: #ccffcc; }	/* 自然文明のカードの色 */
+span.sizen	{ background-color: #66ff66; }	/* レインボーカードの自然の文字の背景色 */
+.zero		{ background-color: #ffffff; }	/* ゼロ文明のカードの色 */
+.rainbow	{ background-image: url(../images/rainbow.jpg); }	/* レインボーカードの背景画像のパス */
+.god		{ background-image: url(../images/gold.gif); }		/* Ｇリンク中の神の背景画像のパス */
+.tap		{ background-color: #666666; }	/* タップしたカードの色 */
+.shield		{ background-color: #ccccff; }	/* シールドの色 */
+span.shield	{ color: #ccccff; }		/* シールドの色 */
+.god tr, .god td
+		{ border: none; text-align: center; }
+td.header	{
+	padding: 5px;
+	background-color: #003333;
+	color: #ffffff;
+}
+td.header a:link, td.header a:visited
+		{ color: #ffffff; }
+td.header img	{ vertical-align: middle; }
+#messagefield .mess
+		{ width: 100%; }

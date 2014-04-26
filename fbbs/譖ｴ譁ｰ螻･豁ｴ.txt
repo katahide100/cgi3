@@ -1,0 +1,4 @@
+4.05 -> 4.06
+fmai.cgi
+line70 old:	$threadvalue[$viewcommentcount-$oldrescount+$abbcount-1] = "$tlno<>$tlrno<>$tltime<>$tlname<>$tlmail<>$tltitle<>$tlcomment<br><br><i style=\"color:#000000;\">この記事は、レス数が<b>$maxres</b>件に達したので、これ以上書き込むことはできません。<br>新しいスレッドを建ててください。</i><>$tlhp<>$tlhost<>$tlpass<>$tlcolor<>$tlicon<>\n";
+line70 new:	$threadvalue[$viewcommentcount-$tmprescount+$abbcount-1] = "$tlno<>$tlrno<>$tltime<>$tlname<>$tlmail<>$tltitle<>$tlcomment<br><br><i style=\"color:#000000;\">この記事は、レス数が<b>$maxres</b>件に達したので、これ以上書き込むことはできません。<br>新しいスレッドを建ててください。</i><>$tlhp<>$tlhost<>$tlpass<>$tlcolor<>$tlicon<>\n";

@@ -1,0 +1,20 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+url	
+evpoint	0
+id	ABC12345
+dendou	1
+pass	11B2LEFd5iAoc
+lobby	1
+name	asas
+evtime	0
+deck1	onimaru -2187,1080,3043,3307,3307,3307,3307,320,2306,3107,3107,3246,3232,3232,2912,2912,481,481,481,481,3227,3227,3227,3227,3016,1093,3444,2988,2977,2713,2713,4228,4228,3268,3268,2834,3092,1830,3930,4223-3155,3439,4235,4235
+dpoint	323
+comment	
+drank	3
+shohai	2-3
+c_dname	
+nodark_win	2

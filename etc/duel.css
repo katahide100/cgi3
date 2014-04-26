@@ -1,0 +1,62 @@
+body, table, tr, td	{
+	font-size: 12px;						/* ページ全体のフォントサイズ */
+	color: #000000;							/* 文字色 */
+}
+
+body, td, input, textarea, select {
+	font-family: MS UI Gothic,Lucida Sans Unicode,Osaka;
+}
+
+p			{ font-size: 12px; }			/* インデックス等のフォントサイズ */
+a:link, a:visited, a:hover, a:active
+			{ text-decoration: none; }		/* リンクの下線表示（なし） */
+a:link		{ color: #0000ff; }				/* リンク色（未読リンク） */
+a:visited	{ color: #000099; }				/* リンク色（既読リンク） */
+a:active	{ color: #ff0000; }				/* リンク色（押した時） */
+a:hover		{ color: #ff0000; }				/* リンクをポイントした際の色 */
+
+body		{
+	background-color:#bbd0ff;				/* ページ全体の背景色 */
+}
+
+input,select,textarea {						/* フォームデザイン用 */
+	font-size: 12px;
+	color: #000000;
+	background-color: #88ffff;
+	border : 1px solid #000000;
+}
+input.none	{								/* チェックボックスの表示の乱れを防ぐ為のCSS（変更の必要なし） */
+	background-color: transparent;
+	border-style: none;
+}
+
+.message	{ color: #009acd; }				/* メッセージウィンドウで、会話文の文字色 */
+.system		{ color: #000000; }				/* メッセージウィンドウで、システム説明文の文字色 */
+.secret		{ color: #cd5c5c; }				/* メッセージウィンドウで、自分にのみ表示される文章の文字色 */
+.admin		{ color: #0000ff; }				/* メッセージウィンドウで、管理行動の文字色 */
+
+table.table, tr.table, td.table
+			{ background-color: #ffffff; }	/* 操作パネルおよびカードを置くフィールドの基本色 */
+span.table	{ color: #ffffff; }				/* 操作パネルおよびカードを置くフィールドの基本色 */
+table.hikari, table.mizu, table.yami, table.hi, table.sizen, table.rainbow
+			{ border: 1px solid #000000; }
+table.hikari td, table.mizu td, table.yami td, table.hi td, table.sizen td, table.rainbow td
+			{ border: none; }
+table.shield
+			{ border-width: 1px 0 0 1px; }
+.shield th, .shield td
+			{ border-width: 0 1px 1px 0; }
+.hikari		{ background-color: #ffffcc; }	/* 光文明のカードの色 */
+span.hikari	{ background-color: #ffff66; }	/* レインボーカードの光の文字の背景色 */
+.mizu		{ background-color: #ccffff; }	/* 水文明のカードの色 */
+span.mizu	{ background-color: #66ffff; }	/* レインボーカードの水の文字の背景色 */
+.yami		{ background-color: #cccccc; }	/* 闇文明のカードの色 */
+span.yami	{ background-color: #666666; color: #ffffff; }	/* レインボーカードの闇の文字の背景色 */
+.hi			{ background-color: #ffcccc; }	/* 火文明のカードの色 */
+span.hi		{ background-color: #ff6666; }	/* レインボーカードの火の文字の背景色 */
+.sizen		{ background-color: #ccffcc; }	/* 自然文明のカードの色 */
+span.sizen	{ background-color: #66ff66; }	/* レインボーカードの自然の文字の背景色 */
+.rainbow	{ background-image: url(rainbow.jpg);}	/* レインボーカードの背景画像のパス */
+.tap		{ background-color: #666666; }	/* タップしたカードの色 */
+.shield		{ background-color: #ccccff; }	/* シールドの色 */
+span.shield	{ color: #ccccff; }				/* シールドの色 */

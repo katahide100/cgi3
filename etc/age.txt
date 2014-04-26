@@ -1,0 +1,38 @@
+	} elsif ($dendou == 2) {
+		my @sgl = ();
+		require "series.lib";
+		undef %exists;
+		foreach (@age) { $exists{$_} = 1; }
+		my $ngflag = 0;
+		my @nglist = ();
+		foreach my $card(@odeck){
+			if($exists{$card}) {
+				push(@nglist, 0);
+			} else {
+				push(@nglist, 1);
+				$ngflag = 1;
+			}
+		}
+		if($ngflag) {
+			my $buffer = "";
+			my $i = 0;
+			foreach my $card(@odeck){
+				if($nglist[$i]) {
+					$buffer .= "<FONT color=\"red\">$c_name[$card]</FONT><BR>\n";
+				} else {
+					$buffer .= "$c_name[$card]<BR>\n";
+				}
+				$buffer .= "</TD><TD>\n" if($i == 19);
+				$i ++;
+			}
+			&error(<<"EOM");
+AG環境非対応のカードが入っています。デッキを作り直してください。<BR>
+<BR>
+<TABLE border="1">
+<TR><TD>
+$buffer
+</TD></TR>
+</TABLE>
+EOM
+		}
+	}
