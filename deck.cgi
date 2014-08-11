@@ -310,7 +310,7 @@ sub add_card{
   foreach my $cardnum (@$couno) {
     for(1 .. $kaisu){
       if($card_cou[$cardnum] < 4){
-        if (syu_chk($cardnum, 103) || syu_chk($cardnum, 119)) {
+        if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119)) {
           unshift(@deckp,$cardnum);
         } else {
           unshift(@deck,$cardnum);
@@ -696,7 +696,28 @@ EOM
   </p>
   <table border="4" cellpadding="5" class="table"><tr valign="top">
     <td colspan="2" align="center">
-      <p><a href="javascript:sForm('deckinv');">デッキ調査</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="./etc/help.html#deck" target="_blank">説明</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('taisen');">対戦する</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('group');">グループ編集</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('list');">リスト編集</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('log');">過去ログ</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('nuisance');">迷惑行為</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.cgi">戻る</a>&nbsp;&nbsp;&nbsp;&nbsp;$viewst
+      <p>
+      <!--<a href="javascript:sForm('deckinv');">デッキ調査</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="./etc/help.html#deck" target="_blank">説明</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="javascript:sForm('taisen');">対戦する</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="javascript:sForm('group');">グループ編集</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="javascript:sForm('list');">リスト編集</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="javascript:sForm('log');">過去ログ</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="javascript:sForm('nuisance');">迷惑行為</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="index.cgi">戻る</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      $viewst-->
+      <div class="paging centered" style="padding-bottom: 5px;">
+	<ul>
+	<li><a href="javascript:sForm('deckinv');">デッキ調査</a></li>
+	<li><a href="./etc/help.html#deck" target="_blank">説明</a></li>
+	<li><a href="javascript:sForm('taisen');">対戦する</a></li>
+	<li><a href="javascript:sForm('group');">グループ編集</a></li>
+	<li><a href="javascript:sForm('list');">リスト編集</a></li>
+	<li><a href="javascript:sForm('log');">過去ログ</a></li>
+	<li><a href="javascript:sForm('nuisance');">迷惑行為</a></li>
+	<li>$viewst</li>
+	</ul>
+	</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <select name="usedeck">
 EOM
@@ -1087,7 +1108,7 @@ sub cardsort {
     if (&syu_chk($i, 96)) { push @sort_src4, $i; }
     elsif (&syu_chk($i, 1)) { push @sort_src3, $i; }
     elsif (&syu_chk($i, 0)) { push @sort_src2, $i; }
-    elsif (&syu_chk($i, 103) || &syu_chk($i, 119)) { push @sort_src5, $i; }
+    elsif (&syu_chk($i, 145) || &syu_chk($i, 150) || &syu_chk($i, 103) || &syu_chk($i, 119)) { push @sort_src5, $i; }
     else { push @sort_src1, $i; }
   }
   @sort_res1 = $F{'sortkey1'} == 0 ? sort s_bunmei @sort_src1 : $F{'sortkey1'} == 1 ? sort s_mana @sort_src1: $F{'sortkey1'} == 2 ? sort s_power @sort_src1 : $F{'sortkey1'} == 3 ? sort s_syuzoku @sort_src1 : sort s_name @sort_src1;

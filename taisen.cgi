@@ -108,15 +108,19 @@ function iFlash()
 	<input type="hidden" name="mode" value="">
 	<input type="hidden" name="room" value="">
 	<input type="hidden" name="chara" value="">
-<a href="javascript:sForm('freeroom', '', '');">フリールーム</a>&nbsp;&nbsp;
-<a href="javascript:sForm('tourroom', '', '');">トーナメントルーム</a>&nbsp;&nbsp;
-<a href="javascript:sForm('info', '', '');">お知らせ</a>&nbsp;&nbsp;
-<a href="javascript:sForm('deck', '', '');">デッキ構築</a>&nbsp;&nbsp;
-<a href="javascript:sForm('group', '', '');">グループ編集</a>&nbsp;&nbsp;
-<a href="javascript:sForm('list', '', '');">リスト編集</a>&nbsp;&nbsp;
-<a href="javascript:sForm('log', '', '');">過去ログ</a>&nbsp;&nbsp;
-<a href="javascript:sForm('nuisance', '', '');">迷惑行為</a>&nbsp;&nbsp;
-<a href="javascript:sForm('index', '', '');">トップへ戻る</a>
+<div class="paging centered">
+<ul>
+<li><a href="javascript:sForm('freeroom', '', '');">フリールーム</a></li>
+<li><a href="javascript:sForm('tourroom', '', '');">トーナメントルーム</a></li>
+<li><a href="javascript:sForm('info', '', '');">お知らせ</a></li>
+<li><a href="javascript:sForm('deck', '', '');">デッキ構築</a></li>
+<li><a href="javascript:sForm('group', '', '');">グループ編集</a></li>
+<li><a href="javascript:sForm('list', '', '');">リスト編集</a></li>
+<li><a href="javascript:sForm('log', '', '');">過去ログ</a></li>
+<li><a href="javascript:sForm('nuisance', '', '');">迷惑行為</a></li>
+<li><a href="javascript:sForm('index', '', '');">トップへ戻る</a></li>
+</ul>
+</div>
 </form>
 </div>
 </body>
@@ -130,7 +134,7 @@ sub frame{
 	my($roomtype) = ($F{'mode'} eq 'tour') ? "tourroom" : "freeroom";
 print <<"EOM";
 </head>
-<frameset rows="32,*,240">
+<frameset rows="64,*,240">
 <frame src="taisen.cgi?mode=menu&id=$id&pass=$pass" name="menu" scrolling="no">
 <frame src="taisen.cgi?mode=$roomtype&id=$id&pass=$pass" name="main" scrolling="yes">
 <frame src="taisen.cgi?mode=view&id=$id&pass=$pass&line=30" name="chat" scrolling="yes">
@@ -573,7 +577,7 @@ EOM
 	print <<"EOM";
 </select>
 <hr width="640">
-<a href="javascript:sForm('', '', '');">フリールーム</a>&nbsp;&nbsp;
+<!--<a href="javascript:sForm('', '', '');">フリールーム</a>&nbsp;&nbsp;
 <a href="javascript:sForm('tour', '', '');">トーナメントルーム</a>&nbsp;&nbsp;
 <a href="javascript:sForm('view', '', '');">会話画面</a>&nbsp;&nbsp;
 <a href="javascript:sForm('deck', '', '');">デッキ構築</a>&nbsp;&nbsp;
@@ -581,7 +585,23 @@ EOM
 <a href="javascript:sForm('list', '', '');">リスト編集</a>&nbsp;&nbsp;
 <a href="javascript:sForm('log', '', '');">過去ログ</a>&nbsp;&nbsp;
 <a href="javascript:sForm('nuisance', '', '');">迷惑行為</a>&nbsp;&nbsp;
-<a href="javascript:sForm('index', '', '');">トップへ戻る</a>
+<a href="javascript:sForm('index', '', '');">トップへ戻る</a>-->
+
+<div class="menuArea2">
+<div class="paging centered">
+<ul>
+<li><a href="javascript:sForm('freeroom', '', '');">フリールーム</a></li>
+<li><a href="javascript:sForm('tourroom', '', '');">トーナメントルーム</a></li>
+<li><a href="javascript:sForm('info', '', '');">お知らせ</a></li>
+<li><a href="javascript:sForm('deck', '', '');">デッキ構築</a></li>
+<li><a href="javascript:sForm('group', '', '');">グループ編集</a></li>
+<li><a href="javascript:sForm('list', '', '');">リスト編集</a></li>
+<li><a href="javascript:sForm('log', '', '');">過去ログ</a></li>
+<li><a href="javascript:sForm('nuisance', '', '');">迷惑行為</a></li>
+<li><a href="javascript:sForm('index', '', '');">トップへ戻る</a></li>
+</ul>
+</div>
+</div>
 <hr width="640">
 <input type="hidden" name="subm" value="">
 EOM
@@ -638,7 +658,21 @@ EOM
 	print <<"EOM";
 </select>
 <hr width="640">
-<a href="javascript:sForm('', '', '');">フリールーム</a>&nbsp;&nbsp;
+<div class="paging centered">
+<ul>
+<li><a href="javascript:sForm('freeroom', '', '');">フリールーム</a></li>
+<li><a href="javascript:sForm('tourroom', '', '');">トーナメントルーム</a></li>
+<li><a href="javascript:sForm('info', '', '');">お知らせ</a></li>
+<li><a href="javascript:sForm('deck', '', '');">デッキ構築</a></li>
+<li><a href="javascript:sForm('group', '', '');">グループ編集</a></li>
+<li><a href="javascript:sForm('list', '', '');">リスト編集</a></li>
+<li><a href="javascript:sForm('log', '', '');">過去ログ</a></li>
+<li><a href="javascript:sForm('nuisance', '', '');">迷惑行為</a></li>
+<li><a href="javascript:sForm('index', '', '');">トップへ戻る</a></li>
+</ul>
+</div>
+
+<!--<a href="javascript:sForm('', '', '');">フリールーム</a>&nbsp;&nbsp;
 <a href="javascript:sForm('tour', '', '');">トーナメントルーム</a>&nbsp;&nbsp;
 <a href="javascript:sForm('view', '', '');">会話画面</a>&nbsp;&nbsp;
 <a href="javascript:sForm('deck', '', '');">デッキ構築</a>&nbsp;&nbsp;
@@ -646,7 +680,8 @@ EOM
 <a href="javascript:sForm('list', '', '');">リスト編集</a>&nbsp;&nbsp;
 <a href="javascript:sForm('log', '', '');">過去ログ</a>&nbsp;&nbsp;
 <a href="javascript:sForm('nuisance', '', '');">迷惑行為</a>&nbsp;&nbsp;
-<a href="javascript:sForm('index', '', '');">トップへ戻る</a>
+<a href="javascript:sForm('index', '', '');">トップへ戻る</a>-->
+
 <hr width="640">
 <form action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">

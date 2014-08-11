@@ -26,7 +26,6 @@ sub access_chk {	# 強制退室チェック
 				&end_game;
 			}
 		}
-
 	} elsif((!$side[1] || !$side[2]) && !($read_only)) {
 		$tourtime[$u_side] += $times - $date[$u_side];
 		$date[$u_side] = $times;
