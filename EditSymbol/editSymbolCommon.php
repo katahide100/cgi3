@@ -133,7 +133,8 @@ function writeProc($arrParam){
 	$fp = fopen("./kunsyo.csv","r");
 	
 	// 一行ごとに処理
-	while($data = fgetcsv($fp)){
+	while($line = fgets($fp)){
+		$data = explode(',',$line);
 		if(!is_null($data) && count($data) > 0){
 		
 			// TODO 同じ勲章名がないかチェック(新規のみ)
@@ -224,7 +225,8 @@ function delSymbol($symbolNm){
 	$fp = fopen("./kunsyo.csv","r");
 	
 	// 一行ごとに処理
-	while($data = fgetcsv($fp)){
+	while($line = fgets($fp)){
+		$data = explode(',',$line);
 		if(!is_null($data) && count($data) > 0){
 		
 			// 削除する勲章名と違う場合のみ変数に格納
