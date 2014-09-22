@@ -74,7 +74,7 @@ $lockfile2 		= "word.lock";						# 伝言板機能用ロックファイル名（
 			   'ldn', 'highldn', 'fnl', 'highfnl', 'wdf', 'highwdf', 'wdn', 'highwdn', 'nwf', 'highnwf', 'dfn', 'highdfn',
 			   'nolight', 'highnolight', 'nowater', 'highnowater', 'nodark', 'highnodark', 'nofire', 'highnofire', 'nonature', 'highnonature',
 			   'full', 'highfull', 'rainbow', 'weak', 'hirand',  'long', 'christmas', 'valentine', 'aprilfool', 'enquete', 'kyoryoku', 'bag', 'admin', 'subadmin', 'kaicho', 'huku','kaiin2',
-			   'kun');
+			   'kun', 'spfull', 'allzero', 'handess', 'nz', 'randess');
 $order_symbol{'tf'}		= '★';
 $order_color{'tf'}		= '#888800';
 $order_text{'tf'}		= '対戦CGI ex 公式戦で、優勝を収めた事のある証';
@@ -345,6 +345,26 @@ $order_text{'kaiin2'}		= 'デュエル・マスターズ推進の会会員で、
 $order_symbol{'kun'}	= '☆';
 $order_color{'kun'}	= '#0000ff';
 $order_text{'kun'}		= '対戦cgiの勲章をデザインした勲章クリエイターである証';
+
+$order_symbol{'spfull'}	= '';
+$order_color{'spfull'}	= '#0000ff';
+$order_text{'spfull'}	= '';
+
+$order_symbol{'allzero'}	= '';
+$order_color{'allzero'}	= '#0000ff';
+$order_text{'allzero'}	= '';
+
+$order_symbol{'handess'}	= '';
+$order_color{'handess'}	= '#0000ff';
+$order_text{'handess'}	= '';
+
+$order_symbol{'nz'}	= '';
+$order_color{'nz'}	= '#0000ff';
+$order_text{'nz'}	= '/無デッキで幾度も勝利を収めた証';
+
+$order_symbol{'randess'}	= '';
+$order_color{'randess'}	= '#0000ff';
+$order_text{'randess'}	= '20枚以上墓地へ送った友達イレイサーの勲章';
 
 
 @uppoint = (50, 150, 300, 500, 750, 1050, 1400, 1800, 2250, 2750, 3300, 3900, 4550, 5250, 6000, 6800, 7650, 8550, 9500, 10500, 11550, 12650, 13800, 15000, 16250);
