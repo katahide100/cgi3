@@ -39,7 +39,7 @@
 	<center>
 	<h1>登録完了</h1>
 	<br>
-	ユーザー名：<?=$namae?><br>
+	ユーザー名：<?php echo $namae?><br>
 	<br>
 	希望時間：
 	<?php
