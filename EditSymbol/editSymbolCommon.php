@@ -197,7 +197,8 @@ function getSymbolList(){
 	$fp = fopen("./kunsyo.csv","r");
 	
 	// 一行ごとに処理
-	while($data = fgetcsv($fp)){
+	while($line = fgets($fp)){
+		$data = explode(',',$line);
 		if(!is_null($data) && count($data) > 0){
 			$arrSymbolList[] = $data;
 		}
