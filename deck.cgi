@@ -310,7 +310,7 @@ sub add_card{
   foreach my $cardnum (@$couno) {
     for(1 .. $kaisu){
       if($card_cou[$cardnum] < 4){
-        if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119)) {
+         if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119)) {
           unshift(@deckp,$cardnum);
         } else {
           unshift(@deck,$cardnum);
@@ -696,17 +696,9 @@ EOM
   </p>
   <table border="4" cellpadding="5" class="table"><tr valign="top">
     <td colspan="2" align="center">
-      <p>
-      <!--<a href="javascript:sForm('deckinv');">デッキ調査</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="./etc/help.html#deck" target="_blank">説明</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="javascript:sForm('taisen');">対戦する</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="javascript:sForm('group');">グループ編集</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="javascript:sForm('list');">リスト編集</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="javascript:sForm('log');">過去ログ</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="javascript:sForm('nuisance');">迷惑行為</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="index.cgi">戻る</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      $viewst-->
-      <div class="paging centered" style="padding-bottom: 5px;">
+      <!--<p><a href="javascript:sForm('deckinv');">デッキ調査</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="./etc/help.html#deck" target="_blank">説明</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('taisen');">対戦する</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('group');">グループ編集</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('list');">リスト編集</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('log');">過去ログ</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:sForm('nuisance');">迷惑行為</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.cgi">戻る</a>&nbsp;&nbsp;&nbsp;&nbsp;$viewst-->
+
+	<div class="paging centered" style="padding-bottom: 5px;">
 	<ul>
 	<li><a href="javascript:sForm('deckinv');">デッキ調査</a></li>
 	<li><a href="./etc/help.html#deck" target="_blank">説明</a></li>
@@ -718,6 +710,7 @@ EOM
 	<li>$viewst</li>
 	</ul>
 	</div>
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <select name="usedeck">
 EOM
