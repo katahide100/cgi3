@@ -3,9 +3,12 @@ $fp=fopen("t_time.csv","r"); //管理人希望時間
 $fp_t=fopen("taikai.csv","r"); //ユーザー希望時間
 $fp_m=fopen("t_name.txt","r");
 $fp_s=fopen("t_syusai.txt","r");
-$kibou=fgetcsv($fp);
-$meisyo=fgets($fp_m);
-$syusai=fgets($fp_s);
+$line=fgets($fp);
+$kibou=explode(',', $line);
+$line2=fgets($fp_m);
+$meisyo=explode(',', $line2);
+$line3=fgets($fp_s);
+$syusai=explode(',', $line3);
 ?>
 <html>
 <head>
@@ -40,7 +43,8 @@ foreach($kibou as $value){
 }
 echo "</tr>";
 while(!feof($fp_t)){
-	$user=fgetcsv($fp_t);
+	$line4=fgets($fp_t);
+	$user=explode(',', $line4);
 	if(empty($user)){
 	}else{
 		echo "<tr><td>".$user[0]."</td>";
