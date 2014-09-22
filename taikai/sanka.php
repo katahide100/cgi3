@@ -5,10 +5,8 @@ $fp_m=fopen("t_name.txt","r");
 $fp_s=fopen("t_syusai.txt","r");
 $line=fgets($fp);
 $kibou=explode(',', $line);
-$line2=fgets($fp_m);
-$meisyo=explode(',', $line2);
-$line3=fgets($fp_s);
-$syusai=explode(',', $line3);
+$meisyo=fgets($fp_m);
+$syusai=fgets($fp_s);
 ?>
 <html>
 <head>
@@ -25,9 +23,9 @@ $syusai=explode(',', $line3);
 <?php
 if(!empty($meisyo) || !empty($kibou)){
 ?>
-<?=$meisyo?><br>
+<?php echo $meisyo?><br>
 <br>
-主催者：<?=$syusai?><br>
+主催者：<?php echo $syusai?><br>
 <br>
 参加希望者一覧<br>
 <br>
