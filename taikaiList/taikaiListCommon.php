@@ -190,7 +190,8 @@ function writeProc($arrParam){
 	$fp = fopen("./taikaiList.csv","r");
 	
 	// 一行ごとに処理
-	while($data = fgetcsv($fp)){
+	while($line = fgets($fp)){
+		$data = explode(',',$line);
 		if(!is_null($data) && count($data) > 0){
 		
 			// TODO 同じ大会名がないかチェック(新規のみ)
@@ -318,7 +319,8 @@ function getTaikaiList(){
 	$fp = fopen("./taikaiList.csv","r");
 	
 	// 一行ごとに処理
-	while($data = fgetcsv($fp)){
+	while($line = fgets($fp)){
+		$data = explode(',',$line);
 		if(!is_null($data) && count($data) > 0){
 			$arrTaikaiList[] = $data;
 		}
@@ -346,7 +348,8 @@ function delTaikai($taikaiNm){
 	$strCsvData = '';
 	
 	// 一行ごとに処理
-	while($data = fgetcsv($fp)){
+	while($line = fgets($fp)){
+		$data = explode(',',$line);
 		if(!is_null($data) && count($data) > 0){
 		
 			// 削除する大会名と違う場合のみ変数に格納
