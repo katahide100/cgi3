@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+url	
+evpoint	0
+id	ZVX64358
+dendou	1
+pass	20BH0wwFBw26A
+lobby	1
+name	Mr.P
+evtime	0
+deck1	龍鉱山-2435,2435,2435,2435,2187,2362,2362,3147,3147,441,441,441,441,3097,3097,1212,1212,1091,481,481,481,481,1062,1062,1062,1062,450,450,450,2170,2170,114,114,1074,1074,594,594,594,2470,2470-
+comment	
+dpoint	48
+drank	0
+shohai	-1
+c_dname	

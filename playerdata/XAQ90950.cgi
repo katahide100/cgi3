@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+evpoint	0
+url	
+id	XAQ90950
+dendou	1
+pass	haaSHuTggjg1o
+lobby	1
+name	たぬお
+evtime	0
+deck1	ok-3938,3938,3939,3939,3934,3934,3934,3940,3940,3940,3940,3935,3935,3927,3926,3931,3931,3942,3942,3942,3942,3941,3941,3936,3936,3932,3932,3943,3943,3943,3943,3944,3944,3944,3937,3937,3933,3930,3928,3929-
+comment	
+dpoint	75
+shohai	1-
+drank	1
+c_dname	

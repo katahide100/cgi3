@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+evpoint	0
+url	
+id	SID01234
+dendou	1
+pass	Sa3JQO7EyeKAw
+lobby	1
+name	総悟
+evtime	0
+deck1	サイキック-468,468,468,468,3945,3945,3945,3657,3603,3603,320,320,3569,4538,4538,4538,608,608,3614,3614,3614,3614,2230,2230,481,481,481,481,3618,3618,3618,3618,1979,1979,1979,1979,114,114,767,767-4611,3557
+comment	
+dpoint	174
+drank	2
+shohai	1-1
+c_dname	

@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+evpoint	0
+url	
+id	XYJ94673
+dendou	1
+pass	moWvnXTDgwxpY
+lobby	1
+name	もなか
+evtime	0
+deck1	デッキ1-3196,3196,3196,3196,1572,1572,1572,1572,1320,1320,1320,1320,1339,1339,1339,1339,1353,1353,1353,1353,2233,2233,2233,2233,1624,1624,1624,1624,667,667,667,667,1633,1633,1633,1633,1968,1968,1968,1968-
+comment	
+dpoint	88
+shohai	-1
+drank	1
+c_dname	

@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+evpoint	0
+url	
+id	ABW37760
+dendou	1
+pass	yuAYwRHHuWzvs
+lobby	1
+name	YY
+evtime	0
+deck1	レイジ-3772,3772,3772,3772,3986,3884,3884,3884,3884,3774,3774,3774,3774,3775,3775,3775,3775,3857,3883,3883,3878,3773,3773,3771,3771,3964,3957,3877,3877,3877,167,167,4004,4004,3976,3976,3882,3882,3776,3776
+comment	よろしくお願いします
+dpoint	96
+shohai	-1
+drank	1
+c_dname	

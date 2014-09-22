@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+evpoint	0
+url	
+id	MWW13341
+dendou	1
+lobby	1
+pass	11B2LEFd5iAoc
+name	Www
+evtime	0
+deck1	ハンター-115,468,468,468,3307,3307,3307,3307,3932,3964,3964,3232,3232,2912,2579,2579,2579,481,481,481,1093,2972,2972,2972,2400,2400,2400,2466,2466,2466,4300,4300,4300,4300,2834,2834,2834,3930,3762,3762-
+comment	
+dpoint	96
+shohai	-2
+drank	1
+c_dname	

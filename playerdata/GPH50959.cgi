@@ -1,0 +1,65 @@
+ldn_win	7
+df_win	1
+fn_win	30
+order_highfire	1
+wd_win	7
+full_win	34
+deck2	ミステリー・キューブ-3043,778,3307,3657,4504,4504,4504,4504,2560,2560,2912,4467,4467,3016,1093,2017,2017,2017,2017,4006,4006,4006,4006,4507,3268,3268,3092,3092,3092,1830,3651,3651,4033,4033,2982,2982,2982,2982,2840,2840-3235,3640,3439,4235,4235,4233,4234,3625
+lw_win	1
+light_win	30
+url	
+order_hirand	1
+order_fire	1
+name	リーフ
+fire_win	30
+order_dfn	1
+order_fn	1
+wf_win	7
+dpoint	47007
+c_dname	
+order_weak	1
+channel	1
+wdf_win	10
+order_highnature	1
+order_wdf	1
+order_enquete	1
+order_nature	1
+order_highnonature	1
+dendou	1
+order_full	1
+lobby	1
+pass	haEz9iGAbMczw
+order_aprilfool	1
+deck1	ボルコン-2187,548,2055,3517,1080,2044,1576,468,1854,117,1126,392,1082,320,2306,1760,1198,2206,3468,104,176,1592,1827,2136,1881,666,2752,441,2149,1566,3784,838,4228,982,755,987,1936,843,1900,1229-4241,3259,3235,3640,4235,4234,4231,4243
+drank	25
+order_sp	1
+dark_win	1
+order_lwd	1
+order_rainbow	1
+nwf_win	3
+order	
+order_christmas	1
+evpoint	0
+id	GPH50959
+dfn_win	10
+order_highfn	1
+order_highlight	1
+evtime	0
+nonature_win	142
+nowater_win	6
+order_nonature	1
+nlw_win1	
+order_valentine	1
+usedeck	2
+nature_win	30
+age	0
+usegroup	0
+order_light	1
+nlw_win	1
+lwd_win	16
+order_long	1
+dn_win	1
+wf_win7	
+comment	昔はメシスさんのＣＧＩに居ました。今の環境はさっぱり分からんのでとりあえず観戦する予定です。
+shohai	549-397
+order_ex	1

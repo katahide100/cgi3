@@ -1,0 +1,20 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+white	BYM31296
+order	
+evpoint	0
+url	
+id	BZK18506
+dendou	1
+pass	56h7B79OR6MjU
+lobby	1
+name	佐藤
+evtime	0
+deck1	逆襲のイズモ（構築）-4340,4340,4340,4341,4341,4341,4339,4339,4339,4339,468,468,468,468,320,320,320,320,3107,4343,4343,4343,4343,4342,4342,4342,104,104,104,104,4347,4347,4347,4347,4346,4346,4345,4345,4344,4344-
+dpoint	128
+comment	
+shohai	1-1
+drank	1
+c_dname	

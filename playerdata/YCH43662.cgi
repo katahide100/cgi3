@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+evpoint	0
+url	
+id	YCH43662
+dendou	1
+pass	daFpkXJed4Tdk
+lobby	1
+name	あああgh
+evtime	0
+deck1	ドラゴン-608,608,608,608,2230,2230,2230,2230,2830,2830,2830,2830,3232,3232,3232,3232,3042,3042,3042,3042,481,481,481,481,3618,3618,3618,3618,2861,2861,2861,2528,2528,3045,3045,3045,3045,3762,3762,3762
+comment	
+dpoint	62
+shohai	1-
+drank	1
+c_dname	

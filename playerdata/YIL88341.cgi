@@ -1,0 +1,20 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+white	YIL88341
+order	
+evpoint	-2
+url	
+id	YIL88341
+dendou	1
+lobby	1
+pass	19kP3aKMQMWjk
+name	g
+evtime	1407698827
+deck1	ベートーベン-2264,2264,2264,2264,2772,2772,2772,2579,2579,2579,2579,481,481,481,3016,1093,2498,2498,2498,3444,2486,2486,2486,2486,4278,4278,4278,2911,2911,2709,2709,2977,2977,2977,2914,2914,2976,2468,2526,2526-
+dpoint	64
+comment	頑張ります
+shohai	-1
+drank	1
+c_dname	

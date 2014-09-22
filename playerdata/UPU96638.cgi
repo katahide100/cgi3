@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+predeck	
+order	
+evpoint	0
+url	
+id	UPU96638
+dendou	1
+lobby	1
+pass	raz.HnMLY2cDI
+name	松永
+evtime	0
+deck1	連ドラ-1952,3069,3069,3069,3069,2837,2837,1592,1592,2530,2530,3246,2981,2981,1601,2230,2230,2230,2230,3232,3232,2912,2912,3016,3016,3016,3618,2861,2861,2528,2528,3045,3045,3045,3045,2834,2834,2834,2839,2982-
+comment	
+dpoint	0
+shohai	-1
+drank	0
+c_dname	

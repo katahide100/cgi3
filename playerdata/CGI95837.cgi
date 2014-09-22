@@ -1,0 +1,20 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+white	ASW33388
+order	
+evpoint	0
+url	
+id	CGI95837
+dendou	1
+lobby	1
+pass	hohHAzw9vMCx6
+name	howaito
+evtime	0
+deck1	白黒オールイエス-992,992,2763,2763,2187,3452,3452,3452,3452,3533,3533,3533,2729,2729,1026,1026,1026,1026,2775,2775,2775,1198,1198,1198,3794,3794,3794,3794,104,104,104,104,2544,2544,982,982,2315,2315,2315,2315-4241,3487,3640,3489,3525,3525,4233,4243
+comment	yorosiku
+dpoint	115
+drank	1
+shohai	1-1
+c_dname	
