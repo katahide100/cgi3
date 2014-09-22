@@ -1,0 +1,11 @@
+/playerdata
+/room
+*.csv
+*.dat
+*.DS_Store
+#*.gitignore
+*.buildpath
+*.project
+*.settings/
+*.settings/*
+/dayx
