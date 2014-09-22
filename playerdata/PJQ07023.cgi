@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+evpoint	0
+url	
+id	PJQ07023
+dendou	1
+pass	Ba/LGSPm7y0to
+lobby	1
+name	banira
+evtime	0
+deck1	バニラデッキ-3023,3023,3023,3023,1579,1579,1579,1579,3022,3022,3022,3022,3202,3202,2336,2336,2336,2336,1339,1339,3188,3188,3188,3188,3015,3015,3015,3015,2270,2270,2270,2270,4106,4106,4106,4106,2141,2141,2141,2141-
+comment	よろしくお願いします
+dpoint	79
+shohai	1-
+drank	1
+c_dname	

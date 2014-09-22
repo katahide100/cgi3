@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+url	
+evpoint	0
+id	SPK31817
+dendou	1
+lobby	1
+pass	keKp9oK9AnlfQ
+name	ninamori
+evtime	0
+deck1	ハンデスバランス-2187,3452,3452,3452,3517,3166,3166,3166,3166,3945,3945,1126,1126,3920,3920,102,102,102,3170,3170,3170,2775,2775,1198,3794,3794,3468,3468,104,104,3245,3245,780,3895,3895,838,3096,840,840,3092-4241,3356,3235,3235,3235,3640,3489,4234
+comment	I love coffe
+dpoint	112
+shohai	-2
+drank	1
+c_dname	

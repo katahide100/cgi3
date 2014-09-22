@@ -1,0 +1,18 @@
+channel	1
+usedeck	1
+age	0
+order	
+evpoint	0
+url	
+id	HOM11451
+dendou	1
+lobby	1
+pass	11h08aOWjtYaQ
+name	seko
+evtime	0
+deck1	ヘルゲ-3945,3945,3945,140,140,140,140,2414,2414,2414,2414,41,41,41,41,2446,2446,3809,3809,3809,3809,1958,1958,1958,1958,2415,2415,2415,3364,3364,1138,1138,1138,1138,2589,2589,3929,3929,3929,3929-
+comment	a
+dpoint	102
+shohai	-1
+drank	1
+c_dname	

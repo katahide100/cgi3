@@ -1,0 +1,20 @@
+deck20	ぴろろろろ-2187,3170,3170,3170,4018,4018,4018,4163,4162,4162,1419,3809,3809,1198,2558,2558,2558,2558,1200,4322,4322,4293,4293,4293,4293,104,104,104,104,3245,3245,3245,1592,1592,1592,2153,1593,4186,4186,4115-
+channel	1
+usedeck	20
+age	0
+usegroup	0
+order	
+evpoint	-1
+url	
+id	ZAQ10011
+dendou	1
+lobby	1
+pass	aa3DMVtSSFzcg
+name	ぼち
+evtime	1407698575
+dpoint	0
+black	ZAQ10011
+comment	
+shohai	-1
+drank	0
+c_dname	

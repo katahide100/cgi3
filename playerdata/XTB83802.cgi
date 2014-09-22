@@ -1,0 +1,15 @@
+lobby	1
+pass	ko7IequjpPnWo
+name	kon
+channel	1
+usedeck	1
+age	1
+usegroup	0
+deck1	青単-3023,3023,3023,3023,19,19,19,19,115,2412,2412,2412,2412,20,20,20,20,4085,4085,4085,4085,4456,4456,4456,4456,689,689,689,689,232,3945,3945,3945,3945,4363,4363,4363,4363,4454,4454-
+predeck	
+comment	
+order	
+predeckp	
+url	
+c_dname	
+id	XTB83802

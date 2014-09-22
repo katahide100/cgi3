@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	2
+usegroup	0
+order	
+deck2	シーザー-2216,2187,2055,2055,2055,2055,2094,2094,3794,3794,3468,3468,3468,104,176,2153,2266,2266,2266,2266,481,481,481,481,3445,3227,3227,3227,3227,2223,2223,2223,2223,2222,2222,1830,2295,2295,2295,2295-3362,3640,3595,4234
+url	
+evpoint	0
+id	VXZ57307
+dendou	1
+lobby	1
+pass	koHqTzvwfJiWw
+name	kotako
+evtime	0
+dpoint	62
+comment	
+drank	1
+shohai	-1
+c_dname	

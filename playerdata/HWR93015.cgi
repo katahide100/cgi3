@@ -1,0 +1,19 @@
+channel	1
+usedeck	1
+age	0
+usegroup	0
+order	
+evpoint	0
+url	
+id	HWR93015
+dendou	1
+lobby	1
+pass	kaKCK7XMxtfUU
+name	東條静
+evtime	0
+deck1	デッキ1-2028,2055,2055,2055,2055,2120,2120,2120,2120,2088,2088,2088,320,320,320,320,2094,2094,2094,2282,2282,2282,2282,2128,2128,2128,2197,2197,2197,2197,104,104,2038,2038,2038,2038,2223,2223,2223,2223
+comment	
+dpoint	30
+shohai	-1
+drank	0
+c_dname	

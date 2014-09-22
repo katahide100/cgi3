@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+evpoint	0
+url	
+id	ELC99122
+dendou	1
+lobby	1
+pass	shYtXDbiVaYqI
+name	エルク
+evtime	0
+deck1	ハンデス-468,468,468,468,3166,3166,3166,3166,4474,4474,2414,2414,2414,2414,3170,3170,3170,3170,3610,3610,3610,3610,4044,4044,4163,4163,4163,4163,4378,4378,1030,1030,1030,1030,1200,4293,4293,4293,3245,3245-
+comment	
+dpoint	523
+drank	4
+shohai	4-1
+c_dname	

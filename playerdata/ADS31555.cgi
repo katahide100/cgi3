@@ -1,0 +1,18 @@
+channel	9
+age	0
+usedeck	1
+order	
+evpoint	0
+url	
+id	ADS31555
+dendou	1
+pass	11B2LEFd5iAoc
+lobby	1
+name	buriburi-JP
+evtime	0
+deck1	a-468,468,468,117,117,1126,1126,1126,320,320,2611,2611,2611,2611,3469,3469,3469,3469,3430,3430,3430,104,104,104,2167,2167,2167,2167,1205,1205,1205,2234,2234,3147,3147,765,765,1098,1098,1098-
+comment	
+dpoint	0
+drank	0
+shohai	-1
+c_dname	

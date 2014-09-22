@@ -1,0 +1,10 @@
+lobby	1
+pass	ka5GxWersi.NA
+name	九十九
+channel	1
+age	1
+predeck	2435,2435,1659,1659,2187,2187,2187,115,115,468,468,468,1793,1793,1793,778,778,778,933,933,933,3895,3895,838,838,838
+comment	
+order	
+predeckp	
+id	DDD12020

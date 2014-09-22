@@ -1,0 +1,19 @@
+channel	1
+usedeck	2
+age	0
+usegroup	0
+order	
+url	
+deck2	闇速攻-140,140,140,140,2414,2414,2414,2414,175,175,1258,1258,1258,1258,1025,1025,1025,1025,1026,1026,1027,1027,1027,1027,1028,1028,1028,1028,1198,1198,1198,1198,979,979,979,979,104,104,104,104-
+evpoint	0
+id	VPV11697
+dendou	1
+pass	11HY3zKTWVDL6
+lobby	1
+name	cco
+evtime	0
+comment	
+dpoint	128
+shohai	1-2
+drank	1
+c_dname	

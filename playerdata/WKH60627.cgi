@@ -1,0 +1,19 @@
+channel	1
+age	0
+usedeck	1
+usegroup	0
+order	
+evpoint	0
+url	
+id	WKH60627
+dendou	1
+lobby	1
+pass	wkpLHXICsObUg
+name	Ⅳ
+evtime	0
+deck1	ナイト-2117,2117,2117,2117,2046,2046,2046,2120,2120,2120,2088,2088,2305,2094,2094,2094,2197,2179,2309,2661,3808,2262,2038,2308,2854,2286,2286,2346,2346,2346,2328,2328,2344,2344,2344,2344,2298,3812,2295,3811-3555,3555
+comment	
+dpoint	61
+shohai	-1
+drank	1
+c_dname	
