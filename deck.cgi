@@ -310,7 +310,7 @@ sub add_card{
   foreach my $cardnum (@$couno) {
     for(1 .. $kaisu){
       if($card_cou[$cardnum] < 4){
-        if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119)) {
+        if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119) || syu_chk($cardnum, 151)) {
           unshift(@deckp,$cardnum);
         } else {
           unshift(@deck,$cardnum);
@@ -1108,7 +1108,7 @@ sub cardsort {
     if (&syu_chk($i, 96)) { push @sort_src4, $i; }
     elsif (&syu_chk($i, 1)) { push @sort_src3, $i; }
     elsif (&syu_chk($i, 0)) { push @sort_src2, $i; }
-    elsif (&syu_chk($i, 145) || &syu_chk($i, 150) || &syu_chk($i, 103) || &syu_chk($i, 119)) { push @sort_src5, $i; }
+    elsif (&syu_chk($i, 145) || &syu_chk($i, 150) || &syu_chk($i, 103) || &syu_chk($i, 119) || &syu_chk($i, 151)) { push @sort_src5, $i; }
     else { push @sort_src1, $i; }
   }
   @sort_res1 = $F{'sortkey1'} == 0 ? sort s_bunmei @sort_src1 : $F{'sortkey1'} == 1 ? sort s_mana @sort_src1: $F{'sortkey1'} == 2 ? sort s_power @sort_src1 : $F{'sortkey1'} == 3 ? sort s_syuzoku @sort_src1 : sort s_name @sort_src1;
