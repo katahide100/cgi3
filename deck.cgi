@@ -310,7 +310,7 @@ sub add_card{
   foreach my $cardnum (@$couno) {
     for(1 .. $kaisu){
       if($card_cou[$cardnum] < 4){
-        if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119) || syu_chk($cardnum, 151)) {
+         if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119) || &syu_chk($cardnum, 151)) {
           unshift(@deckp,$cardnum);
         } else {
           unshift(@deck,$cardnum);
