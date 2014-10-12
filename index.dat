@@ -1,0 +1,86 @@
+﻿■ 重要なお知らせ<br>
+<br>
+<font color=#ff0000>★重要な内容なので初めての方は必ず確認してください。<br>
+各部屋とチャット画面（待機画面）に、共有掲示板を設置いたしました。<br>
+共有掲示板について詳しくは<a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">ここ</a>をクリックしてください。</font><br>
+<!--ミラーサイト、開設してあります。<BR>
+<A href="http://s2.whss.biz/~corile/dm/index.cgi">http://s2.whss.biz/~corile/dm/index.cgi</A><BR>
+が、こっちのサーバーも快適に動作しているみたいなので、<BR>
+負荷をうまく分散させるように使い分けていただけるとよいかもしれません。<BR>
+<BR>-->
+<br>
+<!--
+○トーナメントを今日の19時から19時半に開催します。募集は18:30からかけます。募集人数は8人、時間になっても集まらない場合は、人数を減らしてやるか、中止します。
+ よろしくお願いします。(2013/05/11)<br>
+-->
+<br>
+<br>
+<font color=#0000cc>●このcgiでは、他のcgiの勝敗数、ランク、ポイント、勲章、勝利数（文明ごと）を引き継げます。<br>
+もし希望がある場合は、そのcgiの場所と、その場所でのユーザー名と、このcgiのID(xxx00000)を<br>
+katahide100@gmail.com(管理人)もしくはsyota.i-3333@nifty.com(副管理人)
+までいただければ変更を加えます。<br>
+よろしくお願いいたします。</font><br>
+<br>
+【募集】<br>
+観戦中の画像を募集いたします。<br>
+応募方法としましては、まず、観戦中の画面から、キャラクターの書いてある画像を右クリックし、<br>
+画像を保存し、その大きさのままで編集して、katのメールアドレスにお送りください。<br>
+採用された場合は、オリジナルカード作成権を差し上げます。よろしくお願いします。<br>
+<br>
+
+<font color=#ff0000>
+究極進化と超無限進化には対応しておりませんのでエラーになります。<br>
+手動だと難しいので究極進化と超無限進化クリーチャーは極力使わないようにしてください。<br>
+その他効果が対応していないカードが多々あります。<br>
+今のところは手動でお願いします。(2013/4/9)</font><br>
+<br>
+ここの対戦cgiは、つる＠帝国大劇場別館様の作られたソースを使用した他のcgiと同じ仕組みです。<br>
+他のcgiと同じデッキを使う場合は、デッキの構築で、テキスト表示にして貼付けてください。<br>
+同じデッキが使用できます。※他のcgiアカウントは使えません。<br>
+<br>
+<!--迷惑書き込み防止のため、<BR>
+掲示板にhttp://の文字列を含んだ書き込みはできないようにしました。<BR>
+ＵＲＬリンクの書き込みを行う際には、http://の代わりに、ttp://で行うようにしてください。<BR>
+リンクは正常に貼られます。<BR>
+<br>-->
+<!--<A href="../dmx/index.cgi">新CGI</A>、公開中です。<br>
+データは旧のIDでログインできます。<br>
+現在はエピソード1 ダークサイドまでのデータを導入していますが、効果への対応はほとんどしていません。<br>
+順次対応していく予定ですので今しばらくお待ちください。<br>-->
+<!--アンケート調査実施のお知らせです。<br>
+新CGIに関する質問に是非ご回答ください。<br>
+<a href="./enquete.cgi">アンケートはこちら</a><br>-->
+<!--<font color="#800000">開発元の大幅仕様変更によって、<b>更新がほぼ不可能</b>な状況に陥っています。<br>
+全て作り直すことしか現時点では解決策がないため、しばらくの間、CGI本体の更新は見送らさせていただきます。<br>
+<br>
+4月16日追記: 近いうちに本体の総入れ替えを行います。多くの機能がしばらくの間使用不可能になりますが、<br>
+データは現状のまま継続して使用できます。勲章なども表示上は消えますが、データには残り続けます。<br>
+仕様が固まり次第、随時追加し直しますのでそれまでの間はβテストということでご了承ください。<br>
+</font>
+<br>
+更新が行われないまま時間が過ぎていますが、新CGIの進展状況は<a href="http://tsuru.pekori.to/">配布元サイト</a>の記事で見れます。<br>
+一方で管理人は<b>就職活動</b><small>とMHFとMHP3</small>に忙しいのであまり管理が行えていません。<br>
+本体の更新まではだらだらムードでどうかよろしくお願いします。<br>-->
+<!--<BR>
+<A href="http://etlabssvi.blog.shinobi.jp/Entry/8/" target="_blank">2009年5月7日中に発生していたアクセス不可について</a><br>-->
+<!--<BR>
+<A href="http://www.eternie-labs.net/article/45/" target="_blank">2008年4月14日に行われたメンテナンスについて</A><BR>-->
+<!--<BR>
+<A href="http://www.eternie-labs.net/2009/02/post-8.html" target="_blank">2009年2月13日中に発生していたアクセス不可について</A><BR>-->
+<hr>
+<!--<p><big><a href="http://etlabssvi.blog.shinobi.jp/" target="_blank">サーバー情報ページ(外部)</a></big><br>
+…サーバーダウン時などの情報を掲載。<b>お気に入り登録を強く推奨</b></p>-->
+<p><big><a href="./etc/help.html" target="_blank">このＣＧＩの簡単な遊び方</a></big></p>
+<!--<p><big><a href="http://corile.xxxxxxxx.jp/cgiex.html" target="_blank">対戦CGIの操作手段</a></big></p>
+<p><big><a href="http://s2.whss.biz/~corile/dm/etc/help2.html" target="_blank">間違えやすい効果の詳しい説明</a></big></p>
+<p><big><a href="http://s2.whss.biz/~corile/dm/etc/help3.html" target="_blank">（重要）対戦時などのマナー</a></big></p>-->
+<p><big><a href="./info.cgi">対戦ＣＧＩ設定情報</a></big></p>
+<p><big><a href="./popular.cgi">人気カード情報</a></big></p>
+<p><big><a href="./dendoulist.cgi">殿堂入りカード情報</a></big></p>
+<!--<p><big><a href="taikai.html">大会参加希望登録</a></big></p>-->
+<!--<p><big><a href="./bbs/fbbs.cgi?id=duel">雑談用掲示板</a></big></p>
+<p><big><a href="./bbs/fbbs.cgi?id=rally">大会用掲示板</a></big></p>-->
+<!--<p><big><a href="./chat/fchat.cgi?id=main">チャット</a></big></p>
+<p><big><a href="../fact/ajaxchat/">試作型チャット</a></big></p>-->
+<!--<p><big><a href="../hakomesis/hako-main.cgi">箱庭諸島MI plus</a></big></p>-->
+<hr>
