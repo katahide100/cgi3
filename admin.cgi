@@ -37,6 +37,9 @@ if($F{'pass'} eq '') {
 		elsif($F{'mode'} eq 'tourwrite')	{	&tourwrite;		}
 		elsif($F{'mode'} eq 'tourdelete')	{	&tourdelete;		}
 		elsif($F{'mode'} eq 'tourtime')		{	&tourtime;		}
+		elsif($F{'mode'} eq 'dendouedit')		{	&dendouedit;		}
+		elsif($F{'mode'} eq 'dendouwrite')		{	&dendouwrite;		}
+		elsif($F{'mode'} eq 'dendoudelete')		{	&dendoudelete;		}
 		else					{	&main;		}
 	
 	#テスト用(管理者以外入れる)
@@ -127,6 +130,7 @@ EOM
 [<A href="javascript:if(confirm('CGI公式トーナメントを、\\n1回戦の組み合わせを変更せずにリセットします。\\n組み合わせをそのままに\\n最初からやり直すコマンドです。')) sForm('tourreset');">CGI公式トーナメントのリセット</A>]<BR><BR>
 <!--[<A href="javascript:if(confirm('大会部屋の最終アクセス時間を再設定します')) sForm('tourtime');">大会部屋時間の再設定</A>]<BR><BR>-->
 [<A href="javascript:if(confirm('対戦部屋がエラーで使えない場合はここでリセットできます。')) location.href='taikai/room_reset.php';">対戦部屋のリセット(部屋がエラーで使えなくなった場合に使用)</A>]<BR><BR>
+[<A href="javascript:if(confirm('殿堂入りカードを登録します。')) sForm('dendouedit');">殿堂入りカードの登録</A>]<BR><BR>
 <!--[<A href="javascript:if(confirm('オリジナルカードを登録します。')) location.href='cardEdit/listCard/listCard.php';">オリジナルカード登録</A>]<BR><BR>-->
 [<A href="javascript:if(confirm('メインページに戻ります')) sForm('index');">メインページへ戻る</A>]<BR><BR>
 <B>－メモ－</B><BR>
@@ -1099,6 +1103,347 @@ sub logdelete {
 伝言板の記事を削除しました。<BR><BR>
 [<A href="javascript:sForm();">メニューに戻る</A>]
 EOM
+	&footer;
+}
+
+sub dendouedit {
+	&cardread;
+	%T = ();
+	chmod 0666, "./tour/part.dat";
+	open(TRT, "./tour/part.dat");
+	while(<TRT>){ chop; ($KEY,$VAL) = split(/\t/); $T{$KEY} = $VAL; }
+	close(TRT);
+	@p_fame = split(/\,/, $T{'p_fame'});
+	@fame = split(/\,/, $T{'fame'});
+	print "Content-type: text/html\n\n";
+	print <<"EOM";
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+	"http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<meta http-equiv="Pragma" content="no-cache">
+	<link rel="stylesheet" href="$css/duel.css" type="text/css">
+	<title>$title</title>
+<script type="text/javascript"><!--
+	with(document);
+	function sForm(M,R,C) {
+		entrance.mode.value = M;
+		if(M == "index") {
+			entrance.action = "index.cgi";
+		}
+		entrance.target = (M == "prof") ? "_blank" : "_self";
+		entrance.submit();
+	}
+	function funcBtn(type,mode,val) {
+    	// エレメントを作成
+    	var ele = document.createElement('input');
+    	// データを設定
+    	ele.setAttribute('type', type);
+    	ele.setAttribute('name', mode);
+    	ele.setAttribute('value', val);
+    	// 要素を追加
+    	document.send.appendChild(ele);
+	}
+// --></script>
+</head>
+<body>
+	<div align="center">
+		<h1>$title</h1>
+<form action="admin.cgi" method="post" name="entrance">
+	<input type="hidden" name="id" value="$id">
+	<input type="hidden" name="pass" value="$pass">
+	<input type="hidden" name="mode" value="">
+</form>
+<form action="admin.cgi" name="send" method="post">
+<input type="hidden" name="id" value="$F{'id'}">
+<input type="hidden" name="pass" value="$F{'pass'}">
+<table border="0" cellpadding="2" width="320">
+<tr><td><hr></td></tr>
+<tr><td>Ｐ殿堂入りカード(カード名入力)<BR>
+<TEXTAREA name="p_fame" style="width: 240px; height: 80px;">
+EOM
+	foreach $card (@p_fame) {
+		print "$c_name[$card]\n";
+	}
+	print <<"EOM";
+</TEXTAREA></td></tr>
+<tr><td><hr></td></tr>
+<tr><td>殿堂入りカード(カード名入力)<BR>
+<TEXTAREA name="fame" style="width: 240px; height: 80px;">
+EOM
+	foreach $card (@fame) {
+		print "$c_name[$card]\n";
+	}
+	print <<"EOM";
+</TEXTAREA></td></tr>
+<tr><td><hr></td></tr>
+<tr><td>
+<input type="submit" value="登録する" onclick='funcBtn("hidden","mode","dendouwrite");'>
+　
+<input type="submit" value="削除する" onclick='funcBtn("hidden","mode","dendoudelete");'>
+<p><big><a href="./dendoulist.cgi" target="_blank">殿堂入りカード一覧</a></big></p>
+</td></tr>
+</table>
+</form>
+<A href="javascript:sForm();">やめて戻る</A>
+EOM
+	&footer;
+}
+
+# 殿堂入りカード登録
+sub dendouwrite {
+	&cardread;
+	%T = ();
+	@p_fame = ();
+	@fame = ();
+	if($F{'p_fame'}){
+		%TX = ();
+		%TXC = ();
+		@tmp = split(/\n/,$F{'p_fame'});
+		foreach my $card(@tmp){ $TX{$card}++ if $card; }
+		foreach my $i(0..$#c_name){
+			if($TX{$c_name[$i]}){
+				$TXC{$c_name[$i]} = 1;
+				push(@p_fame, $i);
+			}
+		}
+		foreach $key (keys(%TX)){ $errormsg .= "Ｐ殿堂: <strong>$keyというカードは存在しません</strong><br>\n" unless $TXC{$key}; }
+	}
+	if($F{'fame'}){
+		%TX = ();
+		%TXC = ();
+		@tmp = split(/\n/,$F{'fame'});
+		foreach my $card(@tmp){ $TX{$card}++ if $card; }
+		foreach my $i(0..$#c_name){
+			if($TX{$c_name[$i]}){
+				$TXC{$c_name[$i]} = 1;
+				push(@fame, $i);
+			}
+		}
+		foreach $key (keys(%TX)){ $errormsg .= "殿堂: <strong>$keyというカードは存在しません</strong><br>\n" unless $TXC{$key}; }
+	}
+	&filelock("tr");
+	
+	chmod 0666, $premiumfile;
+	chmod 0666, $dendoufile;
+	
+	# 殿堂・P殿堂入りカード読み込み
+	my %premiumlist = ();
+	my %dendoulist = ();
+	open(PDEN, $premiumfile);
+	open(DEN, $dendoufile);
+	while(my $line = <PDEN>){
+		chomp($line);
+		$premiumlist{$line} = 1;
+	}
+	while(my $line2 = <DEN>){
+		chomp($line2);
+		$dendoulist{$line2} = 1;
+	}
+	close(PDEN);
+	close(DEN);
+	
+	# P殿堂入りカード登録
+	open(PDEN, ">> $premiumfile");
+	foreach $card(@p_fame){
+		# 重複チェック
+		if(!(defined $premiumlist{$card})){
+			print PDEN "$card\n";
+		}else{
+			$errormsg .= "P殿堂: <strong>$c_name[$card]は既に登録されています。</strong><br>\n";
+		}
+	}
+	close(PDEN);
+	
+	# 殿堂入りカード登録
+	open(DEN, ">> $dendoufile");
+	foreach $card(@fame){
+		# 重複チェック
+		if(!(defined $dendoulist{$card})){
+			print DEN "$card\n";
+		}else{
+			$errormsg .= "殿堂: <strong>$c_name[$card]は既に登録されています。</strong><br>\n";
+		}
+	}
+	close(DEN);
+	&fileunlock("tr");
+	
+	chmod 0000, $premiumfile;
+	chmod 0000, $dendoufile;
+	print "Content-type: text/html\n\n";
+	print <<"EOM";
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+	"http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<meta http-equiv="Pragma" content="no-cache">
+	<link rel="stylesheet" href="$css/duel.css" type="text/css">
+	<title>$title</title>
+<script type="text/javascript"><!--
+	with(document);
+	function sForm(M,R,C) {
+		entrance.mode.value = M;
+		if(M == "index") {
+			entrance.action = "index.cgi";
+		}
+		entrance.target = (M == "prof") ? "_blank" : "_self";
+		entrance.submit();
+	}
+// --></script>
+</head>
+<body>
+	<div align="center">
+		<h1>$title</h1>
+<form action="admin.cgi" method="post" name="entrance">
+	<input type="hidden" name="id" value="$id">
+	<input type="hidden" name="pass" value="$pass">
+	<input type="hidden" name="mode" value="">
+</form>
+${errormsg}<BR>
+登録処理が完了しました。<BR><BR>
+[<A href="javascript:sForm();">メニューに戻る</A>]
+EOM
+chmod(0755, $premiumfile);
+chmod(0755, $dendoufile);
+chmod(0755, "data");
+
+	&footer;
+}
+
+# 殿堂入りカード削除
+sub dendoudelete {
+	&cardread;
+	%T = ();
+	@p_fame = ();
+	@fame = ();
+	if($F{'p_fame'}){
+		%TX = ();
+		%TXC = ();
+		@tmp = split(/\n/,$F{'p_fame'});
+		foreach my $card(@tmp){ $TX{$card}++ if $card; }
+		foreach my $i(0..$#c_name){
+			if($TX{$c_name[$i]}){
+				$TXC{$c_name[$i]} = 1;
+				push(@p_fame, $i);
+			}
+		}
+		foreach $key (keys(%TX)){ $errormsg .= "Ｐ殿堂: <strong>$keyというカードは存在しません</strong><br>\n" unless $TXC{$key}; }
+	}
+	if($F{'fame'}){
+		%TX = ();
+		%TXC = ();
+		@tmp = split(/\n/,$F{'fame'});
+		foreach my $card(@tmp){ $TX{$card}++ if $card; }
+		foreach my $i(0..$#c_name){
+			if($TX{$c_name[$i]}){
+				$TXC{$c_name[$i]} = 1;
+				push(@fame, $i);
+			}
+		}
+		foreach $key (keys(%TX)){ $errormsg .= "殿堂: <strong>$keyというカードは存在しません</strong><br>\n" unless $TXC{$key}; }
+	}
+	&filelock("tr");
+	
+	chmod 0666, $premiumfile;
+	chmod 0666, $dendoufile;
+	
+	# 殿堂・P殿堂入りカード読み込み
+	my %premiumlist = ();
+	my %dendoulist = ();
+	open(PDEN, $premiumfile);
+	open(DEN, $dendoufile);
+	while(my $line = <PDEN>){
+		chomp($line);
+		$premiumlist{$line} = $line;
+	}
+	while(my $line2 = <DEN>){
+		chomp($line2);
+		$dendoulist{$line2} = $line2;
+	}
+	close(PDEN);
+	close(DEN);
+	
+	# P殿堂入りカード削除
+	foreach $card(@p_fame){
+		# 重複チェック
+		if(!(defined $premiumlist{$card})){
+			$errormsg .= "P殿堂: <strong>$c_name[$card]は登録されていません。</strong><br>\n";
+		}else{
+			# 削除対象のカードを除去
+			%premiumlist = grep $_ ne $card, %premiumlist;
+		}
+	}
+	open(PDEN, "> $premiumfile");
+	foreach $key (sort keys(%premiumlist)){
+		print PDEN "$key\n";
+	}
+	close(PDEN);
+	
+	# 殿堂入りカード登録
+	foreach $card(@fame){
+		# 重複チェック
+		if(!(defined $dendoulist{$card})){
+			$errormsg .= "殿堂: <strong>$c_name[$card]は登録されていません。</strong><br>\n";
+		}else{
+			# 削除対象のカードを除去
+			%dendoulist = grep $_ ne $card, %dendoulist;
+		}
+	}
+	open(DEN, "> $dendoufile");
+	foreach $key (sort keys(%dendoulist)){
+		print DEN "$key\n";
+	}
+	close(DEN);
+	&fileunlock("tr");
+	
+	chmod 0000, $premiumfile;
+	chmod 0000, $dendoufile;
+	print "Content-type: text/html\n\n";
+	print <<"EOM";
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+	"http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<meta http-equiv="Pragma" content="no-cache">
+	<link rel="stylesheet" href="$css/duel.css" type="text/css">
+	<title>$title</title>
+<script type="text/javascript"><!--
+	with(document);
+	function sForm(M,R,C) {
+		entrance.mode.value = M;
+		if(M == "index") {
+			entrance.action = "index.cgi";
+		}
+		entrance.target = (M == "prof") ? "_blank" : "_self";
+		entrance.submit();
+	}
+// --></script>
+</head>
+<body>
+	<div align="center">
+		<h1>$title</h1>
+<form action="admin.cgi" method="post" name="entrance">
+	<input type="hidden" name="id" value="$id">
+	<input type="hidden" name="pass" value="$pass">
+	<input type="hidden" name="mode" value="">
+</form>
+${errormsg}<BR>
+削除処理が完了しました。<BR><BR>
+[<A href="javascript:sForm();">メニューに戻る</A>]
+EOM
+chmod(0755, $premiumfile);
+chmod(0755, $dendoufile);
+chmod(0755, "data");
+
 	&footer;
 }
 

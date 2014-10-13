@@ -38,8 +38,22 @@ $leng			= 600;								# 記事の最大文字数（半角）
 $ptime			= 10;								# 連続書き込み禁止時間（秒）
 $lockfile2 		= "word.lock";						# 伝言板機能用ロックファイル名（変更不要）
 
-@premium		= (474, 661, 770, 910, 986, 1127, 1237, 602, 670, 785, 2354, 3810, 1738, 118, 260, 1237, 2069, 1421, 531, 1895);	# プレミアム殿堂カード
-@dendou			= (118, 174, 191, 232, 256, 260, 548, 909, 25, 1420, 1601, 584, 531, 838, 931, 1171, 247, 2069, 1738, 841);
+$dendoufile     = "./data/dendou.txt";              # 殿堂入りカードのデータファイル
+$premiumfile    = "./data/premium.txt";             # P殿堂入りカードのデータファイル
+
+# P殿堂入りカード読み込み
+open($fh, "<",$premiumfile);
+while(my $line = readline $fh){
+	push(@premium,$line);
+}
+close($fh);
+
+# 殿堂入りカード読み込み
+open($fh, "<",$dendoufile);
+while(my $line = readline $fh){
+	push(@dendou,$line);
+}
+close($fh);
 
 @combi			= ();
 
