@@ -9,6 +9,11 @@ require "duel.pl";
 
 &header;
 print <<"EOM";
+<style type="text/css">
+<!--
+.valign_top	{ vertical-align: top; }
+-->
+</style>
 </head>
 <body>
 <div align="center">
@@ -17,7 +22,7 @@ print <<"EOM";
 <tr><td class="table" colspan="2"> 
 <p>この対戦ＣＧＩでの殿堂入りカード情報です。</p>
 </td></tr>
-<tr><td class="table" border="0">
+<tr><td class="table valign_top" border="0">
 <div align="center">
 <table border="0" cellpadding="4" cellspacing="0">
 <tr bgcolor="#0000FF"><td><font color="#FFFFFF">殿堂入りカード</font></td></tr>
@@ -38,7 +43,7 @@ print <<"EOM";
 </div>
 </table>
 </td>
-<td class="table">
+<td class="table valign_top">
 <div align="center">
 <table border="0" cellpadding="4" cellspacing="0">
 <tr bgcolor="#0000FF"><td><font color="#FFFF00">プレミアム殿堂入りカード</font></td></tr>
