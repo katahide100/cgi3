@@ -460,6 +460,20 @@ function chkCB(){
   }
 }
 
+function chkCBp(){
+  with(document.form){
+    if(allchkp.checked == true){
+      for(i=0;i<elements.length;i++){
+        if(elements["delp"+i]){ elements["delp"+i].checked = true; }
+      }
+    } else if (allchkp.checked == false) {
+      for(i=0;i<elements.length;i++){
+        if(elements["delp"+i]){ elements["delp"+i].checked = false; }
+      }
+    }
+  }
+}
+
 function deckV(t) {
   document.view.view.value = t;
   document.view.submit();
@@ -1127,7 +1141,7 @@ sub deckview_text {
 
 sub deckview {
   print "　デッキ枚数　現在$deckcou枚\n";
-  print qq|　　<small><input type="checkbox" name="allchk" onclick="chkCB();" class="none">全チェック</small><br><br>\n|;
+  print qq|　　<small><label><input type="checkbox" name="allchk" onclick="chkCB();" class="none">全チェック</label></small><br><br>\n|;
   if($deckcou != 0){
     foreach my $i(0 .. $#main_deck){
       $j = $main_deck[$i];
@@ -1147,7 +1161,7 @@ sub deckpview_text {
 
 sub deckpview {
   print "　デッキ枚数　現在$deckpcou枚\n";
-  print qq|　　<small><input type="checkbox" name="allchkp" onclick="chkCBp();" class="none">全チェック</small><br><br>\n|;
+  print qq|　　<small><label><input type="checkbox" name="allchkp" onclick="chkCBp();" class="none">全チェック</label></small><br><br>\n|;
   if($deckpcou != 0){
     foreach my $i(0 .. $#main_deck_psychic){
       $j = $main_deck_psychic[$i];
