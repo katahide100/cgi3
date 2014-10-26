@@ -1392,7 +1392,7 @@ sub psy_link {
 			if ($basefldno < 0) {
 				$basefldno = $fldno;
 				$fld[$fldno] = $psy_cell{$cardno};
-				$reversedname = $c_name{$psy_cell{$cardno}};
+				$reversedname = $c_name[$psy_cell{$cardno}];
 				$f_drunk[$fldno] = "";
 			} else {
 				$fld[$fldno] = "";
