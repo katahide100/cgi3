@@ -1136,7 +1136,7 @@ $admin_flg = 1;
 <hr>
 <div align="center" style="width: 500px; height: 180px; overflow: scroll;">
 <table border="0" cellpadding="5">
-<script>BbsPath='http://duel.wktk.so/cgi3/bbs-u3/';</script><div id="BbsScript"><a href="http://web-sozai.seesaa.net/">ページ埋め込み型掲示板</a></div><script src="http://duel.wktk.so/cgi3/bbs-u3/bbs.js" type="text/javascript" charset="utf-8" async="async" defer="defer"></script>
+<script>BbsPath='http://www11428uo.sakura.ne.jp/cgi3/bbs-u3/';</script><div id="BbsScript"><a href="http://web-sozai.seesaa.net/">ページ埋め込み型掲示板</a></div><script src="http://www11428uo.sakura.ne.jp/cgi3/bbs-u3/bbs.js" type="text/javascript" charset="utf-8" async="async" defer="defer"></script>
 </table>
 </div>
 <hr>
