@@ -202,7 +202,7 @@ function writeProc($arrParam){
 			}
 			
 			// 出力用パラメータにセット
-			$strCsvData .= $data[0].','.$data[1].','.$data[2].','.$data[3].','.$data[4].','.$data[5]."\n";
+			$strCsvData .= $data[0].','.$data[1].','.$data[2].','.$data[3].','.$data[4].','.$data[5];
 		}
 	}
 	
@@ -248,10 +248,10 @@ function writeProc($arrParam){
 	
 		// ファイルを排他ロックする
 		flock($fp, LOCK_EX);
-
+		
 		// ファイルの中身を空にする
 		ftruncate($fp, 0);
-
+		
 		// データをファイルに書き込む
 		$writeResult = fwrite($fp, $strCsvData);
 	
