@@ -354,9 +354,8 @@ function delTaikai($taikaiNm){
 		
 			// 削除する大会名と違う場合のみ変数に格納
 			if($data[0] != $taikaiNm){
-				$strCsvData .= $data[0].','.$data[1].','.$data[2].','.$data[3].','.$data[4].','.$data[5]."\n";
+				$strCsvData .= $data[0].','.$data[1].','.$data[2].','.$data[3].','.$data[4].','.$data[5];
 			}
-			
 		}
 	}
 	
