@@ -126,6 +126,7 @@ EOM
 [<A href="javascript:if(confirm('CGI公式トーナメントを終了します')) sForm('tourdelete');">CGI公式トーナメントの終了</A>]<BR><BR>
 [<A href="javascript:if(confirm('トーナメントの募集を開始します。\\nOKを選択すると前回のデータがリセットされ、新しく募集します。')) location.href='taikai/t_kanri_open.html';">CGI公式トーナメントの募集</A>]<BR><BR>
 [<A href="javascript:if(confirm('トーナメントの募集をリセットします。')) location.href='taikai/reset.php';">CGI公式トーナメントの募集をリセット</A>]<BR><BR>
+[<A href="javascript:if(confirm('トーナメントの結果を記録します。')) location.href='taikaiList/listTaikaiList.php';">CGI公式トーナメントの結果登録</A>]<BR><BR>
 [<A href="javascript:if(confirm('開催パターンが抽選である\\nCGI公式トーナメントの受付を終了し、\\nデュエルを開始します。')) sForm('tourstart');">CGI公式トーナメントの抽選実行</A>]<BR><BR>
 [<A href="javascript:if(confirm('CGI公式トーナメントを、\\n1回戦の組み合わせを変更せずにリセットします。\\n組み合わせをそのままに\\n最初からやり直すコマンドです。')) sForm('tourreset');">CGI公式トーナメントのリセット</A>]<BR><BR>
 <!--[<A href="javascript:if(confirm('大会部屋の最終アクセス時間を再設定します')) sForm('tourtime');">大会部屋時間の再設定</A>]<BR><BR>-->
