@@ -11,7 +11,7 @@ $arrTaikaiList = getTaikaiList();
 if(is_null($arrTaikaiList) || count($arrTaikaiList) <= 0){
 
 	echo '大会リストの取得ができませんでした。<br>';
-	exit;
+// 	exit;
 	
 }else{
 	usort($arrTaikaiList, function($a, $b) {
@@ -23,16 +23,13 @@ $arrPost = isset($_POST)?$_POST:null;
 
 if(!is_null($arrPost)){
 	// 削除処理
-	foreach($arrPost as $key => $val){
-		if(mb_substr($key, 0, 4) == 'del_'){
-		
-			// ここで削除処理
-			delTaikai(mb_substr($key, 4));
+	if(isset($arrPost['del_line']) && !empty($arrPost['del_line'])){
+
+		// ここで削除処理
+		delTaikai($arrPost['del_line']);
 			
-			// ページリロード
-			header("Location: " . $_SERVER['PHP_SELF']);
-			
-		}
+		// ページリロード
+		header("Location: " . $_SERVER['PHP_SELF']);
 	}
 }
 
@@ -65,7 +62,6 @@ function check(){
 <body>
 <center>
 <h1>大会結果登録機能</h1>
-<form action="" method="post" onSubmit="return check()">
 
 <table border="1">
 <tr>
@@ -79,19 +75,22 @@ function check(){
 foreach($arrTaikaiList as $key => $val){
 ?>
 <tr>
+<form action="" method="post" onSubmit="return check()">
 <td width="150"><?php echo $val[0] ?></td>
 <td><?php echo $val[1] ?></td>
 <td><?php echo $val[2] ?></td>
 <td width="200"><?php echo $val[5] ?></td>
 <td>
-<input type="submit" name="del_<?php echo $val[0] ?>" value="削除">
+<input type="hidden" name="del_line" value="<?php echo $val[0] ?>">
+<input type="submit" value="削除">
 </td>
+</form>
 </tr>
 <?php } ?>
 
 </table>
 <br>
-</form>
+
 <input type="button" onclick="location.href='./editTaikaiList.php'" value="新規登録" />
 </center>
 </body>
