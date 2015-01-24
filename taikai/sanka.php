@@ -21,7 +21,7 @@ $syusai=fgets($fp_s);
 <td>
 <center>
 <?php
-if(!empty($meisyo) || !empty($kibou)){
+if(!empty($meisyo) || (isset($kibou[0]) && !empty($kibou[0]))){
 ?>
 <?php echo $meisyo?><br>
 <br>
