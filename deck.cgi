@@ -460,25 +460,31 @@ function chkCB(){
   }
 }
 
-function chkCBp(){
-  with(document.form){
-    if(allchkp.checked == true){
-      for(i=0;i<elements.length;i++){
-        if(elements["delp"+i]){ elements["delp"+i].checked = true; }
-      }
-    } else if (allchkp.checked == false) {
-      for(i=0;i<elements.length;i++){
-        if(elements["delp"+i]){ elements["delp"+i].checked = false; }
-      }
-    }
-  }
-}
 
-function deckV(t) {
-  document.view.view.value = t;
-  document.view.submit();
-}
-// --></script>
+	function chkCBp() {
+		with (document.form) {
+			if (allchkp.checked == true) {
+				for (i = 0; i < elements.length; i++) {
+					if (elements["delp" + i]) {
+						elements["delp" + i].checked = true;
+					}
+				}
+			} else if (allchkp.checked == false) {
+				for (i = 0; i < elements.length; i++) {
+					if (elements["delp" + i]) {
+						elements["delp" + i].checked = false;
+					}
+				}
+			}
+		}
+	}
+
+	function deckV(t) {
+		document.view.view.value = t;
+		document.view.submit();
+	}
+// -->
+</script>
 </head>
 <body>
 <div align="center">
@@ -625,6 +631,10 @@ EOM
             <option value="103" $selstr[103]>熱血の戦闘龍</option>
             <option value="104" $selstr[104]>正義の天聖龍</option>
             <option value="105" $selstr[105]>神秘の結晶龍</option>
+        <optgroup label = "超王道戦略ファンタジスタ12">
+            <option value="107" $selstr[107]>ドラゴン・サーガ　超王道戦略ファンタジスタ12</option>
+        <optgroup label = "龍解ガイギンガ">
+            <option value="108" $selstr[108]>ドラゴン・サーガ　龍解ガイギンガ</option>
 
 </select>
     カード種別：
