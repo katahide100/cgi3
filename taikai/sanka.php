@@ -4,7 +4,7 @@ $fp_t=fopen("taikai.csv","r"); //ユーザー希望時間
 $fp_m=fopen("t_name.txt","r");
 $fp_s=fopen("t_syusai.txt","r");
 $line=fgets($fp);
-$kibou=explode(',', $line);
+$kibou=array_filter(explode(',', $line), "strlen");
 $meisyo=fgets($fp_m);
 $syusai=fgets($fp_s);
 ?>
@@ -21,7 +21,7 @@ $syusai=fgets($fp_s);
 <td>
 <center>
 <?php
-if(!empty($meisyo) || (isset($kibou[0]) && !empty($kibou[0]))){
+if(!empty($meisyo) || !empty($kibou)){
 ?>
 <?php echo $meisyo?><br>
 <br>
@@ -42,7 +42,7 @@ foreach($kibou as $value){
 echo "</tr>";
 while(!feof($fp_t)){
 	$line4=fgets($fp_t);
-	$user=explode(',', $line4);
+	$user=array_filter(explode(',', $line4), "strlen");
 	if(empty($user)){
 	}else{
 		echo "<tr><td>".$user[0]."</td>";
