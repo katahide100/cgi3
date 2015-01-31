@@ -271,7 +271,7 @@ sub room {
   		getData();
   		
   		
-  		\$('#chatInputArea').hide("slow");
+  		\$('#chatInputArea').hide();
   		\$("#dispChangeChat").click(function(){
   			if(\$('#chatInputArea').is(':hidden')) {
     			\$('#chatInputArea').show("slow");
