@@ -571,6 +571,7 @@ EOM
 }
 
 sub field {
+	&pfl_read($id) if -e "${player_dir}/" . $id . ".cgi";
 	for my $i(1..2){
 		&del_null(*hand,$i);
 		&del_null(*deck,$i);
@@ -701,7 +702,7 @@ EOM
 </div>
 <div id="chatInputArea">
 
-  <input type=\"hidden\" name=\"chatName\" value=\"$pn[$u_side]\" />
+  <input type=\"hidden\" name=\"chatName\" value=\"$P{"name"}\" />
   <br><textarea cols=\"40\" rows=\"3\" id=\"chatData\" /></textarea><br>
   <input id=\"chatAdd\" type=\"button\" value=\"書き込み\" />
   <input type=\"button\" onClick=\"javascript:sForm('freeroom', '', '');\" value=\"更新する\">
