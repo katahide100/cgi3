@@ -571,6 +571,7 @@ EOM
 }
 
 sub field {
+	&pfl_read($id) if -e "${player_dir}/" . $id . ".cgi";
 	for my $i(1..2){
 		&del_null(*hand,$i);
 		&del_null(*deck,$i);
@@ -605,6 +606,52 @@ function bFlag(c){
 	fields.mode.value= 'block_flg';
 	fields.submit();
 }
+
+\$(function(\$) {
+		
+		var \$view = \$('#view'),
+			\$name = \$('input[name="chatName"]'),
+			\$data = \$('#chatData');
+	
+		/**
+   		* データ取得
+   		*/
+  		function getData() {
+    		\$.post('./chat/chat.php?mode=view', {}, function(data) {
+      		\$view.html(data);
+      		checkUpdate();
+    		});
+  		}
+  
+  		/**
+   		* 更新チェック
+   		*/
+  		function checkUpdate() {
+    		\$.post('./chat/chat.php?mode=check', {}, function(data) {
+    		\$view.html(data);
+    	  	checkUpdate();
+    		});
+  		}
+  		
+  		\$("#chatAdd").click(function(){
+  			\$.post('./chat/chat.php?mode=add', {data: \$data.val(),name: \$name.val()}, function(data) {
+      		\$data.val('');
+    		});
+  		});
+  
+  		getData();
+  		
+  		\$('#chatInputArea').hide();
+  		
+  		\$("#dispChangeChat").click(function(){
+  			if(\$('#chatInputArea').is(':hidden')) {
+    			\$('#chatInputArea').show("slow");
+  			}else{
+  				\$('#chatInputArea').hide("slow");
+  			}
+    	});
+  	});
+
 // --></script>
 </head>
 <body onload="Load();">
@@ -647,7 +694,26 @@ EOM
             }
     
     print qq|\n<tr><td colspan=\"2\"><table width="400" border="1" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
-				<tr><td><script>BbsPath='http://duel.wktk.so/cgi3/bbs-u3/';</script><div id=\"BbsScript\"><a href=\"http://web-sozai.seesaa.net/\">ページ埋め込み型掲示板</a></div><script src=\"http://duel.wktk.so/cgi3/bbs-u3/bbs.js\" type=\"text/javascript\" charset=\"utf-8\" async=\"async\" defer=\"defer\"></script></td>
+				<tr><td>
+				<hr>
+				<center>
+				<div class=\"dispChangeChat\">
+	<a id=\"dispChangeChat\">入力する</a>
+</div>
+<div id="chatInputArea">
+
+  <input type=\"hidden\" name=\"chatName\" value=\"$P{"name"}\" />
+  <br><textarea cols=\"40\" rows=\"3\" id=\"chatData\" /></textarea><br>
+  <input id=\"chatAdd\" type=\"button\" value=\"書き込み\" />
+  <input type=\"button\" onClick=\"javascript:sForm('freeroom', '', '');\" value=\"更新する\">
+</center>
+</div>
+  <div align=\"center\" style=\"width: 500px; height: 180px; overflow: scroll;\">
+  <dl>
+  <dd id=\"view\">ここにデータ</dd>
+  </dl>
+  </div>
+<hr></td>
 </tr></table><br></td></tr>\n|;
     print qq|<tr><td colspan=\"2\"><a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a></td></tr>\n|;
 	print qq|</td></tr>\n</table>\n</form>\n|;

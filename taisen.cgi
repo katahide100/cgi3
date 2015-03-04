@@ -5,46 +5,64 @@ require "duel.pl";
 
 &decode;
 &get_cookie;
-$pc_chk = int(rand(10)) . int(rand(10)) . int(rand(10)) . int(rand(10)) . int(rand(10)) . int(rand(10)) . int(rand(10)) . int(rand(10)) if($pc_chk eq '');
-$F{'id'} = $c_id if(!$F{'id'});
-$F{'pass'} = $c_pass if(!$F{'pass'});
+$pc_chk =
+    int( rand(10) )
+  . int( rand(10) )
+  . int( rand(10) )
+  . int( rand(10) )
+  . int( rand(10) )
+  . int( rand(10) )
+  . int( rand(10) )
+  . int( rand(10) )
+  if ( $pc_chk eq '' );
+$F{'id'}   = $c_id   if ( !$F{'id'} );
+$F{'pass'} = $c_pass if ( !$F{'pass'} );
 &set_cookie;
-if($F{'mode'} ne "prof"){
+
+if ( $F{'mode'} ne "prof" ) {
 	&decode2;
 	&get_ini;
-	($win,$lose) = split(/-/,$P{'shohai'});
-	$win = 0 unless $win;
-	$lose = 0 unless $lose;
-	$P{'channel'} = 1 unless($P{'channel'});
+	( $win, $lose ) = split( /-/, $P{'shohai'} );
+	$win          = 0 unless $win;
+	$lose         = 0 unless $lose;
+	$P{'channel'} = 1 unless ( $P{'channel'} );
 }
 $times = time;
-($sec,$min,$hour,$mday,$mon,$year) = localtime(time);
-$wdate = sprintf("%04d/%02d/%02d %02d:%02d:%02d",$year+1900,$mon+1,$mday,$hour,$min,$sec);
-&prof		if $F{'mode'} eq "prof";
-&write		if $F{'mode'} eq "write";
-&detail		if $F{'mode'} eq "detail";
-&tourrule	if $F{'mode'} eq "tourrule";
-&delete		if $F{'mode'} eq "delete";
-&channel	if $F{'mode'} eq "channel";
+( $sec, $min, $hour, $mday, $mon, $year ) = localtime(time);
+$wdate = sprintf(
+	"%04d/%02d/%02d %02d:%02d:%02d",
+	$year + 1900,
+	$mon + 1, $mday, $hour, $min, $sec
+);
+&prof     if $F{'mode'} eq "prof";
+&write    if $F{'mode'} eq "write";
+&detail   if $F{'mode'} eq "detail";
+&tourrule if $F{'mode'} eq "tourrule";
+&delete   if $F{'mode'} eq "delete";
+&channel  if $F{'mode'} eq "channel";
 
-if($P{'lobby'} == 1) {
-	&room	if $F{'mode'} eq "freeroom";
-	&room	if $F{'mode'} eq "tourroom";
-	&chat	if $F{'mode'} eq "view" || $F{'mode'} eq "write" || $F{'mode'} eq "delete" || $F{'mode'} eq "channel";
-	&info	if $F{'mode'} eq "info";
-	&menu	if $F{'mode'} eq "menu";
+if ( $P{'lobby'} == 1 ) {
+	&room if $F{'mode'} eq "freeroom";
+	&room if $F{'mode'} eq "tourroom";
+	&chat
+	  if $F{'mode'} eq "view"
+		  || $F{'mode'} eq "write"
+		  || $F{'mode'} eq "delete"
+		  || $F{'mode'} eq "channel";
+	&info if $F{'mode'} eq "info";
+	&menu if $F{'mode'} eq "menu";
 	&frame;
-} else {
-	&view	if $F{'mode'} eq "view";
+}
+else {
+	&view if $F{'mode'} eq "view";
 	&html;
 }
-
 
 # 新モード
 
 sub menu {
 	&header;
-print <<"EOM";
+	print <<"EOM";
 <script type="text/javascript"><!--
 	with(document);
 	function sForm(M,R,C) {
@@ -102,7 +120,7 @@ function iFlash()
 </head>
 <body onLoad="setTimeout('iFlash()',800)">
 <div align="center">
-<form action="taisen.cgi" method="post" name="entrance" style="display: inline;">
+<form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
 	<input type="hidden" name="mode" value="">
@@ -126,13 +144,13 @@ function iFlash()
 </body>
 </html>
 EOM
-exit;
+	exit;
 }
 
-sub frame{
+sub frame {
 	&header;
-	my($roomtype) = ($F{'mode'} eq 'tour') ? "tourroom" : "freeroom";
-print <<"EOM";
+	my ($roomtype) = ( $F{'mode'} eq 'tour' ) ? "tourroom" : "freeroom";
+	print <<"EOM";
 </head>
 <frameset rows="64,*,240">
 <frame src="taisen.cgi?mode=menu&id=$id&pass=$pass" name="menu" scrolling="no">
@@ -144,21 +162,22 @@ print <<"EOM";
 </noframes>
 </html>
 EOM
-exit;
-} 
+	exit;
+}
 
 sub room {
-	if(mkdir("./memlock", 0777)) {
-		open(MEM,"./member.dat");
+	if ( mkdir( "./memlock", 0777 ) ) {
+		open( MEM, "./member.dat" );
 		@new_member = <MEM>;
 		close(MEM);
 		rmdir("./memlock");
-	} else {
-		my $locktime = (stat "./memlock")[9];
-		rmdir("./memlock") if($locktime < time - 30);
+	}
+	else {
+		my $locktime = ( stat "./memlock" )[9];
+		rmdir("./memlock") if ( $locktime < time - 30 );
 	}
 	&header;
-print <<"EOM"; 
+	print <<"EOM";
 <script type="text/javascript"><!--
 	with(document);
 	function sForm(M,R,C) {
@@ -216,48 +235,121 @@ print <<"EOM";
 			entrance.duelid.disabled = false;
 		}
 	}
+	
+	\$(function(\$) {
+		
+		var \$view = \$('#view'),
+			\$name = \$('input[name="chatName"]'),
+			\$data = \$('#chatData');
+	
+		/**
+   		* データ取得
+   		*/
+  		function getData() {
+    		\$.post('./chat/chat.php?mode=view', {}, function(data) {
+      		\$view.html(data);
+      		checkUpdate();
+    		});
+  		}
+  
+  		/**
+   		* 更新チェック
+   		*/
+  		function checkUpdate() {
+    		\$.post('./chat/chat.php?mode=check', {}, function(data) {
+    		\$view.html(data);
+    	  	checkUpdate();
+    		});
+  		}
+  		
+  		\$("#chatAdd").click(function(){
+  			\$.post('./chat/chat.php?mode=add', {data: \$data.val(),name: \$name.val()}, function(data) {
+      		\$data.val('');
+    		});
+  		});
+  
+  		getData();
+  		
+  		
+  		\$('#chatInputArea').hide();
+  		\$("#dispChangeChat").click(function(){
+  			if(\$('#chatInputArea').is(':hidden')) {
+    			\$('#chatInputArea').show("slow");
+  			}else{
+  				\$('#chatInputArea').hide("slow");
+  			}
+    	});
+  	});
+    
+    
 // --></script>
 </head>
 <body>
 <div align="center">
 EOM
-		if(int(rand(12)) == 0) {
-			print "<img src=\"./images/yukkuri_left_doremi.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/yukkuri_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/yukkuri_right_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} elsif(int(rand(24)) == 0) {
-			print "<img src=\"./images/cgi_logo_omote_v.gif\" width=\"480\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		} elsif(int(rand(12)) == 0) {
-			print "<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_center_doremi.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} elsif(int(rand(36)) == 0) {
-			print "<img src=\"./images/cgi_logo_tatae_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_tatae_word.gif\" width=\"416\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} elsif($F{'mode'} eq 'tour') {
-			print "<img src=\"./images/cgi_logo_ura_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_ura_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} else {
-			print "<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			if(int(rand(8)) == 0) {
-				print "<img src=\"./images/cgi_logo_omote_right_light.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			} elsif(int(rand(8)) == 0) {
-				print "<img src=\"./images/cgi_logo_omote_right_d.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			} elsif(int(rand(4)) == 0) {
-				print "<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			} else {
-				print "<img src=\"./images/cgi_logo_omote_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			}
-			print "<br><br>\n";
+	if ( int( rand(12) ) == 0 ) {
+		print
+"<img src=\"./images/yukkuri_left_doremi.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/yukkuri_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/yukkuri_right_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	elsif ( int( rand(24) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_omote_v.gif\" width=\"480\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+	}
+	elsif ( int( rand(12) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center_doremi.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	elsif ( int( rand(36) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_tatae_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_tatae_word.gif\" width=\"416\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	elsif ( $F{'mode'} eq 'tour' ) {
+		print
+"<img src=\"./images/cgi_logo_ura_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_ura_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	else {
+		print
+"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		if ( int( rand(8) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_light.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
 		}
-print <<"EOM";
-<form action="taisen.cgi" method="post" name="entrance" style="display: inline;">
+		elsif ( int( rand(8) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_d.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		elsif ( int( rand(4) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		else {
+			print
+"<img src=\"./images/cgi_logo_omote_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		print "<br><br>\n";
+	}
+	print <<"EOM";
+<form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
 	<input type="hidden" name="mode" value="">
@@ -265,8 +357,8 @@ print <<"EOM";
 	<input type="hidden" name="chara" value="">
 	<input type="hidden" name="duelpass" value="">
 EOM
-		&roomlist;
-print <<"EOM";
+	&roomlist;
+	print <<"EOM";
 </form>
 </div>
 </body>
@@ -275,27 +367,33 @@ EOM
 	exit;
 }
 
-sub chat{
-	if(mkdir("./memlock", 0777)) {
-		open(MEM,"./member.dat");
+sub chat {
+	if ( mkdir( "./memlock", 0777 ) ) {
+		open( MEM, "./member.dat" );
 		@member = <MEM>;
 		close(MEM);
 
 		@new_member = ();
-		for(my($i) = 0; $i <= $#member; $i ++) {
-			my($mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip, $mem_channel) = split(/<>/, $member[$i]);
-			if(($mem_id ne $F{'id'}) && ($mem_time > time - 300)) {
-				push(@new_member, $member[$i]);
+		for ( my ($i) = 0 ; $i <= $#member ; $i++ ) {
+			my ( $mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time,
+				$mem_ip, $mem_channel )
+			  = split( /<>/, $member[$i] );
+			if ( ( $mem_id ne $F{'id'} ) && ( $mem_time > time - 300 ) ) {
+				push( @new_member, $member[$i] );
 			}
 		}
-		push(@new_member, "$F{'id'}<>$P{'name'}<>$P{'drank'}<>$P{'comment'}<>" . time . "<>$ENV{'REMOTE_ADDR'}<>$P{'channel'}<>\n");
-		open(MEM,"> ./member.dat");
+		push( @new_member,
+			    "$F{'id'}<>$P{'name'}<>$P{'drank'}<>$P{'comment'}<>" 
+			  . time
+			  . "<>$ENV{'REMOTE_ADDR'}<>$P{'channel'}<>\n" );
+		open( MEM, "> ./member.dat" );
 		print MEM @new_member;
 		close(MEM);
 		rmdir("./memlock");
-	} else {
-		my $locktime = (stat "./memlock")[9];
-		rmdir("./memlock") if($locktime < time - 30);
+	}
+	else {
+		my $locktime = ( stat "./memlock" )[9];
+		rmdir("./memlock") if ( $locktime < time - 30 );
 	}
 	&read_log;
 	shift(@lines);
@@ -337,28 +435,37 @@ function iFlash()
 <tr><td align="left">
 現在地: <select name="channel" onChange="sForm('channel', this.value)">
 EOM
-	for (my($i) = 1; $i <= 9; $i++) {
-		my($selected) = ($i == $P{'channel'}) ? " selected" : "";
+	for ( my ($i) = 1 ; $i <= 9 ; $i++ ) {
+		my ($selected) = ( $i == $P{'channel'} ) ? " selected" : "";
 		print "<option value=\"$i\"$selected>チャンネル $i</option>";
 	}
 	print <<"EOM";
 </select> / 参加者一覧:
 EOM
-	my(@whitelist) = split(/\,/, $P{'white'});
-	my(@blacklist) = split(/\,/, $P{'black'});
-	for(my($i) = 0; $i <= $#new_member; $i ++) {
-		my($mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip, $mem_channel) = split(/<>/, $new_member[$i]);
-		my($mem_sec,$mem_min,$mem_hour,$mem_mday,$mem_mon,$mem_year) = localtime($mem_time);
-		$mem_wdate = sprintf("%02d:%02d:%02d",$mem_hour,$mem_min,$mem_sec);
-		$bgcolor = (grep(/^$mem_id$/, @blacklist)) ? ' style="background-color: #888888;"': (grep(/^$mem_id$/, @whitelist)) ? ' style="background-color: #ffffff;"': '';
-		print " \[<a href=\"javascript:sForm('prof', '', '$mem_id');\"$bgcolor>$mem_name</a>\]:$mem_channel";
-		print "," if($i < $#new_member);
+	my (@whitelist) = split( /\,/, $P{'white'} );
+	my (@blacklist) = split( /\,/, $P{'black'} );
+	for ( my ($i) = 0 ; $i <= $#new_member ; $i++ ) {
+		my ( $mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip,
+			$mem_channel )
+		  = split( /<>/, $new_member[$i] );
+		my ( $mem_sec, $mem_min, $mem_hour, $mem_mday, $mem_mon, $mem_year ) =
+		  localtime($mem_time);
+		$mem_wdate = sprintf( "%02d:%02d:%02d", $mem_hour, $mem_min, $mem_sec );
+		$bgcolor =
+		  ( grep( /^$mem_id$/, @blacklist ) )
+		  ? ' style="background-color: #888888;"'
+		  : ( grep( /^$mem_id$/, @whitelist ) )
+		  ? ' style="background-color: #ffffff;"'
+		  : '';
+		print
+" \[<a href=\"javascript:sForm('prof', '', '$mem_id');\"$bgcolor>$mem_name</a>\]:$mem_channel";
+		print "," if ( $i < $#new_member );
 	}
-	print<<"EOM";
+	print <<"EOM";
 </td></tr>
 </table>
 <hr width="640">
-<form action="taisen.cgi" method="post" name="entrance" style="display: inline;">
+<form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
 	<input type="hidden" name="mode" value="">
@@ -378,7 +485,7 @@ EOM
 
 sub info {
 	&header;
-print <<"EOM";
+	print <<"EOM";
 <script type="text/javascript"><!--
 	nowView = "mannerrule";
 	with(document);
@@ -413,33 +520,38 @@ EOM
 	&footer2;
 }
 
-
 # 旧モード
 
-sub html{
-	if(mkdir("./memlock", 0777)) {
-		open(MEM,"./member.dat");
+sub html {
+	if ( mkdir( "./memlock", 0777 ) ) {
+		open( MEM, "./member.dat" );
 		@member = <MEM>;
 		close(MEM);
 
 		@new_member = ();
-		for(my($i) = 0; $i <= $#member; $i ++) {
-			my($mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip, $mem_channel) = split(/<>/, $member[$i]);
-			if(($mem_id ne $F{'id'}) && ($mem_time > time - 300)) {
-				push(@new_member, $member[$i]);
+		for ( my ($i) = 0 ; $i <= $#member ; $i++ ) {
+			my ( $mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time,
+				$mem_ip, $mem_channel )
+			  = split( /<>/, $member[$i] );
+			if ( ( $mem_id ne $F{'id'} ) && ( $mem_time > time - 300 ) ) {
+				push( @new_member, $member[$i] );
 			}
 		}
-		push(@new_member, "$F{'id'}<>$P{'name'}<>$P{'drank'}<>$P{'comment'}<>" . time . "<>$ENV{'REMOTE_ADDR'}<>$P{'channel'}<>\n");
-		open(MEM,"> ./member.dat");
+		push( @new_member,
+			    "$F{'id'}<>$P{'name'}<>$P{'drank'}<>$P{'comment'}<>" 
+			  . time
+			  . "<>$ENV{'REMOTE_ADDR'}<>$P{'channel'}<>\n" );
+		open( MEM, "> ./member.dat" );
 		print MEM @new_member;
 		close(MEM);
 		rmdir("./memlock");
-	} else {
-		my $locktime = (stat "./memlock")[9];
-		rmdir("./memlock") if($locktime < time - 30);
+	}
+	else {
+		my $locktime = ( stat "./memlock" )[9];
+		rmdir("./memlock") if ( $locktime < time - 30 );
 	}
 	&header;
-print <<"EOM"; 
+	print <<"EOM";
 <script type="text/javascript"><!--
 	nowView = "mannerrule";
 	with(document);
@@ -510,41 +622,67 @@ print <<"EOM";
 <div align="center">
 <!--<h1>$title</h1>-->
 EOM
-		if(int(rand(12)) == 0) {
-			print "<img src=\"./images/yukkuri_left_doremi.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/yukkuri_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/yukkuri_right_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} elsif(int(rand(24)) == 0) {
-			print "<img src=\"./images/cgi_logo_omote_v.gif\" width=\"480\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		} elsif(int(rand(12)) == 0) {
-			print "<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_center_doremi.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} elsif(int(rand(36)) == 0) {
-			print "<img src=\"./images/cgi_logo_tatae_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_tatae_word.gif\" width=\"416\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} elsif($F{'mode'} eq 'tour') {
-			print "<img src=\"./images/cgi_logo_ura_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_ura_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<br><br>\n";
-		} else {
-			print "<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			print "<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			if(int(rand(8)) == 0) {
-				print "<img src=\"./images/cgi_logo_omote_right_light.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			} elsif(int(rand(8)) == 0) {
-				print "<img src=\"./images/cgi_logo_omote_right_d.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			} elsif(int(rand(4)) == 0) {
-				print "<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			} else {
-				print "<img src=\"./images/cgi_logo_omote_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-			}
-			print "<br><br>\n";
+	if ( int( rand(12) ) == 0 ) {
+		print
+"<img src=\"./images/yukkuri_left_doremi.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/yukkuri_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/yukkuri_right_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	elsif ( int( rand(24) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_omote_v.gif\" width=\"480\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+	}
+	elsif ( int( rand(12) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center_doremi.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	elsif ( int( rand(36) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_tatae_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_tatae_word.gif\" width=\"416\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	elsif ( $F{'mode'} eq 'tour' ) {
+		print
+"<img src=\"./images/cgi_logo_ura_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_ura_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print "<br><br>\n";
+	}
+	else {
+		print
+"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		if ( int( rand(8) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_light.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
 		}
+		elsif ( int( rand(8) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_d.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		elsif ( int( rand(4) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		else {
+			print
+"<img src=\"./images/cgi_logo_omote_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		print "<br><br>\n";
+	}
 	print <<"EOM";
 <table width="640" border="1" cellspacing="0" cellpadding="10" class="table"><tr><td>
 <div style="width: 100%; height: 200px; overflow: scroll;">
@@ -554,7 +692,7 @@ EOM
 </div>
 <br>
 <hr>
-<form action="taisen.cgi" method="post" name="entrance" style="display: inline;">
+<form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
 	<input type="hidden" name="mode" value="">
@@ -563,18 +701,18 @@ EOM
 	<input type="hidden" name="duelpass" value="">
 EOM
 	&roomlist;
-	if($bbs){
+	if ($bbs) {
 		&read_log;
 		shift(@lines);
 		print <<"EOM";
 <hr width="640">
 現在地: <select name="channel" onChange="sForm('channel', this.value)">
 EOM
-	for (my($i) = 1; $i <= 9; $i++) {
-		my($selected) = ($i == $P{'channel'}) ? " selected" : "";
-		print "<option value=\"$i\"$selected>チャンネル $i</option>";
-	}
-	print <<"EOM";
+		for ( my ($i) = 1 ; $i <= 9 ; $i++ ) {
+			my ($selected) = ( $i == $P{'channel'} ) ? " selected" : "";
+			print "<option value=\"$i\"$selected>チャンネル $i</option>";
+		}
+		print <<"EOM";
 </select>
 <hr width="640">
 <!--<a href="javascript:sForm('', '', '');">フリールーム</a>&nbsp;&nbsp;
@@ -611,9 +749,9 @@ EOM
 </form>
 EOM
 	&footer2;
-} 
+}
 
-sub view{
+sub view {
 	&read_log;
 	shift(@lines);
 	&header;
@@ -651,8 +789,8 @@ sub view{
 <h1>$title</h1>
 現在地: <select name="channel" onChange="sForm('channel', this.value)">
 EOM
-	for (my($i) = 1; $i <= 9; $i++) {
-		my($selected) = ($i == $P{'channel'}) ? " selected" : "";
+	for ( my ($i) = 1 ; $i <= 9 ; $i++ ) {
+		my ($selected) = ( $i == $P{'channel'} ) ? " selected" : "";
 		print "<option value=\"$i\"$selected>チャンネル $i</option>";
 	}
 	print <<"EOM";
@@ -683,7 +821,7 @@ EOM
 <a href="javascript:sForm('index', '', '');">トップへ戻る</a>-->
 
 <hr width="640">
-<form action="taisen.cgi" method="post" name="entrance" style="display: inline;">
+<form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
 	<input type="hidden" name="subm" value="view">
@@ -699,7 +837,8 @@ EOM
 
 sub roomlist {
 	my $nextrank = "";
-	$nextrank = " (next: " . ($uppoint[$P{'drank'}] - $P{'dpoint'}) . ")" if($P{'drank'} < 25);
+	$nextrank = " (next: " . ( $uppoint[ $P{'drank'} ] - $P{'dpoint'} ) . ")"
+	  if ( $P{'drank'} < 25 );
 	print <<"EOM";
 <table width="640" border="0" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
@@ -711,20 +850,28 @@ sub roomlist {
 <tr><th>ポイント</th><td>：$P{'dpoint'}$nextrank</td></tr>
 <tr><th>成績</th><td>：$win勝　$lose敗</td></tr>
 EOM
-		if(($F{'mode'} ne 'tourroom') || ((($T{'remain'} > 0) && ($T{'accept'} == 0)) || ($T{'accept'} == 1) || (!$T{'scale'}))) {
-			print <<"EOM";
+	if (
+		( $F{'mode'} ne 'tourroom' )
+		|| (   ( ( $T{'remain'} > 0 ) && ( $T{'accept'} == 0 ) )
+			|| ( $T{'accept'} == 1 )
+			|| ( !$T{'scale'} ) )
+	  )
+	{
+		print <<"EOM";
 <tr><th>使用デッキ</th><td>：
 <select name="usedeck">
 EOM
-			map { print "<option value=\"$_\"$selstrd[$_]>$dnam[$_]</option>\n"; } (1..$maxdeck);
-			print <<"EOM";
+		map { print "<option value=\"$_\"$selstrd[$_]>$dnam[$_]</option>\n"; }
+		  ( 1 .. $maxdeck );
+		print <<"EOM";
 </select></td></tr>
 EOM
-		} else {
-			print <<"EOM";
+	}
+	else {
+		print <<"EOM";
 <input type="hidden" name="usedeck" value="$P{'usedeck'}">
 EOM
-		}
+	}
 	print <<"EOM";
 <tr><th>モード</th><td>：
 <select name="age">
@@ -733,10 +880,10 @@ EOM
 </select>
 </td></tr>
 EOM
-		my $age_sel1 = !$P{'age'} ? ' selected' : '';
-		my $age_sel2 = $P{'age'} ? ' selected' : '';
-		if($F{'mode'} ne 'tourroom') {
-			print <<"EOM";
+	my $age_sel1 = !$P{'age'} ? ' selected' : '';
+	my $age_sel2 = $P{'age'}  ? ' selected' : '';
+	if ( $F{'mode'} ne 'tourroom' ) {
+		print <<"EOM";
 <tr><th>ルール</th><td>：
 
 
@@ -754,9 +901,10 @@ EOM
 <tr><th>使用禁止グループ</th><td>：
 <select name="usegroup">
 EOM
-			print "<option value=\"0\">禁止しない</option>\n";
-			map { print "<option value=\"$_\"$selstrg[$_]>$gnam[$_]</option>\n"; } (1..$maxgroup);
-			print <<"EOM";
+		print "<option value=\"0\">禁止しない</option>\n";
+		map { print "<option value=\"$_\"$selstrg[$_]>$gnam[$_]</option>\n"; }
+		  ( 1 .. $maxgroup );
+		print <<"EOM";
 </select></td></tr>
 </td></tr>
 <tr><th><select name="choose" onChange="chooseView(this.selectedIndex);">
@@ -769,16 +917,17 @@ EOM
 <tr><th>一言メッセージ</th><td>：
 <input type="text" name="message" size="32"></td></tr>
 EOM
-		} else {
-			print <<"EOM";
+	}
+	else {
+		print <<"EOM";
 <input type="hidden" name="dendou" value="0">
 <input type="hidden" name="usegroup" value="0">
 <input type="hidden" name="choose" value="0">
 <input type="hidden" name="duelid" value="">
 <input type="hidden" name="message" value="">
 EOM
-		}
-		print <<"EOM";
+	}
+	print <<"EOM";
 </table>
 </div>
 <hr>
@@ -792,8 +941,8 @@ EOM
 ここまで-->
 <div align="center">
 EOM
-	if($mente) {
-	print <<"EOM";
+	if ($mente) {
+		print <<"EOM";
 <B>現在メンテナンス中です。<BR>
 メンテナンスが終わるまで、入室は出来ません。</B>
 <hr>
@@ -822,349 +971,535 @@ function myFunc(){
 <!--<p>現在時刻：$wdate　<strong><a href="$help#taisen" target="_blank">対戦での注意</a></strong></p>-->
 <p>現在時刻：<span id="myIDdate">表示中</span>　<strong><a href="$help#taisen" target="_blank">対戦での注意</a></strong></p>
 EOM
-		if($F{'mode'} eq 'tourroom') {
-			undef(%T);
-			&filelock("tr");
-			open(TRT,"tour/part.dat") || &error("大会データが開けません");
-			while(<TRT>){ chomp; ($key,$val) = split(/\t/); $T{$key} = $val; }
-			close(TRT);
-			&fileunlock("tr");
-			print "<p>$T{'title'}</p>\n" if($T{'scale'});
-			print <<"EOM";
+	if ( $F{'mode'} eq 'tourroom' ) {
+		undef(%T);
+		&filelock("tr");
+		open( TRT, "tour/part.dat" )
+		  || &error("大会データが開けません");
+		while (<TRT>) { chomp; ( $key, $val ) = split(/\t/); $T{$key} = $val; }
+		close(TRT);
+		&fileunlock("tr");
+		print "<p>$T{'title'}</p>\n" if ( $T{'scale'} );
+		print <<"EOM";
 <table border="0" cellspacing="0" cellpadding="0"><tr align="center" valign="middle">
 <tr>
 <td>
 EOM
-			if(!$T{'scale'}) {
-				print <<"EOM";
+
+		if ( !$T{'scale'} ) {
+			print <<"EOM";
 現在、対戦CGI ex 公式トーナメントは開催されておりません。
 EOM
-			} elsif(($T{'remain'} > 0) && ($T{'accept'} == 0)) {
-				if($T{'tpass'} ne '') {
-					print <<"EOM";
+		}
+		elsif ( ( $T{'remain'} > 0 ) && ( $T{'accept'} == 0 ) ) {
+			if ( $T{'tpass'} ne '' ) {
+				print <<"EOM";
 参加パスワード: <input type="text" size="16" name="tpass" value=""><BR>
 <BR>
 EOM
-				}
-				print <<"EOM";
+			}
+			print <<"EOM";
 <input type="button" value="大会に参加 (後 $T{'remain'}人)" onClick="if(confirm('大会に参加します')) sForm('tourjoin', '', '');"><BR>
 <BR>
 <input type="button" value="大会の登録を取り消し" onClick="if(confirm('登録を取り消します')) sForm('tourcancel', '', '');"><BR>
 <BR>
 <A href="javascript:sForm('tourrule', '', '');">この大会の詳細情報</A>
 EOM
-			} elsif($T{'accept'} == 1) {
-				if($T{'tpass'} ne '') {
-					print <<"EOM";
+		}
+		elsif ( $T{'accept'} == 1 ) {
+			if ( $T{'tpass'} ne '' ) {
+				print <<"EOM";
 参加パスワード: <input type="text" size="16" name="tpass" value=""><BR>
 <BR>
 EOM
-				}
-				print <<"EOM";
+			}
+			print <<"EOM";
 <input type="button" value="大会に参加 (現在 $T{'number'}人)" onClick="if(confirm('大会に参加します')) sForm('tourjoin', '', '');"><BR>
 <BR>
 <input type="button" value="大会の登録を取り消し" onClick="if(confirm('登録を取り消します')) sForm('tourcancel', '', '');"><BR>
 <BR>
 <A href="javascript:sForm('tourrule', '', '');">この大会の詳細情報</A>
 EOM
-			} else {
-				for(my($i) = 0; $i < 2 ** $T{'scale'}; $i ++) {
-					print "[" . $T{"p" . ($i + 1) . "id"} . "/" . $T{"p" . ($i + 1) . "name"} . "]<BR>\n";
-					print "<BR>\n" if($i < 2 ** $T{'scale'} - 1);
-				}
-				print <<"EOM";
+		}
+		else {
+			for ( my ($i) = 0 ; $i < 2**$T{'scale'} ; $i++ ) {
+				print "["
+				  . $T{ "p" . ( $i + 1 ) . "id" } . "/"
+				  . $T{ "p" . ( $i + 1 ) . "name" }
+				  . "]<BR>\n";
+				print "<BR>\n" if ( $i < 2**$T{'scale'} - 1 );
+			}
+			print <<"EOM";
 <BR>
 </td>
 <td>
 EOM
-				for(my($i) = 0; $i < $T{'scale'}; $i ++) {
-					for(my($j) = 0; $j < 2 ** ($T{'scale'} - $i - 1); $j ++) {
-						my $rn = &room_num($i, $T{'scale'}) + $j + 1;
-						my $ln = ($rn - 1) * 2;
-						for(my($k) = 0; $k < 2 ** $i - 1; $k ++) {
-							print "<BR>\n";
-						}
-						if(&line_chk($ln + 1, $T{'scale'})) {
-							print "━┓<BR>\n";
-						} else {
-							print "<FONT color=\"#C0C0C0\">─┐</FONT><BR>\n";
-						}
-						for(my($k) = 0; $k < 2 ** $i - 1; $k ++) {
-							if(&line_chk($ln + 1, $T{'scale'})) {
-								print "&nbsp;&nbsp;&nbsp;┃<BR>\n";
-							} else {
-								print "&nbsp;&nbsp;&nbsp;<FONT color=\"#C0C0C0\">│</FONT><BR>\n";
-							}
-						}
-						print "&nbsp;&nbsp;&nbsp;<A href=\"javascript:sForm('audience','t${rn}','');\">";
-						if((&line_chk($ln + 1, $T{'scale'})) || (&line_chk($ln + 2, $T{'scale'}))) {
-							print "■";
-						} else {
-							print "□";
-						}
-						print "</A><BR>\n";
-						for(my($k) = 0; $k < 2 ** $i - 1; $k ++) {
-							if(&line_chk($ln + 2, $T{'scale'})) {
-								print "&nbsp;&nbsp;&nbsp;┃<BR>\n";
-							} else {
-								print "&nbsp;&nbsp;&nbsp;<FONT color=\"#C0C0C0\">│</FONT><BR>\n";
-							}
-						}
-						if(&line_chk($ln + 2, $T{'scale'})) {
-							print "━┛<BR>\n";
-						} else {
-							print "<FONT color=\"#C0C0C0\">─┘</FONT><BR>\n";
-						}
-						for(my($k) = 0; $k < 2 ** $i - 1; $k ++) {
-							print "<BR>\n";
-						}
-						print "<BR>\n" if($j < 2 ** ($T{'scale'} - $i - 1) - 1);
+			for ( my ($i) = 0 ; $i < $T{'scale'} ; $i++ ) {
+				for ( my ($j) = 0 ; $j < 2**( $T{'scale'} - $i - 1 ) ; $j++ ) {
+					my $rn = &room_num( $i, $T{'scale'} ) + $j + 1;
+					my $ln = ( $rn - 1 ) * 2;
+					for ( my ($k) = 0 ; $k < 2**$i - 1 ; $k++ ) {
+						print "<BR>\n";
 					}
-					print "<BR>\n";
-					print "</td><td>\n";
-				}
-				for(my($i) = 1; $i < 2 ** $T{'scale'}; $i ++) {
-					print "<BR>\n";
-				}
-				my $rn = &room_num($T{'scale'}, $T{'scale'}) + 1;
-				my $ln = ($rn - 1) * 2;
-				if(&line_chk($ln + 1, $T{'scale'})) {
-					print "━";
-				} else {
-					print "<FONT color=\"#C0C0C0\">─</FONT>";
-				}
-				print "<A href=\"javascript:sForm('audience','t${rn}');\">";
-				if((&line_chk($ln + 1, $T{'scale'})) || (&line_chk($ln + 2, $T{'scale'}))) {
-					print "■";
-				} else {
-					print "□";
-				}
-				print "</A>";
-				if(&line_chk($ln + 2, $T{'scale'})) {
-					print "━";
-				} else {
-					print "<FONT color=\"#C0C0C0\">─</FONT>";
+					if ( &line_chk( $ln + 1, $T{'scale'} ) ) {
+						print "━┓<BR>\n";
+					}
+					else {
+						print "<FONT color=\"#C0C0C0\">─┐</FONT><BR>\n";
+					}
+					for ( my ($k) = 0 ; $k < 2**$i - 1 ; $k++ ) {
+						if ( &line_chk( $ln + 1, $T{'scale'} ) ) {
+							print "&nbsp;&nbsp;&nbsp;┃<BR>\n";
+						}
+						else {
+							print
+"&nbsp;&nbsp;&nbsp;<FONT color=\"#C0C0C0\">│</FONT><BR>\n";
+						}
+					}
+					print
+"&nbsp;&nbsp;&nbsp;<A href=\"javascript:sForm('audience','t${rn}','');\">";
+					if (   ( &line_chk( $ln + 1, $T{'scale'} ) )
+						|| ( &line_chk( $ln + 2, $T{'scale'} ) ) )
+					{
+						print "■";
+					}
+					else {
+						print "□";
+					}
+					print "</A><BR>\n";
+					for ( my ($k) = 0 ; $k < 2**$i - 1 ; $k++ ) {
+						if ( &line_chk( $ln + 2, $T{'scale'} ) ) {
+							print "&nbsp;&nbsp;&nbsp;┃<BR>\n";
+						}
+						else {
+							print
+"&nbsp;&nbsp;&nbsp;<FONT color=\"#C0C0C0\">│</FONT><BR>\n";
+						}
+					}
+					if ( &line_chk( $ln + 2, $T{'scale'} ) ) {
+						print "━┛<BR>\n";
+					}
+					else {
+						print "<FONT color=\"#C0C0C0\">─┘</FONT><BR>\n";
+					}
+					for ( my ($k) = 0 ; $k < 2**$i - 1 ; $k++ ) {
+						print "<BR>\n";
+					}
+					print "<BR>\n" if ( $j < 2**( $T{'scale'} - $i - 1 ) - 1 );
 				}
 				print "<BR>\n";
-				for(my($i) = 1; $i < 2 ** $T{'scale'} + 1; $i ++) {
-					if($i == 2) {
-						print "<A href=\"javascript:sForm('audience','t".(2 ** $T{'scale'} * 2)."', '');\">";
-						if($T{'third'}) {
-							print "■";
-						} else {
-							print "□";
-						}
-						print "</A>\n";
+				print "</td><td>\n";
+			}
+			for ( my ($i) = 1 ; $i < 2**$T{'scale'} ; $i++ ) {
+				print "<BR>\n";
+			}
+			my $rn = &room_num( $T{'scale'}, $T{'scale'} ) + 1;
+			my $ln = ( $rn - 1 ) * 2;
+			if ( &line_chk( $ln + 1, $T{'scale'} ) ) {
+				print "━";
+			}
+			else {
+				print "<FONT color=\"#C0C0C0\">─</FONT>";
+			}
+			print "<A href=\"javascript:sForm('audience','t${rn}');\">";
+			if (   ( &line_chk( $ln + 1, $T{'scale'} ) )
+				|| ( &line_chk( $ln + 2, $T{'scale'} ) ) )
+			{
+				print "■";
+			}
+			else {
+				print "□";
+			}
+			print "</A>";
+			if ( &line_chk( $ln + 2, $T{'scale'} ) ) {
+				print "━";
+			}
+			else {
+				print "<FONT color=\"#C0C0C0\">─</FONT>";
+			}
+			print "<BR>\n";
+			for ( my ($i) = 1 ; $i < 2**$T{'scale'} + 1 ; $i++ ) {
+				if ( $i == 2 ) {
+					print "<A href=\"javascript:sForm('audience','t"
+					  . ( 2**$T{'scale'} * 2 )
+					  . "', '');\">";
+					if ( $T{'third'} ) {
+						print "■";
 					}
-					print "<BR>\n";
+					else {
+						print "□";
+					}
+					print "</A>\n";
 				}
-				print <<"EOM";
+				print "<BR>\n";
+			}
+			print <<"EOM";
 </td>
 <td>
 EOM
-				for(my($i) = 0; $i < $T{'scale'}; $i ++) {
-					for(my($j) = 0; $j < 2 ** $i; $j ++) {
-						my $rn = &room_num($T{'scale'} - $i - 1, $T{'scale'}) + &room_rev($T{'scale'} - $i, $T{'scale'}) + $j + 2;
-						my $ln = ($rn - 1) * 2;
-						for(my($k) = 0; $k < 2 ** ($T{'scale'} - $i - 1) - 1; $k ++) {
-							print "<BR>\n";
-						}
-						if(&line_chk($ln + 1, $T{'scale'})) {
-							print "┏━<BR>\n";
-						} else {
-							print "<FONT color=\"#C0C0C0\">┌─</FONT><BR>\n";
-						}
-						for(my($k) = 0; $k < 2 ** ($T{'scale'} - $i - 1) - 1; $k ++) {
-							if(&line_chk($ln + 1, $T{'scale'})) {
-								print "┃&nbsp;&nbsp;&nbsp;<BR>\n";
-							} else {
-								print "<FONT color=\"#C0C0C0\">│</FONT>&nbsp;&nbsp;&nbsp;<BR>\n";
-							}
-						}
-						print "<A href=\"javascript:sForm('audience','t${rn}','');\">";
-						if((&line_chk($ln + 1, $T{'scale'})) || (&line_chk($ln + 2, $T{'scale'}))) {
-							print "■";
-						} else {
-							print "□";
-						}
-						print "</A>&nbsp;&nbsp;&nbsp;<BR>\n";
-						for(my($k) = 0; $k < 2 ** ($T{'scale'} - $i - 1) - 1; $k ++) {
-							if(&line_chk($ln + 2, $T{'scale'})) {
-								print "┃&nbsp;&nbsp;&nbsp;<BR>\n";
-							} else {
-								print "<FONT color=\"#C0C0C0\">│</FONT>&nbsp;&nbsp;&nbsp;<BR>\n";
-							}
-						}
-						if(&line_chk($ln + 2, $T{'scale'})) {
-							print "┗━<BR>\n";
-						} else {
-							print "<FONT color=\"#C0C0C0\">└─</FONT><BR>\n";
-						}
-						for(my($k) = 0; $k < 2 ** ($T{'scale'} - $i - 1) - 1; $k ++) {
-							print "<BR>\n";
-						}
-						print "<BR>\n" if($j < 2 ** $i - 1);
+			for ( my ($i) = 0 ; $i < $T{'scale'} ; $i++ ) {
+				for ( my ($j) = 0 ; $j < 2**$i ; $j++ ) {
+					my $rn =
+					  &room_num( $T{'scale'} - $i - 1, $T{'scale'} ) +
+					  &room_rev( $T{'scale'} - $i, $T{'scale'} ) +
+					  $j + 2;
+					my $ln = ( $rn - 1 ) * 2;
+					for (
+						my ($k) = 0 ;
+						$k < 2**( $T{'scale'} - $i - 1 ) - 1 ;
+						$k++
+					  )
+					{
+						print "<BR>\n";
 					}
-					print "<BR>\n";
-					print "</td><td>\n";
+					if ( &line_chk( $ln + 1, $T{'scale'} ) ) {
+						print "┏━<BR>\n";
+					}
+					else {
+						print "<FONT color=\"#C0C0C0\">┌─</FONT><BR>\n";
+					}
+					for (
+						my ($k) = 0 ;
+						$k < 2**( $T{'scale'} - $i - 1 ) - 1 ;
+						$k++
+					  )
+					{
+						if ( &line_chk( $ln + 1, $T{'scale'} ) ) {
+							print "┃&nbsp;&nbsp;&nbsp;<BR>\n";
+						}
+						else {
+							print
+"<FONT color=\"#C0C0C0\">│</FONT>&nbsp;&nbsp;&nbsp;<BR>\n";
+						}
+					}
+					print
+					  "<A href=\"javascript:sForm('audience','t${rn}','');\">";
+					if (   ( &line_chk( $ln + 1, $T{'scale'} ) )
+						|| ( &line_chk( $ln + 2, $T{'scale'} ) ) )
+					{
+						print "■";
+					}
+					else {
+						print "□";
+					}
+					print "</A>&nbsp;&nbsp;&nbsp;<BR>\n";
+					for (
+						my ($k) = 0 ;
+						$k < 2**( $T{'scale'} - $i - 1 ) - 1 ;
+						$k++
+					  )
+					{
+						if ( &line_chk( $ln + 2, $T{'scale'} ) ) {
+							print "┃&nbsp;&nbsp;&nbsp;<BR>\n";
+						}
+						else {
+							print
+"<FONT color=\"#C0C0C0\">│</FONT>&nbsp;&nbsp;&nbsp;<BR>\n";
+						}
+					}
+					if ( &line_chk( $ln + 2, $T{'scale'} ) ) {
+						print "┗━<BR>\n";
+					}
+					else {
+						print "<FONT color=\"#C0C0C0\">└─</FONT><BR>\n";
+					}
+					for (
+						my ($k) = 0 ;
+						$k < 2**( $T{'scale'} - $i - 1 ) - 1 ;
+						$k++
+					  )
+					{
+						print "<BR>\n";
+					}
+					print "<BR>\n" if ( $j < 2**$i - 1 );
 				}
-				print <<"EOM";
-<td>
-EOM
-				for(my($i) = 2 ** $T{'scale'}; $i < 2 ** $T{'scale'} * 2; $i ++) {
-					print "[" . $T{"p" . ($i + 1) . "id"} . "/" . $T{"p" . ($i + 1) . "name"} . "]<BR>\n";
-					print "<BR>\n" if($i < 2 ** $T{'scale'} * 2 - 1);
-				}
+				print "<BR>\n";
+				print "</td><td>\n";
 			}
 			print <<"EOM";
+<td>
+EOM
+			for ( my ($i) = 2**$T{'scale'} ; $i < 2**$T{'scale'} * 2 ; $i++ ) {
+				print "["
+				  . $T{ "p" . ( $i + 1 ) . "id" } . "/"
+				  . $T{ "p" . ( $i + 1 ) . "name" }
+				  . "]<BR>\n";
+				print "<BR>\n" if ( $i < 2**$T{'scale'} * 2 - 1 );
+			}
+		}
+		print <<"EOM";
 <BR>
 </td>
 </tr>
 </table>
 EOM
 
-
-		} else {
+	}
+	else {
 		print <<"EOM";
 <table border="1" cellspacing="0"><tr align="center" valign="top">
 EOM
-	for my $i(1..$heyakazu){
-		$notflg = 0;
-		undef(%G);
-		$gfn = "${room_dir}/".$roomst.$i.'.cgi';
-		my $exist = 0;
-		my $success = 1;
-		my $maxdate = 0;
-		if(-e $gfn) {
-			open(IN,$gfn) || ($success = 0);
-			while(<IN>){ chomp; ($key,$val) = split(/\t/); $G{$key} = $val; }
-			close(IN);
-			$maxdate = ($G{'date1'} > $G{'date2'}) ? $G{'date1'} : $G{'date2'};
-		}
-		my($sec,$min,$hour,$mday,$mon,$year) = localtime($maxdate);
-		my $vdate = sprintf("%02d:%02d",$hour,$min);
+		for my $i ( 1 .. $heyakazu ) {
+			$notflg = 0;
+			undef(%G);
+			$gfn = "${room_dir}/" . $roomst . $i . '.cgi';
+			my $exist   = 0;
+			my $success = 1;
+			my $maxdate = 0;
+			if ( -e $gfn ) {
+				open( IN, $gfn ) || ( $success = 0 );
+				while (<IN>) {
+					chomp;
+					( $key, $val ) = split(/\t/);
+					$G{$key} = $val;
+				}
+				close(IN);
+				$maxdate =
+				  ( $G{'date1'} > $G{'date2'} ) ? $G{'date1'} : $G{'date2'};
+			}
+			my ( $sec, $min, $hour, $mday, $mon, $year ) = localtime($maxdate);
+			my $vdate = sprintf( "%02d:%02d", $hour, $min );
 
-		if($success == 0){
-			if(grep(/^$i$/,@beginner)) {
-				print "<td style=\"width:120px; background-color: #b0ffb0;\">\n";
-				print "<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
-			} else {
-				print "<td style=\"width:120px;\">\n";
-				print "<p><strong>部屋番号 $i</strong><br>\n";
+			if ( $success == 0 ) {
+				if ( grep( /^$i$/, @beginner ) ) {
+					print
+"<td style=\"width:120px; background-color: #b0ffb0;\">\n";
+					print
+"<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
+				}
+				else {
+					print "<td style=\"width:120px;\">\n";
+					print "<p><strong>部屋番号 $i</strong><br>\n";
+				}
+				print
+"部屋データを開けませんでした。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"></p>\n";
+				$exist = 0;
 			}
-			print "部屋データを開けませんでした。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"></p>\n";
-			$exist = 0;
-		} elsif((($times-$maxdate > $natime * 60) && (($maxdate) || ($G{'end_flg'}))) || !(-e $gfn)){
-			if(grep(/^$i$/,@beginner)) {
-				print "<td style=\"width:120px; background-color: #b0ffb0;\">\n";
-				print "<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
-			} else {
-				print "<td style=\"width:120px;\">\n";
-				print "<p><strong>部屋番号 $i</strong><br>\n";
+			elsif (
+				(
+					   ( $times - $maxdate > $natime * 60 )
+					&& ( ($maxdate) || ( $G{'end_flg'} ) )
+				)
+				|| !( -e $gfn )
+			  )
+			{
+				if ( grep( /^$i$/, @beginner ) ) {
+					print
+"<td style=\"width:120px; background-color: #b0ffb0;\">\n";
+					print
+"<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
+				}
+				else {
+					print "<td style=\"width:120px;\">\n";
+					print "<p><strong>部屋番号 $i</strong><br>\n";
+				}
+				print
+"現在使われていません。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"></p>\n";
+				unlink(
+					"${room_dir}/" . $roomst . $i . '.cgi',
+					"${room_dir}/" . $roomst . $i . '_log.cgi',
+					"${room_dir}/" . $roomst . $i . '_card.cgi'
+				);
+				$exist = 0;
 			}
-			print "現在使われていません。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"></p>\n";
-			unlink ("${room_dir}/".$roomst.$i.'.cgi', "${room_dir}/".$roomst.$i.'_log.cgi', "${room_dir}/".$roomst.$i.'_card.cgi');
-			$exist = 0;
-		} else {
-			$exist = 1;
-			my($dendou_cau) = (($G{'dendou'} == 0) && ((!($G{'side1'}) && $G{'side2'}) || (!($G{'side2'}) && $G{'side1'}))) ? " background-image: url('$image/caution.gif');" : "";
-			if((!$G{'side1'} || !$G{'side2'} || $G{'side1'} eq $G{'side2'}) && (($G{'side1'} eq $G{'duelid'}) || ($G{'side2'} eq $G{'duelid'})) && ($G{'duelid'} ne '') && ($G{'choose'} == 0)) {
-				print "<td style=\"width:120px; background-color: #b0ffff;\">\n";
-				print "<p><strong>部屋番号 $i</strong><BR>[一人練習用]<br>\n";
-			} elsif(grep(/^$i$/,@beginner)) {
-				print "<td style=\"width:120px; background-color: #b0ffb0;$dendou_cau\">\n";
-				print "<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
-			} else {
-				print "<td style=\"width:120px;$dendou_cau\">\n";
-				print "<p><strong>部屋番号 $i</strong><br>\n";
-			}
-			if($G{'end_flg'}) {
-				$notflg = 1;
-				print "対戦が終了した部屋です。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><BR>\n";
+			else {
+				$exist = 1;
+				my ($dendou_cau) = (
+					( $G{'dendou'} == 0 )
+					  && ( ( !( $G{'side1'} ) && $G{'side2'} )
+						|| ( !( $G{'side2'} ) && $G{'side1'} ) )
+				) ? " background-image: url('$image/caution.gif');" : "";
+				if (
+					(
+						   !$G{'side1'}
+						|| !$G{'side2'}
+						|| $G{'side1'} eq $G{'side2'}
+					)
+					&& (   ( $G{'side1'} eq $G{'duelid'} )
+						|| ( $G{'side2'} eq $G{'duelid'} ) )
+					&& ( $G{'duelid'} ne '' )
+					&& ( $G{'choose'} == 0 )
+				  )
+				{
+					print
+"<td style=\"width:120px; background-color: #b0ffff;\">\n";
+					print
+"<p><strong>部屋番号 $i</strong><BR>[一人練習用]<br>\n";
+				}
+				elsif ( grep( /^$i$/, @beginner ) ) {
+					print
+"<td style=\"width:120px; background-color: #b0ffb0;$dendou_cau\">\n";
+					print
+"<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
+				}
+				else {
+					print "<td style=\"width:120px;$dendou_cau\">\n";
+					print "<p><strong>部屋番号 $i</strong><br>\n";
+				}
+				if ( $G{'end_flg'} ) {
+					$notflg = 1;
+					print
+"対戦が終了した部屋です。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><BR>\n";
+
 #				print "<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small><br>VS<br><a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small></p>\n";
-			} elsif((!($G{'side1'}) && $G{'side2'}) || (!($G{'side2'}) && $G{'side1'})){
-				print "対戦相手を待っています。<br>\n";
-				printf "名前：<a href=\"javascript:sForm('prof',$i,'%s');\">%s</a><small>[%s]</small><br>\n",!($G{'side1'}) ? "$G{'side2'}" : "$G{'side1'}",!($G{'side1'}) ? $G{'pn2'} : $G{'pn1'},!($G{'side1'}) ? $G{'side2'} : $G{'side1'};
-				printf "ルール：%s</p>\n", $G{'dendou'} == 12 ? "殿堂禁止" : $G{'dendou'} == 11 ? "CGIex公式" : $G{'dendou'} == 10 ? "おやぢ環境" : $G{'dendou'} == 4 ? "ゼロデュエル" : $G{'dendou'} == 3 ? "SGL環境" : $G{'dendou'} == 2 ? "AG環境" : $G{'dendou'} == 1 ? "殿堂あり" : "<font color=\"#FF0000\">殿堂なし</font>";
-				if($G{'dgroup'} eq '') {
-					print "禁止：なし";
-				} else {
-					print "禁止：あり （<A href=\"javascript:sForm('detail', $i, '');\">詳細</A>）";
 				}
-				print "<br>\n";
-				if($G{'choose'} == 1) {
-					printf "パス指定：%s<br>\n", $G{'duelid'} eq '' ? "なし<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">" : "<input type=\"text\" size=\"8\" name=\"duelpass${i}\" value=\"\">";
-				} elsif(($G{'choose'} == 2) && ($G{'white'} ne '')) {
-					printf "友達のみ<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><br>\n";
-					$notflg = 1 unless(grep(/^$id$/, split(/\,/, $G{'white'})));
-				} elsif($G{'choose'} == 3) {
-					printf "減算ポイント：$G{'duelid'}p以下<br>\n";
-				} else {
-					if((($G{'side1'} eq $G{'duelid'}) || ($G{'side2'} eq $G{'duelid'})) && ($G{'duelid'} ne '')) {
-						print "一人対戦<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><br>\n";
-					} else {
-						printf "対戦者指定：%s<br>\n", $G{'duelid'} eq '' ? "なし<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">" : "$G{'duelid'}<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">";
+				elsif (( !( $G{'side1'} ) && $G{'side2'} )
+					|| ( !( $G{'side2'} ) && $G{'side1'} ) )
+				{
+					print "対戦相手を待っています。<br>\n";
+					printf
+"名前：<a href=\"javascript:sForm('prof',$i,'%s');\">%s</a><small>[%s]</small><br>\n",
+					  !( $G{'side1'} ) ? "$G{'side2'}" : "$G{'side1'}",
+					  !( $G{'side1'} ) ? $G{'pn2'}     : $G{'pn1'},
+					  !( $G{'side1'} ) ? $G{'side2'}   : $G{'side1'};
+					printf "ルール：%s</p>\n",
+					    $G{'dendou'} == 12 ? "殿堂禁止"
+					  : $G{'dendou'} == 11 ? "CGIex公式"
+					  : $G{'dendou'} == 10 ? "おやぢ環境"
+					  : $G{'dendou'} == 4  ? "ゼロデュエル"
+					  : $G{'dendou'} == 3  ? "SGL環境"
+					  : $G{'dendou'} == 2  ? "AG環境"
+					  : $G{'dendou'} == 1  ? "殿堂あり"
+					  :   "<font color=\"#FF0000\">殿堂なし</font>";
+					if ( $G{'dgroup'} eq '' ) {
+						print "禁止：なし";
 					}
-					$notflg = 1 if($G{'duelid'} ne $id && $G{'duelid'} ne '');
+					else {
+						print
+"禁止：あり （<A href=\"javascript:sForm('detail', $i, '');\">詳細</A>）";
+					}
+					print "<br>\n";
+					if ( $G{'choose'} == 1 ) {
+						printf "パス指定：%s<br>\n",
+						  $G{'duelid'} eq ''
+						  ? "なし<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">"
+						  : "<input type=\"text\" size=\"8\" name=\"duelpass${i}\" value=\"\">";
+					}
+					elsif ( ( $G{'choose'} == 2 ) && ( $G{'white'} ne '' ) ) {
+						printf
+"友達のみ<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><br>\n";
+						$notflg = 1
+						  unless (
+							grep( /^$id$/, split( /\,/, $G{'white'} ) ) );
+					}
+					elsif ( $G{'choose'} == 3 ) {
+						printf "減算ポイント：$G{'duelid'}p以下<br>\n";
+					}
+					else {
+						if (
+							(
+								   ( $G{'side1'} eq $G{'duelid'} )
+								|| ( $G{'side2'} eq $G{'duelid'} )
+							)
+							&& ( $G{'duelid'} ne '' )
+						  )
+						{
+							print
+"一人対戦<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><br>\n";
+						}
+						else {
+							printf "対戦者指定：%s<br>\n",
+							  $G{'duelid'} eq ''
+							  ? "なし<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">"
+							  : "$G{'duelid'}<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">";
+						}
+						$notflg = 1
+						  if ( $G{'duelid'} ne $id && $G{'duelid'} ne '' );
+					}
+					print "<br>\n";
+					printf "一言：%s<br>\n",
+					  $G{'message'} eq '' ? "なし" : $G{'message'};
 				}
-				print "<br>\n";
-				printf "一言：%s<br>\n", $G{'message'} eq '' ? "なし" : $G{'message'};
-			} else {
-				$notflg = 1;
-				print "使用中です。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><BR>\n";
-				print "<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small><br>VS<br><a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small></p>\n";
+				else {
+					$notflg = 1;
+					print
+"使用中です。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><BR>\n";
+					print
+"<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small><br>VS<br><a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small></p>\n";
+				}
+				print "最終チェック：$vdate<br>\n";
+				print
+"<a href=\"javascript:sForm('audience',$i,'')\">様子を見る</a><BR>\n";
 			}
-			print "最終チェック：$vdate<br>\n";
-			print "<a href=\"javascript:sForm('audience',$i,'')\">様子を見る</a><BR>\n";
+			if (
+				( $G{'dendou'} == 0 )
+				&& (   ( !( $G{'side1'} ) && $G{'side2'} )
+					|| ( !( $G{'side2'} ) && $G{'side1'} ) )
+			  )
+			{
+				print
+"<input type=\"button\" value=\"入室\" onclick=\"if(confirm('この部屋は殿堂ルールがなしに設定されています。')) sForm('duel',$i,$exist);\">\n"
+				  if !($notflg) && ( !($mente) || ( $P{'admin'} > 0 ) );
+			}
+			else {
+				print
+"<input type=\"button\" value=\"入室\" onclick=\"sForm('duel',$i,$exist);\">\n"
+				  if !($notflg) && ( !($mente) || ( $P{'admin'} > 0 ) );
+			}
+			print "</td>\n";
+			print "</tr><tr align=\"center\" valign=\"top\">"
+			  if ( $i - 1 ) % 5 == 4;
 		}
-		if(($G{'dendou'} == 0) && ((!($G{'side1'}) && $G{'side2'}) || (!($G{'side2'}) && $G{'side1'}))) {
-			print "<input type=\"button\" value=\"入室\" onclick=\"if(confirm('この部屋は殿堂ルールがなしに設定されています。')) sForm('duel',$i,$exist);\">\n" if !($notflg) && (!($mente) || ($P{'admin'} > 0));
-		} else {
-			print "<input type=\"button\" value=\"入室\" onclick=\"sForm('duel',$i,$exist);\">\n" if !($notflg) && (!($mente) || ($P{'admin'} > 0));
-		}
-		print "</td>\n";
-		print "</tr><tr align=\"center\" valign=\"top\">" if ($i-1)%5 == 4;
-	}
-	print<<"EOM";
+		print <<"EOM";
 </tr></table>
 EOM
 	}
-			if(($P{'admin'} > 0) || ($P{'subadmin'} > 0)) {
-$admin_flg = 1;
-}
+	if ( ( $P{'admin'} > 0 ) || ( $P{'subadmin'} > 0 ) ) {
+		$admin_flg = 1;
+	}
 	print <<"EOM";
 <hr>
-<div align="center" style="width: 500px; height: 180px; overflow: scroll;">
-<table border="0" cellpadding="5">
-<script>BbsPath='http://www11428uo.sakura.ne.jp/cgi3/bbs-u3/';</script><div id="BbsScript"><a href="http://web-sozai.seesaa.net/">ページ埋め込み型掲示板</a></div><script src="http://www11428uo.sakura.ne.jp/cgi3/bbs-u3/bbs.js" type="text/javascript" charset="utf-8" async="async" defer="defer"></script>
-</table>
+<div class="dispChangeChat">
+	<a id="dispChangeChat">入力する</a>
 </div>
+<div id="chatInputArea">
+  <input type="hidden" name="chatName" value="$P{'name'}" />
+  <textarea cols="40" rows="3" id="chatData" /></textarea><br>
+  <input id="chatAdd" type="button" value="書き込み" />
+  <input type="button" onClick="javascript:sForm('freeroom', '', '');" value="更新する">
+</div>
+  <div align="center" style="width: 500px; height: 180px; overflow: scroll;">
+  <dl>
+  <dd id="view">ここにデータ</dd>
+  </dl>
+  </div>
+
 <hr>
 <a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
 </div>
 </td></tr></table>
 <hr width="640">
 EOM
-		if($F{'mode'} eq 'tourroom') {
-			print "<a href=\"javascript:sForm('tourroom', '', '');\">更新する</a>&nbsp;&nbsp;\n";
-			print "<a href=\"javascript:sForm('freeroom', '', '');\">フリールーム</a>&nbsp;&nbsp;\n";
-			print "　　<input type=\"button\" value=\"大会結果\" onclick=\"window.open(\'taikaiList/taikaiList.php\', \'\', \'width=800,height=600\');\">&nbsp;&nbsp;\n";
-		} else {
-			print "<a href=\"javascript:sForm('freeroom', '', '');\">更新する</a>&nbsp;&nbsp;\n";
-			print "<a href=\"javascript:sForm('tourroom', '', '');\">トーナメントルーム</a>&nbsp;&nbsp;\n";
-		}
+	if ( $F{'mode'} eq 'tourroom' ) {
+		print
+"<a href=\"javascript:sForm('tourroom', '', '');\">更新する</a>&nbsp;&nbsp;\n";
+		print
+"<a href=\"javascript:sForm('freeroom', '', '');\">フリールーム</a>&nbsp;&nbsp;\n";
+		print
+"　　<input type=\"button\" value=\"大会結果\" onclick=\"window.open(\'taikaiList/taikaiList.php\', \'\', \'width=800,height=600\');\">&nbsp;&nbsp;\n";
+	}
+	else {
+		print
+"<a href=\"javascript:sForm('freeroom', '', '');\">更新する</a>&nbsp;&nbsp;\n";
+		print
+"<a href=\"javascript:sForm('tourroom', '', '');\">トーナメントルーム</a>&nbsp;&nbsp;\n";
+	}
 	print <<"EOM";
 <hr width="640">
 <select size="7" onChange="document.entrance.viewid.value = this.value;" style="width:600px;">
 <option value="" selected>－ 参加者一覧 －</option>
 EOM
-	for(my($i) = 0; $i <= $#new_member; $i ++) {
-		my($mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip, $mem_channel) = split(/<>/, $new_member[$i]);
-		my($mem_sec,$mem_min,$mem_hour,$mem_mday,$mem_mon,$mem_year) = localtime($mem_time);
-		$mem_wdate = sprintf("%02d:%02d:%02d",$mem_hour,$mem_min,$mem_sec);
-		print "<option value=\"$mem_id\">$mem_channel : \[$mem_id\/$mem_name \($rankmark[$mem_rank]\)\] : $mem_comment ($mem_wdate)<\/option>\n";
+	for ( my ($i) = 0 ; $i <= $#new_member ; $i++ ) {
+		my ( $mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip,
+			$mem_channel )
+		  = split( /<>/, $new_member[$i] );
+		my ( $mem_sec, $mem_min, $mem_hour, $mem_mday, $mem_mon, $mem_year ) =
+		  localtime($mem_time);
+		$mem_wdate = sprintf( "%02d:%02d:%02d", $mem_hour, $mem_min, $mem_sec );
+		print
+"<option value=\"$mem_id\">$mem_channel : \[$mem_id\/$mem_name \($rankmark[$mem_rank]\)\] : $mem_comment ($mem_wdate)<\/option>\n";
 	}
-	print<<"EOM";
+	print <<"EOM";
 </select><br>
 ID: <input type="text" name="viewid" size="16">&nbsp;のデータを&nbsp;<input type="button" value="見る" onClick="javascript:sForm('prof', '', document.entrance.viewid.value);">
 </td></tr>
@@ -1173,16 +1508,16 @@ EOM
 }
 
 sub logview {
-	$F{'line'} = 30 unless($F{'line'});
-	$F{'area'} = 1 unless($F{'area'});
-	my($linesel10) = ($F{'line'} == 10) ? " selected" : "";
-	my($linesel20) = ($F{'line'} == 20) ? " selected" : "";
-	my($linesel30) = ($F{'line'} == 30) ? " selected" : "";
-	my($linesel50) = ($F{'line'} == 50) ? " selected" : "";
-	my($linesel100) = ($F{'line'} == 100) ? " selected" : "";
-	my($areasel0) = ($F{'area'} == 0) ? " selected" : "";
-	my($areasel1) = ($F{'area'} == 1) ? " selected" : "";
-	my($areasel2) = ($F{'area'} == 2) ? " selected" : "";
+	$F{'line'} = 30 unless ( $F{'line'} );
+	$F{'area'} = 1  unless ( $F{'area'} );
+	my ($linesel10)  = ( $F{'line'} == 10 )  ? " selected" : "";
+	my ($linesel20)  = ( $F{'line'} == 20 )  ? " selected" : "";
+	my ($linesel30)  = ( $F{'line'} == 30 )  ? " selected" : "";
+	my ($linesel50)  = ( $F{'line'} == 50 )  ? " selected" : "";
+	my ($linesel100) = ( $F{'line'} == 100 ) ? " selected" : "";
+	my ($areasel0)   = ( $F{'area'} == 0 )   ? " selected" : "";
+	my ($areasel1)   = ( $F{'area'} == 1 )   ? " selected" : "";
+	my ($areasel2)   = ( $F{'area'} == 2 )   ? " selected" : "";
 	print <<"EOM";
 <table border="0" width="720" cellpadding="3" cellspacing="0">
 <tr><td align="center">
@@ -1207,7 +1542,7 @@ comment&nbsp;:&nbsp;
 <input type="button" value="大会参加希望登録" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">
 
 EOM
-&bosyuu();
+	&bosyuu();
 	print <<"EOM";
 <br>
 </td></tr>
@@ -1216,43 +1551,59 @@ EOM
 <tr><td>
 <table width="100%" border="0" cellpadding="1" cellspacing="0" bgcolor="#FFFFFF">
 EOM
-	my($cnt) = 0;
-	my(@black) = split(/\,/, $P{'black'});
-	foreach(@lines){
+	my ($cnt) = 0;
+	my (@black) = split( /\,/, $P{'black'} );
+
+	foreach (@lines) {
 		last if $F{'line'} <= $cnt;
-		my($num,$wdate,$lid,$name,$com,$pass,$ip,$order,$pcchk,$white,$black,$channel) = split(/<>/);
-		my($symbol) = "";
-		next if(grep(/^$lid$/, @black));
-		if($channel ne '') {
-			next if($P{'channel'} ne $channel);
+		my (
+			$num, $wdate, $lid,   $name,  $com,   $pass,
+			$ip,  $order, $pcchk, $white, $black, $channel
+		) = split(/<>/);
+		my ($symbol) = "";
+		next if ( grep( /^$lid$/, @black ) );
+		if ( $channel ne '' ) {
+			next if ( $P{'channel'} ne $channel );
 		}
-		if($black ne '') {
-			next if(grep(/^$P{'id'}$/, split(/\,/, $black)));
+		if ( $black ne '' ) {
+			next if ( grep( /^$P{'id'}$/, split( /\,/, $black ) ) );
 		}
-		if($white ne '') {
-			if(grep(/^$P{'id'}$/, split(/\,/, $white)) || $lid eq $P{'id'}) {
-				$com = "<font color=\"#888800\" title=\"secret to: $white\">$com</font>";
-			} else {
-				if(($P{'admin'} > 0) || ($P{'subadmin'} > 0)) {
-					$com = "<font color=\"#888888\" title=\"secret to: $white\">$com</font>";
-				} else {
+		if ( $white ne '' ) {
+			if ( grep( /^$P{'id'}$/, split( /\,/, $white ) )
+				|| $lid eq $P{'id'} )
+			{
+				$com =
+"<font color=\"#888800\" title=\"secret to: $white\">$com</font>";
+			}
+			else {
+				if ( ( $P{'admin'} > 0 ) || ( $P{'subadmin'} > 0 ) ) {
+					$com =
+"<font color=\"#888888\" title=\"secret to: $white\">$com</font>";
+				}
+				else {
 					next;
 				}
 			}
-		} else {
-			if($channel eq '') {
+		}
+		else {
+			if ( $channel eq '' ) {
 				$com = "<font color=\"#004488\">$com</font>";
 			}
 		}
-		if($order ne '') {
+		if ( $order ne '' ) {
+
 #			$symbol = "<font color=\"$order_color{$order}\">$order_symbol{$order}</font>";
-			$symbol = "<img src=\"${symbol_dir}/symbol_${order}.png\" width=\"20\" height=\"20\" align=\"middle\">";
+			$symbol =
+"<img src=\"${symbol_dir}/symbol_${order}.png\" width=\"20\" height=\"20\" align=\"middle\">";
 		}
+
 #		my($id) = $1 if($name =~ /\<A\ href\=\"javascript\:sForm\(\'prof\'\, \'\'\,\ \'(.*?)\'\)\;\"\>.*?\<\/A\>/);
-		my($dt) = "";
-#		if(($F{'id'} eq $id) || (($P{'admin'} > 0) || ($P{'subadmin'} > 0))) {
-		if(($P{'admin'} > 0) || ($P{'subadmin'} > 0)) {
-			$dt = " 【<A href=\"javascript: if(confirm('本当に削除しますか？')) autoDelete('${num}');\">削除</A>】";
+		my ($dt) = "";
+
+	   #		if(($F{'id'} eq $id) || (($P{'admin'} > 0) || ($P{'subadmin'} > 0))) {
+		if ( ( $P{'admin'} > 0 ) || ( $P{'subadmin'} > 0 ) ) {
+			$dt =
+" 【<A href=\"javascript: if(confirm('本当に削除しますか？')) autoDelete('${num}');\">削除</A>】";
 		}
 		print <<"EOM";
 <tr valign="top">
@@ -1263,7 +1614,7 @@ EOM
 </tr>
 <tr><td colspan="3"><hr size="1" color="#000000"></td></tr>
 EOM
-		$cnt ++;
+		$cnt++;
 	}
 	print <<"EOM";
 </table>
@@ -1607,9 +1958,10 @@ EOM
 }
 
 sub channel {
-	&error("伝言板番号の値が正しくありません。") unless ($F{'room'} >= 1 && $F{'room'} <= 9);
+	&error("伝言板番号の値が正しくありません。")
+	  unless ( $F{'room'} >= 1 && $F{'room'} <= 9 );
 	$P{'channel'} = $F{'room'};
-	&pfl_write($P{'id'});
+	&pfl_write( $P{'id'} );
 	$F{'mode'} = $F{'subm'};
 }
 
@@ -1617,8 +1969,8 @@ sub room_num {
 	my $n = $_[0];
 	my $m = $_[1];
 	my $r = 0;
-	for (my $i = 0; $i < $n; $i ++) {
-		$r += 2 ** $m / (2 ** $i);
+	for ( my $i = 0 ; $i < $n ; $i++ ) {
+		$r += 2**$m / ( 2**$i );
 	}
 	return $r;
 }
@@ -1627,55 +1979,57 @@ sub room_rev {
 	my $n = $_[0];
 	my $m = $_[1];
 	my $r = 0;
-	for (my $i = 0; $i < $m - $n; $i ++) {
-		$r += 2 ** $i;
+	for ( my $i = 0 ; $i < $m - $n ; $i++ ) {
+		$r += 2**$i;
 	}
 	return $r;
 }
 
 sub ret_phase {
-	my($n) = $_[0];
-	my($m) = $_[1];
-	my($t) = 0;
-	for(my($i) = 0; $i < $m; $i ++) {
-		$t += 2 ** ($m - $i);
-		return $i if($n <= $t);
+	my ($n) = $_[0];
+	my ($m) = $_[1];
+	my ($t) = 0;
+	for ( my ($i) = 0 ; $i < $m ; $i++ ) {
+		$t += 2**( $m - $i );
+		return $i if ( $n <= $t );
 	}
 	return $m;
 }
 
 sub line_chk {
-	my($n) = $_[0];
-	my($m) = $_[1];
-	my($f) = &ret_phase(int(($n + 1) / 2), $m);
-	for(my($i) = 0; $i < 2 ** $f; $i ++) {
-		my($t) = ($n - &room_num($f, $m) * 2 - 1) * 2 ** $f + 1 + $i;
-		return 1 if($T{"p${t}win"} > $f);
+	my ($n) = $_[0];
+	my ($m) = $_[1];
+	my ($f) = &ret_phase( int( ( $n + 1 ) / 2 ), $m );
+	for ( my ($i) = 0 ; $i < 2**$f ; $i++ ) {
+		my ($t) = ( $n - &room_num( $f, $m ) * 2 - 1 ) * 2**$f + 1 + $i;
+		return 1 if ( $T{"p${t}win"} > $f );
 	}
 	return 0;
 }
 
-sub get_ini{
-	&error("プレイヤーファイルがありません。<br>IDを設定しなおしてください。") if !(-e "${player_dir}/".$id.".cgi") && $pass ne $admin;
-	&pfl_read($id) if -e "${player_dir}/".$id.".cgi";
+sub get_ini {
+	&error(
+"プレイヤーファイルがありません。<br>IDを設定しなおしてください。"
+	) if !( -e "${player_dir}/" . $id . ".cgi" ) && $pass ne $admin;
+	&pfl_read($id) if -e "${player_dir}/" . $id . ".cgi";
 	&pass_chk if $pass ne $admin;
-	for my $i(1..$maxdeck){
-		unless($P{"deck$i"}){ $dnam[$i] = "記録なし"; next; }
-		else{($dnam[$i],$dum) = split(/-/,$P{"deck$i"}); }
+	for my $i ( 1 .. $maxdeck ) {
+		unless ( $P{"deck$i"} ) { $dnam[$i] = "記録なし"; next; }
+		else { ( $dnam[$i], $dum ) = split( /-/, $P{"deck$i"} ); }
 	}
-	$selstrd[$P{'usedeck'}] = " selected" if $P{'usedeck'};
-	for my $i(1..$maxgroup){
-		unless($P{"group$i"}){ $gnam[$i] = "記録なし"; next; }
-		else{($gnam[$i],$gum) = split(/-/,$P{"group$i"}); }
+	$selstrd[ $P{'usedeck'} ] = " selected" if $P{'usedeck'};
+	for my $i ( 1 .. $maxgroup ) {
+		unless ( $P{"group$i"} ) { $gnam[$i] = "記録なし"; next; }
+		else { ( $gnam[$i], $gum ) = split( /-/, $P{"group$i"} ); }
 	}
-	$selstrg[$P{'usegroup'}] = " selected" if $P{'usegroup'};
+	$selstrg[ $P{'usegroup'} ] = " selected" if $P{'usegroup'};
 }
 
 sub detail {
 	&cardread;
-	$gfn = "${room_dir}/".$roomst.$F{'room'}.'.cgi';
-	open(IN,$gfn);
-	while(<IN>){ chomp; ($key,$val) = split(/\t/); $G{$key} = $val; }
+	$gfn = "${room_dir}/" . $roomst . $F{'room'} . '.cgi';
+	open( IN, $gfn );
+	while (<IN>) { chomp; ( $key, $val ) = split(/\t/); $G{$key} = $val; }
 	close(IN);
 	&header;
 	print <<"EOM";
@@ -1688,10 +2042,10 @@ sub detail {
 	<table border="0" cellpadding="5">
 		<tr><td>
 EOM
-	foreach $dg (split(/\,/, $G{'dgroup'})) {
+	foreach $dg ( split( /\,/, $G{'dgroup'} ) ) {
 		print "$c_name[$dg]<BR>\n";
 	}
-print <<"EOM";
+	print <<"EOM";
 		</td></tr>
 	</table>
 </td></tr></table>
@@ -1704,8 +2058,8 @@ sub tourrule {
 	%T = ();
 	&filelock("tr");
 	chmod 0666, "./tour/part.dat";
-	open(TRT, "./tour/part.dat");
-	while(<TRT>){ chop; ($KEY,$VAL) = split(/\t/); $T{$KEY} = $VAL; }
+	open( TRT, "./tour/part.dat" );
+	while (<TRT>) { chop; ( $KEY, $VAL ) = split(/\t/); $T{$KEY} = $VAL; }
 	close(TRT);
 	&fileunlock("tr");
 	&header;
@@ -1717,34 +2071,36 @@ sub tourrule {
 <table width="640" border="1" cellspacing="0" cellpadding="10" class="table"><tr><td align="center">
 	<h3>募集人数</h3>
 EOM
-	print 2 ** $T{'scale'} * 2 . "人\n";
-print <<"EOM";
+	print 2**$T{'scale'} * 2 . "人\n";
+	print <<"EOM";
 	<h3>ポイント制限</h3>
 EOM
-if($T{'point'} >= 0) {
-	print "$T{'point'}p以下\n";
-} else {
-	print "制限なし\n";
-}
-print <<"EOM";
+
+	if ( $T{'point'} >= 0 ) {
+		print "$T{'point'}p以下\n";
+	}
+	else {
+		print "制限なし\n";
+	}
+	print <<"EOM";
 	<h3>Ｐ殿堂入りカード</h3>
 	<table border="0" cellpadding="5">
 		<tr><td>
 EOM
-	foreach $p_fame (split(/\,/, $T{'p_fame'})) {
+	foreach $p_fame ( split( /\,/, $T{'p_fame'} ) ) {
 		print "$c_name[$p_fame]<BR>\n";
 	}
-print <<"EOM";
+	print <<"EOM";
 		</td></tr>
 	</table>
 	<h3>殿堂入りカード</h3>
 	<table border="0" cellpadding="5">
 		<tr><td>
 EOM
-	foreach $fame (split(/\,/, $T{'fame'})) {
+	foreach $fame ( split( /\,/, $T{'fame'} ) ) {
 		print "$c_name[$fame]<BR>\n";
 	}
-print <<"EOM";
+	print <<"EOM";
 		</td></tr>
 	</table>
 </td></tr></table>
@@ -1753,80 +2109,96 @@ EOM
 }
 
 sub write {
-	&error("現在、あなたの書き込みは禁止されています。") if $P{'deny'};
-	&error("伝言板番号の値が正しくありません。") unless ($P{'channel'} >= 1 && $P{'channel'} <= 9);
-	&error("伝言を入力してください。") if $F{'comment'} eq "" || $F{'comment'} eq "伝言をどうぞ";
+	&error("現在、あなたの書き込みは禁止されています。")
+	  if $P{'deny'};
+	&error("伝言板番号の値が正しくありません。")
+	  unless ( $P{'channel'} >= 1 && $P{'channel'} <= 9 );
+	&error("伝言を入力してください。")
+	  if $F{'comment'} eq "" || $F{'comment'} eq "伝言をどうぞ";
 	$F{'comment'} =~ s/</&lt\;/g;
 	$F{'comment'} =~ s/>/&gt\;/g;
 	$F{'comment'} =~ s/Bold\((.*?)\)/\<b\>$1\<\/b\>/g;
 	$F{'comment'} =~ s/Italic\((.*?)\)/\<i\>$1\<\/i\>/g;
 	$F{'comment'} =~ s/Underline\((.*?)\)/\<u\>$1\<\/u\>/g;
 	$F{'comment'} =~ s/Strike\((.*?)\)/\<s\>$1\<\/s\>/g;
-	$F{'comment'} =~ s/Invisible\((.*?)\)/\<font color=\"\#FFFFFF\"\>$1\<\/font\>/g;
+	$F{'comment'} =~
+	  s/Invisible\((.*?)\)/\<font color=\"\#FFFFFF\"\>$1\<\/font\>/g;
 	$F{'comment'} =~ s/\\\(/\(/g;
 	$F{'comment'} =~ s/\\\)/\)/g;
-	&error("伝言が長すぎます。") if length($F{'comment'}) > $leng;
+	&error("伝言が長すぎます。") if length( $F{'comment'} ) > $leng;
 	&filelock("msg");
 	&read_log;
 
 	chmod 0666, "log/lognumber.dat";
-	open(NUM,"log/lognumber.dat") || &error("ログ番号記録ファイルが開けません。"); 
+	open( NUM, "log/lognumber.dat" )
+	  || &error("ログ番号記録ファイルが開けません。");
 	$lognumber = <NUM>;
 	close(NUM);
 
 	my $top = shift(@lines);
-	($no,$time2,$lid) = split(/<>/,$top);
+	( $no, $time2, $lid ) = split( /<>/, $top );
 	$no++;
-	&error("$ptime秒間は連続投稿ができません。") if (($times - $time2 < $ptime) && ($P{'id'} eq $lid));
+	&error("$ptime秒間は連続投稿ができません。")
+	  if ( ( $times - $time2 < $ptime ) && ( $P{'id'} eq $lid ) );
 	local @new = ();
 	local @old = ();
-	foreach my $i(0 .. $#lines){
-		push(@new,$lines[$i]) if $i < $maxview;
-		push(@old,$lines[$i]) if $i >= $maxview;
+	foreach my $i ( 0 .. $#lines ) {
+		push( @new, $lines[$i] ) if $i < $maxview;
+		push( @old, $lines[$i] ) if $i >= $maxview;
 	}
-	my $pw = &pass_enc($F{'pass'});
+	my $pw    = &pass_enc( $F{'pass'} );
 	my $order = "";
-	$order = $P{'order'} if($P{"order_$P{'order'}"});
-	$wchan = ($F{'area'} == 1) ? $P{'channel'} : "";
-	$wlist = ($F{'area'} == 2) ? $P{'white'} : "";
+	$order = $P{'order'} if ( $P{"order_$P{'order'}"} );
+	$wchan = ( $F{'area'} == 1 ) ? $P{'channel'} : "";
+	$wlist = ( $F{'area'} == 2 ) ? $P{'white'}   : "";
 
-	unshift(@new,"$no<>$wdate<>$P{'id'}<>$P{'name'}<>$F{'comment'}<>$pw<>$ENV{'REMOTE_ADDR'}<>$order<>$pc_chk<>$wlist<>$P{'black'}<>$wchan<>\n");
-	unshift(@new,"$no<>$times<>$P{'id'}\n");
+	unshift( @new,
+"$no<>$wdate<>$P{'id'}<>$P{'name'}<>$F{'comment'}<>$pw<>$ENV{'REMOTE_ADDR'}<>$order<>$pc_chk<>$wlist<>$P{'black'}<>$wchan<>\n"
+	);
+	unshift( @new, "$no<>$times<>$P{'id'}\n" );
 	&write_log;
-	
+
 	foreach (@old) {
-		my($num,$wdate,$lid,$name,$com,$pass,$ip,$order,$pcchk,$white,$black,$channel) = split(/<>/);
-		$_ = '' if($white ne '');
+		my (
+			$num, $wdate, $lid,   $name,  $com,   $pass,
+			$ip,  $order, $pcchk, $white, $black, $channel
+		) = split(/<>/);
+		$_ = '' if ( $white ne '' );
 	}
-	
-	open(LOG,">>log/msglog${lognumber}.dat"); 
+
+	open( LOG, ">>log/msglog${lognumber}.dat" );
 	print LOG @old;
 	close(LOG);
-	my($fsize) = -s "log/msglog${lognumber}.dat";
-	if($fsize >= 50000) {
+	my ($fsize) = -s "log/msglog${lognumber}.dat";
+	if ( $fsize >= 50000 ) {
 		$lognumber++;
-		open(NUM,">log/lognumber.dat") || &error("ログ番号記録ファイルが開けません。"); 
+		open( NUM, ">log/lognumber.dat" )
+		  || &error("ログ番号記録ファイルが開けません。");
 		print NUM $lognumber;
 		close(NUM);
 	}
 
 	&fileunlock("msg");
-	$F{'mode'} = $F{'subm'};
+	$F{'mode'}    = $F{'subm'};
 	$F{'comment'} = '';
 }
 
 sub delete {
-	&error("削除する伝言の番号を入力してください") unless $F{'num'};
+	&error("削除する伝言の番号を入力してください")
+	  unless $F{'num'};
 	&read_log;
 	my $top = shift(@lines);
 	local @new = ();
-	foreach(@lines){
-		($no,$dum,$dum,$dum,$dum,$pw) = split(/<>/);
-		if($F{'num'} == $no){
-			&error("削除する伝言のパスワードが違います。") if crypt($F{'pass2'},$F{'pass2'}) ne $pw && (($P{'admin'} <= 0) && ($P{'subadmin'} <= 0));
-		} else { push(@new,$_); }
+	foreach (@lines) {
+		( $no, $dum, $dum, $dum, $dum, $pw ) = split(/<>/);
+		if ( $F{'num'} == $no ) {
+			&error("削除する伝言のパスワードが違います。")
+			  if crypt( $F{'pass2'}, $F{'pass2'} ) ne $pw
+				  && ( ( $P{'admin'} <= 0 ) && ( $P{'subadmin'} <= 0 ) );
+		}
+		else { push( @new, $_ ); }
 	}
-	unshift(@new,$top);
+	unshift( @new, $top );
 	&filelock("msg");
 	&write_log;
 	&fileunlock("msg");
@@ -1835,63 +2207,79 @@ sub delete {
 
 sub read_log {
 	chmod 0666, "word.dat";
-	open(WORD,"word.dat") || &error("伝言ファイルが開けません。"); 
+	open( WORD, "word.dat" )
+	  || &error("伝言ファイルが開けません。");
 	@lines = <WORD>;
 	close(WORD);
-#	chmod 0000, "word.dat";
+
+	#	chmod 0000, "word.dat";
 }
 
 sub write_log {
 	chmod 0666, "word.dat";
-	open(OUT,">word.dat") || &error("伝言ファイルに書きこめません。"); 
+	open( OUT, ">word.dat" )
+	  || &error("伝言ファイルに書きこめません。");
 	print OUT @new;
 	close(OUT);
-#	chmod 0000, "word.dat";
+
+	#	chmod 0000, "word.dat";
 }
 
-sub set_cookie{ 
-	my($sec,$min,$hour,$mday,$mon,$year) = gmtime(time + 30*24*60*60);
-	$gdate = sprintf("%02d\-%s\-%04d %02d:%02d:%02d", $mday, ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')[$mon], $year + 1900, $hour, $min, $sec);
+sub set_cookie {
+	my ( $sec, $min, $hour, $mday, $mon, $year ) =
+	  gmtime( time + 30 * 24 * 60 * 60 );
+	$gdate = sprintf(
+		"%02d\-%s\-%04d %02d:%02d:%02d",
+		$mday,
+		(
+			'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+			'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+		  )[$mon],
+		$year + 1900,
+		$hour, $min, $sec
+	);
 	$cook = "id:$F{'id'},pass:$F{'pass'},pc:$pc_chk";
 	print "Set-Cookie: duel=$cook; expires=$gdate GMT\n";
 }
 
-sub get_cookie{
+sub get_cookie {
 	$cookies = $ENV{'HTTP_COOKIE'};
-	@pairs = split(/;/,$cookies);
-	foreach $pair(@pairs){
-		($name,$value) = split(/=/,$pair);
+	@pairs = split( /;/, $cookies );
+	foreach $pair (@pairs) {
+		( $name, $value ) = split( /=/, $pair );
 		$name =~ s/ //g;
 		$D{$name} = $value;
 	}
-	@pairs = split(/,/,$D{'duel'});
-	foreach $pair(@pairs){
-		($name,$value) = split(/:/,$pair);
+	@pairs = split( /,/, $D{'duel'} );
+	foreach $pair (@pairs) {
+		( $name, $value ) = split( /:/, $pair );
 		$C{$name} = $value;
 	}
-	$c_id = $C{'id'};
+	$c_id   = $C{'id'};
 	$c_pass = $C{'pass'};
 	$pc_chk = $C{'pc'};
 }
 
 sub decode2 {
-	$id = $F{'id'};
-	$pass = $F{'pass'}; $pass =~ s/\.//g; $pass =~ s/\///g;
-	&error("IDが入力されていません") unless $id;
+	$id   = $F{'id'};
+	$pass = $F{'pass'};
+	$pass =~ s/\.//g;
+	$pass =~ s/\///g;
+	&error("IDが入力されていません")                 unless $id;
 	&error("パスワードが入力されていません。") unless $pass;
 }
 
-sub bosyuu{
+sub bosyuu {
 
-	open (IN,"setting.txt");
+	open( IN, "setting.txt" );
 	@aaa = <IN>;
-	close (IN);
+	close(IN);
 	foreach $bbb (@aaa) {
 
-		my @ccc = split(/@@/,$bbb);
+		my @ccc = split( /@@/, $bbb );
 
-		if($ccc[0]=='bosyuu' and $ccc[1] == '1'){
-print <<"HTML";
+		if ( $ccc[0] == 'bosyuu' and $ccc[1] == '1' ) {
+			print <<"HTML";
 
 <img src="./tnm.png" width="80" height="20" name="myIMG"><br>
 
@@ -1900,17 +2288,17 @@ HTML
 	}
 }
 
-sub kaisai{
+sub kaisai {
 
-	open (IN,"setting.txt");
+	open( IN, "setting.txt" );
 	@aaa = <IN>;
-	close (IN);
+	close(IN);
 	foreach $bbb (@aaa) {
 
-		my @ccc = split(/@@/,$bbb);
+		my @ccc = split( /@@/, $bbb );
 
-		if(($ccc[1] != "kaisai") && ($ccc[1] == '1')){
-print <<"HTML";
+		if ( ( $ccc[1] != "kaisai" ) && ( $ccc[1] == '1' ) ) {
+			print <<"HTML";
 
 <img src="./kaisai.png" width="60" height="17" name="myIMG"><br>
 

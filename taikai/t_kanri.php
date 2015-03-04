@@ -46,15 +46,15 @@ fclose($fp_b);
 <br>
 <form action="t_kanri_kakunin.php" method="post">
 大会名称<br>
-<input type="text" name="meisyo" value="<?=$meisyo_c?>"><br>
+<input type="text" name="meisyo" value="<?php echo $meisyo_c?>"><br>
 ex) 第1回 対戦CGI ex 公式トーナメント<br>
 <br>
 開催日<br>
-<input type="text" name="day" value="<?=$day_c?>" size="7"><br>
+<input type="text" name="day" value="<?php echo $day_c?>" size="7"><br>
 ex) 1/6<br>
 <br>
 主催者(主催する管理者のユーザー名)<br>
-<input type="text" name="syusai" value="<?=$syusai_c?>"><br>
+<input type="text" name="syusai" value="<?php echo $syusai_c?>"><br>
 <br>
 希望を取る時間<br>
 <table border="1">
