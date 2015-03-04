@@ -15,7 +15,7 @@ $heyakazu		= 30;								# 対戦部屋の数
 $mente			= 0;					# メンテナンス中？(YES=1 NO=0)
 
 $image			= "./images";						# 観戦中画像のパス（絶対パスでも相対パスでも可）
-@kansen			= ("kansen_baromu.png","kansen_minibaromu.png","kansen_doremi.png", "kansen_haduki.png", "kansen_aiko.png", "kansen_onpu.png", "kansen_momoko.png", "kansen_hana.png");
+@kansen			= ("kansen_rupia.png","kansen_baromu.png","kansen_minibaromu.png","kansen_doremi.png", "kansen_haduki.png", "kansen_aiko.png", "kansen_onpu.png", "kansen_momoko.png", "kansen_hana.png");
 
 $natime			= 5;								# アクセスなしで負けになる時間（分）
 
