@@ -17,6 +17,7 @@ sub header {
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Pragma" content="no-cache">
 	<link rel="stylesheet" href="$css/duel.css" type="text/css">
+	<link rel="stylesheet" href="$css/common.css" type="text/css">
 	<script type="text/javascript" src="$js/jquery-1.11.2.min.js"></script>
 	<title>$title</title>
 EOM
