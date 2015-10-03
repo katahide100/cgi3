@@ -162,8 +162,9 @@ sub frame {
 	my ($roomtype) = ( $F{'mode'} eq 'tour' ) ? "tourroom" : "freeroom";
 	print <<"EOM";
 </head>
-<frameset rows="64,*,240">
-<frame src="taisen.cgi?mode=menu&id=$id&pass=$pass" name="menu" scrolling="no">
+<!--<frameset rows="64,*,240">-->
+<frameset rows="*,240">
+<!--<frame src="taisen.cgi?mode=menu&id=$id&pass=$pass" name="menu" scrolling="no">-->
 <frame src="taisen.cgi?mode=$roomtype&id=$id&pass=$pass" name="main" scrolling="yes">
 <frame src="taisen.cgi?mode=view&id=$id&pass=$pass&line=30" name="chat" scrolling="yes">
 </frameset>
@@ -850,6 +851,50 @@ sub roomlist {
 	$nextrank = " (next: " . ( $uppoint[ $P{'drank'} ] - $P{'dpoint'} ) . ")"
 	  if ( $P{'drank'} < 25 );
 	print <<"EOM";
+<!-- 外枠テーブル -->
+<table align="center" border="0" cellspacing="0">
+<tr>
+<td class="valign_top" width="300">
+<!-- ナビテーブル（右） -->
+<table align="center" width="100%">
+<tr><td>
+
+<div id="nav">
+    <ul class="top-level">
+        <li class="category1"><a href="javascript:sForm('index', '', '');">トップ</a></li>
+        <li class="category2"><a href="#">対戦</a>
+            <ul class="sub-level">
+                <li><a href="javascript:sForm('freeroom', '', '');">フリールーム</a></li>
+                <li><a href="javascript:sForm('tourroom', '', '');">トーナメントルーム</a></li>
+            </ul>
+        </li>
+        <li class="category3"><a href="#">編集</a>
+            <ul class="sub-level">
+                <li><a href="javascript:sForm('deck', '', '');">デッキ構築</a></li>
+                <li><a href="javascript:sForm('group', '', '');">グループ編集</a></li>
+                <li><a href="javascript:sForm('list', '', '');">リスト編集</a></li>
+            </ul>
+        </li>
+        <li class="category3"><a href="#" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">トーナメント 応募</a></li>
+        <li class="category3"><a href="#">お知らせ</a>
+            <ul class="sub-level">
+            	<li><a href="#" onclick="window.open('psychic_list.html', '', 'width=400,height=500,scrollbers=yes');">覚醒可能クリーチャー</a></li>
+                <li><a href="javascript:sForm('info', '', '');">ルール・マナー</a></li>
+                <li><a href="javascript:sForm('nuisance', '', '');">迷惑行為</a></li>
+            </ul>
+        </li>
+        <li class="category3"><a href="javascript:sForm('log', '', '');">チャットログ</a>
+        </li>
+    </ul>
+</div>
+
+
+
+</td></tr>
+</table>
+</td>
+<td class="valign_top">
+<!-- 対戦部屋テーブル -->
 <table width="640" border="0" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
 <div align="center" style="width: 600px; height: 200px; overflow: scroll;">
@@ -1478,6 +1523,7 @@ EOM
 <a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
 </div>
 </td></tr></table>
+<div align="center">
 <hr width="640">
 EOM
 	if ( $F{'mode'} eq 'tourroom' ) {
@@ -1512,6 +1558,16 @@ EOM
 	print <<"EOM";
 </select><br>
 ID: <input type="text" name="viewid" size="16">&nbsp;のデータを&nbsp;<input type="button" value="見る" onClick="javascript:sForm('prof', '', document.entrance.viewid.value);">
+</div>
+
+</td>
+<td class="valign_top" width="300">
+<!-- ナビテーブル（左） -->
+<table>
+<tr><td>
+
+</td></tr>
+</table>
 </td></tr>
 </table>
 EOM
@@ -1547,9 +1603,6 @@ comment&nbsp;:&nbsp;
 <option value="100行"$linesel100>100行</option>
 </select>&nbsp;&nbsp;
 <a href="javascript:sForm('$F{'mode'}', '', '');">更新する</a>
-<input type="button" value="覚醒可能クリーチャー一覧" onclick="window.open('psychic_list.html', '', 'width=400,height=500,scrollbers=yes');">
-
-<input type="button" value="大会参加希望登録" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">
 
 EOM
 	&bosyuu();
