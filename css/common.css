@@ -1,0 +1,102 @@
+@CHARSET "UTF-8";
+
+.valign_top	{
+  vertical-align: top;
+}
+
+/* 右側メニュー用 */
+
+#nav {
+    font-size: 1.3em;
+    width: 95%;
+}
+
+@media (min-width: 900px) {
+    .nav {
+    font-size: 1em;
+    width: 50%; 
+    }
+}
+
+#nav ul {
+    margin: 0; 
+    padding: 0;
+    border-top: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+#nav li {
+    list-style-type: none;
+}
+#nav a {
+    color: #000;
+    display: block;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 10px;                  
+    text-decoration: none;
+    width: 100%;
+    font-style: italic;
+}
+#nav a:hover{
+    text-decoration: none;
+}
+#nav li:hover {
+    background: #cdeefc;
+    position: relative;
+}
+
+/*第1階層*/ 
+ul.top-level {
+    background-color: #fff;
+}
+ul.top-level li {
+    border-bottom: 1px solid #aaa;
+}
+ul.top-level li.category1 {
+    border-left: 4px solid #2fabff;
+    background: -moz-linear-gradient(top, #cce7f2, #ddeff6 75%);
+    background: -webkit-gradient(linear, center top, center bottom, from(#cce7f2), to(#ddeff6), color-stop(75%, #eef7fa));
+}
+ul.top-level li.category2 {
+    border-left: 4px solid #2fabff;
+    background: -moz-linear-gradient(top, #cce7f2, #ddeff6 75%);
+    background: -webkit-gradient(linear, center top, center bottom, from(#cce7f2), to(#ddeff6), color-stop(75%, #eef7fa));
+}
+ul.top-level li.category3 {
+    border-left: 4px solid #2fabff;
+    background: -moz-linear-gradient(top, #cce7f2, #ddeff6 75%);
+    background: -webkit-gradient(linear, center top, center bottom, from(#cce7f2), to(#ddeff6), color-stop(75%, #eef7fa));
+}
+
+/*第2・第3階層共通*/
+ul.sub-level {
+    display: none;
+}
+li:hover .sub-level {
+    border: 1px solid #aaa;
+    display: block;
+    position: absolute;
+    left: 120px;
+    top: -3px;
+}
+ul.sub-level li {
+    border: none;
+    float: left;
+    width: 170px;
+}
+
+/*第2階層*/
+#nav .sub-level {
+    background-color: #eef7fa;
+}
+
+/*第3階層*/
+#nav .sub-level .sub-level {
+    background-color: #eef7fa;
+}
+li:hover .sub-level .sub-level {
+    display: none;
+}
+.sub-level li:hover .sub-level {
+    display: block;
+}
