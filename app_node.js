@@ -1,7 +1,9 @@
 var io   = require('socket.io').listen(3002);
+var logger = require('./logger');
 
 io.sockets.on('connection',function(socket) {
 	console.log('user connected!');
+        logger.request.info('user connected');
 
 	socket.on('foo', function (data) {
 	  console.log('here we are in action event and data is: ' + data);
@@ -9,6 +11,7 @@ io.sockets.on('connection',function(socket) {
 	
 	socket.on('action', function (data) {
 		console.log(data.mode);
+                logger.request.info(data.mode);
 		io.sockets.emit("action", {mode: data.mode,room: data.room});
 		});
 
