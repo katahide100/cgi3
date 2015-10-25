@@ -161,11 +161,11 @@ sub sousa {
 	my $random = crypt(int(rand(100000000)), int(rand(100)));
 	unless($read_only){
 		print <<"EOM";
-		<script src="http://192.168.33.10:3002/socket.io/socket.io.js"></script>
+		<script src="$hostName:$nodePort/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 <!--
 
-var s = io.connect('http://192.168.33.10:3002');
+var s = io.connect('$hostName:$nodePort');
 s.on("action", function (data) {
 	if (data.room == $room) {
     card.mode.value = 'field';
