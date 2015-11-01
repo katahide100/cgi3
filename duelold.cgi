@@ -161,21 +161,37 @@ sub sousa {
 	my $random = crypt(int(rand(100000000)), int(rand(100)));
 	unless($read_only){
 		print <<"EOM";
+		<script src="$hostName:$nodePort/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 <!--
+
+var s = io.connect('$hostName:$nodePort');
+s.on("action", function (data) {
+	if (data.room == $room) {
+    card.mode.value = 'field';
+			card.target = "field";
+			card.submit();
+	}
+  });
 	with(document);
 	function Tap(){
 		parent.field.fields.mode.value = "tap";
-		parent.field.fields.submit();
+		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
+			s.emit("action", {mode:"tap",room:$room});
+        });
 	}
 	function Cmd(f){
 		parent.field.fields.mode.value = f;
-		parent.field.fields.submit();
+		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
+			s.emit("action", {mode:f,room:$room});
+        });
 	}
 	function sForm(f) {
 		card.mode.value = f;
 		card.target = (f == "sousa") ? "_self" : "field";
-		card.submit();
+		\$.post("duelold.cgi", \$("[name=card]").serialize(), function(data){
+			s.emit("action", {mode:f,room:$room});
+        });
 	}
 	function Move(parea){
 		str = 'duelold.cgi?room=$room&id=$id&pass=$pass&load=$load&log=$log&mode=move&vside=$F{'vside'}&varea=$varea&parea=' + parea + '&random=$random';
@@ -189,7 +205,10 @@ sub sousa {
 		for(i=0;i<F.elements.length;i++){
 			if (F.elements[i].checked && F.elements[i].name.match(/^.?sel/)){ str += "&" + F.elements[i].name + "=on"; }
 		}
-		parent.field.location.href = str;
+		\$.post(str, \$("[name=card]").serialize(), function(data){
+			s.emit("action", {mode:'move',room:$room});
+        });
+		
 	}
 // -->
 </script>
