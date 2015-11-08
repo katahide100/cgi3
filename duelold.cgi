@@ -165,14 +165,14 @@ sub sousa {
 <script type="text/javascript">
 <!--
 
-var s = io.connect('$hostName:$nodePort');
-s.on("action", function (data) {
-	if (data.room == $room) {
-    card.mode.value = 'field';
+	var s = io.connect('$hostName:$nodePort');
+	s.on("action", function (data) {
+		if (data.room == $room) {
+    		card.mode.value = 'field';
 			card.target = "field";
 			card.submit();
-	}
-  });
+		}
+  	});
 	with(document);
 	function Tap(){
 		parent.field.fields.mode.value = "tap";
@@ -210,6 +210,23 @@ s.on("action", function (data) {
         });
 		
 	}
+	(function() {
+    	// form が submit されたとき(攻撃、ブレイク時の処理などで使用)
+	    var form = \$(parent.field.fields);
+	    form.on('click', 'input[type=submit]', function(event) {
+	    	// submit処理をキャンセル
+	    	event.preventDefault();
+	    	
+	    	// postデータにsubmitタグのnameとvalueを追加する
+	    	var postData = \$(parent.field.fields).serialize() + '&' + \$(this).attr('name') + '=' + \$(this).val();
+		    \$.post("duelold.cgi", postData, function(data){
+				s.emit("action", {mode:parent.field.fields.mode.value,room:$room});
+	        });
+	        // 自動で submit されないように処理を止める
+	        return false;
+	    });
+	})();
+	
 // -->
 </script>
 EOM
