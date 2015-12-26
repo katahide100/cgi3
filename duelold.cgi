@@ -161,36 +161,26 @@ sub sousa {
 	my $random = crypt(int(rand(100000000)), int(rand(100)));
 	unless($read_only){
 		print <<"EOM";
-		<script src="$hostName:$nodePort/socket.io/socket.io.js"></script>
 <script type="text/javascript">
 <!--
-
-	var s = io.connect('$hostName:$nodePort');
-	s.on("action", function (data) {
-		if (data.room == $room) {
-    		card.mode.value = 'field';
-			card.target = "field";
-			card.submit();
-		}
-  	});
 	with(document);
 	function Tap(){
 		parent.field.fields.mode.value = "tap";
 		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
-			s.emit("action", {mode:"tap",room:$room});
+			window.parent.s.emit("action", {mode:"tap",room:$room});
         });
 	}
 	function Cmd(f){
 		parent.field.fields.mode.value = f;
 		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
-			s.emit("action", {mode:f,room:$room});
+			window.parent.s.emit("action", {mode:f,room:$room});
         });
 	}
 	function sForm(f) {
 		card.mode.value = f;
 		card.target = (f == "sousa") ? "_self" : "field";
 		\$.post("duelold.cgi", \$("[name=card]").serialize(), function(data){
-			s.emit("action", {mode:f,room:$room});
+			window.parent.s.emit("action", {mode:f,room:$room});
         });
 	}
 	function Move(parea){
@@ -206,7 +196,7 @@ sub sousa {
 			if (F.elements[i].checked && F.elements[i].name.match(/^.?sel/)){ str += "&" + F.elements[i].name + "=on"; }
 		}
 		\$.post(str, \$("[name=card]").serialize(), function(data){
-			s.emit("action", {mode:'move',room:$room});
+			window.parent.s.emit("action", {mode:'move',room:$room});
         });
 		
 	}
@@ -220,7 +210,7 @@ sub sousa {
 	    	// postデータにsubmitタグのnameとvalueを追加する
 	    	var postData = \$(parent.field.fields).serialize() + '&' + \$(this).attr('name') + '=' + \$(this).val();
 		    \$.post("duelold.cgi", postData, function(data){
-				s.emit("action", {mode:parent.field.fields.mode.value,room:$room});
+				window.parent.s.emit("action", {mode:parent.field.fields.mode.value,room:$room});
 	        });
 	        // 自動で submit されないように処理を止める
 	        return false;
@@ -499,7 +489,16 @@ sub frame {
 	&fileunlock($room);
 	&header;
 	print <<"EOM";
+<script src="$hostName:$nodePort/socket.io/socket.io.js"></script>
 <script type="text/javascript"><!--
+var s = io.connect('$hostName:$nodePort');
+   s.on("action", function (data) {
+           if (data.room == $room) {
+                   parent.sousa.card.mode.value = 'field';
+                   parent.sousa.card.target = "field";
+                   parent.sousa.card.submit();
+           }
+});
 with(document);
 function cView(c){
 	vWin = window.open("duelold.cgi?mode=cardview&j=" + c,"view","width=720,height=300,resizable=yes,scrollbars=yes");
