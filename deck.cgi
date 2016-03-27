@@ -327,7 +327,7 @@ sub pickup{
   $F{'series'} = 0 unless $F{'series'};
   $F{'kind'} = 0 unless $F{'kind'};
   if($F{'sstr'} || $F{'sstr2'}){
-    $F{'series'} = 99;
+    $F{'series'} = 9999;
     $F{'kind'} = $cou = 0;
     undef(@disp);
     if($F{'sstr'}){
@@ -351,7 +351,7 @@ sub pickup{
     my %tmp;
     @disp = grep(!$tmp{$_}++,@disp);
     $overmsg = "<strong>条件に合うカードはありません</strong><br><br>\n" if $#disp < 0;
-  } elsif ($F{'series'} ne "99") {
+  } elsif ($F{'series'} ne "9999") {
     @disp = @{$ser[$F{'series'}]};
   } else {
     foreach my $i(0 .. $#c_name){
@@ -505,7 +505,7 @@ EOM
     <p class="search">
     拡張パック：
     <select name="series">
-        <option value="99"selected$selstr[99]>全種</option>
+        <option value="9999"selected$selstr[9999]>全種</option>
         
         <optgroup label = "基本編">
             <option value="109" $selstr[109]>第１弾</option>
