@@ -1,4 +1,5 @@
 #!/usr/local/bin/perl
+BEGIN{open STDERR, '>./logs/error.log'};
 
 require "cust.cgi";
 require "action.pl";
@@ -72,6 +73,7 @@ unless($chudan_flg){
 }
 &block_flg			if $F{'mode'} eq "block_flg";
 &shinka_sel			if $F{'mode'} eq "shinka_sel";
+&b_shinka_sel		if $F{'mode'} eq "b_shinka_sel";
 &c_shinka_sel		if $F{'mode'} eq "c_shinka_sel";
 &vor_sel1			if $F{'mode'} eq "vor_sel";
 &vor_sel2			if $F{'mode'} eq "vor_sel2";
@@ -198,7 +200,7 @@ sub sousa {
 		\$.post(str, \$("[name=card]").serialize(), function(data){
 			window.parent.s.emit("action", {mode:'move',room:$room});
         });
-		
+
 	}
 	(function() {
     	// form が submit されたとき(攻撃、ブレイク時の処理などで使用)
@@ -206,7 +208,7 @@ sub sousa {
 	    form.on('click', 'input[type=submit]', function(event) {
 	    	// submit処理をキャンセル
 	    	event.preventDefault();
-	    	
+
 	    	// postデータにsubmitタグのnameとvalueを追加する
 	    	var postData = \$(parent.field.fields).serialize() + '&' + \$(this).attr('name') + '=' + \$(this).val();
 		    \$.post("duelold.cgi", postData, function(data){
@@ -216,7 +218,7 @@ sub sousa {
 	        return false;
 	    });
 	})();
-	
+
 // -->
 </script>
 EOM
@@ -565,14 +567,14 @@ EOM
 		print "<tr>\n";
 	}
 	print <<"EOM";
-<td>&nbsp;&nbsp;ログ行数 
+<td>&nbsp;&nbsp;ログ行数
 <select name="log">
 	<option value="10">10</option>
 	<option value="20">20</option>
 	<option value="30">30</option>
 	<option value="9999" selected>ALL</option>
 </select>
-&nbsp;&nbsp;更新秒数 
+&nbsp;&nbsp;更新秒数
 <select name="load">
 	<option value="20">20</option>
 	<option value="30" selected>30</option>
@@ -643,11 +645,11 @@ function bFlag(c){
 }
 
 \$(function(\$) {
-		
+
 		var \$view = \$('#view'),
 			\$name = \$('input[name="chatName"]'),
 			\$data = \$('#chatData');
-	
+
 		/**
    		* データ取得
    		*/
@@ -657,7 +659,7 @@ function bFlag(c){
       		checkUpdate();
     		});
   		}
-  
+
   		/**
    		* 更新チェック
    		*/
@@ -667,17 +669,17 @@ function bFlag(c){
     	  	checkUpdate();
     		});
   		}
-  		
+
   		\$("#chatAdd").click(function(){
   			\$.post('./chat/chat.php?mode=add', {data: \$data.val(),name: \$name.val()}, function(data) {
       		\$data.val('');
     		});
   		});
-  
+
   		getData();
-  		
+
   		\$('#chatInputArea').hide();
-  		
+
   		\$("#dispChangeChat").click(function(){
   			if(\$('#chatInputArea').is(':hidden')) {
     			\$('#chatInputArea').show("slow");
@@ -727,7 +729,7 @@ EOM
 		print qq|<tr align="center"><td colspan="2">\n|;
 		print qq|<input type="button" value="タップ／アンタップ" onclick="if(confirm('本当にタップ／アンタップしますか？\\nこの行動は、バトルゾーンにあるクリーチャーだけでなく、\\nマナゾーンにあるカードをタップ／アンタップする場合にも使います。')) { this.disabled = true; Tap(); }">\n|;
             }
-    
+
     print qq|\n<tr><td colspan=\"2\"><table width="400" border="1" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
 				<tr><td>
 				<hr>
@@ -1150,7 +1152,7 @@ EOM
 						$cou++;
 					}
 				} elsif ($S{'m'} !~ /cloth_sel2|c_shinka_sel/) {
-					my $cno = $S{'p'} ? $res : $fld[$res];
+					my $cno = $S{'p'} ? $res : $S{'m'} eq 'b_shinka_sel' ? $boti[$u_side][$res] : $fld[$res];
 					next if $cno eq "";
 					print q|<td align="center">|;
 					if ($cno =~ /\-/) { &view_god($res, 0); } else { &view_card($cno, sprintf %d, !(&syu_chk($cno, 0)) && !(&syu_chk($cno, 1)) ? 1 : 0); }
@@ -1393,7 +1395,7 @@ sub tourstart {
 					$NT{"p${pnum}name"} = $T{"p$num[$win[$pnum]]name"};
 					$NT{"p${pnum}deck"} = $T{"p$num[$win[$pnum]]deck"};
 					$NT{"p${pnum}win"} = $T{"p$num[$win[$pnum]]win"};
-					
+
 					$PR{$T{"p$num[$win[$pnum]]id"}} --;
 					delete($PR{$T{"p$num[$win[$pnum]]id"}}) if($PR{$T{"p$num[$win[$pnum]]id"}} == 0);
 					$sur_flg[$j] = 0;
@@ -1406,7 +1408,7 @@ sub tourstart {
 					$PR{$T{"p$num[$pnum]id"}} ++;
 				}
 			}
-			
+
 			$T{'accept'} = 0;
 			chmod 0666, "./tour/part.dat";
 			open(TRT, "> ./tour/part.dat");
