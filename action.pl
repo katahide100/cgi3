@@ -2492,10 +2492,22 @@ sub put_cre_chk {
         next if $fld[$i] eq "";
         push @res, $i if &bun_chk2($fld[$i], \@bun) && !(&syu_chk($fld[$i], 0, 1));
       }
-    }elsif ($c_evo[$cno]>=11) {  # 墓地進化
+    }elsif ($c_evo[$cno]==11) {  # 墓地進化
       my @bun = (split /,/, $c_bun[$cno]);
       foreach (0..$#{$boti[$u_side]}){
         push @res, $_ if &bun_chk2($boti[$u_side][$_], \@bun) && !(&syu_chk($boti[$u_side][$_], 0, 1));
+      }
+    }elsif ($c_evo[$cno]>=12) {  # 墓地進化V・GV
+      my @bun = (split /,/, $c_bun[$cno]);
+      my @vor = $c_name[$cno] eq "火之鳥カイザー・アイニー" ? (59)
+            : $c_name[$cno] eq "超神龍ハカイシ・ハカイ" ? (44)
+            : (-1);
+      foreach (0..$#{$boti[$u_side]}){
+        if ($vor[0] != -1) {
+          push @res, $_ if &syu_chk2($boti[$u_side][$_], \@vor);
+        } else {
+          push @res, $_ if &bun_chk2($boti[$u_side][$_], \@bun) && !(&syu_chk($boti[$u_side][$_], 0, 1));
+        }
       }
     } elsif (4 <= $c_evo[$cno]) {
       if ($c_name[$cno] eq "ＪＫ神星シャバダバドゥー") {
@@ -2569,10 +2581,10 @@ sub put_cre_chk {
     }
     undef %tmp;
     @res = grep !$tmp{$_}++, @res;
-    if ((($c_evo[$cno] == 4 || $c_evo[$cno] == 10) && $#res < 2) || ((4 < $c_evo[$cno] && $c_evo[$cno] != 8 && $c_evo[$cno] != 11) && $#res < 1) || $#res < 0) {
+    if ((($c_evo[$cno] == 4 || $c_evo[$cno] == 10 || $c_evo[$cno] == 13 ) && $#res < 2) || ((4 < $c_evo[$cno] && $c_evo[$cno] != 8 && $c_evo[$cno] != 11) && $#res < 1) || $#res < 0) {
       undef @res;
       undef @vor if 0 < $#res;
-      my $str = $#res < 0 && $c_evo[$cno] !~ /[45679]/ ? sprintf "進化できるクリーチャーが%sにいません", $c_evo[$cno] < 8 ? "バトルゾーン" : $c_evo[$cno] == 8 ? "マナゾーン" : "墓地" : sprintf "%sボルテックスに必要なクリーチャーが揃っていません", $c_evo[$cno] == 4 ? "ギャラクシー・" : "";
+      my $str = $#res < 0 && $c_evo[$cno] !~ /4|5|6|7|9|10|12|13/ ? sprintf "進化できるクリーチャーが%sにいません", $c_evo[$cno] < 8 ? "バトルゾーン" : $c_evo[$cno] == 8 ? "マナゾーン" : "墓地" : sprintf "%sボルテックスに必要なクリーチャーが揃っていません", $c_evo[$cno] == 4 || $c_evo[$cno] == 10 || $c_evo[$cno] == 13 ? "ギャラクシー・" : "";
       if ($_[1] eq "tri") {
         &e_mes("$str", $btl[1]);
         &e_mes("シールドを手札に戻します", $btl[1]);
@@ -2669,7 +2681,7 @@ sub put_card_dialog {
       : sprintf "%s%sを選んでください<>m-%s_sel<>o-決定::やめる",
         3 < $c_evo[$cno] && $c_evo[$cno] != 8 && $c_evo[$cno] != 11 ? "一番下の" : "進化させる",
         &syu_chk($cno, 1) ? "クロスギア" : "クリーチャー",
-        &syu_chk($cno, 1) && $c_evo[$cno] != 11 ? "c_shinka" : 3 < $c_evo[$cno] && $c_evo[$cno] != 8 ? $c_evo[$cno] == 11 ? "b_shinka" : "vor" : "shinka";
+        &syu_chk($cno, 1) && $c_evo[$cno] != 11 ? "c_shinka" : 3 < $c_evo[$cno] && $c_evo[$cno] != 8 ? $c_evo[$cno] == 11 ? "b_shinka" : 12 <= $c_evo[$cno] ?"b_vor" : "vor" : "shinka";
   unshift @syori, sprintf "s-%d<>t-$str<>a-%s%s",
         $process eq "tri" ? $btl[1] : $u_side,
         $process eq "tri" ? "tri" : $F{'decktop'} ? "decktop" : $process ne "" ? "$process" : "",
@@ -2709,11 +2721,30 @@ sub shinka_chk {  # 進化（種族）元クリーチャーのチェック
   &accel_chk("悪魔怪人デスブラッド")  if grep $_ == 41, @evo;
 }
 
+sub shinka_chk3 {  # 墓地進化（種族）元クリーチャーのチェック TODO 本当はこれでチェックしたい
+  my @evo = @_;
+  map { push @res, $_ if &syu_chk2($boti[$u_side][$_], \@evo) } 0..$#{$boti[$u_side]};
+}
+
 sub shinka_chk2 { # 進化（文明）元クリーチャーのチェック
   my @bun = @_; my @evo = ();
   foreach my $bun(@bun) {
     my @bun2 = ($bun);
     map { push @evo, $_ if $fld[$_] ne "" && &bun_chk2($fld[$_], \@bun2) } @{$fw1[$u_side]};
+    if ($#evo < 0) {
+      undef @res; undef @vor;
+      &com_error("ボルテックス進化に必要なクリーチャーが揃っていません");
+    }
+    @res = (@res, @evo);
+    undef @evo;
+  }
+}
+
+sub shinka_chk4 { # 墓地進化（文明）元クリーチャーのチェック TODO 本当はこれでチェックしたい
+  my @bun = @_; my @evo = ();
+  foreach my $bun(@bun) {
+    my @bun2 = ($bun);
+    map { push @evo, $_ if $boti[$u_side][$_] ne "" && &bun_chk2($boti[$u_side][$_], \@bun2) } 0..$#{$boti[$u_side]};
     if ($#evo < 0) {
       undef @res; undef @vor;
       &com_error("ボルテックス進化に必要なクリーチャーが揃っていません");
@@ -2978,9 +3009,10 @@ sub vor_sel1 {
   if ($F{'run_select'}) {
     &vor_sub1;
     &syori_p_set;
-    $syori[0] = sprintf "s-$u_side<>t-%s体目のクリーチャーを選んでください<>m-vor_sel%s<>a-$S{'a'}<>o-決定::やめる",
+    $syori[0] = sprintf "s-$u_side<>t-%s体目のクリーチャーを選んでください<>m-%s%s<>a-$S{'a'}<>o-決定::やめる",
       $vor_cnt == 2 ? "三" : "二",
-      ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10) && $vor_cnt == 1 ? "" : 2;
+      12 <= $c_evo[$chudan] ? "b_vor_sel" : "vor_sel",
+      ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10 || $c_evo[$chudan] == 13) && $vor_cnt == 1 ? "" : 2;
   } else {
     &vor_cancel;
   }
@@ -2989,8 +3021,8 @@ sub vor_sel1 {
 sub vor_sel2 {
   return if !($F{'run_select'}) && !($F{'not_select'});
   if ($F{'run_select'}) {
-    if (9 <= $c_evo[$chudan]) { &mana_vor_sub2; } else { &vor_sub2; }
-    &s_mes(sprintf "超進化！　$pn[$u_side]の%s《$c_name[$chudan]》光臨！", ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10) ? "ギャラクシー・ボルテックス" : "ボルテックスクリーチャー");
+    if (12 <= $c_evo[$chudan]) { &boti_vor_sub2; } elsif (9 <= $c_evo[$chudan]) { &mana_vor_sub2; } else { &vor_sub2; }
+    &s_mes(sprintf "超進化！　$pn[$u_side]の%s《$c_name[$chudan]》光臨！", ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10 || $c_evo[$chudan] == 13) ? "ギャラクシー・ボルテックス" : "ボルテックスクリーチャー");
     @res = @vor = (); $chudan = $chudan_flg = $vor_cnt = "";
     &syori_clr;
   } else {
@@ -3046,6 +3078,31 @@ sub mana_vor_sub2 {
   }
   $fldno = $F{'select'};
   &pick_card2;
+  $m_evo .= $m_evo eq "" ? "$cardno" : "-$cardno";
+  &fld_chk($l_side);
+  my $fno = $nf0;
+  $shinka[$fno] = $m_evo;
+  $fld[$fno] = $chudan;
+  &set_block($fno, $chudan);
+}
+
+# 墓地進化ボルテックス処理
+sub boti_vor_sub2 {
+  &com_error("2体目のクリーチャーが指定されていません") if $F{'select'} eq "";
+  my $m_evo = "";
+  if ($c_evo[$chudan] == 13) {
+    for my $i (-2..-1) {
+      $fldno = $vor[$i];
+      &pick_card4;
+      $m_evo .= $m_evo eq "" ? "$cardno" : "-$cardno";
+    }
+  } else {
+    $fldno = $vor[-1];
+    &pick_card4;
+    $m_evo .= $m_evo eq "" ? "$cardno" : "-$cardno";
+  }
+  $fldno = $F{'select'};
+  &pick_card4;
   $m_evo .= $m_evo eq "" ? "$cardno" : "-$cardno";
   &fld_chk($l_side);
   my $fno = $nf0;
