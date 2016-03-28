@@ -77,6 +77,8 @@ unless($chudan_flg){
 &c_shinka_sel		if $F{'mode'} eq "c_shinka_sel";
 &vor_sel1			if $F{'mode'} eq "vor_sel";
 &vor_sel2			if $F{'mode'} eq "vor_sel2";
+&vor_sel1			if $F{'mode'} eq "b_vor_sel";
+&vor_sel2			if $F{'mode'} eq "b_vor_sel2";
 &glink_sel			if $F{'mode'} eq "glink_sel";
 &glink_sel2			if $F{'mode'} eq "glink_sel2";
 &return_sel			if $F{'mode'} eq "return_sel";
@@ -1152,7 +1154,7 @@ EOM
 						$cou++;
 					}
 				} elsif ($S{'m'} !~ /cloth_sel2|c_shinka_sel/) {
-					my $cno = $S{'p'} ? $res : $S{'m'} eq 'b_shinka_sel' ? $boti[$u_side][$res] : $fld[$res];
+					my $cno = $S{'p'} ? $res : $S{'m'} eq 'b_shinka_sel' || $S{'m'} eq 'b_vor_sel' || $S{'m'} eq 'b_vor_sel2' ? $boti[$u_side][$res] : $fld[$res];
 					next if $cno eq "";
 					print q|<td align="center">|;
 					if ($cno =~ /\-/) { &view_god($res, 0); } else { &view_card($cno, sprintf %d, !(&syu_chk($cno, 0)) && !(&syu_chk($cno, 1)) ? 1 : 0); }
