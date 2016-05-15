@@ -1997,7 +1997,6 @@ sub pick_card4 { # 今のところ墓地進化に使用
   next if $boti[$u_side][$fldno] eq "";
   $cardno = $boti[$u_side][$fldno];
   $cardno =~ s/\-s$// if $cardno =~ /\-s$/;
-  $fld[$fldno] = $f_tap[$fldno] = $f_block[$fldno] = $f_drunk[$fldno] = "";
   &which_side($fldno, 'boti');
   &shinka_sub3($fldno);
   &cloth_sub($fldno);
@@ -2154,6 +2153,7 @@ sub shinka_sub2 {
 
 sub shinka_sub3 { # 今のところ墓地進化に使用
   my $fldno = $_[0];
+  # 墓地から進化元カード削除
   $boti[$u_side][$fldno] = "";
   if ($shinka[$fldno] ne "") {
     my @evo = split /-/, $shinka[$fldno];
