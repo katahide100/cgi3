@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "build": "browserify src/public/js/vue/*.js > app/public/js/vue/bundle.js",
+    "watch": "watchify -t babelify src/public/js/vue/*.js -o 'exorcist app/public/js/vue/bundle.js.map > app/public/js/vue/bundle.js' -d"
+  },
+  "devDependencies": {
+    "watchify": "~3.7.0",
+    "babelify": "~7.3.0",
+    "exorcist": "~0.4.0"
+  }
+}
