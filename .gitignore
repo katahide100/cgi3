@@ -1,0 +1,11 @@
+app/public/js/vue/*
+app_node.js
+chat/data/*
+cust.cgi
+log/*
+logs/*
+node_modules/*
+playerdata/*
+member.dat
+
+.DS_Store
