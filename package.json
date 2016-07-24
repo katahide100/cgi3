@@ -6,6 +6,8 @@
   "devDependencies": {
     "watchify": "~3.7.0",
     "babelify": "~7.3.0",
-    "exorcist": "~0.4.0"
+    "exorcist": "~0.4.0",
+    "log4js": "~0.6.38",
+    "socket.io": "~1.4.8"
   }
 }
