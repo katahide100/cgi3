@@ -127,7 +127,7 @@ sub start {
 	}
 	
 	my @odeckp = split(/,/,$dcondp);
-	&error("超次元カードが9枚以上入っています。デッキを作り直してください。") if $#odeckp > 8;
+	&error("超次元カードが15枚以上入っています。デッキを作り直してください。") if $#odeckp > 14;
 
 	foreach my $card (@odeckp) {
 		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
