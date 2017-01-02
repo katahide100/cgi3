@@ -1622,14 +1622,14 @@ sub move {
 
     if ( $F{'decktop'} ) {
       $cardno = ${$deck[$u_side]}[0];
-      com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+      com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
       $cardno = shift @{$deck[$u_side]};
       move_sub($cardno, $u_side);
     } else {
       if (@sel) {
         foreach my $sel (@sel) {
           $cardno = ${ $varea == 0 ? $hand[$vside] : $varea == 1 ? $boti[$vside] : $varea == 2 ? $deck[$vside] : $varea == 3 ? $psychic[$vside] : $hand[$vside] }[$sel];
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $sel (@sel) {
           $cardno = pick_card($sel);
@@ -1638,19 +1638,20 @@ sub move {
       } else {
         foreach my $evono (@ssel) {
           my($cardno, $l_side, $area) = look_evo($evono);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $fldno (@fsel) {
           my($cardno, $l_side, $area) = look_fld($fldno);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $gsel (@gsel) {
           my($cardno, $l_side, $area) = look_gene($gsel);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $csel (@csel) {
           my($cardno, $l_side, $area) = look_cloth($csel);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
 
         foreach my $evono (@ssel) {
@@ -1857,7 +1858,7 @@ sub put_card_sub {
   $parea == 0 && $F{'decktop'} ? "カード、《$c_name[$cardno]》" : $parea == 0 ? "《$c_name[$cardno]》" : "カード",
   $parea == 0 ? "マナゾーン" : "シールド",
   $parea == 0 ? "出した。" : "セット！");
-  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151))  {
+  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186))  {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
     push (@{$psychic[$u_side]}, $cardno);
   } else {
@@ -1963,7 +1964,7 @@ sub move2 {     # フィールドから手札、墓地、山札へ移動
 sub move_sub {
   my $side = $_[0];
   &p_mess;
-  if ((syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151)) && ($parea != 9)) {
+  if ((syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186)) && ($parea != 9)) {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
     push (@{$psychic[$side]}, $cardno);
   } else {
@@ -2400,7 +2401,7 @@ sub changer_sel1 {
         $S{'a'} eq "field" ? "$name" : "カード"
       );
       for (my ($i) = 0; $i < scalar @card; $i++) {
-        if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || syu_chk($card[$i], 151)) {
+        if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || &syu_chk($card[$i], 151) || &syu_chk($card[$i], 185) || &syu_chk($card[$i], 186)) {
           s_mes("《$c_name[$card[$i]]》は超次元ゾーンに送られた。");
           push (@{$psychic[$u_side]}, splice (@card, $i, 1));
           $i--;
@@ -2822,7 +2823,7 @@ sub put_card2_sub {
   &p_mess;
   my $fno = $parea == 0 ? $nf3 : $nf2;
   my $e_side = $l_side ? 3 - $l_side : 3 - $u_side;
-  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151)) {
+  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186)) {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
     push (@{$psychic[$side]}, $cardno);
   } else {
