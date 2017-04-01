@@ -484,9 +484,9 @@ EOM
 	&logview;
 	print <<"EOM";
 </form>
-<form action="http://192.168.33.10:1337/processChat" method="post" target="chatFrame" name="chatForm">
-  <input name="username" type="hidden" value="kat"/>
-  <input name="password" type="hidden" value="mikann"/>
+<form action="$hostName:1337/processChat" method="post" target="chatFrame" name="chatForm">
+  <input name="username" type="hidden" value="$P{'name'}"/>
+  <input name="password" type="hidden" value="$pass"/>
 </form>
 </div>
 </body>
