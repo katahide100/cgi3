@@ -1,9 +1,5 @@
 #!/usr/local/bin/perl
 
-use LWP::UserAgent;
-use HTTP::Request::Common;
-use JSON;
-
 require "cust.cgi";
 require "duel.pl";
 
@@ -441,14 +437,20 @@ function iFlash()
 	document.images[imgName].style.visibility = vType[flag ^= 1];
 	setTimeout('iFlash()',800);
 }
-
 // --></script>
 </head>
-<body onLoad="setTimeout('iFlash()',800); document.chatForm.submit();">
+<body onLoad="setTimeout('iFlash()',800)">
 <div align="center">
 <table border="0" width="640" cellpadding="0" cellspacing="0">
 <tr><td align="left">
-参加者一覧:
+現在地: <select name="channel" onChange="sForm('channel', this.value)">
+EOM
+	for ( my ($i) = 1 ; $i <= 9 ; $i++ ) {
+		my ($selected) = ( $i == $P{'channel'} ) ? " selected" : "";
+		print "<option value=\"$i\"$selected>チャンネル $i</option>";
+	}
+	print <<"EOM";
+</select> / 参加者一覧:
 EOM
 	my (@whitelist) = split( /\,/, $P{'white'} );
 	my (@blacklist) = split( /\,/, $P{'black'} );
@@ -466,7 +468,7 @@ EOM
 		  ? ' style="background-color: #ffffff;"'
 		  : '';
 		print
-" \[<a href=\"javascript:sForm('prof', '', '$mem_id');\"$bgcolor>$mem_name</a>\]";
+" \[<a href=\"javascript:sForm('prof', '', '$mem_id');\"$bgcolor>$mem_name</a>\]:$mem_channel";
 		print "," if ( $i < $#new_member );
 	}
 	print <<"EOM";
@@ -483,10 +485,6 @@ EOM
 EOM
 	&logview;
 	print <<"EOM";
-</form>
-<form action="$hostName:1337/processChat" method="post" target="chatFrame" name="chatForm">
-  <input name="username" type="hidden" value="$P{'name'}"/>
-  <input name="password" type="hidden" value="$pass"/>
 </form>
 </div>
 </body>
@@ -1533,6 +1531,22 @@ sub logview {
 	print <<"EOM";
 <table border="0" width="720" cellpadding="3" cellspacing="0">
 <tr><td align="center">
+<select name="area">
+<option value="0"$areasel0>全体</option>
+<option value="1"$areasel1>今いる場所</option>
+<option value="2"$areasel2>友達</option>
+</select>
+comment&nbsp;:&nbsp;
+<input type="text" name="comment" size="60" value="$F{'comment'}" onKeyPress="if(event.keyCode == 13) return false;">&nbsp;&nbsp;
+<input type="button" value="書き込む" onclick="sForm('write', '', ''); this.disabled = true;">&nbsp;&nbsp;
+<select name="line">
+<option value="10"$linesel10>10行</option>
+<option value="20"$linesel20>20行</option>
+<option value="30"$linesel30>30行</option>
+<option value="50"$linesel50>50行</option>
+<option value="100行"$linesel100>100行</option>
+</select>&nbsp;&nbsp;
+<a href="javascript:sForm('$F{'mode'}', '', '');">更新する</a>
 <input type="button" value="覚醒可能クリーチャー一覧" onclick="window.open('psychic_list.html', '', 'width=400,height=500,scrollbers=yes');">
 
 <input type="button" value="大会参加希望登録" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">
@@ -1543,10 +1557,77 @@ EOM
 <br>
 </td></tr>
 <tr><td align="center">
-<table width="90%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+<table width="100%" border="0" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
-<iframe name="chatFrame" width="100%" height="490" scrolling="no"
- frameborder="0"></iframe>
+<table width="100%" border="0" cellpadding="1" cellspacing="0" bgcolor="#FFFFFF">
+EOM
+	my ($cnt) = 0;
+	my (@black) = split( /\,/, $P{'black'} );
+
+	foreach (@lines) {
+		last if $F{'line'} <= $cnt;
+		my (
+			$num, $wdate, $lid,   $name,  $com,   $pass,
+			$ip,  $order, $pcchk, $white, $black, $channel
+		) = split(/<>/);
+		my ($symbol) = "";
+		next if ( grep( /^$lid$/, @black ) );
+		if ( $channel ne '' ) {
+			next if ( $P{'channel'} ne $channel );
+		}
+		if ( $black ne '' ) {
+			next if ( grep( /^$P{'id'}$/, split( /\,/, $black ) ) );
+		}
+		if ( $white ne '' ) {
+			if ( grep( /^$P{'id'}$/, split( /\,/, $white ) )
+				|| $lid eq $P{'id'} )
+			{
+				$com =
+"<font color=\"#888800\" title=\"secret to: $white\">$com</font>";
+			}
+			else {
+				if ( ( $P{'admin'} > 0 ) || ( $P{'subadmin'} > 0 ) ) {
+					$com =
+"<font color=\"#888888\" title=\"secret to: $white\">$com</font>";
+				}
+				else {
+					next;
+				}
+			}
+		}
+		else {
+			if ( $channel eq '' ) {
+				$com = "<font color=\"#004488\">$com</font>";
+			}
+		}
+		if ( $order ne '' ) {
+
+#			$symbol = "<font color=\"$order_color{$order}\">$order_symbol{$order}</font>";
+			$symbol =
+"<img src=\"${symbol_dir}/symbol_${order}.png\" width=\"20\" height=\"20\" align=\"middle\">";
+		}
+
+#		my($id) = $1 if($name =~ /\<A\ href\=\"javascript\:sForm\(\'prof\'\, \'\'\,\ \'(.*?)\'\)\;\"\>.*?\<\/A\>/);
+		my ($dt) = "";
+
+	   #		if(($F{'id'} eq $id) || (($P{'admin'} > 0) || ($P{'subadmin'} > 0))) {
+		if ( ( $P{'admin'} > 0 ) || ( $P{'subadmin'} > 0 ) ) {
+			$dt =
+" 【<A href=\"javascript: if(confirm('本当に削除しますか？')) autoDelete('${num}');\">削除</A>】";
+		}
+		print <<"EOM";
+<tr valign="top">
+<td rowspan="2" nowrap>$symbol</td>
+<td nowrap>[$num]&nbsp;<A href=\"javascript:sForm('prof', '', '$lid');\">$name</A>&nbsp;</td>
+<td nowrap>&gt;&nbsp;</td>
+<td>$com<small> ($wdate) - $ip$dt</small></td>
+</tr>
+<tr><td colspan="3"><hr size="1" color="#000000"></td></tr>
+EOM
+		$cnt++;
+	}
+	print <<"EOM";
+</table>
 </td></tr>
 </table>
 </td></tr>
@@ -1942,38 +2023,6 @@ sub get_ini {
 	) if !( -e "${player_dir}/" . $id . ".cgi" ) && $pass ne $admin;
 	&pfl_read($id) if -e "${player_dir}/" . $id . ".cgi";
 	&pass_chk if $pass ne $admin;
-	
-
-	# ユーザー検索（node連携）
-	my $url = 'http://localhost:1337/user/find?user_id='.$id;
-	$request = POST( $url );
-
-	# 送信
-	my $ua = LWP::UserAgent->new;
-	my $res = $ua->request( $request );
-	my $arrRes = decode_json($res->content);
-
-	if ($res->is_success) {
-		if (scalar @$arrRes > 0) {
-			#ユーザーが存在したら更新（node連携）
-
-			my $url = 'http://localhost:1337/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'};
-			$request = POST( $url );
-
-			# 送信
-			my $ua = LWP::UserAgent->new;
-			my $res = $ua->request( $request );
-		} else {
-			#存在しなかったら登録（node連携）
-			my $url = 'http://localhost:1337/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
-			$request = POST( $url );
-
-			# 送信
-			my $ua = LWP::UserAgent->new;
-			my $res = $ua->request( $request );
-		}
-	}
-
 	for my $i ( 1 .. $maxdeck ) {
 		unless ( $P{"deck$i"} ) { $dnam[$i] = "記録なし"; next; }
 		else { ( $dnam[$i], $dum ) = split( /-/, $P{"deck$i"} ); }
