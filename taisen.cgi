@@ -268,7 +268,7 @@ sub room {
   		function checkUpdate() {
     		\$.post('./chat/chat.php?mode=check', {}, function(data) {
     		\$view.html(data);
-    	  	checkUpdate();
+    	  	//checkUpdate();
     		});
   		}
   		
