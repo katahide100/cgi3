@@ -744,8 +744,8 @@ sub ninja_chk {   # ニンジャ・ストライクのチェック
   my $mana = &morph_chk($side);
   foreach my $card (@{$hand[$side]}) {
     push @res, $card if ($c_name[$card] =~ /轟火シシガミグレンオー/ && 7 < $mana)
-     || ($c_name[$card] =~ /斬隠オロチ|威牙の幻ハンゾウ|光牙王機ゼロカゲ/ && 6 < $mana)
-     || ($c_name[$card] =~ /土隠の式神センブーン/ && 4 < $mana)
+     || ($c_name[$card] =~ /斬隠オロチ|威牙の幻ハンゾウ|光牙王機ゼロカゲ|怒流牙 サイゾウミスト/ && 6 < $mana)
+     || ($c_name[$card] =~ /土隠の式神センブーン|怒流牙 佐助の超人|超越男/ && 4 < $mana)
      || ($c_name[$card] =~ /光牙忍ハヤブサマル|斬隠テンサイ・ジャニット|威牙忍ヤミノザンジ|威牙忍クロカゲ/ && 3 < $mana)
      || ($c_name[$card] =~ /土隠風の化身/ && 2 < $mana)
      || ($c_name[$card] =~ /威牙忍ヤミカゼ・ドラグーン/ && 1 < $mana)
