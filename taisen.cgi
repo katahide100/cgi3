@@ -99,7 +99,7 @@ sub menu {
 		} else if(M == "nuisance") {
 			entrance.action = "nuisance.cgi";
 		} else if(M == "log") {
-			entrance.action = "log.cgi";
+			entrance.action = "log.php";
 		} else if(M == "index") {
 			entrance.action = "index.cgi";
 		} else {
@@ -224,7 +224,7 @@ sub room {
 		} else if(M == "nuisance") {
 			entrance.action = "nuisance.cgi";
 		} else if(M == "log") {
-			entrance.action = "log.cgi";
+			entrance.action = "log.php";
 		} else if(M == "index") {
 			entrance.action = "index.cgi";
 		} else {
@@ -597,7 +597,7 @@ sub html {
 		} else if(M == "nuisance") {
 			entrance.action = "nuisance.cgi";
 		} else if(M == "log") {
-			entrance.action = "log.cgi";
+			entrance.action = "log.php";
 		} else if(M == "index") {
 			entrance.action = "index.cgi";
 		} else {
@@ -784,7 +784,7 @@ sub view {
 		} else if(M == "nuisance") {
 			entrance.action = "nuisance.cgi";
 		} else if(M == "log") {
-			entrance.action = "log.cgi";
+			entrance.action = "log.php";
 		} else if(M == "index") {
 			entrance.action = "index.cgi";
 		} else {

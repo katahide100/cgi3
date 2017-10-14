@@ -104,7 +104,7 @@ sub main {
 			entrance.action = "taisen.cgi";
 			entrance.num.value = R;
 		} else if(M == "log") {
-			entrance.action = "log.cgi";
+			entrance.action = "log.php";
 		} else if(M == "index") {
 			entrance.action = "index.cgi";
 		}

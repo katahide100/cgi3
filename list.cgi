@@ -173,7 +173,7 @@ sub html{
 function sForm(F){
 	with(list){
 		mode.value = F;
-		action = F == "taisen" ? "taisen.cgi" : F == "deck" ? "deck.cgi" : F == "group" ? "group.cgi" : F == "log" ? "log.cgi" : F == "nuisance" ? "nuisance.cgi" : "list.cgi";
+		action = F == "taisen" ? "taisen.cgi" : F == "deck" ? "deck.cgi" : F == "group" ? "group.cgi" : F == "log" ? "log.php" : F == "nuisance" ? "nuisance.cgi" : "list.cgi";
 		submit();
 	}
 }

@@ -47,11 +47,11 @@ sub html{
 		} else if(M == "nuisance") {
 			entrance.action = "nuisance.cgi";
 		} else if(M == "log") {
-			entrance.action = "log.cgi";
+			entrance.action = "log.php";
 		} else if(M == "index") {
 			entrance.action = "index.cgi";
 		} else {
-			entrance.action = "log.cgi";
+			entrance.action = "log.php";
 		}
 		entrance.target = (M == "prof") ? "_blank" : "_self";
 		entrance.submit();
@@ -78,7 +78,7 @@ EOM
 	}
 	print <<"EOM";
 <hr width="640">
-<form action="log.cgi" method="post" name="entrance" style="display: inline;">
+<form action="log-old.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
 	<input type="hidden" name="mode" value="">
