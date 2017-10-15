@@ -485,8 +485,9 @@ EOM
 	print <<"EOM";
 </form>
 <form action="$hostName:1337/processChat" method="post" target="chatFrame" name="chatForm">
-  <input name="username" type="hidden" value="$P{'name'}"/>
+  <input name="username" type="hidden" value="$id"/>
   <input name="password" type="hidden" value="$pass"/>
+  <input name="url" type="hidden" value="/lobbyCgi"/>
 </form>
 </div>
 </body>

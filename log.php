@@ -41,7 +41,8 @@ require_once './config/common.php';
 	}
 // --></script>
 </head>
-<body>
+<body onLoad="document.chatForm.submit();">
+
 <div align="center">
 <h1>デュエル・マスターズ対戦CGI ex</h1>
 <div class="paging centered">
@@ -69,7 +70,12 @@ require_once './config/common.php';
 <tr><td>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
-<iframe name="chatFrame" src="<?php echo CHAT_SERVER_URL ?>/chatLogCgi" width="100%" height="465" scrolling="no" frameborder="0"></iframe>
+<form action="<?php echo CHAT_SERVER_URL ?>/processChat" method="post" target="chatFrame" name="chatForm">
+  <input name="username" type="hidden" value="<?php echo $common->loginId ?>"/>
+  <input name="password" type="hidden" value="<?php echo $common->loginPass ?>"/>
+  <input name="url" type="hidden" value="/chatLogCgi"/>
+</form>
+<iframe name="chatFrame" width="100%" height="465" scrolling="no" frameborder="0"></iframe>
 </td></tr>
 </table>
 </td></tr>
