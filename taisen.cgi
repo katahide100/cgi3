@@ -473,6 +473,7 @@ EOM
 </td></tr>
 </table>
 <hr width="640">
+
 <form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
@@ -484,11 +485,7 @@ EOM
 	&logview;
 	print <<"EOM";
 </form>
-<form action="$hostName:1337/processChat" method="post" target="chatFrame" name="chatForm">
-  <input name="username" type="hidden" value="$id"/>
-  <input name="password" type="hidden" value="$pass"/>
-  <input name="url" type="hidden" value="/lobbyCgi"/>
-</form>
+
 </div>
 </body>
 </html>
@@ -1537,7 +1534,10 @@ sub logview {
 <input type="button" value="覚醒可能クリーチャー一覧" onclick="window.open('psychic_list.html', '', 'width=400,height=500,scrollbers=yes');">
 
 <input type="button" value="大会参加希望登録" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">
-
+<input type="hidden" name="num">
+<input type="hidden" name="pass2">
+<input type="hidden" name="subm" value="$F{'mode'}">
+</form>
 EOM
 	&bosyuu();
 	print <<"EOM";
@@ -1546,18 +1546,17 @@ EOM
 <tr><td align="center">
 <table width="90%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
+<form action="$hostName:1337/processChat" method="post" target="chatFrame" name="chatForm">
+  <input name="username" type="hidden" value="$id"/>
+  <input name="password" type="hidden" value="$pass"/>
+  <input name="url" type="hidden" value="/lobbyCgi"/>
 <iframe name="chatFrame" width="100%" height="465" scrolling="no"
  frameborder="0"></iframe>
 </td></tr>
 </table>
 </td></tr>
 </table>
-<!--No:<input type="text" name="num" size="4">&nbsp;
-Pass:<input type="text" name="pass2" size="8">&nbsp;&nbsp;
-<input type="button" value="発言を消す" onclick="sForm('delete', '', '');">-->
-<input type="hidden" name="num">
-<input type="hidden" name="pass2">
-<input type="hidden" name="subm" value="$F{'mode'}">
+
 EOM
 }
 
