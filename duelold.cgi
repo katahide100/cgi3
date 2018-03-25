@@ -1,4 +1,5 @@
 #!/usr/local/bin/perl
+BEGIN{open STDERR, '>./logs/error.log'};
 
 require "cust.cgi";
 require "action.pl";
@@ -72,9 +73,12 @@ unless($chudan_flg){
 }
 &block_flg			if $F{'mode'} eq "block_flg";
 &shinka_sel			if $F{'mode'} eq "shinka_sel";
+&b_shinka_sel		if $F{'mode'} eq "b_shinka_sel";
 &c_shinka_sel		if $F{'mode'} eq "c_shinka_sel";
 &vor_sel1			if $F{'mode'} eq "vor_sel";
 &vor_sel2			if $F{'mode'} eq "vor_sel2";
+&vor_sel1			if $F{'mode'} eq "b_vor_sel";
+&vor_sel2			if $F{'mode'} eq "b_vor_sel2";
 &glink_sel			if $F{'mode'} eq "glink_sel";
 &glink_sel2			if $F{'mode'} eq "glink_sel2";
 &return_sel			if $F{'mode'} eq "return_sel";
@@ -166,16 +170,22 @@ sub sousa {
 	with(document);
 	function Tap(){
 		parent.field.fields.mode.value = "tap";
-		parent.field.fields.submit();
+		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
+			window.parent.s.emit("action", {mode:"tap",room:$room});
+        });
 	}
 	function Cmd(f){
 		parent.field.fields.mode.value = f;
-		parent.field.fields.submit();
+		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
+			window.parent.s.emit("action", {mode:f,room:$room});
+        });
 	}
 	function sForm(f) {
 		card.mode.value = f;
 		card.target = (f == "sousa") ? "_self" : "field";
-		card.submit();
+		\$.post("duelold.cgi", \$("[name=card]").serialize(), function(data){
+			window.parent.s.emit("action", {mode:f,room:$room});
+        });
 	}
 	function Move(parea){
 		str = 'duelold.cgi?room=$room&id=$id&pass=$pass&load=$load&log=$log&mode=move&vside=$F{'vside'}&varea=$varea&parea=' + parea + '&random=$random';
@@ -189,8 +199,28 @@ sub sousa {
 		for(i=0;i<F.elements.length;i++){
 			if (F.elements[i].checked && F.elements[i].name.match(/^.?sel/)){ str += "&" + F.elements[i].name + "=on"; }
 		}
-		parent.field.location.href = str;
+		\$.post(str, \$("[name=card]").serialize(), function(data){
+			window.parent.s.emit("action", {mode:'move',room:$room});
+        });
+
 	}
+	(function() {
+    	// form が submit されたとき(攻撃、ブレイク時の処理などで使用)
+	    var form = \$(parent.field.fields);
+	    form.on('click', 'input[type=submit]', function(event) {
+	    	// submit処理をキャンセル
+	    	event.preventDefault();
+
+	    	// postデータにsubmitタグのnameとvalueを追加する
+	    	var postData = \$(parent.field.fields).serialize() + '&' + \$(this).attr('name') + '=' + \$(this).val();
+		    \$.post("duelold.cgi", postData, function(data){
+				window.parent.s.emit("action", {mode:parent.field.fields.mode.value,room:$room});
+	        });
+	        // 自動で submit されないように処理を止める
+	        return false;
+	    });
+	})();
+
 // -->
 </script>
 EOM
@@ -463,7 +493,16 @@ sub frame {
 	&fileunlock($room);
 	&header;
 	print <<"EOM";
+<script src="$hostName:$nodePort/socket.io/socket.io.js"></script>
 <script type="text/javascript"><!--
+var s = io.connect('$hostName:$nodePort');
+   s.on("action", function (data) {
+           if (data.room == $room) {
+                   parent.sousa.card.mode.value = 'field';
+                   parent.sousa.card.target = "field";
+                   parent.sousa.card.submit();
+           }
+});
 with(document);
 function cView(c){
 	vWin = window.open("duelold.cgi?mode=cardview&j=" + c,"view","width=720,height=300,resizable=yes,scrollbars=yes");
@@ -530,14 +569,14 @@ EOM
 		print "<tr>\n";
 	}
 	print <<"EOM";
-<td>&nbsp;&nbsp;ログ行数 
+<td>&nbsp;&nbsp;ログ行数
 <select name="log">
 	<option value="10">10</option>
 	<option value="20">20</option>
 	<option value="30">30</option>
 	<option value="9999" selected>ALL</option>
 </select>
-&nbsp;&nbsp;更新秒数 
+&nbsp;&nbsp;更新秒数
 <select name="load">
 	<option value="20">20</option>
 	<option value="30" selected>30</option>
@@ -608,11 +647,11 @@ function bFlag(c){
 }
 
 \$(function(\$) {
-		
+
 		var \$view = \$('#view'),
 			\$name = \$('input[name="chatName"]'),
 			\$data = \$('#chatData');
-	
+
 		/**
    		* データ取得
    		*/
@@ -622,27 +661,27 @@ function bFlag(c){
       		checkUpdate();
     		});
   		}
-  
+
   		/**
    		* 更新チェック
    		*/
   		function checkUpdate() {
     		\$.post('./chat/chat.php?mode=check', {}, function(data) {
     		\$view.html(data);
-    	  	checkUpdate();
+    	  	//checkUpdate();
     		});
   		}
-  		
+
   		\$("#chatAdd").click(function(){
   			\$.post('./chat/chat.php?mode=add', {data: \$data.val(),name: \$name.val()}, function(data) {
       		\$data.val('');
     		});
   		});
-  
+
   		getData();
-  		
+
   		\$('#chatInputArea').hide();
-  		
+
   		\$("#dispChangeChat").click(function(){
   			if(\$('#chatInputArea').is(':hidden')) {
     			\$('#chatInputArea').show("slow");
@@ -692,7 +731,7 @@ EOM
 		print qq|<tr align="center"><td colspan="2">\n|;
 		print qq|<input type="button" value="タップ／アンタップ" onclick="if(confirm('本当にタップ／アンタップしますか？\\nこの行動は、バトルゾーンにあるクリーチャーだけでなく、\\nマナゾーンにあるカードをタップ／アンタップする場合にも使います。')) { this.disabled = true; Tap(); }">\n|;
             }
-    
+
     print qq|\n<tr><td colspan=\"2\"><table width="400" border="1" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
 				<tr><td>
 				<hr>
@@ -1115,7 +1154,7 @@ EOM
 						$cou++;
 					}
 				} elsif ($S{'m'} !~ /cloth_sel2|c_shinka_sel/) {
-					my $cno = $S{'p'} ? $res : $fld[$res];
+					my $cno = $S{'p'} ? $res : $S{'m'} eq 'b_shinka_sel' || $S{'m'} eq 'b_vor_sel' || $S{'m'} eq 'b_vor_sel2' ? $boti[$u_side][$res] : $fld[$res];
 					next if $cno eq "";
 					print q|<td align="center">|;
 					if ($cno =~ /\-/) { &view_god($res, 0); } else { &view_card($cno, sprintf %d, !(&syu_chk($cno, 0)) && !(&syu_chk($cno, 1)) ? 1 : 0); }
@@ -1358,7 +1397,7 @@ sub tourstart {
 					$NT{"p${pnum}name"} = $T{"p$num[$win[$pnum]]name"};
 					$NT{"p${pnum}deck"} = $T{"p$num[$win[$pnum]]deck"};
 					$NT{"p${pnum}win"} = $T{"p$num[$win[$pnum]]win"};
-					
+
 					$PR{$T{"p$num[$win[$pnum]]id"}} --;
 					delete($PR{$T{"p$num[$win[$pnum]]id"}}) if($PR{$T{"p$num[$win[$pnum]]id"}} == 0);
 					$sur_flg[$j] = 0;
@@ -1371,7 +1410,7 @@ sub tourstart {
 					$PR{$T{"p$num[$pnum]id"}} ++;
 				}
 			}
-			
+
 			$T{'accept'} = 0;
 			chmod 0666, "./tour/part.dat";
 			open(TRT, "> ./tour/part.dat");

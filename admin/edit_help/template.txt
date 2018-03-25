@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+	"http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>デュエル・マスターズ対戦CGI説明</title>
+<style type="text/css"><!-- 
+	body	{ background-color: #fffff0; font-size: small; }
+	.section{
+		width: 90%;
+		background-color: #ffffff;
+		margin: 2em auto;
+		padding: 1em;
+		border: 1px solid #999999;
+	}
+	ul		{ margin: 1.5em 2em; }
+	li		{ line-height: 1.5; margin-bottom: 0.3em; }
+	p,h2,h3,h4,dt
+			{ margin: 1em 2em ; line-height: 1.5; }
+	dd		{ margin: 0 3em 1em 3em ; line-height: 1.5; }
+	dd p	{ margin: 1em 0; }
+	em		{ color: red; font-style: normal; }
+	h1		{ text-align: center; }
+	hr		{ width: 90%; height: 1px; }
+	img		{ margin: 10px; }
+ --></style>
+</head>
+<body>
+{{CONTENTS}}
+</body>
+</html>

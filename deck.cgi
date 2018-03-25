@@ -310,7 +310,7 @@ sub add_card{
   foreach my $cardnum (@$couno) {
     for(1 .. $kaisu){
       if($card_cou[$cardnum] < 4){
-         if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119) || &syu_chk($cardnum, 151)) {
+         if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119) || syu_chk($cardnum, 151) || syu_chk($cardnum, 185) || syu_chk($cardnum, 186)) {
           unshift(@deckp,$cardnum);
         } else {
           unshift(@deck,$cardnum);
@@ -327,7 +327,7 @@ sub pickup{
   $F{'series'} = 0 unless $F{'series'};
   $F{'kind'} = 0 unless $F{'kind'};
   if($F{'sstr'} || $F{'sstr2'}){
-    $F{'series'} = 99;
+    $F{'series'} = 9999;
     $F{'kind'} = $cou = 0;
     undef(@disp);
     if($F{'sstr'}){
@@ -351,7 +351,7 @@ sub pickup{
     my %tmp;
     @disp = grep(!$tmp{$_}++,@disp);
     $overmsg = "<strong>条件に合うカードはありません</strong><br><br>\n" if $#disp < 0;
-  } elsif ($F{'series'} ne "99") {
+  } elsif ($F{'series'} ne "9999") {
     @disp = @{$ser[$F{'series'}]};
   } else {
     foreach my $i(0 .. $#c_name){
@@ -505,10 +505,10 @@ EOM
     <p class="search">
     拡張パック：
     <select name="series">
-        <option value="99"selected$selstr[99]>全種</option>
+        <option value="9999"selected$selstr[9999]>全種</option>
         
         <optgroup label = "基本編">
-            <option value="0" $selstr[0]>第１弾</option>
+            <option value="109" $selstr[109]>第１弾</option>
             <option value="1" $selstr[1]>第２弾</option>
             <option value="2" $selstr[2]>第３弾</option>
             <option value="3" $selstr[3]>第４弾</option>
@@ -569,27 +569,62 @@ EOM
             <option value="41" $selstr[41]>大決戦オールスター１２</option>
             <option value="79" $selstr[79]>激熱！ガチンコBEST</option>
             <option value="80" $selstr[80]></option>
-        <optgroup label = "再録パック">
-            <option value="17" $selstr[17]>ベストチャレンジャー</option>
-            <option value="51" $selstr[51]>双龍パック</option>
-            <option value="52" $selstr[52]>コロコロドリーム</option>
-            <option value="53" $selstr[53]>コロコロドリーム2</option>
-            <option value="54" $selstr[54]>コロコロドリーム3</option>
-            <option value="57" $selstr[57]>ヒーローズクロス</option>
-            <option value="106" $selstr[106]>キング・オブ・デュエルロード ストロング7</option>
+        <optgroup label = "エピソード３">
+            <option value="70" $selstr[70]>レイジＶＳゴッド</option>
+            <option value="81" $selstr[81]>最強戦略パーフェクト12</option>
+            <option value="95" $selstr[95]>デッド&ビート</option>
+            <option value="98" $selstr[98]>ウルトラＶマスター</option>
+            <option value="102" $selstr[102]>オメガ∞マックス</option>
+        <optgroup label = "ドラゴン・サーガ">
+            <option value="108" $selstr[108]>龍解ガイギンガ</option>
+            <option value="111" $selstr[111]>暴龍ガイグレン</option>
+            <option value="112" $selstr[112]>双剣オウギンガ</option>
+            <option value="113" $selstr[113]>超戦ガイネクスト×極</option>
+            <option value="114" $selstr[114]>超戦ガイネクスト×真</option>
+            <option value="122" $selstr[122]>龍の祭典！魂ドラゴンフェス！！</option>
+        <optgroup label = "革命編">
+            <option value="115" $selstr[115]>燃えろドギラゴン!!</option>
+            <option value="116" $selstr[116]>時よ止まれミラダンテ!!</option>
+            <option value="117" $selstr[117]>禁断のドキンダムX</option>
+            <option value="118" $selstr[118]>正体判明のギュウジン丸!!</option>
+        <optgroup label = "革命ファイナル">
+            <option value="119" $selstr[119]>ハムカツ団とドギラゴン剣</option>
+            <option value="120" $selstr[120]>世界は0だ!! ブラックアウト!!</option>
+            <option value="121" $selstr[121]>ドギラゴールデンvsドルマゲドンX</option>
+            <option value="123" $selstr[123]>ファイナル・メモリアル・パック ~E1・E2・E3編~</option>
+            <option value="124" $selstr[124]>ファイナル・メモリアル・パック ~DS・Rev・RevF編~</option>
+        <optgroup label = "デュエル・マスターズ">
+            <option value="126" $selstr[126]>Newヒーローデッキ ジョーのジョーカーズ</option>
+            <option value="127" $selstr[127]>Newヒーローデッキ キラのラビリンス</option>
+            <option value="128" $selstr[128]>Newヒーローデッキ ボルツのB・A・D</option>
+            <option value="130" $selstr[130]>ステキ！カンペキ！！ ジョーデッキーBOX</option>
+            <option value="131" $selstr[131]>クロニクル・レガシー・デッキ アルカディアス鎮魂歌</option>
+            <option value="132" $selstr[132]>クロニクル・レガシー・デッキ 風雲!!怒流牙忍法帖</option>
+            <option value="125" $selstr[125]>新1弾 ジョーカーズ参上！！</option>
+            <option value="129" $selstr[129]>新2弾 マジでB・A・Dなラビリンス！！</option>
+        <optgroup label = "デッキビルダー">
+            <option value="88" $selstr[88]>デッキビルダーDX　ハンター・エディション</option>
+            <option value="89" $selstr[89]>デッキビルダーDX　エイリアンエディション</option>
+            <option value="90" $selstr[90]>デッキビルダー鬼DX　ガンバ！勝太編</option>
+            <option value="91" $selstr[91]>デッキビルダー鬼DX　キラリ！レオ編</option>
+        <optgroup label = "フルホイルパック">
+            <option value="73" $selstr[73]>リバイバル・ヒーロー　ザ・ハンター</option>
+            <option value="74" $selstr[74]>リバイバル・ヒーロー　ザ・エイリアン</option>
+            <option value="97" $selstr[97]>仁義なきロワイヤル</option>
+        <optgroup label = "超王道戦略ファンタジスタ12">
+            <option value="107" $selstr[107]>ドラゴン・サーガ　超王道戦略ファンタジスタ12</option>
+        <optgroup label = "ヒーローズ・ビクトリー・パック">
+            <option value="75" $selstr[75]>大乱闘！ヒーローズ・ビクトリー・パック　燃えるド根性大作戦</option>
+            <option value="76" $selstr[76]>大乱闘！ヒーローズ・ビクトリー・パック　咆えろ野生の大作戦</option>
+        <optgroup label = "ドラマティック・ウォーズ">
+            <option value="77" $selstr[77]> ドラゴン＆ファイアー</option>
+            <option value="78" $selstr[78]>エンジェル＆デーモン</option>
+        <optgroup label = "ビギニング・ドラゴン・デッキ">
+            <option value="103" $selstr[103]>熱血の戦闘龍</option>
+            <option value="104" $selstr[104]>正義の天聖龍</option>
+            <option value="105" $selstr[105]>神秘の結晶龍</option>
         <optgroup label = "デッキ収録カード（再録なし）">
             <option value="55" $selstr[55]>スーパーデッキ ゼロ</option>
-            <option value="56" $selstr[56]>スーパーデッキ クロス</option>
-            <option value="58" $selstr[58]>変形デッキセット　DX鬼ドラゴン</option>
-            <option value="59" $selstr[59]>変形デッキセット　DX鬼エンジェル</option>
-            <option value="60" $selstr[60]>ライジング・ダッシュデッキ　反撃ブロック！</option>
-            <option value="61" $selstr[61]>エントリーパック・ゼロ　パーフェクト・エンジェル</option>
-            <option value="62" $selstr[62]>1stデッキ　アウトレイジ・ダッシュ</option>
-            <option value="63" $selstr[63]>1stデッキ　オラクル・ダッシュ</option>
-            <option value="64" $selstr[64]>ルナティック・ゴッド</option>
-            <option value="65" $selstr[65]>ウルトラ・NEX</option>
-            <option value="66" $selstr[66]>マッド・ロック・チェスター</option>
-            <option value="67" $selstr[67]>ザ・ゴッド・キングダム</option>
             <option value="83" $selstr[83]>スタートダッシュ　火＆自然編</option>
             <option value="84" $selstr[84]>スタートダッシュスタートダッシュ　水＆闇編</option>
             <option value="85" $selstr[85]>炎のキズナXX</option>
@@ -599,42 +634,32 @@ EOM
             <option value="93" $selstr[93]>禁断の変形デッキ アウトレイジの書</option>
             <option value="96" $selstr[96]>スーパーデッキMAX「カツキングと伝説の秘宝」 </option>
             <option value="100" $selstr[100]>スーパーデッキOMG「逆襲のイズモと聖邪神の秘宝」</option>
+            <option value="67" $selstr[67]>ザ・ゴッド・キングダム</option>
+            <option value="66" $selstr[66]>マッド・ロック・チェスター</option>
+            <option value="56" $selstr[56]>スーパーデッキ クロス</option>
+            <option value="58" $selstr[58]>変形デッキセット　DX鬼ドラゴン</option>
+            <option value="59" $selstr[59]>変形デッキセット　DX鬼エンジェル</option>
+            <option value="60" $selstr[60]>ライジング・ダッシュデッキ　反撃ブロック！</option>
+            <option value="61" $selstr[61]>エントリーパック・ゼロ　パーフェクト・エンジェル</option>
+            <option value="62" $selstr[62]>1stデッキ　アウトレイジ・ダッシュ</option>
+            <option value="63" $selstr[63]>1stデッキ　オラクル・ダッシュ</option>
+            <option value="64" $selstr[64]>ルナティック・ゴッド</option>
+            <option value="65" $selstr[65]>ウルトラ・NEX</option>
             <option value="101" $selstr[101]>ザ・サムライ・レジェンド</option>
-        <optgroup label = "エピソード３">
-            <option value="70" $selstr[70]>レイジＶＳゴッド</option>
-            <option value="81" $selstr[81]>最強戦略パーフェクト12</option>
-            <option value="95" $selstr[95]>デッド&ビート</option>
-            <option value="98" $selstr[98]>ウルトラＶマスター</option>
-            <option value="102" $selstr[102]>オメガ∞マックス</option>
+        <optgroup label = "再録パック">
+            <option value="17" $selstr[17]>ベストチャレンジャー</option>
+            <option value="51" $selstr[51]>双龍パック</option>
+            <option value="52" $selstr[52]>コロコロドリーム</option>
+            <option value="53" $selstr[53]>コロコロドリーム2</option>
+            <option value="54" $selstr[54]>コロコロドリーム3</option>
+            <option value="57" $selstr[57]>ヒーローズクロス</option>
+            <option value="106" $selstr[106]>キング・オブ・デュエルロード ストロング7</option>
         <optgroup label = "特別なカード">
             <option value="71" $selstr[71]>推進会拡張パック第一弾</option>
             <option value="72" $selstr[72]>大会優勝者用オリジナルカード</option>
             <option value="82" $selstr[82]>プロモーションカード2013</option>
             <option value="94" $selstr[94]>アゲアゲVS(アゲインスト)パック</option>
             <option value="99" $selstr[99]>プロモーションカード2014</option>
-        <optgroup label = "フルホイルパック">
-            <option value="73" $selstr[73]>リバイバル・ヒーロー　ザ・ハンター</option>
-            <option value="74" $selstr[74]>リバイバル・ヒーロー　ザ・エイリアン</option>
-            <option value="97" $selstr[97]>仁義なきロワイヤル</option>
-        <optgroup label = "ヒーローズ・ビクトリー・パック">
-            <option value="75" $selstr[75]>大乱闘！ヒーローズ・ビクトリー・パック　燃えるド根性大作戦</option>
-            <option value="76" $selstr[76]>大乱闘！ヒーローズ・ビクトリー・パック　咆えろ野生の大作戦</option>
-        <optgroup label = "ドラマティック・ウォーズ">
-            <option value="77" $selstr[77]> ドラゴン＆ファイアー</option>
-            <option value="78" $selstr[78]>エンジェル＆デーモン</option>
-        <optgroup label = "デッキビルダー">
-            <option value="88" $selstr[88]>デッキビルダーDX　ハンター・エディション</option>
-            <option value="89" $selstr[89]>デッキビルダーDX　エイリアンエディション</option>
-            <option value="90" $selstr[90]>デッキビルダー鬼DX　ガンバ！勝太編</option>
-            <option value="91" $selstr[91]>デッキビルダー鬼DX　キラリ！レオ編</option>
-        <optgroup label = "ビギニング・ドラゴン・デッキ">
-            <option value="103" $selstr[103]>熱血の戦闘龍</option>
-            <option value="104" $selstr[104]>正義の天聖龍</option>
-            <option value="105" $selstr[105]>神秘の結晶龍</option>
-        <optgroup label = "超王道戦略ファンタジスタ12">
-            <option value="107" $selstr[107]>ドラゴン・サーガ　超王道戦略ファンタジスタ12</option>
-        <optgroup label = "龍解ガイギンガ">
-            <option value="108" $selstr[108]>ドラゴン・サーガ　龍解ガイギンガ</option>
 
 </select>
     カード種別：
@@ -1125,7 +1150,7 @@ sub cardsort {
     if (&syu_chk($i, 96)) { push @sort_src4, $i; }
     elsif (&syu_chk($i, 1)) { push @sort_src3, $i; }
     elsif (&syu_chk($i, 0)) { push @sort_src2, $i; }
-    elsif (&syu_chk($i, 145) || &syu_chk($i, 150) || &syu_chk($i, 103) || &syu_chk($i, 119) || &syu_chk($i, 151)) { push @sort_src5, $i; }
+    elsif (&syu_chk($i, 145) || &syu_chk($i, 150) || &syu_chk($i, 103) || &syu_chk($i, 119) || &syu_chk($i, 151) || &syu_chk($i, 185) || &syu_chk($i, 186)) { push @sort_src5, $i; }
     else { push @sort_src1, $i; }
   }
   @sort_res1 = $F{'sortkey1'} == 0 ? sort s_bunmei @sort_src1 : $F{'sortkey1'} == 1 ? sort s_mana @sort_src1: $F{'sortkey1'} == 2 ? sort s_power @sort_src1 : $F{'sortkey1'} == 3 ? sort s_syuzoku @sort_src1 : sort s_name @sort_src1;

@@ -58,7 +58,7 @@ sub nuisance {
   &regist("null","$pn[$u_side]は荒らし報告を行った。");
 # &regist("null","$pn[$u_side2]に退室許可が出された。");
 # $sur_flg[$u_side2] = 1;
-  
+
   my @nui_id = ();
   $nui_id[1] = $nid1;
   $nui_id[2] = $nid2;
@@ -98,7 +98,7 @@ sub nuisance {
     unshift(@nuis, "$n_new<>$roomid<>$nui_id[$u_side]<>$nui_name[$u_side]<>$nui_id[$u_side2]<>$nui_name[$u_side2]<>$F{'nuicom'}<>" . time ."<>0<><>\n");
     unshift(@nuis, "$n_new\n");
   }
-  
+
   open(OUT,">nuisance/log/${roomid}_log") || &error("ログファイルに書き込めません");
   print OUT @numlogs;
   close(OUT);
@@ -547,7 +547,7 @@ sub break_chk {       # シールドブレイク枚数の決定
     } elsif ($c_name[$fld[$btl[2]]] eq "アルティメット・ドラゴン") {
       $crew = grep &syu_chk($fld[$_], 44, 50, 62, 66, 82, 83), @{$fw1[$turn2]};
       foreach my $i(@{$fw1[$turn2]}){
-        $crew++ if 
+        $crew++ if
            (&cloth_chk($i, 1106, 2050) && !(&syu_chk($fld[$i], 44, 50, 62, 66, 82, 83)))
         || &accel_chk2($i, "武装兵ミステリアス", "開龍妖精フィーフィー")
         || (&syu_chk($fld[$i], 56) && $btl[9]);
@@ -744,8 +744,8 @@ sub ninja_chk {   # ニンジャ・ストライクのチェック
   my $mana = &morph_chk($side);
   foreach my $card (@{$hand[$side]}) {
     push @res, $card if ($c_name[$card] =~ /轟火シシガミグレンオー/ && 7 < $mana)
-     || ($c_name[$card] =~ /斬隠オロチ|威牙の幻ハンゾウ|光牙王機ゼロカゲ/ && 6 < $mana)
-     || ($c_name[$card] =~ /土隠の式神センブーン/ && 4 < $mana)
+     || ($c_name[$card] =~ /斬隠オロチ|威牙の幻ハンゾウ|光牙王機ゼロカゲ|怒流牙 サイゾウミスト/ && 6 < $mana)
+     || ($c_name[$card] =~ /土隠の式神センブーン|怒流牙 佐助の超人|超越男/ && 4 < $mana)
      || ($c_name[$card] =~ /光牙忍ハヤブサマル|斬隠テンサイ・ジャニット|威牙忍ヤミノザンジ|威牙忍クロカゲ/ && 3 < $mana)
      || ($c_name[$card] =~ /土隠風の化身/ && 2 < $mana)
      || ($c_name[$card] =~ /威牙忍ヤミカゼ・ドラグーン/ && 1 < $mana)
@@ -1182,7 +1182,7 @@ sub break_btn {
   &com_error("バトル処理中にシールドをブレイクすることはできません") if $btl[0] ne "";
   @btl = ($u_side, $u_side2, "anonymous", undef, "player");
   &com_error("相手のシールドが１枚もないので、シールドをブレイクすることはできません") unless &shield_chk($u_side2);
-  unshift @syori, "s-$btl[0]<>t-ブレイクするシールドを選択してください<>m-battle_sel<>o-決定"; 
+  unshift @syori, "s-$btl[0]<>t-ブレイクするシールドを選択してください<>m-battle_sel<>o-決定";
 }
 
 #--------------------------------------------------------
@@ -1250,7 +1250,7 @@ sub change_phase {
       my $e_side = 3 - $turn2;
       if ((grep &tri_chk($fld[$_], 9)|| &tri_chk($fld[$_], 11), @{$fw1[$turn2]}) || (grep &tri_chk($fld[$_], 10), @{$fw1[$e_side]}) || &castle_chk($turn2, 2261)) {
         &s_mes(sprintf "%sドローする前にアンタップフェイズの処理を行う！", &castle_chk($turn2, 2261) ? "海底鬼面城の効果発動！　" : "クリーチャーの能力により、");
-      } else {  
+      } else {
         $phase = 1;
       }
     }
@@ -1301,7 +1301,7 @@ sub psychic {
 
 	my (%psy_top, %psy_back, %psy_super, %psy_cell);
 	eval (join "", (log_read("psychic.txt")));
-	
+
 	my %count;
 	map {
 		my ($fldno) = $_;
@@ -1342,7 +1342,7 @@ sub psychic {
 #		print FILE "$_\n";
 #		close (FILE);
 	} (grep !$count{$_}++, @fsel);
-	
+
 	undef @fsel;
 }
 
@@ -1365,7 +1365,7 @@ sub psy_link {
 			if ($sp) {
 				com_error("同じ名前のカードが2枚以上選ばれています") if ($chk{$cardno});
 				com_error("相手の場と自分の場のクリーチャーで覚醒リンクさせることはできません") if ($l_side != $side);
-				com_error("正しいリンク元の組み合わせを選んでください") unless (grep ($_ eq $cardno, @{$sp})); 
+				com_error("正しいリンク元の組み合わせを選んでください") unless (grep ($_ eq $cardno, @{$sp}));
 			} else {
 				$sp = $psy_super{$psy_cell{$cardno}};
 				$l_side = $side;
@@ -1375,12 +1375,12 @@ sub psy_link {
 			com_error("逆面がサイキック・セルでないクリーチャーは選択できません");
 		}
 	} (grep !$count{$_}++, @fsel);
-	
+
 	if ($sp) {
 		map {
 			com_error("カードの組み合わせが足りていません") unless ($chk{$_});
 		} @{$sp};
-		
+
 		my ($cardnames) = "";
 		my ($basefldno) = -1;
 		my ($reversedname) = "";
@@ -1388,7 +1388,7 @@ sub psy_link {
 		map {
 			my ($fldno) = $_;
 			my ($cardno, $side, $area) = ($fldno =~ /\-/) ? look_god($fldno) : look_fld($fldno);
-			
+
 			if ($basefldno < 0) {
 				$basefldno = $fldno;
 				$fld[$fldno] = $psy_cell{$cardno};
@@ -1404,10 +1404,10 @@ sub psy_link {
 			}
 			$cardnames .= "《$c_name[$cardno]》";
 		} (grep !$count{$_}++, @fsel);
-		
+
 		s_mes(sprintf "$pn[$l_side]の%sを覚醒リンク！　%s爆誕！", $cardnames, "《$reversedname》");
 	}
-	
+
 	undef @fsel;
 }
 
@@ -1439,7 +1439,7 @@ sub mekuru {
   $chudan_flg = $trigger_flg = "1";
   if ($F{'marea'} == 3) {
     &s_mes("$pn[$u_side]は相手の山札の一番上をめくって見た。");
-    &e_mes("相手の山札の一番上のカードは《$c_name[$deck[$u_side2][0]]》だった", $u_side); 
+    &e_mes("相手の山札の一番上のカードは《$c_name[$deck[$u_side2][0]]》だった", $u_side);
     unshift @syori, "s-$u_side<>t-カードを山札の一番下に戻しますか？<>m-mekuru_sel6<>o-はい::いいえ";
   } else {
     unshift @syori, sprintf "s-$u_side<>t-%s<>m-mekuru_sel%s<>o-%s%s",
@@ -1462,7 +1462,7 @@ sub mekuru_sel1 { # 指定シールドをめくる
     my $cou = $fldno - $fw3[$l_side][0] + 1;
     $f_tap[$fldno] = "1";
     &s_mes(sprintf "$pn[$u_side]は%sシールド$couをめくって見た。", $l_side == $u_side ? "自分の" : "相手の");
-    &e_mes("シールド$couのカードは$nameだった", $u_side); 
+    &e_mes("シールド$couのカードは$nameだった", $u_side);
     undef @shield;
   }
   undef @fsel;
@@ -1619,17 +1619,17 @@ sub move {
 
   # 超次元ゾーンへ
   if ( $parea == 9 ) {
-  
+
     if ( $F{'decktop'} ) {
       $cardno = ${$deck[$u_side]}[0];
-      com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+      com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
       $cardno = shift @{$deck[$u_side]};
       move_sub($cardno, $u_side);
     } else {
       if (@sel) {
         foreach my $sel (@sel) {
           $cardno = ${ $varea == 0 ? $hand[$vside] : $varea == 1 ? $boti[$vside] : $varea == 2 ? $deck[$vside] : $varea == 3 ? $psychic[$vside] : $hand[$vside] }[$sel];
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $sel (@sel) {
           $cardno = pick_card($sel);
@@ -1638,21 +1638,22 @@ sub move {
       } else {
         foreach my $evono (@ssel) {
           my($cardno, $l_side, $area) = look_evo($evono);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $fldno (@fsel) {
           my($cardno, $l_side, $area) = look_fld($fldno);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $gsel (@gsel) {
           my($cardno, $l_side, $area) = look_gene($gsel);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
         foreach my $csel (@csel) {
           my($cardno, $l_side, $area) = look_cloth($csel);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151));
+          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  unless (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186));
         }
-        
+
         foreach my $evono (@ssel) {
           move_sub(pick_evo($evono));
         }
@@ -1666,7 +1667,7 @@ sub move {
           move_sub(pick_cloth($csel));
         }
       }
-      
+
     }
     &del_move;
   } elsif (6 < $parea) { # 進化獣もしくはシールドの下
@@ -1857,7 +1858,7 @@ sub put_card_sub {
   $parea == 0 && $F{'decktop'} ? "カード、《$c_name[$cardno]》" : $parea == 0 ? "《$c_name[$cardno]》" : "カード",
   $parea == 0 ? "マナゾーン" : "シールド",
   $parea == 0 ? "出した。" : "セット！");
-  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151))  {
+  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186))  {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
     push (@{$psychic[$u_side]}, $cardno);
   } else {
@@ -1963,7 +1964,7 @@ sub move2 {     # フィールドから手札、墓地、山札へ移動
 sub move_sub {
   my $side = $_[0];
   &p_mess;
-  if ((syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151)) && ($parea != 9)) {
+  if ((syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186)) && ($parea != 9)) {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
     push (@{$psychic[$side]}, $cardno);
   } else {
@@ -1989,6 +1990,16 @@ sub pick_card2 {
   $fld[$fldno] = $f_tap[$fldno] = $f_block[$fldno] = $f_drunk[$fldno] = "";
   &which_side($fldno);
   &shinka_sub($fldno);
+  &cloth_sub($fldno);
+  &sforth_sub($fldno);
+}
+
+sub pick_card4 { # 今のところ墓地進化に使用
+  next if $boti[$u_side][$fldno] eq "";
+  $cardno = $boti[$u_side][$fldno];
+  $cardno =~ s/\-s$// if $cardno =~ /\-s$/;
+  &which_side($fldno, 'boti');
+  &shinka_sub3($fldno);
   &cloth_sub($fldno);
   &sforth_sub($fldno);
 }
@@ -2141,10 +2152,34 @@ sub shinka_sub2 {
   $fld[$fno] = $chudan;
 }
 
+sub shinka_sub3 { # 今のところ墓地進化に使用
+  my $fldno = $_[0];
+  # 墓地から進化元カード削除
+  $boti[$u_side][$fldno] = "";
+  if ($shinka[$fldno] ne "") {
+    my @evo = split /-/, $shinka[$fldno];
+    $fld[$fldno] = pop @evo;
+    &set_block($fldno, $fld[$fldno]);
+    $shinka[$fldno] = join "-", @evo;
+    undef @evo;
+  }
+}
+
 sub mana_shinka_sub {
   $fldno = $F{'select'};
   &pick_card2;
   &fld_chk($l_side);
+  $fno = $nf0;
+  $shinka[$fno] .= "$cardno";
+  $f_block[$fno] = $f_drunk[$fno] = "";
+  $fld[$fno] = $chudan;
+}
+
+# 墓地進化処理関数
+sub boti_shinka_sub {
+  $fldno = $F{'select'};
+  &pick_card4;
+  &fld_chk($u_side);
   $fno = $nf0;
   $shinka[$fno] .= "$cardno";
   $f_block[$fno] = $f_drunk[$fno] = "";
@@ -2240,8 +2275,8 @@ sub magic {
 #   &del_null(*fw3, $side);
 #   &s_mes("$pn[$side]は自分のシールドをシャッフルした！");
   } elsif ($card eq "ザ・ユニバース・ゲート") {
-    &s_mes("$pn[$side]は山札を３枚めくった！"); 
-    &s_mes("めくったカードは《$c_name[$deck[$side][0]]》《$c_name[$deck[$side][1]]》《$c_name[$deck[$side][2]]》だった！"); 
+    &s_mes("$pn[$side]は山札を３枚めくった！");
+    &s_mes("めくったカードは《$c_name[$deck[$side][0]]》《$c_name[$deck[$side][1]]》《$c_name[$deck[$side][2]]》だった！");
     $skip_flg = grep &syu_chk($_, 4), (@{$deck[$side]}[0..2]);
     &s_mes("$pn[$side]のターンがあと$skip_flg回行われる！") if 0 < $skip_flg;
   } elsif ($card eq "星龍の記憶") {
@@ -2361,12 +2396,12 @@ sub changer_sel1 {
     }
     if ($S{'p'} eq "shield") {
       my $name = join "", map { "《" . $c_name[$_] . "》"; } @card if $S{'a'} eq "field";
-      &s_mes(sprintf "$pn[$u_side]は%s%sをシールドの下に置いた。", 
+      &s_mes(sprintf "$pn[$u_side]は%s%sをシールドの下に置いた。",
         $S{'a'} eq "field" ? "" : $S{'a'} eq "0" ? "手札から" : $S{'a'} eq "1" ? "墓地から" : "山札から",
         $S{'a'} eq "field" ? "$name" : "カード"
       );
       for (my ($i) = 0; $i < scalar @card; $i++) {
-        if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || syu_chk($card[$i], 151)) {
+        if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || &syu_chk($card[$i], 151) || &syu_chk($card[$i], 185) || &syu_chk($card[$i], 186)) {
           s_mes("《$c_name[$card[$i]]》は超次元ゾーンに送られた。");
           push (@{$psychic[$u_side]}, splice (@card, $i, 1));
           $i--;
@@ -2381,7 +2416,7 @@ sub changer_sel1 {
       unshift @syori, "s-$u_side<>t-カードを置く順番を選んでください<>m-changer_sel2<>o-決定";
     }
   } else {
-    &e_mes("カードの移動をキャンセルしました", $u_side); 
+    &e_mes("カードの移動をキャンセルしました", $u_side);
     if ($S{'a'} ne "field") {
       local *arr = $S{'a'} == 0 ? *hand : $S{'a'} == 1 ? *boti : *deck;
       map { unshift @{$arr[$u_side]}, $_ } (split /-/, $chudan);
@@ -2452,11 +2487,28 @@ sub put_gear_chk_sub {
 sub put_cre_chk {
   my $cno = $_[0];
   if ($c_evo[$cno] ne "") {   # 進化クリーチャーの処理
-    if ($c_evo[$cno]>=8) {  # マナ進化
+    if ($c_evo[$cno]>=8 && $c_evo[$cno] < 11) {  # マナ進化
       my @bun = (split /,/, $c_bun[$cno]);
       foreach my $i(@{$fw4[$u_side]}){
         next if $fld[$i] eq "";
         push @res, $i if &bun_chk2($fld[$i], \@bun) && !(&syu_chk($fld[$i], 0, 1));
+      }
+    }elsif ($c_evo[$cno]==11) {  # 墓地進化
+      my @bun = (split /,/, $c_bun[$cno]);
+      foreach (0..$#{$boti[$u_side]}){
+        push @res, $_ if &bun_chk2($boti[$u_side][$_], \@bun) && !(&syu_chk($boti[$u_side][$_], 0, 1));
+      }
+    }elsif ($c_evo[$cno]>=12) {  # 墓地進化V・GV
+      my @bun = (split /,/, $c_bun[$cno]);
+      my @vor = $c_name[$cno] eq "火之鳥カイザー・アイニー" ? (59)
+            : $c_name[$cno] eq "超神龍ハカイシ・ハカイ" ? (44)
+            : (-1);
+      foreach (0..$#{$boti[$u_side]}){
+        if ($vor[0] != -1) {
+          push @res, $_ if &syu_chk2($boti[$u_side][$_], \@vor);
+        } else {
+          push @res, $_ if &bun_chk2($boti[$u_side][$_], \@bun) && !(&syu_chk($boti[$u_side][$_], 0, 1));
+        }
       }
     } elsif (4 <= $c_evo[$cno]) {
       if ($c_name[$cno] eq "ＪＫ神星シャバダバドゥー") {
@@ -2530,10 +2582,10 @@ sub put_cre_chk {
     }
     undef %tmp;
     @res = grep !$tmp{$_}++, @res;
-    if ((($c_evo[$cno] == 4 || $c_evo[$cno] == 10) && $#res < 2) || ((4 < $c_evo[$cno] && $c_evo[$cno] != 8) && $#res < 1) || $#res < 0) {
+    if ((($c_evo[$cno] == 4 || $c_evo[$cno] == 10 || $c_evo[$cno] == 13 ) && $#res < 2) || ((4 < $c_evo[$cno] && $c_evo[$cno] != 8 && $c_evo[$cno] != 11) && $#res < 1) || $#res < 0) {
       undef @res;
       undef @vor if 0 < $#res;
-      my $str = $#res < 0 && $c_evo[$cno] !~ /[45679]/ ? sprintf "進化できるクリーチャーが%sゾーンにいません", $c_evo[$cno] < 8 ? "バトル" : "マナ" : sprintf "%sボルテックスに必要なクリーチャーが揃っていません", $c_evo[$cno] == 4 ? "ギャラクシー・" : "";
+      my $str = $#res < 0 && $c_evo[$cno] !~ /4|5|6|7|9|10|12|13/ ? sprintf "進化できるクリーチャーが%sにいません", $c_evo[$cno] < 8 ? "バトルゾーン" : $c_evo[$cno] == 8 ? "マナゾーン" : "墓地" : sprintf "%sボルテックスに必要なクリーチャーが揃っていません", $c_evo[$cno] == 4 || $c_evo[$cno] == 10 || $c_evo[$cno] == 13 ? "ギャラクシー・" : "";
       if ($_[1] eq "tri") {
         &e_mes("$str", $btl[1]);
         &e_mes("シールドを手札に戻します", $btl[1]);
@@ -2623,14 +2675,14 @@ sub put_cre_chk {
 }
 
 sub put_card_dialog {
-  my ($cno, $process) = @_; 
+  my ($cno, $process) = @_;
   my $str = &syu_chk($cno, 84) ? "Ｇ・リンクしますか？<>m-glink_sel<>o-する::しない"
       : &syu_chk($cno, 96) ? "要塞化するシールドを選択してください<>m-castle_sel<>o-決定::やめる"
       : &syu_chk($cno, 1) && !($c_evo[$cno]) ? "クロスさせるクリーチャーを選択してください<>m-cloth_sel2<>o-決定::やめる"
-      : sprintf "%s%sを選んでください<>m-%s_sel<>o-決定::やめる", 
-        3 < $c_evo[$cno] && $c_evo[$cno] != 8 ? "一番下の" : "進化させる",
+      : sprintf "%s%sを選んでください<>m-%s_sel<>o-決定::やめる",
+        3 < $c_evo[$cno] && $c_evo[$cno] != 8 && $c_evo[$cno] != 11 ? "一番下の" : "進化させる",
         &syu_chk($cno, 1) ? "クロスギア" : "クリーチャー",
-        &syu_chk($cno, 1) ? "c_shinka" : 3 < $c_evo[$cno] && $c_evo[$cno] != 8 ? "vor" : "shinka";
+        &syu_chk($cno, 1) && $c_evo[$cno] != 11 ? "c_shinka" : 3 < $c_evo[$cno] && $c_evo[$cno] != 8 ? $c_evo[$cno] == 11 ? "b_shinka" : 12 <= $c_evo[$cno] ?"b_vor" : "vor" : "shinka";
   unshift @syori, sprintf "s-%d<>t-$str<>a-%s%s",
         $process eq "tri" ? $btl[1] : $u_side,
         $process eq "tri" ? "tri" : $F{'decktop'} ? "decktop" : $process ne "" ? "$process" : "",
@@ -2670,6 +2722,11 @@ sub shinka_chk {  # 進化（種族）元クリーチャーのチェック
   &accel_chk("悪魔怪人デスブラッド")  if grep $_ == 41, @evo;
 }
 
+sub shinka_chk3 {  # 墓地進化（種族）元クリーチャーのチェック TODO 本当はこれでチェックしたい
+  my @evo = @_;
+  map { push @res, $_ if &syu_chk2($boti[$u_side][$_], \@evo) } 0..$#{$boti[$u_side]};
+}
+
 sub shinka_chk2 { # 進化（文明）元クリーチャーのチェック
   my @bun = @_; my @evo = ();
   foreach my $bun(@bun) {
@@ -2684,12 +2741,26 @@ sub shinka_chk2 { # 進化（文明）元クリーチャーのチェック
   }
 }
 
+sub shinka_chk4 { # 墓地進化（文明）元クリーチャーのチェック TODO 本当はこれでチェックしたい
+  my @bun = @_; my @evo = ();
+  foreach my $bun(@bun) {
+    my @bun2 = ($bun);
+    map { push @evo, $_ if $boti[$u_side][$_] ne "" && &bun_chk2($boti[$u_side][$_], \@bun2) } 0..$#{$boti[$u_side]};
+    if ($#evo < 0) {
+      undef @res; undef @vor;
+      &com_error("ボルテックス進化に必要なクリーチャーが揃っていません");
+    }
+    @res = (@res, @evo);
+    undef @evo;
+  }
+}
+
 sub accel_chk {   # 自分のバトルゾーンにアクセル状態の指定クリーチャーがいるかどうか
   my $card = $_[0];
   map { push @res, $_ if $f_cloth[$_] ne "" && $c_name[$fld[$_]] eq $card } @{$fw1[$u_side]};
 }
 
-sub accel_chk2 {  # 
+sub accel_chk2 {  #
   my $fno = shift; my @cre = @_;
   return 0 if $f_cloth[$fno] eq "";
   return grep $c_name[$fld[$fno]] eq $_, @cre;
@@ -2752,7 +2823,7 @@ sub put_card2_sub {
   &p_mess;
   my $fno = $parea == 0 ? $nf3 : $nf2;
   my $e_side = $l_side ? 3 - $l_side : 3 - $u_side;
-  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151)) {
+  if (syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186)) {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
     push (@{$psychic[$side]}, $cardno);
   } else {
@@ -2797,7 +2868,7 @@ sub cloth {
 sub cloth_sel1 {
   return if !($F{'run_select'}) && !($F{'not_select'});
   if ($F{'not_select'}) {
-    &e_mes("クロスギアの選択をキャンセルしました", $u_side); 
+    &e_mes("クロスギアの選択をキャンセルしました", $u_side);
     shift @syori;
     $chudan_flg = "";
   } else {
@@ -2831,7 +2902,7 @@ sub cloth_sel2 {
       my ($fno, $k) = split /\-/, $S{'g'};
       $f_cloth[$fno] .= $f_cloth[$fno] eq "" ? "$chudan" : "_$chudan";
     }
-    &e_mes("クロスをキャンセルしました", $u_side); 
+    &e_mes("クロスをキャンセルしました", $u_side);
   } else {
     map { push @fsel, $1 if $_ =~ /^fsel(\d+)/ } keys(%F);
     &com_error("クロスさせるクリーチャーが指定されていません") if $#fsel < 0;
@@ -2858,13 +2929,17 @@ sub fld_chk {
   foreach my $i (@{$fw4[$side]}) { if ($fld[$i] eq "") { $nf3 = $i; last; } }
 }
 
+sub b_shinka_sel {
+	&shinka_sel;
+}
+
 sub shinka_sel {
   return if !($F{'run_select'}) && !($F{'not_select'});
   &syori_p_set;
   if ($F{'run_select'}) {
     &s_mes("シールド・トリガー、超動！") if $S{'p'} eq "tri";
     &s_mes(sprintf "%sの進化クリーチャー・《$c_name[$chudan]》降臨！", $S{'p'} eq "tri" ? "$pn[$btl[1]]" : "$pn[$u_side]");
-    if ($c_evo[$chudan] == 8) { &mana_shinka_sub; } else { &shinka_sub2; }
+    if ($c_evo[$chudan] == 8) { &mana_shinka_sub; } elsif ($c_evo[$chudan] == 11) { &boti_shinka_sub; } else { &shinka_sub2; }
     shift @syori;
     if ($S{'p'} eq "tri") {
       unshift @syori, "s-$btl[1]<>t-シールド・トリガーの処理を終了しますか？<>m-trigger_sel3<>o-終了する";
@@ -2873,7 +2948,7 @@ sub shinka_sel {
     $chudan_flg = "";
     &put_battle_zone_koka($chudan, $fno);
   } else {
-    &e_mes("進化をキャンセルしました", $u_side); 
+    &e_mes("進化をキャンセルしました", $u_side);
     if ($S{'p'} eq "tri") {
       &pursue;
       &breaker;
@@ -2919,7 +2994,7 @@ sub c_shinka_sel {
       &pursue;
       &breaker;
     } else {
-      &e_mes("進化をキャンセルしました", $u_side); 
+      &e_mes("進化をキャンセルしました", $u_side);
       local *arr = $S{'a'} == 0 ? *hand : $S{'a'} == 1 ? *boti : *deck;
       unshift @{$arr[$u_side]}, $chudan;
     }
@@ -2935,9 +3010,10 @@ sub vor_sel1 {
   if ($F{'run_select'}) {
     &vor_sub1;
     &syori_p_set;
-    $syori[0] = sprintf "s-$u_side<>t-%s体目のクリーチャーを選んでください<>m-vor_sel%s<>a-$S{'a'}<>o-決定::やめる",
+    $syori[0] = sprintf "s-$u_side<>t-%s体目のクリーチャーを選んでください<>m-%s%s<>a-$S{'a'}<>o-決定::やめる",
       $vor_cnt == 2 ? "三" : "二",
-      ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10) && $vor_cnt == 1 ? "" : 2;
+      12 <= $c_evo[$chudan] ? "b_vor_sel" : "vor_sel",
+      ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10 || $c_evo[$chudan] == 13) && $vor_cnt == 1 ? "" : 2;
   } else {
     &vor_cancel;
   }
@@ -2946,8 +3022,8 @@ sub vor_sel1 {
 sub vor_sel2 {
   return if !($F{'run_select'}) && !($F{'not_select'});
   if ($F{'run_select'}) {
-    if (9 <= $c_evo[$chudan]) { &mana_vor_sub2; } else { &vor_sub2; }
-    &s_mes(sprintf "超進化！　$pn[$u_side]の%s《$c_name[$chudan]》光臨！", ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10) ? "ギャラクシー・ボルテックス" : "ボルテックスクリーチャー");
+    if (12 <= $c_evo[$chudan]) { &boti_vor_sub2; } elsif (9 <= $c_evo[$chudan]) { &mana_vor_sub2; } else { &vor_sub2; }
+    &s_mes(sprintf "超進化！　$pn[$u_side]の%s《$c_name[$chudan]》光臨！", ($c_evo[$chudan] == 4 || $c_evo[$chudan] == 10 || $c_evo[$chudan] == 13) ? "ギャラクシー・ボルテックス" : "ボルテックスクリーチャー");
     @res = @vor = (); $chudan = $chudan_flg = $vor_cnt = "";
     &syori_clr;
   } else {
@@ -3011,9 +3087,34 @@ sub mana_vor_sub2 {
   &set_block($fno, $chudan);
 }
 
+# 墓地進化ボルテックス処理
+sub boti_vor_sub2 {
+  &com_error("2体目のクリーチャーが指定されていません") if $F{'select'} eq "";
+  my $m_evo = "";
+  if ($c_evo[$chudan] == 13) {
+    for my $i (-2..-1) {
+      $fldno = $vor[$i];
+      &pick_card4;
+      $m_evo .= $m_evo eq "" ? "$cardno" : "-$cardno";
+    }
+  } else {
+    $fldno = $vor[-1];
+    &pick_card4;
+    $m_evo .= $m_evo eq "" ? "$cardno" : "-$cardno";
+  }
+  $fldno = $F{'select'};
+  &pick_card4;
+  $m_evo .= $m_evo eq "" ? "$cardno" : "-$cardno";
+  &fld_chk($l_side);
+  my $fno = $nf0;
+  $shinka[$fno] = $m_evo;
+  $fld[$fno] = $chudan;
+  &set_block($fno, $chudan);
+}
+
 sub vor_cancel {
   &syori_p_set;
-  &e_mes("ボルテックス進化をキャンセルしました", $u_side); 
+  &e_mes("ボルテックス進化をキャンセルしました", $u_side);
   local *arr = $S{'a'} == 0 ? *hand : $S{'a'} == 1 ? *boti : *deck;
   unshift @{$arr[$u_side]}, $chudan;
   shift @syori; undef @vor; undef @res;
@@ -3035,7 +3136,7 @@ sub glink_sel { # 通常のゴッドリンク
         $syori[0] = "s-$u_side<>t-どちら側にリンクしますか？<>m-glink_sel2<>o-左::右<>g-$fno";
         return;
       } else {
-        $fld[$fno] = 
+        $fld[$fno] =
           (($c_name[$chudan] eq "黒神ダーク・インドラ" && $fld[$fno] =~ /1966$/)
             || ($c_name[$chudan] eq "炎神フレイム・アゴン" && $fld[$fno] =~ /1962$/)
             || ($c_name[$chudan] eq "地神エメラルド・ファラオ" && $fld[$fno] =~ /1963$/)
@@ -3099,7 +3200,7 @@ sub castle_sel {  # 城
     $f_cloth[$fno] .= $f_cloth[$fno] eq "" ? "$chudan" : "-$chudan";
     &s_mes("城発動！　$pn[$u_side]のシールドを《$c_name[$chudan]》で要塞化！");
   } else {
-    &e_mes("シールドの要塞化をキャンセルしました", $u_side); 
+    &e_mes("シールドの要塞化をキャンセルしました", $u_side);
     if ($S{'p'} eq "tri") {
       &pursue;
       &breaker;
@@ -3114,7 +3215,8 @@ sub castle_sel {  # 城
 
 sub which_side {
   my $fno = $_[0];
-  if    (&ex_chk($fno, \@{$fw1[$u_side]}))  { $l_side = $u_side; $area = 0; }
+  if    ($_[1] eq 'boti') { $l_side = $u_side; $area = ""; }
+  elsif (&ex_chk($fno, \@{$fw1[$u_side]}))  { $l_side = $u_side; $area = 0; }
   elsif (&ex_chk($fno, \@{$fw2[$u_side]}))  { $l_side = $u_side; $area = 1; }
   elsif (&ex_chk($fno, \@{$fw3[$u_side]}))  { $l_side = $u_side; $area = 2; }
   elsif (&ex_chk($fno, \@{$fw4[$u_side]}))  { $l_side = $u_side; $area = 3; }
