@@ -167,10 +167,10 @@ sub frame {
 	print <<"EOM";
 </head>
 <!--<frameset rows="64,*,240">-->
-<frameset rows="*,240">
+<frameset rows="*">
 <!--<frame src="taisen.cgi?mode=menu&id=$id&pass=$pass" name="menu" scrolling="no">-->
 <frame src="taisen.cgi?mode=$roomtype&id=$id&pass=$pass" name="main" scrolling="yes">
-<frame src="taisen.cgi?mode=view&id=$id&pass=$pass&line=30" name="chat" scrolling="yes">
+<!--<frame src="taisen.cgi?mode=view&id=$id&pass=$pass&line=30" name="chat" scrolling="yes">-->
 </frameset>
 <noframes>
 <body>デュエルCGIはフレーム対応のブラウザでプレイしてください。</body>
@@ -294,76 +294,46 @@ sub room {
   				\$('#chatInputArea').hide("slow");
   			}
     	});
+
+		\$('#menu li').hover(function(){
+			\$("ul:not(:animated)", this).slideDown();
+		}, function(){
+			\$("ul.child",this).slideUp();
+		});
   	});
     
-    
+	
 // --></script>
 </head>
-<body>
+<body onLoad="setTimeout('iFlash()',800); document.chatForm.submit();">
 <div align="center">
-EOM
-	if ( int( rand(12) ) == 0 ) {
-		print
-"<img src=\"./images/yukkuri_left_doremi.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/yukkuri_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/yukkuri_right_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	elsif ( int( rand(24) ) == 0 ) {
-		print
-"<img src=\"./images/cgi_logo_omote_v.gif\" width=\"480\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-	}
-	elsif ( int( rand(12) ) == 0 ) {
-		print
-"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_center_doremi.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	elsif ( int( rand(36) ) == 0 ) {
-		print
-"<img src=\"./images/cgi_logo_tatae_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_tatae_word.gif\" width=\"416\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	elsif ( $F{'mode'} eq 'tour' ) {
-		print
-"<img src=\"./images/cgi_logo_ura_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_ura_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	else {
-		print
-"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		if ( int( rand(8) ) == 0 ) {
-			print
-"<img src=\"./images/cgi_logo_omote_right_light.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		elsif ( int( rand(8) ) == 0 ) {
-			print
-"<img src=\"./images/cgi_logo_omote_right_d.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		elsif ( int( rand(4) ) == 0 ) {
-			print
-"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		else {
-			print
-"<img src=\"./images/cgi_logo_omote_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		print "<br><br>\n";
-	}
-	print <<"EOM";
+
+<ul id="menu">
+    <li><a href="javascript:sForm('index', '', '');">トップ</a></li>
+    <li>対戦
+        <ul class="child">
+            <li><a href="javascript:sForm('freeroom', '', '');">フリールーム</a></li>
+            <li><a href="javascript:sForm('tourroom', '', '');">トーナメントルーム</a></li>
+        </ul>
+    </li>
+    <li>編集
+        <ul class="child">
+            <li><a href="javascript:sForm('deck', '', '');">デッキ構築</a></li>
+            <li><a href="javascript:sForm('group', '', '');">グループ編集</a></li>
+			<li><a href="javascript:sForm('list', '', '');">リスト編集</a></li>
+        </ul>
+    </li>
+	<li><a href="#" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">トーナメント 応募</a></li>
+    <li class="menu">お知らせ
+        <ul class="child">
+            <li><a href="#" onclick="window.open('psychic_list.html', '', 'width=400,height=500,scrollbers=yes');">覚醒可能クリーチャー</a></li>
+            <li><a href="javascript:sForm('info', '', '');">ルール・マナー</a></li>
+            <li><a href="javascript:sForm('nuisance', '', '');">迷惑行為</a></li>
+        </ul>
+    </li>
+	<li><a href="javascript:sForm('log', '', '');">チャットログ</a></li>
+</ul>
+
 <form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
@@ -375,118 +345,6 @@ EOM
 	&roomlist;
 	print <<"EOM";
 </form>
-</div>
-</body>
-</html>
-EOM
-	exit;
-}
-
-sub chat {
-	if ( mkdir( "./memlock", 0777 ) ) {
-		open( MEM, "./member.dat" );
-		@member = <MEM>;
-		close(MEM);
-
-		@new_member = ();
-		for ( my ($i) = 0 ; $i <= $#member ; $i++ ) {
-			my ( $mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time,
-				$mem_ip, $mem_channel )
-			  = split( /<>/, $member[$i] );
-			if ( ( $mem_id ne $F{'id'} ) && ( $mem_time > time - 300 ) ) {
-				push( @new_member, $member[$i] );
-			}
-		}
-		push( @new_member,
-			    "$F{'id'}<>$P{'name'}<>$P{'drank'}<>$P{'comment'}<>" 
-			  . time
-			  . "<>$ENV{'REMOTE_ADDR'}<>$P{'channel'}<>\n" );
-		open( MEM, "> ./member.dat" );
-		print MEM @new_member;
-		close(MEM);
-		rmdir("./memlock");
-	}
-	else {
-		my $locktime = ( stat "./memlock" )[9];
-		rmdir("./memlock") if ( $locktime < time - 30 );
-	}
-	&read_log;
-	shift(@lines);
-	&header;
-	print <<"EOM";
-<script language="javascript">
-<!--
-	with(document);
-	function sForm(M,R,C) {
-		entrance.mode.value = M;
-		entrance.room.value = R;
-		entrance.chara.value = C;
-		entrance.target = (M == "prof") ? "_blank" : "_self";
-		entrance.submit();
-	}
-
-	function autoDelete(N) {
-		entrance.num.value = N;
-		entrance.pass2.value = '${pass}';
-		sForm('delete', '', '');
-	}
-// --></script>
-<script language="JavaScript">
-<!--
-vType   = ["visible","hidden"];
-flag    = 0;		//　点滅フラグ
-imgName = "myIMG";	//　点滅させる画像名
-function iFlash()
-{
-
-	document.images[imgName].style.visibility = vType[flag ^= 1];
-	setTimeout('iFlash()',800);
-}
-
-// --></script>
-</head>
-<body onLoad="setTimeout('iFlash()',800); document.chatForm.submit();">
-<div align="center">
-<table border="0" width="640" cellpadding="0" cellspacing="0">
-<tr><td align="left">
-参加者一覧:
-EOM
-	my (@whitelist) = split( /\,/, $P{'white'} );
-	my (@blacklist) = split( /\,/, $P{'black'} );
-	for ( my ($i) = 0 ; $i <= $#new_member ; $i++ ) {
-		my ( $mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip,
-			$mem_channel )
-		  = split( /<>/, $new_member[$i] );
-		my ( $mem_sec, $mem_min, $mem_hour, $mem_mday, $mem_mon, $mem_year ) =
-		  localtime($mem_time);
-		$mem_wdate = sprintf( "%02d:%02d:%02d", $mem_hour, $mem_min, $mem_sec );
-		$bgcolor =
-		  ( grep( /^$mem_id$/, @blacklist ) )
-		  ? ' style="background-color: #888888;"'
-		  : ( grep( /^$mem_id$/, @whitelist ) )
-		  ? ' style="background-color: #ffffff;"'
-		  : '';
-		print
-" \[<a href=\"javascript:sForm('prof', '', '$mem_id');\"$bgcolor>$mem_name</a>\]";
-		print "," if ( $i < $#new_member );
-	}
-	print <<"EOM";
-</td></tr>
-</table>
-<hr width="640">
-
-<form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
-	<input type="hidden" name="id" value="$id">
-	<input type="hidden" name="pass" value="$pass">
-	<input type="hidden" name="mode" value="">
-	<input type="hidden" name="subm" value="view">
-	<input type="hidden" name="room" value="">
-	<input type="hidden" name="chara" value="">
-EOM
-	&logview;
-	print <<"EOM";
-</form>
-
 </div>
 </body>
 </html>
@@ -629,71 +487,11 @@ sub html {
 	}
 // --></script>
 </head>
-<body>
+<body onLoad="setTimeout('iFlash()',800); document.chatForm.submit();">
 <div align="center">
 <!--<h1>$title</h1>-->
 EOM
-	if ( int( rand(12) ) == 0 ) {
-		print
-"<img src=\"./images/yukkuri_left_doremi.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/yukkuri_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/yukkuri_right_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	elsif ( int( rand(24) ) == 0 ) {
-		print
-"<img src=\"./images/cgi_logo_omote_v.gif\" width=\"480\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-	}
-	elsif ( int( rand(12) ) == 0 ) {
-		print
-"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_center_doremi.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	elsif ( int( rand(36) ) == 0 ) {
-		print
-"<img src=\"./images/cgi_logo_tatae_onpu.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_tatae_word.gif\" width=\"416\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	elsif ( $F{'mode'} eq 'tour' ) {
-		print
-"<img src=\"./images/cgi_logo_ura_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_ura_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print "<br><br>\n";
-	}
-	else {
-		print
-"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		print
-"<img src=\"./images/cgi_logo_center.gif\" width=\"352\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		if ( int( rand(8) ) == 0 ) {
-			print
-"<img src=\"./images/cgi_logo_omote_right_light.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		elsif ( int( rand(8) ) == 0 ) {
-			print
-"<img src=\"./images/cgi_logo_omote_right_d.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		elsif ( int( rand(4) ) == 0 ) {
-			print
-"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		else {
-			print
-"<img src=\"./images/cgi_logo_omote_right.gif\" width=\"64\" height=\"96\" alt=\"DMCGI ex\" title=\"$title\">";
-		}
-		print "<br><br>\n";
-	}
+	
 	print <<"EOM";
 <table width="640" border="1" cellspacing="0" cellpadding="10" class="table"><tr><td>
 <div style="width: 100%; height: 200px; overflow: scroll;">
@@ -858,46 +656,7 @@ sub roomlist {
 <!-- ナビテーブル（右） -->
 <table align="center" width="100%">
 <tr><td>
-
-<div id="nav">
-    <ul class="top-level">
-        <li class="category1"><a href="javascript:sForm('index', '', '');">トップ</a></li>
-        <li class="category2"><a href="#">対戦</a>
-            <ul class="sub-level">
-                <li><a href="javascript:sForm('freeroom', '', '');">フリールーム</a></li>
-                <li><a href="javascript:sForm('tourroom', '', '');">トーナメントルーム</a></li>
-            </ul>
-        </li>
-        <li class="category3"><a href="#">編集</a>
-            <ul class="sub-level">
-                <li><a href="javascript:sForm('deck', '', '');">デッキ構築</a></li>
-                <li><a href="javascript:sForm('group', '', '');">グループ編集</a></li>
-                <li><a href="javascript:sForm('list', '', '');">リスト編集</a></li>
-            </ul>
-        </li>
-        <li class="category3"><a href="#" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">トーナメント 応募</a></li>
-        <li class="category3"><a href="#">お知らせ</a>
-            <ul class="sub-level">
-            	<li><a href="#" onclick="window.open('psychic_list.html', '', 'width=400,height=500,scrollbers=yes');">覚醒可能クリーチャー</a></li>
-                <li><a href="javascript:sForm('info', '', '');">ルール・マナー</a></li>
-                <li><a href="javascript:sForm('nuisance', '', '');">迷惑行為</a></li>
-            </ul>
-        </li>
-        <li class="category3"><a href="javascript:sForm('log', '', '');">チャットログ</a>
-        </li>
-    </ul>
-</div>
-
-
-
-</td></tr>
-</table>
-</td>
-<td class="valign_top">
-<!-- 対戦部屋テーブル -->
-<table width="640" border="0" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
-<tr><td>
-<div align="center" style="width: 600px; height: 200px; overflow: scroll;">
+<div align="center" style="width: 300px; background-color: #fff;">
 <table border="0" cellpadding="5">
 <tr><th>ID</th><td>：$id</td></tr>
 <tr><th>名前</th><td>：$P{'name'}</td></tr>
@@ -970,7 +729,7 @@ EOM
 </select></th><td>：
 <input type="text" name="duelid" size="10"></td></tr>
 <tr><th>一言メッセージ</th><td>：
-<input type="text" name="message" size="32"></td></tr>
+<input type="text" name="message" size="20"></td></tr>
 EOM
 	}
 	else {
@@ -985,15 +744,18 @@ EOM
 	print <<"EOM";
 </table>
 </div>
-<hr>
-<!--スクロール追加
-<div align="center" style="width: 600px; height: 150px; overflow: scroll;">
-<table border="0" cellpadding="5">
-新規スクロール
-</table>
+</td></tr>
+<tr><td>
 </div>
-<hr>
-ここまで-->
+
+</td></tr>
+</table>
+</td>
+<td class="valign_top">
+<!-- 対戦部屋テーブル -->
+<table width="640" border="0" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
+<tr><td>
+
 <div align="center">
 EOM
 	if ($mente) {
@@ -1022,7 +784,65 @@ function myFunc(){
 <SCRIPT type="text/javascript"><!--
   setInterval( "myFunc()", 1000 );
 // --></SCRIPT>
+EOM
 
+if ( int( rand(12) ) == 0 ) {
+		print
+"<img src=\"./images/yukkuri_left_doremi.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/yukkuri_center.gif\" width=\"252\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/yukkuri_right_onpu.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+	}
+	elsif ( int( rand(24) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_omote_v.gif\" width=\"380\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+	}
+	elsif ( int( rand(12) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center_doremi.gif\" width=\"252\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+	}
+	elsif ( int( rand(36) ) == 0 ) {
+		print
+"<img src=\"./images/cgi_logo_tatae_onpu.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_tatae_word.gif\" width=\"316\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+	}
+	elsif ( $F{'mode'} eq 'tour' ) {
+		print
+"<img src=\"./images/cgi_logo_ura_left.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center.gif\" width=\"252\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_ura_right.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+	}
+	else {
+		print
+"<img src=\"./images/cgi_logo_omote_left.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		print
+"<img src=\"./images/cgi_logo_center.gif\" width=\"252\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		if ( int( rand(8) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_light.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		elsif ( int( rand(8) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_d.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		elsif ( int( rand(4) ) == 0 ) {
+			print
+"<img src=\"./images/cgi_logo_omote_right_n.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+		else {
+			print
+"<img src=\"./images/cgi_logo_omote_right.gif\" width=\"24\" height=\"56\" alt=\"DMCGI ex\" title=\"$title\">";
+		}
+	}
+	print <<"EOM";
 <!--<p>現在時刻：$wdate　<strong><a href="$help#taisen" target="_blank">対戦での注意</a></strong></p>-->
 <p>現在時刻：<span id="myIDdate">表示中</span>　<strong><a href="$help#taisen" target="_blank">対戦での注意</a></strong></p>
 EOM
@@ -1503,45 +1323,51 @@ EOM
 		$admin_flg = 1;
 	}
 	print <<"EOM";
-<hr>
-<div class="dispChangeChat">
-	<a id="dispChangeChat">入力する</a>
-</div>
-<div id="chatInputArea">
-  <input type="hidden" name="chatName" value="$P{'name'}" />
-  <textarea cols="40" rows="3" id="chatData" /></textarea><br>
-  <input id="chatAdd" type="button" value="書き込み" />
-  <input type="button" onClick="javascript:sForm('freeroom', '', '');" value="更新する">
-</div>
-  <div align="center" style="width: 500px; height: 180px; overflow: scroll;">
-  <dl>
-  <dd id="view">ここにデータ</dd>
-  </dl>
-  </div>
 
-<hr>
-<a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
-</div>
 </td></tr></table>
 <div align="center">
-<hr width="640">
+<script language="javascript">
+<!--
+	with(document);
+	function sForm(M,R,C) {
+		entrance.mode.value = M;
+		entrance.room.value = R;
+		entrance.chara.value = C;
+		entrance.target = (M == "prof") ? "_blank" : "_self";
+		entrance.submit();
+	}
+
+	function autoDelete(N) {
+		entrance.num.value = N;
+		entrance.pass2.value = '${pass}';
+		sForm('delete', '', '');
+	}
+// --></script>
+<script language="JavaScript">
+<!--
+vType   = ["visible","hidden"];
+flag    = 0;		//　点滅フラグ
+imgName = "myIMG";	//　点滅させる画像名
+function iFlash()
+{
+// 一旦コメントアウト
+//	document.images[imgName].style.visibility = vType[flag ^= 1];
+//	setTimeout('iFlash()',800);
+}
+
+// --></script>
+
+<form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
+	<input type="hidden" name="id" value="$id">
+	<input type="hidden" name="pass" value="$pass">
+	<input type="hidden" name="mode" value="">
+	<input type="hidden" name="subm" value="view">
+	<input type="hidden" name="room" value="">
+	<input type="hidden" name="chara" value="">
 EOM
-	if ( $F{'mode'} eq 'tourroom' ) {
-		print
-"<a href=\"javascript:sForm('tourroom', '', '');\">更新する</a>&nbsp;&nbsp;\n";
-		print
-"<a href=\"javascript:sForm('freeroom', '', '');\">フリールーム</a>&nbsp;&nbsp;\n";
-		print
-"　　<input type=\"button\" value=\"大会結果\" onclick=\"window.open(\'taikaiList/taikaiList.php\', \'\', \'width=800,height=600\');\">&nbsp;&nbsp;\n";
-	}
-	else {
-		print
-"<a href=\"javascript:sForm('freeroom', '', '');\">更新する</a>&nbsp;&nbsp;\n";
-		print
-"<a href=\"javascript:sForm('tourroom', '', '');\">トーナメントルーム</a>&nbsp;&nbsp;\n";
-	}
+	&logview;
 	print <<"EOM";
-<hr width="640">
+</form>
 <select size="7" onChange="document.entrance.viewid.value = this.value;" style="width:600px;">
 <option value="" selected>－ 参加者一覧 －</option>
 EOM
@@ -1560,12 +1386,33 @@ EOM
 ID: <input type="text" name="viewid" size="16">&nbsp;のデータを&nbsp;<input type="button" value="見る" onClick="javascript:sForm('prof', '', document.entrance.viewid.value);">
 </div>
 
-</td>
+
+
 <td class="valign_top" width="300">
 <!-- ナビテーブル（左） -->
 <table>
 <tr><td>
 
+<div style="background-color: #fff;" align="center">
+<div class="dispChangeChat">
+	<a id="dispChangeChat">入力する</a>
+</div>
+<div id="chatInputArea">
+  <input type="hidden" name="chatName" value="$P{'name'}" />
+  <textarea cols="40" rows="3" id="chatData" /></textarea><br>
+  <input id="chatAdd" type="button" value="書き込み" />
+  <input type="button" onClick="javascript:sForm('freeroom', '', '');" value="更新する">
+</div>
+  <div align="center" style="width: 300px; height: 180px; overflow: scroll;">
+  <dl>
+  <dd id="view">ここにデータ</dd>
+  </dl>
+  </div>
+
+<hr>
+<a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
+</div>
+</div>
 </td></tr>
 </table>
 </td></tr>
@@ -1585,23 +1432,13 @@ sub logview {
 	my ($areasel1)   = ( $F{'area'} == 1 )   ? " selected" : "";
 	my ($areasel2)   = ( $F{'area'} == 2 )   ? " selected" : "";
 	print <<"EOM";
-<table border="0" width="720" cellpadding="3" cellspacing="0">
+<table border="0" width="100%" cellpadding="3" cellspacing="0">
 <tr><td align="center">
-
-<input type="button" value="覚醒可能クリーチャー一覧" onclick="window.open('psychic_list.html', '', 'width=400,height=500,scrollbers=yes');">
-
-<input type="button" value="大会参加希望登録" onclick="window.open('taikai/sanka.php', '', 'width=800,height=600');">
 <input type="hidden" name="num">
 <input type="hidden" name="pass2">
 <input type="hidden" name="subm" value="$F{'mode'}">
 </form>
-EOM
-	&bosyuu();
-	print <<"EOM";
-<br>
-</td></tr>
-<tr><td align="center">
-<table width="90%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
 <form action="$hostName:1337/processChat" method="post" target="chatFrame" name="chatForm">
   <input name="username" type="hidden" value="$id"/>

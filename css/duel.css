@@ -141,3 +141,36 @@ td.header img	{ vertical-align: middle; }
 }
 
 /* =========== メニューボタン用　ED ============== */
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+ul#menu li{
+    float: left;
+    position: relative;
+    margin: 0;
+    padding: 5px;
+    width: 200px;
+    background-color: #555555;
+    display: block;
+}
+ul.child{
+    display: none;
+    position: absolute;
+    margin-left: -5px;
+    padding: 0;
+}
+ul.child li a{
+    padding: 5px 10px;
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-bottom: -5px;
+    display: block;
+    color: #fff;
+}
+li a:hover{
+    background: #ff0000;
+}
