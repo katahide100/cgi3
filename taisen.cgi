@@ -151,6 +151,7 @@ function iFlash()
 <li><a href="javascript:sForm('log', '', '');">過去ログ</a></li>
 <li><a href="javascript:sForm('nuisance', '', '');">迷惑行為</a></li>
 <li><a href="javascript:sForm('index', '', '');">トップへ戻る</a></li>
+<li><a href="" onclick="window.open('donation/', '', 'width=700,height=500,scrollbers=yes');">寄付</a></li>
 </ul>
 </div>
 </form>
@@ -725,15 +726,6 @@ EOM
 		print <<"EOM";
 </select>
 <hr width="640">
-<!--<a href="javascript:sForm('', '', '');">フリールーム</a>&nbsp;&nbsp;
-<a href="javascript:sForm('tour', '', '');">トーナメントルーム</a>&nbsp;&nbsp;
-<a href="javascript:sForm('view', '', '');">会話画面</a>&nbsp;&nbsp;
-<a href="javascript:sForm('deck', '', '');">デッキ構築</a>&nbsp;&nbsp;
-<a href="javascript:sForm('group', '', '');">グループ編集</a>&nbsp;&nbsp;
-<a href="javascript:sForm('list', '', '');">リスト編集</a>&nbsp;&nbsp;
-<a href="javascript:sForm('log', '', '');">過去ログ</a>&nbsp;&nbsp;
-<a href="javascript:sForm('nuisance', '', '');">迷惑行為</a>&nbsp;&nbsp;
-<a href="javascript:sForm('index', '', '');">トップへ戻る</a>-->
 
 <div class="menuArea2">
 <div class="paging centered">
@@ -819,16 +811,6 @@ EOM
 <li><a href="javascript:sForm('index', '', '');">トップへ戻る</a></li>
 </ul>
 </div>
-
-<!--<a href="javascript:sForm('', '', '');">フリールーム</a>&nbsp;&nbsp;
-<a href="javascript:sForm('tour', '', '');">トーナメントルーム</a>&nbsp;&nbsp;
-<a href="javascript:sForm('view', '', '');">会話画面</a>&nbsp;&nbsp;
-<a href="javascript:sForm('deck', '', '');">デッキ構築</a>&nbsp;&nbsp;
-<a href="javascript:sForm('group', '', '');">グループ編集</a>&nbsp;&nbsp;
-<a href="javascript:sForm('list', '', '');">リスト編集</a>&nbsp;&nbsp;
-<a href="javascript:sForm('log', '', '');">過去ログ</a>&nbsp;&nbsp;
-<a href="javascript:sForm('nuisance', '', '');">迷惑行為</a>&nbsp;&nbsp;
-<a href="javascript:sForm('index', '', '');">トップへ戻る</a>-->
 
 <hr width="640">
 <form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
