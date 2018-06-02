@@ -1934,17 +1934,23 @@ sub get_ini {
 	my $ua = LWP::UserAgent->new;
 	my $res = $ua->request( $request );
 	my $arrRes = decode_json($res->content);
-
+	my $auth = 0;
+	if ($P{'admin'} > 0) {
+		$auth = $P{'admin'};
+	}
 	if ($res->is_success) {
 		if (scalar @$arrRes > 0) {
 			#ユーザーが存在したら更新（node連携）
 
-			my $url = 'http://localhost:1337/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'};
+			my $url = 'http://localhost:1337/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth;
 			$request = POST( $url );
 
 			# 送信
 			my $ua = LWP::UserAgent->new;
 			my $res = $ua->request( $request );
+#			&error(
+#$res->base
+#	)
 		} else {
 			#存在しなかったら登録（node連携）
 			my $url = 'http://localhost:1337/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
