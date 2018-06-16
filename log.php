@@ -70,7 +70,7 @@ require_once './config/common.php';
 <tr><td>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
-<form action="<?php echo CHAT_SERVER_URL ?>/processChat" method="post" target="chatFrame" name="chatForm">
+<form action="<?php echo NODE_SERVER_URL ?>/processChat" method="post" target="chatFrame" name="chatForm">
   <input name="username" type="hidden" value="<?php echo $common->loginId ?>"/>
   <input name="password" type="hidden" value="<?php echo $common->loginPass ?>"/>
   <input name="url" type="hidden" value="/chatLogCgi"/>
