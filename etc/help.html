@@ -29,145 +29,789 @@
 <body>
 <div class="section">
 <h1>デュエル・マスターズ対戦CGI</h1>
-<p><a href="#gaiyo">概要</a>　<a href="#name">ID登録</a>　<a href="#deck">デッキ構築</a>　<a href="#taisen">入室画面</a>　<a href="#duel1">デュエル</a><br>
-操作パネルの各ボタンについて<br>
-<a href="#draw_button">ドロー</a>　<a href="#shuffle_button">シャッフル</a>　<a href="#battle_button">バトル</a>　<a href="#break_button">シールドブレイク</a>　<a href="#tap_button">タップ</a>　<a href="#rand_tehuda_button">相手の手札を見ずに選ぶ</a>　<a href="#mekuru_button">めくる</a>　<a href="#cloth_button">クロス</a>　<a href="#move_button">移動</a>　<a href="#view_button">表示切替</a><br>
-ターンの流れ<br>
-<a href="#untap">アンタップフェイズ</a>　<a href="#draw">ドローフェイズ</a>　<a href="#mana">マナチャージフェイズ</a>　<a href="#main">メインフェイズ</a>　<a href="#battle">バトルフェイズ</a><br>
-<a href="#surrender">投了</a>　<a href="#gameend">デュエルの終了</a>　<a href="#kokoroe">対戦の心得</a>　<a href="#tips">TIPS（というか機能説明追加）</a><br>
-オプション<br>
-<a href="#kyoyu">共有掲示板</a><br>
-外部リンク(こちらでも分かりやすく説明されています。)<br>
-<a href="http://www53.atwiki.jp/dmsuishinparty/pages/314.html">対戦CGIの操作方法について(DM推進の会wiki)</a></p>
-<hr>
-<h2><a name="gaiyo">○概要</a></h2>
-	<p><a href="http://www.takaratoys.co.jp/dm_card/index.html">タカラ</a>から発売されているカードゲーム「デュエル・マスターズ」を、CGIを使って対人対戦可能にしたものです。このCGIにおいては、カードテキストの処理はコンピュータが自動的に行うわけではありません。カードのテキスト内容に基づき、操作パネルのボタンを使って手動で行ってください。</p>
-<h2>○遊び方</h2>
+
+<p><span style="font-size:13px;"><a href="#gaiyo">概要</a>　<a href="#name">ID登録</a>　<a href="#deck">デッキ構築</a>　<a href="#taisen">入室画面</a>　<a href="#hitorimawasi">一人回し</a>　<a href="#duel1">デュエル</a></span><br />
+<br />
+<span style="font-size:13px;"><span century="">操</span>作パネルの各ボタンについて</span><br />
+<span style="font-size:13px;"><a href="#sousakenngen"><span century="">操作権限入れ替え</span></a>　<a href="#draw"><span century="">ドロー</span></a>　<a href="#shuffle"><span century="">シャッフル</span></a>　<a href="#turnend"><span century="">ターンの終了</span></a>　<a href="#attack"><span century="">クリーチャーで攻撃</span></a>　<a href="#break"><span century="">特殊能力でシールド破壊</span></a>　<a href="#cancel"><span century="">行動をキャンセル</span></a> </span><br />
+<a href="#tap"><span style="font-size:13px;"><span century="">タップ／アンタップ</span></span></a><span style="font-size:13px;"><span century="">　<a href="#hand">相手の手札を見ずに捨てる</a></span>　<a href="#mekuru"><span century="">めくる</span></a>　<a href="#cloth"><span century="">クロス</span></a>　<a href="#psychic"><span century="">覚醒／解除</span></a>　<a href="#janken"><span century="">ジャンケン</span></a>　<a href="#idou"><span century="">移動</span></a>　<a href="#change"><span century="">切替</span></a></span><br />
+<br />
+<span style="font-size:13px;"><a href="#evolution">進化</a></span>　<span style="font-size:13px;"><a href="#surrender">投了</a>　<a href="#gameend">デュエルの終了</a>　<a href="#kokoroe">対戦の心得</a>　<a href="#tips">TIPS（というか機能説明追加）</a></span><br />
+<br />
+<span style="font-size:13px;"><a href="#cardplay"><span century="">○一部カード及び効果の処理方法</span> </a></span><br />
+<span style="font-size:13px;"><a href="#douji"><span century="">同時ブレイク</span></a>　<span century=""><a href="#metarika">メタリカの持つ攻撃誘導</a></span></span><span style="font-size:13px;"><span century="">　<a href="#godlink">G・リンク</a></span>　<a href="#shieldgo"><span century="">シールド・ゴー</span></a>　<span century=""><a href="#huuin">封印</a>　<a href="#FORBIDDEN">禁断の鼓動及び最終禁断フィールド</a></span></span>　<a href="#dodosuko"><span style="font-size:13px;"><span century="">《トレジャー・マップ》、《ドンドン吸い込むナウ》等</span></span></a><br />
+<span style="font-size:13px;"><span century=""><a href="#shower">《フェアリー・シャワー》</a>　<a href="#judge">ガチンコ・ジャッジの処理</a></span>　<a href="#emeraru"> </a><span century=""><a href="#emeraru">《音感の精霊龍 エメラルーダ》の効果解決等</a>　</span></span><span style="font-size:13px;"><a href="#Sback"><span century="">S(ストライク)・バック</span></a>　<a href="#侵略"><span century="">侵略、革命チェンジ、アタック・チャンス</span></a></span><br />
+<span style="font-size:13px;"><a href="#シャコガイル"><span century="">《水上第九院 シャコガイル》のEXwin(エクストラウィン) </span></a></span>　<span style="font-size:13px;"><a href="#ワカメチャ"><span century="">《永遠の少女 ワカメチャ》</span></a></span>　<a href="#バグ対処1"><span style="font-size:13px;"><span century="">対戦中、自分のカードが相手のマナゾーンなどへ加わってしまった場合の対処方法</span></span></a></p>
+
+<p><br />
+<a href="#original card"><span style="font-size:13px;">○オリカについて</span></a><br />
+<br />
+<span style="font-size:13px;"><a href="#kyoyu">共有掲示板</a><br />
+外部リンク(こちらでも分かりやすく説明されています。)<br />
+<a href="http://www53.atwiki.jp/dmsuishinparty/pages/314.html">対戦CGIの操作方法について(DM推進の会wiki)</a></span></p>
+
+<hr />
+<h2><span style="font-size:20px;"><a name="gaiyo">○概要</a></span></h2>
+
+<p><span style="font-size:13px;"><a href="http://www.takaratomy.co.jp/">タカラトミー</a>から発売されているカードゲーム「デュエル・マスターズ」を、CGIを使って対人対戦可能にしたものです。</span><br />
+<span style="font-size:13px;">このCGIにおいては、カードテキストの処理はコンピュータが自動的に行うわけではありません。カードのテキスト内容に基づき、操作パネルのボタンを使って手動で行ってください。</span><br />
+<span style="font-size:13px;">デュエル・マスターズの基礎的なルールにつきましては<a href="http://dm.takaratomy.co.jp/">公式サイト</a>をご回覧ください。</span><br />
+<span style="font-size:13px;"><b>ルールを理解せずプレイされる方が多発しておりますゆえ、基礎的なルールを覚えてからご利用されるようにお願いします。</b></span></p>
+
+<h2><span style="font-size:20px;">○遊び方</span></h2>
+
 <h3><a name="name">１．ID登録</a></h3>
-	<p>このCGIは、IDとパスワードを登録しないと遊べません。IDはランダムで割り振られますが、パスワードはプレイヤーが自由に設定することができます（ただし<em>半角英数</em>のみ）</p>
-	<p>IDは対戦中や入室画面で表示されます。あまりにプレイ中の態度が悪いと、管理者はそのIDのプレイヤーを対戦禁止にすることができます。</p>
-	<p>IDとパスワードの両方が一致しないと、デッキを組み替えたり対戦に参加したりすることができません。IDおよびパスワードは絶対に忘れないようにしてください。</p>
-	<p>誰かが同じIDとパスワードの組み合わせでアクセスすると、誰でもあなたのデッキをいじることができ、対戦中に割り込むことも可能になってしまいます。IDは常に表示されますが、パスワードは絶対に他人にわからないようにしてください。</p>
-	<p>ID登録画面ではコメントも登録することができます。コメントは入室画面で対戦中の人や待機中の人の名前をクリックすると、プロフィール画面で表示されます。</p>
+
+<p><span style="font-size:13px;">このCGIは、IDとパスワードを登録しないと遊べません。IDは登録時にIDを自分で決めるにチェックをいれれば任意で設定可能で、しない場合はランダムで割り振られます。</span><br />
+<span style="font-size:13px;">パスワードはプレイヤーが自由に設定することができます（ただし<em>半角英数</em>のみ）</span></p>
+
+<p><span style="font-size:13px;">IDは対戦中や入室画面で表示されます。あまりにプレイ中の態度が悪いと、管理者はそのIDのプレイヤーを対戦禁止にすることができます。</span></p>
+
+<p><span style="font-size:13px;">IDとパスワードの両方が一致しないと、デッキを組み替えたり対戦に参加したりすることができません。IDおよびパスワードは絶対に忘れないようにしてください。</span></p>
+
+<p><span style="font-size:13px;">誰かが同じIDとパスワードの組み合わせでアクセスすると、誰でもあなたのデッキをいじることができ、対戦中に割り込むことも可能になってしまいます。</span><br />
+<span style="font-size:13px;">IDは常に表示されますが、パスワードは絶対に他人にわからないようにしてください。</span></p>
+
+<p><span style="font-size:13px;">ID登録画面ではコメントも登録することができます。コメントは入室画面で対戦中の人や待機中の人の名前をクリックすると、プロフィール画面で表示されます。</span></p>
+
 <h3><a name="deck">２．デッキ構築</a></h3>
-	<div align="center"><img src="deck.gif" alt="デッキ構築画面" width="480" height="120"></div>
-	<p>左側がカード一覧です。カード名の右にあるテキストボックスにデッキに入れる枚数を記入して「デッキ組替」ボタンを押すと、記入した枚数、カードが加えられます（ただし、４枚を超えてカードを加えることはできません）</p>
-	<p>カード一覧内のセレクトメニューでは、「並び替え」ボタンを押すと、その並び順でカードの表示順を変更します。ただし、「名前順」は文字コードでのソートなので、必ずしも読みどおりには並びません。</p>
-	<p>右側が現在のデッキ内容の一覧です。チェックボックスにチェックして「デッキ組替」ボタンを押すと、チェックしたカードがデッキから消去されます。</p>
-	<p>デッキ一覧にある「全チェック」のチェックボックスをチェックすると、デッキ一覧のカードすべてがチェックされた状態になります。また、「全チェック」のチェックを外すと、すべてのカードのチェックが外れます。</p>
-	<p>カードの能力がわからない場合、カードの名前をクリックすると、その詳細が表示されます。</p>
-<hr>
-	<p>上段左上のセレクトメニューは、拡張パックのシリーズを選択します。選んで「検索」を押すと、そのシリーズのカードが表示されます。このメニューで「全部」を選ぶと、すべてのシリーズのカードが表示されます<em>（重いので注意！）</em><br>左から二番目のセレクトメニューは、表示されるカードの種類（文明および呪文・クリーチャー）を選択します。選んで「検索」を押すと、その種類のカードだけを表示できます。<br>左から三番目のセレクトメニューでは、カードの持つ能力によって表示されるカードを検索することができます。<br>シリーズとカードの種類、および能力を組み合わせて検索することもできます。たとえば、第２弾の水文明のブロッカーを持つクリーチャーだけを表示することが可能です。</p>
-	<p>二段目のテキストボックスでは、カード名および種族名の検索が行えます。それぞれの入力欄に文字列を入力して「検索」を押すと、その文字列を含むカードだけを検索して表示します。<br>たとえば「カード名で検索」に「クリスタル」と入れて検索すると、「クリスタル・パラディン」「クリスタル・ランサー」「クリスタル・メモリー」の３枚のカードが表示されます。<br>このテキストボックスでは、スペース区切りによる複数ワード検索も可能です。例えば「種族名で検索」に「アーマード・ドラゴン　アース・ドラゴン」と入れて検索すると、種族がアーマード・ドラゴンかアース・ドラゴンのカードがすべて表示されます。</p>
-<hr>
-	<p>デッキは５個（管理人が設定した個数）まで登録することができます。テーブル右上のセレクトメニューでは、編集するデッキを選択することができます。まだ記録されていない場合は「記録なし」と表示されます。<br>デッキを切り替える場合はセレクトメニューでデッキ名を選択し、「デッキ選択」ボタンを押します。</p>
-<hr>
-	<p>管理人がデッキコピー機能をONにしている場合、あらかじめ用意されたデッキレシピからデッキ内容をコピーすることができます。<br>セレクトメニューでコピーしたいデッキ名を選択し、「コピー」ボタンを押すと、その内容が自動的にデッキ一覧に加えられます。この時、それまでデッキに入っていたカードはすべて消えてしまいますので注意してください。</p>
-	<p>40枚のデッキが完成したら、<em>必ず「デッキセーブ」のボタンを押してデッキを登録してください。</em>デッキを組み替えてもセーブしない限りは対戦で使用することはできません。この時、作ったデッキに名前をつけることができます。デッキ名は入室画面でデッキを選ぶ際やプロフィール画面などで表示されます。39枚以下や41枚以上のデッキを登録することもできますが、そのデッキで対戦を行うことはできません。</p> 
-<h4>・テキストモード</h4>
-	<p><img src="deck2.gif" alt="テキストモード" width="100" height="91" align="right"> 
-「テキスト表示」をクリックすると、デッキ内容はテキストエリア内に表示されます。このテキストを直接編集して「デッキ組替」ボタンを押すと、デッキを変えることができます。また、コピー＆ペーストしてどこかに保存しておけば、何種類かのデッキを作って切り替えたり、他のデュエル場へ移すことが可能です。カード名はこのCGIで登録されている正式名称でないと受け付けませんので注意してください。（例：×スパイラルゲート→○スパイラル・ゲート）</p>
-<h3><a name="taisen">３．入室画面</a></h3>
-	<p>入室画面に入ると、画面上部に現在の自分の情報、その下に対戦する部屋の一覧が表示されます。空の部屋には「現在使われていません」、対戦相手を待っている状態の部屋には待っている人の名前が表示されます。また、対戦中の部屋の場合は「使用中　対戦者１VS対戦者２」のように表示されます。</p>
-	<p>対戦者や待っている人の名前をクリックすると、プロフィール画面が表示されます。その人が使っているデッキの名前や戦績、そしてコメントが登録されている場合はそのコメントが表示されます。対戦相手を選ぶ時の参考にしてください。</p>
-	<p>「様子を見る」をクリックすると、現在行われているデュエルの様子を見ることができます。また、対戦中に途中でブラウザが終了してしまったりした場合、５分以内に自分の対戦していた部屋の「様子を見る」をクリックすれば、デュエルに復帰できます。</p>
-	<p>自分の使いたいデッキをセレクトメニューで選択し、「入室する」ボタンを押せば、その対戦部屋に入室できます。ただし、一人のプレイヤーが複数の対戦部屋でデュエルを行うことはできません。</p>
-	<p>入室画面で「殿堂ルール」のセレクトメニューを「あり」にすると、殿堂入りカードはデッキにそれぞれ１枚のみに制限するルールでの対戦が可能になります。ただし、既に誰かが待っている部屋では、先に入った方が決めた殿堂ルールのありなしに従ってください。部屋にはそれぞれ、その部屋の殿堂ルールがどうなっているかが表示されています。</p>
-	<p>入室画面には一言掲示板が用意されている場合があります。途中で事情があってデュエルを中断してしまった場合や待ち合わせなどにご利用ください。発言する場合、名前およびパスワードはプレイヤーファイルに登録されているものが自動的に記入されます。また、発言をした本人か管理者は、右下のテキストボックスに消したい発言の番号とパスワードを入力することによってその発言を消すことができます。</p>
-<h3><a name="duel1">４．デュエル</a></h3>
-	<div align="center"><img src="picture1.gif" alt="対戦画面" width="400" height="290"></div>
-	<p>画面左のフレームに操作パネル、右側のフレームにフィールドの状態が表示されます。</p>
-	<p>フィールドは上が相手の場、下が自分の場。カードの背景が灰色なのは、タップされているカードを表します。</p>
-	<p>各種動作を行った場合のメッセージや発言フォームに入力した発言は、ポップアップウィンドウ内に表示されます。ブラウザの設定などでポップアップウィンドウを表示しない設定にしている人は、その設定をあらかじめオフにしておいてください。間違ってポップアップウィンドウを閉じてしまっても、リロードすればまた表示されます。</p>
-	<p>画面がリロードされる間隔やポップアップウィンドウ内に表示されるメッセージの行数は、右上の発言フォームがあるフレームで調整できます。『インビンシブル・テクノロジー』で山札から大量にカードを手札に加える場合など時間のかかる操作を行なう場合は、あらかじめリロード時間を長めに設定することをお勧めします。</p>
+
+<div align="center"><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170514-001755%5D%281%29.png" style="width: 728px; height: 328px;" /></div>
+
+<p><span style="font-size:13px;">左側がカード一覧です。カード名の右にあるテキストボックスにデッキに入れる枚数を記入して「デッキ組替」ボタンを押すと、記入した枚数、カードが加えられます</span><br />
+<span style="font-size:13px;">（ただし、４枚を超えてカードを加えることはできません）</span></p>
+
+<p><span style="font-size:13px;">カード一覧内のセレクトメニューでは、「並び替え」ボタンを押すと、その並び順でカードの表示順を変更します。ただし、「名前順」は文字コードでのソートなので、必ずしも読みどおりには並びません。</span></p>
+
+<p><span style="font-size:13px;">右側が現在のデッキ内容の一覧です。チェックボックスにチェックして「デッキ組替」ボタンを押すと、チェックしたカードがデッキから消去されます。</span></p>
+
+<p><span style="font-size:13px;">デッキ一覧にある「全チェック」のチェックボックスをチェックすると、デッキ一覧のカードすべてがチェックされた状態になります。また、「全チェック」のチェックを外すと、すべてのカードのチェックが外れます。</span></p>
+
+<p><span style="font-size:13px;">カードの能力がわからない場合、カードの名前をクリックすると、その詳細が表示されます。</span></p>
+
+<hr />
+<p><span style="font-size:13px;">上段左上のセレクトメニューは、拡張パックのシリーズを選択します。選んで「検索」を押すと、そのシリーズのカードが表示されます。<br />
+このメニューで「全部」を選ぶと、すべてのシリーズのカードが表示されます<em>（重いので注意！）</em></span><br />
+<span style="font-size:13px;">左から二番目のセレクトメニューは、表示されるカードの種類（文明および呪文・クリーチャー）を選択します。選んで「検索」を押すと、その種類のカードだけを表示できます。<br />
+左から三番目のセレクトメニューでは、カードの持つ能力によって表示されるカードを検索することができます。<br />
+シリーズとカードの種類、および能力を組み合わせて検索することもできます。たとえば、第２弾の水文明のブロッカーを持つクリーチャーだけを表示することが可能です。</span></p>
+
+<p><span style="font-size:13px;">二段目のテキストボックスでは、カード名および種族名の検索が行えます。それぞれの入力欄に文字列を入力して「検索」を押すと、その文字列を含むカードだけを検索して表示します。<br />
+たとえば「カード名検索」に「ボルメテウス」と入れて検索すると、《ボルメテウス・ホワイト・ドラゴン》、《ボルメテウス・サファイア・ドラゴン》、《ボルメテウス・ホワイト・フレア》等の名前にボルメテウスとあるカードが表示されます。<br />
+このテキストボックスでは、スペース区切りによる複数ワード検索も可能です。例えば「種族名検索」に「ジョーカーズ　メタリカ」と入れて検索すると、種族がジョーカーズかメタリカのカードがすべて表示されます。</span></p>
+
+<hr />
+<p><span style="font-size:13px;">デッキは100個（管理人が設定した個数）まで登録することができます。「デッキ選択」ボタンの横のセレクトメニューでは、編集するデッキを選択することができます。<br />
+まだ記録されていない場合は「記録なし」と表示されます。</span><br />
+<span style="font-size:13px;">デッキを切り替える場合はセレクトメニューでデッキ名を選択し、「デッキ選択」ボタンを押します。</span></p>
+
+<hr />
+<p><span style="font-size:13px;">管理人がデッキコピー機能をONにしている場合、あらかじめ用意されたデッキレシピからデッキ内容をコピーすることができます。<br />
+セレクトメニューでコピーしたいデッキ名を選択し、「コピー」ボタンを押すと、その内容が自動的にデッキ一覧に加えられます。</span><br />
+<span style="font-size:13px;">この時、それまでデッキに入っていたカードはすべて消えてしまいますので注意してください。</span></p>
+
+<p><span style="font-size:13px;">40枚のデッキが完成したら、<em>必ず「デッキセーブ」のボタンを押してデッキを登録してください。</em>デッキを組み替えてもセーブしない限りは対戦で使用することはできません。</span><br />
+<span style="font-size:13px;">この時、作ったデッキに名前をつけることができます。デッキ名は入室画面でデッキを選ぶ際やプロフィール画面などで表示されます。</span><br />
+<span style="font-size:13px;">39枚以下や41枚以上のデッキを登録することもできますが、そのデッキで対戦を行うことはできません。</span></p>
+
+<h4>・テキストモード<img alt="" height="174" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170514-002348%5D%281%29.png" style="float: right;" width="157" /></h4>
+
+<p><span style="font-size:13px;">「テキスト表示」をクリックすると、デッキ内容はテキストエリア内に表示されます。このテキストを直接編集して「デッキ組替」ボタンを押すと、デッキを変えることができます。また、コピー＆ペーストしてどこかに保存しておけば、何種類かのデッキを作って切り替えたり、他のデュエル場へ移すことが可能です。カード名はこのCGIで登録されている正式名称でないと受け付けませんので注意してください。（例：×スパイラルゲート→○スパイラル・ゲート）</span></p>
+
+<p> </p>
+
+<p> </p>
+
+<h3><span style="font-size:13px;"><a name="taisen">３．入室画面</a></span></h3>
+
+<p><span style="font-size:13px;">入室画面に入ると、画面上部に現在の自分の情報、その下に対戦する部屋の一覧が表示されます。まだ記録されていない場合は「記録なし」と表示されます。</span><br />
+<span style="font-size:13px;">空きの部屋には「現在使われていません」、対戦相手を待っている状態の部屋には待っている人の名前が表示されます。また、対戦中の部屋の場合は「使用中　対戦者１VS対戦者２」のように表示されます。</span></p>
+
+<p><span style="font-size:13px;">対戦者や待っている人の名前をクリックすると、プロフィール画面が表示されます。</span><br />
+<span style="font-size:13px;">その人が使っているデッキの名前や戦績、そしてコメントが登録されている場合はそのコメントが表示されます。対戦相手を選ぶ時の参考にしてください。</span></p>
+
+<p><span style="font-size:13px;">「様子を見る」をクリックすると、現在行われているデュエルの様子を見ることができます。</span><br />
+<span style="font-size:13px;">また、対戦中に途中でブラウザが終了してしまったりした場合、５分以内に自分の対戦していた部屋の「様子を見る」をクリックすれば、デュエルに復帰できます。</span></p>
+
+<p><span style="font-size:13px;">自分の使いたいデッキをセレクトメニューで選択し、「入室する」ボタンを押せば、その対戦部屋に入室できます。ただし、一人のプレイヤーが複数の対戦部屋でデュエルを行うことはできません。</span></p>
+
+<p><span style="font-size:13px;">入室画面で「殿堂ルール」のセレクトメニューを「あり」にすると、殿堂入りカードはデッキにそれぞれ１枚のみに制限するルールでの対戦が可能になります。</span><br />
+<span style="font-size:13px;">ただし、既に誰かが待っている部屋では、先に入った方が決めた殿堂ルールのありなしに従ってください。部屋にはそれぞれ、その部屋の殿堂ルールがどうなっているかが表示されています。</span></p>
+
+<p><span style="font-size:13px;">入室画面には一言掲示板が用意されている場合があります。途中で事情があってデュエルを中断してしまった場合や待ち合わせなどにご利用ください。</span><br />
+<span style="font-size:13px;">発言する場合、名前およびパスワードはプレイヤーファイルに登録されているものが自動的に記入されます。</span></p>
+
+<h3><a id="hitorimawasi" name="hitorimawasi">４．一人回し</a></h3>
+
+<p><span style="font-size:13px;">このCGIでは一人回しを行うことが可能です。初めてこのCGIをご利用される場合は、一度一人回しをして実際に操作方法を確認することを推奨しています。</span></p>
+
+<div align="center"><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170514-003210%5D%282%29.png" style="width: 344px; height: 104px;" /><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170514-003710%5D.png" style="width: 448px; height: 152px;" /><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170827-190910%5D%281%29.png" style="width: 632px; height: 240px;" /></div>
+
+<p><span style="font-size:13px;">一人回しのやり方は、使用するデッキを選択後対戦者ID指定の入力欄に自分のIDを入力し適当な練習用の部屋に入ります。そうすると上記のように入室処理完了のお知らせの画面が写ります。</span><br />
+<span style="font-size:13px;">このあと戻るを押し、前画面に戻ります。そのあと対戦相手用のデッキを選択し、先ほど入った部屋に再度入室することで一人回しが始まります。</span></p>
+
+<h3><a name="duel1">５．デュエル</a></h3>
+
+<div align="center"><img alt="" height="516" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170514-010043%5D.png" width="970" /></div>
+
+<p><span style="font-size:13px;">画面左のフレームに操作パネル、右側のフレームにフィールドの状態が表示されます。</span></p>
+
+<p><span style="font-size:13px;">フィールドは上が相手の場、下が自分の場。カードの背景が灰色なのは、タップされているカードを表します。</span></p>
+
+<p><span style="font-size:13px;">各種動作を行った場合のメッセージや発言フォームに入力した発言は、ポップアップウィンドウ内に表示されます。ブラウザの設定などでポップアップウィンドウを表示しない設定にしている人は、その設定をあらかじめオフにしておいてください。間違ってポップアップウィンドウを閉じてしまっても、リロードすればまた表示されます。</span></p>
+
+<p><span style="font-size:13px;">画面がリロードされる間隔やポップアップウィンドウ内に表示されるメッセージの行数は、右上の発言フォームがあるフレームで調整できます。</span><br />
+<span style="font-size:13px;">《インビンシブル・テクノロジー》や《黒神龍エンド・オブ・ザ・ワールド》などで山札から大量にカードを移動させる場合など時間のかかる操作を行なう場合は、あらかじめリロード時間を長めに設定することをお勧めします。</span></p>
+
+<p align="left" style="text-align: left; margin-top: 0mm; margin-right: 0mm; margin-bottom: 0.0001pt;"><span style="display: none;"> </span><span century="" style="font-family: "><b><span style="font-family: ">・先攻後攻について</span></b></span><span style="display: none;"> </span></p>
+
+<p align="left" style="text-align: left; margin-top: 0mm; margin-right: 0mm; margin-bottom: 0.0001pt;"><span style="font-size:13px;"><span century=""><span lang="EN-US">CGI</span>ではゲーム開始時にランダムで先攻後攻が決まるのでじゃんけんをする必要はございません。システムに従ってください。</span></span></p>
+
 <h4>・操作パネルの各ボタンについて</h4>
-	<p><img src="picture2.gif" alt="操作パネル" width="148" height="440" align="right">
-	操作パネル上部には現在のターン数、フェイズ、各プレイヤーの名前およびIDと手札・山札・墓地の枚数、最後にアクセスした時間が表示されます。<br>
-	パネル下部には各種操作ボタンが表示されます。以下に各ボタンの機能を説明していきます。</p>
-	<dl>
-	<dt><a name="draw_button">ドロー</a></dt>
-	<dd>自分の山札から１枚カードを引くことができます。１回ボタンを押すごとに１枚引くようになっているので、複数引く場合は、その回数だけボタンを押してください。<br>このボタンは、相手のターンにも使うことができます。また、マナチャージフェイズには、このボタンは使えません。</dd>
-	<dt><a name="shuffle_button">シャッフル</a></dt>
-	<dd>自分の山札をシャッフルします。『クリスタル・メモリー』などで自分の山札を見た場合は、必ずその後でシャッフルするようにしてください。また、『ロスト・チャージャー』などで<em>相手の山札を見た場合は、その後、相手に必ずシャッフルさせてください。</em><br>このボタンは、相手のターンにも使うことができます。また、ドローフェイズおよびマナチャージフェイズには、このボタンは使えません。</dd>
-	<dt><a name="phase_button">次のフェイズへ（ターン終了）</a></dt>
-	<dd>デュエル・マスターズにおけるターンは『ドローフェイズ』『マナチャージフェイズ』『メインフェイズ』『バトルフェイズ』の４つ（サイレントスキル使用時はこれらに加えて『アンタップフェイズ』が発生します）からなっており、それぞれのフェイズで可能な行動が異なります。自分のターンでこのボタンを押すと次のフェイズへと移動し、バトルフェイズを終了すると相手のターンに移ります。<br>ただし、ブロッカーの選択中やシールドトリガーなどで操作の優先権が相手に移っている間は、このボタンを押してもフェイズは移動しません。</dd>
-	<dt><a name="battle_button">バトル</a></dt>
-	<dd>このボタンは、自分のバトルフェイズにしか使えません。<br>バトルの一連の動作を自動的に行います。<br><em>ただし、双方の攻撃力の判定はこのCGIにおいてはできませんので、各自で判定の上、負けたクリーチャーを手動で墓地に移動してください。</em><br>バトルボタンを押す前にあらかじめ「ターボラッシュ」のチェックボックスにチェックしておくと、ターボラッシュ能力によってアタックトリガーを得るクリーチャーが、アタックトリガーを使えるようになります。</dd>
-	<dt><a name="break_button">シールドブレイク</a></dt>
-	<dd>このボタンは、自分のターンにしか使えません。また、ドローフェイズおよびマナチャージフェイズには使えません。<br>シールドを１枚ブレイクします。ボタンを押した後にブレイクするシールドを指定します。このボタンでブレイクされた場合、相手は通常通りシールド・トリガーを発動させることができます。<br>『爆転の化身』などのバトル後の追加シールドブレイクや、サイレントスキルでのシールドブレイク時に使用します。</dd>
-	<dt><a name="tap_button">タップ／アンタップ</a></dt>
-	<dd>あらかじめフィールド上でタップ（アンタップ）したいカードを選択し、このボタンを押すと、カードをタップ（アンタップ）します。タップされたカードは背景がグレーになります。相手のフィールドにあるカードをタップ（アンタップ）することも可能です。<br>このボタンは、相手のターンにも使うことができます。また、ドローフェイズおよびマナチャージフェイズには使えません。</dd>
-	<dt><a name="rand_tehuda_button">相手の手札を見ずに捨てる</a></dt>
-	<dd>『卵包虫ゼリー・ワーム』などの効果で、相手の手札を見ずに１枚選んで捨てることができます。<br>このボタンは、相手のターンにも使うことができます。また、ドローフェイズおよびマナチャージフェイズには、このボタンは使えません。</dd>
-	<dt><a name="mekuru_button">めくる</a></dt>
-	<dd>セレクトメニューにより、シールド、相手の山札の一番上、または自分の山札を１枚ずつもしくは枚数を指定して、めくることができます。<br>シールドをめくる場合、ボタンを押した後にめくりたいシールドを選択します。めくったシールドの背景はそのターンのみグレーで表示されます。<br>『山札を１枚ずつ』『めくる』と『めくる』『終了する』のボタンがフィールド上に表示されます。『めくる』を押すと１枚山札をめくり、『終了する』を押すとめくる処理を終了します。<br>『山札を１枚ずつ』『めくる』終了後、もしくは『枚数を指定して』『めくる』場合、『手札に加える』『墓場に送る』ボタンがフィールド上に表示されますので、移動するカードをチェックして移動する場所を選んでください。めくったカードをバトルゾーンに出す場合は、いったん手札に加えてからバトルゾーンに出してください。<br>『枚数を指定して』『めくる』、もしくは『山札を１枚ずつ』『めくる』ボタンを押す前に『めくった後、山札に戻す』のチェックボックスにチェックしておくと、『フェアリー・キャンドル』や『進化設計図』の効果などでめくったカードを並び替えて山札に戻す機能が使えるようになります。<br>このボタンは、相手のターンにも使うことができます。また、ドローフェイズおよびマナチャージフェイズには、このボタンは使えません。</dd>
-	<dt><a name="cloth_button">クロス</a></dt>
-	<dd>あらかじめバトルゾーンにジェネレートしていたクロスギアを、自分のクリーチャーにクロスします。ボタンを押した後にクロスギアを選択し、その後クロスするクリーチャーを選択します。既にクロスされているクロスギアを、新たにクロスし直すこともできます。<br>このボタンは、相手のターンにも使うことができます。また、ドローフェイズおよびマナチャージフェイズには、このボタンは使えません。<br>現時点では、クロスは自分自身のクリーチャーにしか行なえません。</dd>
-	<dt><a name="move_button">移動</a></dt>
-	<dd>あらかじめ移動するカードのチェックボックスをチェックしてから、セレクトメニューで移動する場所を選択し『移動』ボタンを押すと、そのカードが選択した場所に移動します。手札や山札、墓地からフィールドに移動する場合は、１枚ずつしか移動することはできません。<br>山札から手札に移動する場合は基本的にはカード名は表示されませんが、『相手に見せてから』のチェックボックスにあらかじめチェックを入れてから移動した場合は、カード名がメッセージに出るようになります。<em>山札のカードを移動させた後は、必ず相手にシャッフルさせてください。</em><br>このボタンは、ドローフェイズには使えません。また、マナチャージフェイズには、マナゾーンにしかカードを移動させることができません。 
-		<h4>進化</h4>
-		<img src="picture4.gif" alt="進化選択フィールド" width="126" height="100" align="right"> 
-		進化クリーチャーをバトルゾーンに召喚する為には、その進化クリーチャーと同じ種族（進化Ｖの場合は必要な種族２種類）のクリーチャーが、あらかじめバトルフィールドに出ている必要があります。その場合、どのクリーチャーを進化させるか選択するウィンドウがフィールドに表示されますので、クリーチャーを選択して『進化』を押してください。この時、『やめる』を押せば進化クリーチャーの召喚をキャンセルすることができます。<br>既に進化しているクリーチャーを、更に進化させることも可能です。</dd>
-	<dt><a name="view_button">表示切替</a></dt>
-		<dd>操作パネルに表示される『手札』『山札』『墓地』のカードのリストを切り替えます。相手の手札および山札、もしくは自分の山札を見た場合には『○○を見た』というメッセージが表示されます。</dd>
-	</dl>
-<hr>
-<h4>・ターンの流れ</h4>
-	<p>DMカードにおいては、自分のターンは『ドローフェイズ』『マナチャージフェイズ』『メインフェイズ』『バトルフェイズ』の４つのフェイズによって構成されています（場合によっては『アンタップフェイズ』が追加されます）　詳しくは<a href="http://www.takaratoys.co.jp/dm_card/index.html">公式サイト</a>のルール説明ページを参照していただきたいのですが、以下に各フェイズの簡単な流れを説明します。</p>
-	<dl>
-	<dt><a name="untap">アンタップフェイズ</a></dt>
-	<dd>このフェイズは基本的にはスキップされ、サイレントスキルを持つクリーチャーがタップされていた場合、もしくは『ルナ・フォートレス』が場に出ていた場合に出現します。<br>サイレントスキルの処理を行う、もしくは『ルナ・フォートレス』の効果でタップされたままのクリーチャーをアンタップすることができます。</dd>
-	<dt><a name="draw">ドローフェイズ</a></dt>
-	<dd>山札から１枚引きます。ただし、先攻は１ターン目にはドローすることができません。<br>自分の意志でドローをパスすることはできませんので、必ずドローしてください。ドローを忘れた場合は、相手が注意して、メインフェイズでドローさせてください。</dd>
-	<dt><a name="mana">マナチャージフェイズ</a></dt>
-	<dd>手札からマナゾーンに１枚カードを出します。出せるカードが無い、またはあっても出したくない場合は出さなくても構いません。</dd>
-	<dt><a name="main">メインフェイズ</a></dt>
-	<dd>マナをタップして、クリーチャーを召喚したり呪文を使ったり、もしくはクロスギアをクロスしたりします。<br>カードをバトル場に出す前には、必ず必要な数のマナをタップしてください。<br>また、呪文は使い切りなので、使った後は『墓地へ』『移動』してください。チャージャーの場合は『マナゾーンへ』『移動』してください。</dd>
-	<dt><a name="battle">バトルフェイズ</a></dt>
+
+<p><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170514-010435%5D%281%29.png" style="width: 203px; height: 1069px; float: right;" /> <span style="font-size:13px;">操作パネル上部には現在のターン数、各プレイヤーの名前およびIDと手札・山札・墓地・超次元の枚数、最後にアクセスした時間が表示されます。<br />
+パネル下部には各種操作ボタンが表示されます。以下に各ボタンの機能を説明していきます。</span></p>
+
+<dl>
+	<dt>
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><a id="sousakenngen" name="sousakenngen"><span style="font-size:14px;"><span century="" style="font-family: "><span style="font-family: ">『　操作権限入れ替え　』</span></span></span></a></p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">一人回し時のみあるコマンドです。このボタンを押すことでもう片方の操作画面に移ることができます。</span></span></p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="draw"><span century="">『　ドロー　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">自分の山札から１枚カードを引くことができます。１回ボタンを押すごとに１枚引くようになっているので、複数引く場合は、その回数だけボタンを押してください。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="shuffle"><span century="">『　シャッフル　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">自分の山札をシャッフルします。《クリスタル・メモリー》などで自分の山札を見た場合は、必ずその後でシャッフルするようにしてください。</span></span><br />
+	<span style="font-size:13px;"><span century="">また、《ロスト・チャージャー》などで<span style="color:#ff0000;">相手の山札を見た場合は、その後、相手に必ずシャッフルさせてください。</span><br />
+	このボタンは、相手のターンにも使うことができます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="turnend"><span century="">『　ターンの終了　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">このボタンを押すとターンが終了され相手のターンへと移動します。<br />
+	ブロッカーの選択中やS・トリガーなどで操作の優先権が相手に移っている間は、このボタンを押してもターンは移動しません。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="attack"><span century="">『　クリーチャーで攻撃　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">このボタンは、自分のターンにしか使えません。<br />
+	このボタンを使用してクリーチャーのシールド及びクリーチャーへの攻撃の宣言を行います。<br />
+	<span style="color: rgb(255, 0, 0);">クリーチャーのバトルの勝敗はオートになっておりませんので各自で判定の上、負けたクリーチャーを手動で墓地に移動してください。</span><br />
+	「ターボラッシュ」はターボラッシュを持つクリーチャーがアタックトリガー処理を行いたい場合にチェックを入れることでアタックトリガー処理を得ることができます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">ブロックや、ニンジャ・ストライクの処理が攻撃宣言時に行われるため、攻撃する際は必ずこのボタンで攻撃宣言するようにお願いします。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="break"><span century="">『　特殊能力でシールド破壊　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">このボタンは《霊魔の覚醒者シューヴェルト》などの効果等でシールドをブレイクする際に使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">また、後述にある同時ブレイクのS・トリガー処理を行う際にも使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="cancel"><span century="">『　行動をキャンセル　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">このボタンは主にクリーチャーで攻撃などの一度押すと戻せなくなる処理を解除したいときに使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">無意味に押してしまうとバグが発生する原因にもなる場合があるため不要な場面での使用はお控えください。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="tap"><span century="">『　タップ／アンタップ　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">あらかじめフィールド上でタップ（アンタップ）したいカードを選択し、このボタンを押すと、カードをタップ（アンタップ）します。タップされたカードは背景がグレーになります。</span></span><br />
+	<span style="font-size:13px;"><span century="">相手のフィールドにあるカードをタップ（アンタップ）することも可能です。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">バトルゾーンの画面にも同様のボタンがありますがどちらを使用しても構いません。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="hand"><span century="">『　相手の手札を見ずに捨てる　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">《特攻人形ジェニー》などの効果で、相手の手札を見ずに捨てる際に使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">また《勝利のアパッチ・ウララー》などの相手の手札を見ずに選ぶ効果もこのボタンを利用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="mekuru"><span century="">『　めくる　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">主に山札などをめくる際に使用するボタンです。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">4</span>種類の選択項目で「シールドを」、「山札を１枚ずつ」、「枚数を指定して」、「相手の山札の上を」があり、その下にチェック項目として「めくった後、山札に戻す」と「自分だけが見る」があります。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">‐<b> 「シールドを」めくる</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">主にシールドをチェックする際に使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">‐ <b>「山札を１枚ずつ」めくる</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">主に《斬隠オロチ》などの山札から特定のカードが出るまでめくる効果を使用する際に使います。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">‐ <b>「枚数を指定して」めくる</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">《ドンドン吸い込むナウ》などの特定の枚数をめくるときに使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">‐ <b>「相手の山札の上を」めくる</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">主に《アクア・ベララー》の相手の山札の上のカードを見る効果を利用する際に使用します。使用するとオートで相手の山札の一番上を確認でき、そのカードを山札の下に置くかそのままにするか選択できます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">‐ <b>めくった後、山札に戻す</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">めくったカードを山札に戻す必要がある際に使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">‐ <b>自分だけが見る</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">めくるカードを相手に見せる必要がない場合に使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="cloth"><span century="">『　クロス　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">あらかじめバトルゾーンにジェネレートしていたクロスギアを、自分のクリーチャーにクロスします。ボタンを押した後にクロスギアを選択し、その後クロスするクリーチャーを選択します。</span></span><br />
+	<span style="font-size:13px;"><span century="">既にクロスされているクロスギアを、新たにクロスし直すこともできます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="psychic"><span century="">『　覚醒／解除　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">サイキック・クリーチャーやドラグハート、禁断の鼓動などの裏返す処理を行うボタンです。</span></span></p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><span century="">『　覚醒リンク　』</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">現在対戦に影響の出るバグが発生するため使用はしていません。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">効果に覚醒リンクがあるクリーチャーを上記の「覚醒／解除」のボタンを使って裏返してください。</span></span></p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="janken"><span century="">『　ジャンケン　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">対戦相手とジャンケンをします。主に《炎舌実況DJ・ショー》などのジャンケンをする効果で使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a id="idou" name="idou"><span century="">『　移動　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">あらかじめ移動するカードのチェックボックスをチェックしてから、セレクトメニューで移動する場所を選択し『移動』ボタンを押すと、そのカードが選択した場所に移動します。</span></span><br />
+	<span style="font-size:13px;"><span century="">下に独立した同様の効果のボタンがありますがどちらを使っても変わりはありません。手札や山札、墓地からフィールドに移動する場合は、１枚ずつしか移動することはできません。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span></span><strong><span century="">相手に見せないで</span></strong></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">この項目にチェックを入れることでデッキから手札にカードを加えるときにカード名が表示されなくなります。主に《クリスタル・メモリー》を使用する際に使用します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>マナへ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">マナゾーンへカードを移動します。サイキック・クリーチャーなどの超次元ゾーンのカードをこのコマンドを使い移動させると消えてしまうバグが発生するためサイキック・クリーチャー等には使わないでください。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>バトルゾーンへ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">バトルゾーンにカードを移動します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>手札へ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">手札へカードを移動します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>墓地へ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">墓地へカードを移動します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>シールドへ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">シールドゾーンへカードを移動します。マナへと同じくサイキック・クリーチャー等をこのコマンドで移動させると消えてしまいます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>山札の上へ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">山札の上へカードを移動します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>山札の下へ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">山札の下へカードを移動します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>進化獣の下へ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">進化クリーチャーの下にクリーチャーを移動することができます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">バグカードが発生する場合があるので進化クリーチャーに進化元を増やす場合はシールドの下へを利用することを推奨します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><strong>シールドの下へ</strong></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">カードを自分のクリーチャーか自分のシールドの下に移動することができます。シールドがないときには実行できません。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">シールドがない場合に実行したい場合、処理したいカードをシールドにいったん置き、そのあとそのカードをシールドの下へを利用することで移動させることが可能です。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">注意事項としてカードを仕込む際にボタンを2度押してしまうとそのカードが消えてしまう可能性があります。そのため必ず二重クリックにならないように心掛けてください。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">-</span></span><strong><span century=""> 超次元ゾーンへ</span></strong></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">サイキック・クリーチャーやドラグハートなどを超次元ゾーンに戻す際に使用します。サイキック以外のカードを超次元ゾーンに送ることはできません。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:14px;"><a name="change"><span century="">『　切替　』</span></a></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">操作パネルに表示される『手札』『山札』『墓地』『次元』のカードのリストを切り替えます。相手の手札および山札、もしくは自分の山札を見た場合には『○○を見た』というメッセージが表示されます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><a id="evolution" name="evolution"><span style="font-size:16px;"><strong>進化</strong></span></a><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAACYCAIAAAAJGrDWAAAIPklEQVR4nO2cXW/TSBRA82v359AP7UsrgpDKA4intIu0TQSrpcpuCWkolAIiyS4fRWpom6RpeKvUfajUzdoz19djO77pHusIufZ4fGfu8R0nQCv3G/sApVMpPQKA+4gIRkBEMIFWxHb7CiAMRAQTICKYABHBBIgIJkBEMAEiggkQEUwwDxErlYrzR+VxoSvnceFyfYdGcIY3O1HXW2Q/lwHK2QmecB9zqohxyYQpkwc2O+/OuYjsR7bEPGWfYueNcrFBM17NAJ2bclriIjqTknYG5r00+8afmH69T5rkCd2GiSjEFkCiKJFmkX19/Jq5EiIRIkwbyVxF9JnnS3+ic76c6VMSv2+YiMIlwWqm0shnqubyyMCzdBXcQ+EiRrRw6uJ7zsKS7Tyrf2p9XSl9EmKLT0ViV86YI/MW39fE7HsC5SfWN5OauSpZxHgyBAk005c44xrbhFNyA+FBcp6avdAZgO+q+L4vMJ9AGrGUx2WHnMGnumm7FBF98552juTEJE6rJnNyApRBajKUOGPK+YzfOtJYMzThdsqkLIaIwgCEcBMfSl/O4sf1/WcXUR61sjfZjMQ2aUUUsiNkLcvx9gJVxFQTp8+H0EOAhWE50EceORWfTHk+w0RMDEMfeckiyuU6cY405UQvonM2Cy2Hufc2OxDfvGlMUmYk7QMsz7aPwkWMzIjyCXa2iZyK38h3Vj7ujDmtN4mXBIjoHFTAfCaO1HdKjkczvfqRzmlpBpBBRDABIoIJEBFMgIhgAkQEEyAimAARwQSICCZARDABIoIJEBFMgIhgAkQEEyAimAARwQSICCZYYBGd/z6ZLccNEbUiXl21oSAQERFNgIiIaAJEzF/EAGUrlatZnEeU/Qg/xrsNuEW8/4Br4xciYqCI1+/XGguF3M9qJyYpqlfcntmrlJ6FyefzKVVviJiPiDf7Lu0SyqHPCWVFjKQwsiNXRM0jkSpOZ2y+USc9FYiYn4iaRTmxOAkVMb4jtIwnflZx34+C1prhBFyCiLZE1FREQcS0JUo+GyyicrCImI+IV653RMHCxNVQk87EKuiU0mmnflFOdDGtiL72iBgiorMiKj8s64tEWhF9ZmsKmxBMYuHMZaSImI+IqSzU14ksIurLoVybcxRRWPERcX4iClUqlYjOa4U2PmuFPjXCZVmUXWcRMb2IV/99Rwz7jBLwqUIujZGW8iugU199/HKZ1JTVWIeIGCSiHmdiIqf0eXUuxD5lZTt9q3PYcIRONAcRsXARQQMiIqIJEBERTYCIiGgCREREEyDiAosY+WvG2f//4WvjPGIBRFxUETVfqgttDA4HERGxfBDxVokYX5cRERFLEDFgxwiIuKgiXrlKICIiYpkpzLJjBERcVBFZmhHRCprvCPkeEREBERFx0UBERDQBIiKiCRDRtIjXN7X/DGSPEBFLEFHuavZTbYCIRVib2GeWgBGxWBErri0gtWld0fTsDMx5XNktItoVMVEpfYeallm+qRYuUT48LM0LLKKzmfPb5ogNcol1Xq6sZ6kid0aFiLdEROclspo5iph438SAg3VERBMipl31NCKGLf1pXwoDDEZERNRalXhtdvMQ0ZyIAR8CBA8CPrdqlv4s7RHRuohC7ZHLkixi2lCVRVfoHBHtiljxbLOnwuyM95bKCV9UgltywIhoWkRARERcPBAREU2AiIhoAkRERBMgYgoR2QrdEBH+dyAimAARwQSICCZAxGJptS43t/ar9x4vr6wur6xW7z3e3NpvtS5LD8waiFggzebF2vqD7Xq92+1OJpPJZNLtdrfr9bX1B83mRenhmQIRi6LVulxb39jZ2Tk7G/7xYu9J/bcn9d92X3bOhsOdnZ219Q3q4iyIWBSbW/vb9frg+8nWr0+fPv9zd+/Ni85Bc7f97Pfmyenpdr2+ucWM/QsiFkW1+qjX6zV32892Xrx8ddh58/7wQ6/316eDt+/fHh72er1q9VHpQdoBEYtieWV1Mpn8sv107/W7g3cfu/2/j46+DQaD4+PB/us3k8lkeWW19CDtgIhFcS1i49nz9x/7nz5/HQwGo9FoPB6PRuNurzcajVZWfy49SDsgYlHcrT7s9/uvXh8cvvtwbeF0Ov3x48dwODw+Pu73+3erD0sP0g6IWBS1WqfeaJyenu11Xn3+8mU8Hk+n0/Pz85OTk8lkUm80arVO6UHaARGL4ubrm/H4/MvXr0dH3wbfvw+Ho4uLC76+iYOIBdJsXqytb9QbjW63O51Op9Npr9erNxpr6xt8oR0BEYul1bqs1TrVe4/vLC3dWVqqVh/Vah1qYRxEBBMgIpgAEcEEiAgmQEQwASKCCRARTICIYAJEBBMgIpgAEcEEiAgmQEQwASKCCRARTHALRSz7twpWKv7fLFh2XI6t9HzdZhF/2t8vESG7pcemDxURCxcx0iBt+0JFvGkgt8xLaEQsU8RIIuPtE5ezOYjoC0wfMyIugIhy8jJWo4xL83Ubp1LCqVQRImL5IqYqM2FkFzES0uyP8SPBFiJimSLGU+VMavC6nEVEoQTKoTrDRkTrIsqqJYpbnIhykYv/KdipDBsRyxcxMWHBS3ZeIjoXaJ+IYY8QIpYpYtoszm1p9t3ap6NzOL5TiHgbRNTYU4SImniEN0hEtCuiUEvizVK9+M9HxMiTI7ws8o64ACI69bo5GJcy1epckIi+p8UXasZnBhGLFXEOZBfRQqiIiIgmQkVERDQRKiIioolQETEHEUvfLMcW2UrP160VERYRRAQTICKYABHBBIgIJkBEMAEiggnyFBGgUBARTICIYAJEBBMgIpgAEcEE/wCwj55dUNfNYgAAAABJRU5ErkJggg==" style="float: right;" /></p>
+	</dt>
+	<dd>進化クリーチャーをバトルゾーンに召喚する為には、その進化クリーチャーと同じ種族（進化Ｖの場合は必要な種族２種類）のクリーチャーが、あらかじめバトルゾーンに出ている必要があります。その場合、どのクリーチャーを進化させるか選択するウィンドウがフィールドに表示されますので、クリーチャーを選択して『進化』を押してください。この時、『やめる』を押せば進化クリーチャーの召喚をキャンセルすることができます。<br />
+	既に進化しているクリーチャーを、更に進化させることも可能です。</dd>
+	<dd><span style="font-size:13px;"><span century="">一部ドラゴン指定や文明指定の進化クリーチャーはシステムの都合上マナ進化扱いとなっています。</span></span></dd>
 	<dd>
-		<p>『バトル』および、それに伴う『アタックトリガー』『ブロッカー選択』『シールドトリガー』に関する行動を行います。<br>『バトル』ボタンを押すと、攻撃するクリーチャーを決定するようフィールドに表示されますので、攻撃するクリーチャーのラジオボタンをチェックして、『決定』ボタンを押します。</p>
-		<p>この時、もともと持っている能力以外で『ブロックされない』または『Ｗ・ブレイカー』『Ｔ・ブレイカー』『クルー・ブレイカー』の能力をクリーチャーが得ていた場合、『ブロックされない』場合はチェックボックスにチェックをし、各ブレイカーの場合はセレクトメニューで選択してから『決定』ボタンを押して下さい。もともとその能力をクリーチャーが持っていた場合は、最初からチェックされた状態で表示されますが、<em>能力のチェックを外してしまったり選択メニューを変えてしまうと、能力を使うことができないので注意してください。</em></p>
-		<p>また、バトルボタンの横にある『ターボラッシュ』のチェックボックスにチェックをしてからボタンを押すと、ターボラッシュの能力でアタックトリガーを得るクリーチャーの場合、アタックトリガーを使うことができます。<em>このチェックをしていない場合、ターボラッシュでのアタックトリガーは発動しませんので、注意してください。</em></p>
-		<p>次に、攻撃する対象を選択します。『プレイヤー』『クリーチャー』の選択肢がフィールド上に表示されますので、攻撃したい方を選んでください。『クリーチャー』を選んだ場合は、更にどのクリーチャーを攻撃するか決定するようフィールドに表示されますので、対象のクリーチャーを選択してください。</p>
-		<p>攻撃したクリーチャーがアタックトリガーを持っていた場合、一時的にバトルの処理を中断してアタックトリガーの効果を行います。その場合、フィールドに『アタックトリガーの処理を終了しますか？　はい／いいえ』のボタンが表示されますので、『はい』を押すと、バトルの処理を続行します</p>
-		<p><img src="picture5.gif" alt="ブロッカー選択フィールド" width="100" height="123" align="right">『ブロックされない』能力を持たないクリーチャー以外が攻撃し、相手フィールドにブロックできる状態のブロッカーがいた場合、一時的に操作の優先権が相手プレイヤーに移動します。ブロッカーの選択フィールドが画面上に表示されますので、ブロックするクリーチャーを選択して『する』を押すと、ブロックを実行します。また、『しない』ボタンを押すと、ブロックをキャンセルすることができます。</p>
-		<p>もともと持っている能力以外で『ブロッカー』の能力を得た場合、カード内に表示されている『ブロッカー』のチェックボックスをチェックすることによって、ブロッカーの能力を得ることができます。能力が無くなった場合は、チェックを外すことによってブロッカーの能力をOFFにすることができます。もともとブロッカーを持っているクリーチャーは最初からチェックされた状態で表示されますが、<em>チェックを外してしまうと、ブロッカーの能力が失われてしまうので注意してください。</em></p>
-		<p>ブロックされなかった場合、対象で『プレイヤー』を選んでいた場合は破壊するシールドを選択します。『クリーチャー』を選んでいた場合は自動的にバトル処理となります。</p>
-		<p>『神拳の超人』など、ブロックされた場合またはブロックされなかった場合に発動する能力を持っているクリーチャーの攻撃がブロックされた（されなかった）場合、一時的にバトルの処理を中断して、それらの効果を行います。フィールドに『処理を終了しますか？　はい／いいえ』のボタンが表示されますので、『はい』を押すと、バトルの処理を続行します。</p>
-		<p><img src="picture6.gif" alt="シールドトリガー選択フィールド" width="100" height="72" align="left">攻撃によってシールドが破壊されると、シールドトリガーの有無にかかわらず、操作の優先権が相手プレイヤーに移動します。シールドトリガーが無かった場合は、『バトルを続行しますか？』というボタンが表示されますので、確認後『はい』を押してください。<em>『はい』を押さないと、いつまで経っても操作の優先権が攻撃側に戻りませんので注意してください。</em><br>
-		シールドトリガーがあった場合、使うカードを選択して『使う』ボタンを押すと、自動的にそのカードがバトル場に出されますので、呪文もしくはクリーチャーがバトルゾーンに出た時に発生する効果の処理を行ってください。その際、『シールド・トリガーの処理を終了しますか？』という選択フィールドが表示されていますので、処理を終了するときには必ず『終了する』のボタンを押してください。<em>この時、シールド・トリガーで場に出された呪文は墓地へと移動しません。『終了する』のボタンを押す前に必ず呪文を墓地へと移動してください。</em>移動するのを忘れてしまった場合は、相手に移動してもらうか、次の自分のターンになった時に移動するようにしてください。</p>
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><b>進化を行う際の注意点</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">進化クリーチャーをマナゾーンまたはシールドゾーンから場に出すとき、進化元がいない場合、消えてしまいます。そのためマナやシールドから直接進化させる際は注意して行うようお願いします。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><b>進化クリーチャーを場に出せない場合の処理</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">CGI</span>ではエンジェル・コマンド指定の進化の場合、エンジェル・コマンド・ドラゴンを進化元として選択できない仕様になっております。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">その場合の出し方は二通りあり、場に別のエンジェル・コマンドがある場合、一旦そちらに進化させることで場に出し、仮の進化元を場に戻した後「進化獣の下へ」か「シールドの下へ」のボタンを使って進化元のクリーチャーを進化クリーチャーの下に置くことで場に出します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">場にエンジェル・コマンドがない場合は、「シールドの下へ」のボタンを使い場に出したい進化クリーチャーを進化元の下に一度設置した後に上のカードをマナゾーン等に置くなどして剥がし、「進化獣の下へ」か「シールドの下へ」のボタンで進化元のクリーチャーを進化クリーチャーの下に置くことで解決します。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- </span><b>超無限進化</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">超無限進化のオート処理は現時点でまだ完成しておりません。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">手動で進化元を進化クリーチャーの下に入れる形で再現してください。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">- <b>NEO</b></span><b>進化</b></span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">NEO</span>クリーチャーはデフォルトでは通常クリーチャーと同じ扱いになっています。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="">進化させる場合は進化元を「シールドの下へ」のボタンを使いNEOクリーチャーの下へ設置することで処理をすることができます。</span></span></p>
+
+	<p align="left" style="margin-left:36.0pt; text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century=""><span lang="EN-US">NEO</span>クリーチャーは進化クリーチャー扱いではないため「進化獣の下へ」でクリーチャーを進化元に入れることができません。そのため「シールドの下へ」を利用して進化元を入れるようにお願いします。</span></span></p>
 	</dd>
-	</dl>
-<h4><a name="surrender">・投了</a></h4>
-	<p>どうしても相手に勝てそうにない場合、発言フォームにある『投了』ボタンを押すと、自分の負けを宣言して、デュエルを途中で終了することができます。投了した場合、自分の負けとして戦績がプレイヤーデータに記録されます。</p>
-<h4><a name="gameend">・デュエルの終了</a></h4>
-	<p>どちらかが相手に直接攻撃を当てるか、どちらかの山札が０になるか、投了するとゲーム終了となり、戦績がプレイヤーデータに記録されます。</p>
-<h2><a name="kokoroe">○対戦の心得</a></h2>
+	<dd> </dd>
+</dl>
+
+<hr />
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:16px;"><span century=""><b>・攻撃、ブロック、S・トリガー等について</b></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">もともと持っている能力以外で『ブロックされない』または『Ｗ・ブレイカー』『Ｔ・ブレイカー』『Q・ブレイカー』『クルー・ブレイカー』の能力をクリーチャーが得ていた場合、『ブロックされない』場合は</span></span><br />
+<span style="font-size:13px;"><span century="">チェックボックスにチェックをし、各ブレイカーの場合はセレクトメニューで選択してから『決定』ボタンを押して下さい。もともとその能力をクリーチャーが持っていた場合は、最初からチェックされた</span></span><br />
+<span style="font-size:13px;"><span century="">状態で表示されますが、<span style="color: rgb(255, 0, 0);">能力のチェックを外してしまったり選択</span></span><span style="color: rgb(255, 0, 0);"><span century="">メニューを変えてしまうと、能力を使うことができないので注意してください。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">また、バトルボタンの横にある『ターボラッシュ』のチェックボックスにチェックをしてからボタンを押すと、ターボラッシュの能力でアタックトリガーを得るクリーチャーの場合、アタックトリガーを使うことができます。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span style="color: rgb(255, 0, 0);"><span century="">このチェックをしていない場合、ターボラッシュでのアタックトリガーは発動しませんので、注意してください。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">次に、攻撃する対象を選択します。『プレイヤー』『クリーチャー』の選択肢がフィールド上に表示されますので、攻撃したい方を選んでください。</span></span><br />
+<span style="font-size:13px;"><span century="">『クリーチャー』を選んだ場合は、更にどのクリーチャーを攻撃するか決定するようフィールドに表示されますので、対象のクリーチャーを選択してください。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">攻撃したクリーチャーがアタックトリガーを持っていた場合、一時的にバトルの処理を中断してアタックトリガーの効果を行います。</span></span><br />
+<span style="font-size:13px;"><span century="">その場合、フィールドに『アタックトリガーの処理を終了しますか？　[終了する]』のボタンが表示されますので、『終了する』を押すと、攻撃の処理を続行します</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century=""><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170617-024848%5D.png" style="width: 216px; height: 144px; float: right;" />『ブロックされない』能力を持たないクリーチャー以外が攻撃し、相手フィールドにブロックできる状態のブロッカーがいた場合、一時的に操作の優先権が相手プレイヤーに移動します。ブロッカーの選択フィールドが画面上に表示されますので、ブロックするクリーチャーを選択して『する』を押すと、ブロックを実行します。また、『しない』ボタンを押すと、ブロックをキャンセルすることができます。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">もともと持っている能力以外で『ブロッカー』の能力を得た場合、カード内に表示されている『ブロッカー』のチェックボックスをチェックすることによって、ブロッカーの能力を得ることができます。能力が無くなった場合は、一度マナゾーンに置くなどしてブロッカー化を解除してください。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">ブロックされなかった場合、対象で『プレイヤー』を選んでいた場合は破壊するシールドを選択します。『クリーチャー』を選んでいた場合は自動的にバトル処理となります。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">《神拳の超人》など、ブロックされた場合またはブロックされなかった場合に発動する能力を持っているクリーチャーの攻撃がブロックされた（されなかった）場合、一時的にバトルの処理を中断して、それらの効果を行います。フィールドに『処理を終了しますか？　[終了する]』のボタンが表示されますので、『終了する』を押すと、バトルの処理を続行します。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin-top: 0mm; margin-right: 0mm; margin-bottom: 0.0001pt;"><span style="font-size:13px;"><span century=""><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170617-024642%5D.png" style="width: 216px; height: 144px; float: left;" /></span></span><span style="font-size:13px;"><span century="">攻撃によってシールドが破壊されると、S・トリガーの有無にかかわらず、操作の優先権が相手プレイヤーに移動します。</span></span></p>
+
+<p align="left" style="text-align: left; margin-top: 0mm; margin-right: 0mm; margin-bottom: 0.0001pt;"><span style="font-size:13px;"><span century="">S・トリガーが無かった場合は、『バトルを続けますか？』</span></span><span style="font-size:13px;"><span century="">というボタンが表示されますので、確認後『続ける』を押してください。</span></span></p>
+
+<p align="left" style="text-align: left; margin-top: 0mm; margin-right: 0mm; margin-bottom: 0.0001pt;"><span style="font-size:13px;"><span century=""><span style="color: rgb(255, 0, 0);">『続ける』を押さないと、いつまで経っても操作の優先権が攻撃側に戻りませんので注意してください。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><br />
+<span style="font-size:13px;"><span century="">S・トリガーがあった場合、使うカードを選択して『使う』ボタンを押すと、自動的にそのカードがバトル場に出されますので、呪文もしくはクリーチャーがバトルゾーンに出た時に</span></span><span style="font-size:13px;"><span century="">発生する効果の処理を行ってください。</span></span><span style="font-size:13px;"><span century="">その際、『シールド・トリガーの処理を終了しますか？』という選択フィールドが表示されていますので、処理を終了するときには必ず</span></span><span style="font-size:13px;"><span century="">『終了する』のボタンを押してください。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century=""><span style="color: rgb(255, 0, 0);">この時、S・トリガーで場に出された呪文は墓地へと移動しません。『終了する』のボタンを押す前に必ず呪文を墓地へと移動してください。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="">移動するのを忘れてしまった場合は、相手に移動してもらうか、次の自分のターンになった時に移動するようにしてください。</span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<h4><span style="font-size:16px;"><a name="surrender">・投了</a></span></h4>
+
+<p><span style="font-size:13px;">どうしても相手に勝てそうにない場合、発言フォームにある『投了』ボタンを押すと、自分の負けを宣言して、デュエルを途中で終了することができます。</span></p>
+
+<p><span style="font-size:13px;">投了した場合、自分の負けとして戦績がプレイヤーデータに記録されます。</span></p>
+
+<h4><span style="font-size:16px;"><a name="gameend">・デュエルの終了</a></span></h4>
+
+<p><span style="font-size:13px;">どちらかが相手に直接攻撃を当てるか、どちらかの山札が０になるか、投了するとゲーム終了となり、戦績がプレイヤーデータに記録されます。</span></p>
+
+<h2><span style="font-size:20px;"><a name="kokoroe">○対戦の心得</a></span></h2>
+
 <ul>
-	<li>退室する場合は、「退室」ボタンを押してください。</li>
-	<li>双方のプレイヤーが５分間アクセスしなければ、未使用状態に戻されます。</li>
-	<li>途中でブラウザが落ちた場合、５分以内なら「様子を見る」から入ればゲームに復帰できます。</li>
-	<li><em>５分間アクセスがなかった場合、アクセスがない側は強制退室となります。</em></li>
-	<li>このCGIにはアンドゥ機能はありません。操作ミスなどがあった場合、その旨を相手にはっきりと伝えた上で、手動で元の状態に戻して下さい。『フェイズ移動』以外のほとんどの機能は、手動で元に戻すことが可能です。</li>
-	<li><em>あまりにひどいプレイを続けた場合、管理者はそのIDのプレイヤーを対戦禁止にすることができます。</em>お互い正しいマナーでプレイするようにしましょう。</li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">対戦前及び対戦後のあいさつは必ず行うようにお願いします。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">退室する場合は、「退室」ボタンを押してください。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">双方のプレイヤーが５分間アクセスしなければ、未使用状態に戻されます。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">途中でブラウザが落ちた場合、５分以内なら「様子を見る」から入ればゲームに復帰できます。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="color:#ff0000;"><span style="font-size: 13px;"><span century="" style="font-family: "><span style="font-family: ">５分間アクセスがなかった場合、対戦相手は迷惑報告を行うことで対戦相手を強制退室させることができます。</span></span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">このCGIにはアンドゥ機能はありません。操作ミスなどがあった場合、その旨を相手にはっきりと伝えた上で、手動で元の状態に戻して下さい。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: "><span style="color:#ff0000;">あまりにひどいプレイを続けた場合、管理者はそのIDのプレイヤーを対戦禁止、またはアクセス制限にすることができます。</span>お互い正しいマナーでプレイするようにしましょう。</span></span></span></li>
 </ul>
-<h2><a name="tips">○TIPS（というか機能説明追加）</a></h2>
+
+<h2><span style="font-size:20px;"><a name="tips">○TIPS（というか機能説明追加）</a></span></h2>
+
 <ul>
-	<li><img src="picture7.gif" alt="コーライル選択画面" width="172" height="100" align="right">進化クリーチャーと進化元クリーチャーを同時に山札に戻す場合の、順番を選ぶ処理に対応しています。現時点での最新ルールでは戻す順番を決めるのは進化させた側ということなので、進化させた側に選択フィールドが表示されるようにしていますが、今後変わる可能性もあります(^_^;)</li>
-	<li>進化クリーチャーのみを移動する処理に対応しています。その場合、進化クリーチャーがいなくなったフィールドには、自動的に進化元のクリーチャーが表示されるようになっています。この処理に対応しているため、進化クリーチャーを移動すれば自動的に進化元もついてくる、という風にはなっていませんので、進化元のクリーチャーにもチェックしてから移動するようにしてください。また、進化クリーチャーだけが移動した時、そのクリーチャーがタップされていた場合、進化元のクリーチャーはタップされたままです。これは2004年３月時の公式ルールに準拠したものです。</li>
-	<li>『ブロッカー』『ブロックされない』『Ｗ・ブレイカー』能力のON/OFFに対応しています。それぞれ、チェックボックスにチェックを入れたりセレクトメニューで選択したりすることによって、能力を持たせたり失わせたりすることができます。ただし、これらのチェックを外すと、元々その能力を持っていたクリーチャーでも、能力を使えなくなりますので、注意してください。間違えて外してしまった場合は、自分で設定し直してください。</li>
-	<li>『サバイバー』能力によって『アタックトリガー』を自動的に得ることができます。その他の能力は手動でON/OFFが可能ですので、手動で行ってください(^_^;)</li>
-	<li>『ターボラッシュ』のチェックボックスを追加しました。このチェックボックスにチェックを入れることにより、『ターボラッシュ』能力によって『アタックトリガー』を自動的に得ることができます。その他の能力は手動でON/OFFが可能ですので、手動で行ってください(^_^;)</li>
-	<li>『ウェーブストライカー』の能力ですが、現在のところ自動処理が必要な能力が見あたらない為、まったく処理を作っておりません。Ｗ・ブレイカーなどの処理が付加される場合、手動でON/OFFを行ってください。</li>
+	<li><span style="font-size:13px;">進<span century="" style="font-family: "><span style="font-family: ">化クリーチャーのみを移動する処理に対応しています。その場合、進化クリーチャーがいなくなったフィールドには、自動的に進化元のクリーチャーが表示されるようになっています。</span></span></span><br />
+	<span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">この処理に対応しているため、進化クリーチャーを移動すれば自動的に進化元もついてくる、という風にはなっていませんので、進化元のクリーチャーにもチェックしてから移動するようにしてください。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">『ブロッカー』『ブロックされない』『W・ブレイカー』能力のON/OFFに対応しています。それぞれ、チェックボックスにチェックを入れたりセレクトメニューで選択したりすることによって、能力を持たせたり失わせたりすることができます。ただし、これらのチェックを外すと、元々その能力を持っていたクリーチャーでも、能力を使えなくなりますので、注意してください。間違えて外してしまった場合は、自分で設定し直してください。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">『サバイバー』能力によって『アタックトリガー』を自動的に得ることができます。その他の能力は手動でON/OFFが可能ですので、手動で行ってください。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">『ウェーブストライカー』の能力ですが、現在のところ自動処理が必要な能力が見あたらない為、まったく処理を作っておりません。W・ブレイカーなどの処理が付加される場合、手動でON/OFFを行ってください。</span></span></span></li>
 </ul>
-<h2>○オプション</h2>
-<h3><a name="kyoyu">　★共有掲示板</a></h3>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:20px;"><a id="cardplay" name="cardplay"><span century=""><b>○一部カード及び効果の処理方法</b></span></a></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">こちらではCGIで対戦する上で処理方法を間違えやすいカード及び効果の処理方法を記載しております。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a id="douji" name="douji"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『　同時ブレイク　』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">現時点で同時ブレイクの処理が完成しておりません。そのためW・ブレイカー以上のブレイクは手動で同時ブレイクを再現する必要があります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:14px;"><strong><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">- </span></span><span style="font-family: ">処理方法 -</span></span></strong></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①　ブレイクする側は通常通り「クリーチャーで攻撃」のボタンを使いクリーチャーでシールドへ攻撃を宣言します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">②　ブレイク画面に移ったら「行動キャンセル」のボタンを押し行動をキャンセルします。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">③　コメントでブレイクするシールドの番号をコメントで相手に伝えます。 (例：<u>1、2番のシールドチェックをお願いします。</u>)</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">④　ブレイクされる側はコメントで指示された番号のシールドを「シールドをめくる」でシールドの内容を確認します。その中にS・トリガーがあればコメントで番号と最初に使用するS・トリガーのあるシールド番号をコメントで相手に伝えます。S・トリガーがない場合はないことをコメントで伝えます。またS・バックを行う場合はS・バックを行うシールド番号を相手に伝えます。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">⑤　ブレイク側は伝えられたS・トリガー以外のシールドを手札に移動し、最初に使うと宣言された番号のシールドを「特殊能力でシールド破壊」のボタンを使いブレイクしS・トリガーの処理をしてもらいます。S・バックで指定されたシールドを墓地に送ります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">⑥　ブレイクされる側はS・トリガー処理を行います。複数S・トリガーがある場合、一つ目のトリガーの処理が終わったら好きな順番で残りのトリガーを直接シールドからバトルゾーンに出して処理を行ってください。S・バックはシールドが墓地に送られたら手札からS・バックのカードをバトルゾーンに出して処理を行います。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">この他に通常通りブレイクしてS・トリガーが出たら同時ブレイク処理をするという方法もございますが、<b><u><span style="color:#ff0000;">S・トリガーを使いたい順番などを選べなくなる恐れがあるため非推薦ですので上記の処理を行うようにお願いします。</span></u></b></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="metarika"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『 メタリカの持つ攻撃誘導 』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:14px;"><span century="" style="font-family: "><i><u><span style="font-family: ">《このクリーチャーをアンタップして、相手クリーチャーの攻撃先をこのクリーチャーまたは自分のタップしているクリーチャーに変更してもよい。》</span></u></i></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">上記の能力は相手が攻撃してきた際にコメントで能力を使用することを宣言し、「行動キャンセル」のボタンを押し、攻撃を解除します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">その後、相手に能力を使ったクリーチャーを相手プレイヤーにアンタップしてもらい、宣言したクリーチャーのバトルを行い、相手プレイヤーに負けたクリーチャーを墓地に送ってもらいます。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="godlink"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『 G・リンク 』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">G</span></span><span style="font-family: ">・リンクはノヴァ以外のゴッドは大半がオート処理化されているのでそれに従ってください。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">現在、ゴッド・ノヴァ等のG・リンク処理は未完成なため手動で再現する必要があります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">オート処理化されていないゴッドのリンクの再現方法は、コメントで相手にG・リンクすることを伝え、「シールドの下へ」のボタンを使いリンクさせるゴッドの下にリンクするゴッドをセットするか、コメントで相手にリンクしていることを伝えるだけでもよいです。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="shieldgo"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『 シールド・ゴー 』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">シールド・ゴーは能力によってシールドに設置した際、コメントで何番のシールドがシールド・ゴーのクリーチャーかを相手にコメントで伝えます。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">伝えたら、わかりやすくするためにシールド・ゴーのシールドにチェックを入れタップ/アンタップボタンでタップしておきます。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="huuin"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『　封印　』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">封印は現時点では処理が完成しておりません。封印を行う際はシールドゾーンに封印を置くという代用処理が必要となります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">封印を置いたらどれが封印かわかるようにするため必ずコメントで何番のシールドが封印とコメントでお伝えください。 (例：シールド6が封印となります。)</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">封印がある状態で相手にとどめをさすとき、相手がニンジャ・ストライク等の妨害手段がない場合、相手に投了を求めてください。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="FORBIDDEN"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『　禁断の鼓動及び最終禁断フィールド　』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">ドキンダムやドルマゲドンの処理はオート化されていないためゲーム開始時に手動で設置する必要があります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:16px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">- </span></span><b><span style="font-family: ">禁断の鼓動/禁断～封印されしX～/伝説の禁断 ドキンダムXの処理</span></b></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="color:#ff0000;"><span style="font-size: 14px;"><span century=""><i><u>前条件：ドキンダムは超次元ゾーンに入る仕様となっております。そのためデッキ内に必ず《X・ドキンダム等の禁断の鼓動の使用の際について(必ず目を通してください)》というプロキシを入れるのを忘れないようにお願いします。</u></i></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①　ゲーム開始時に相手にドキンダムを使用しますと一声かけてから、超次元ゾーンから《禁断～封印されしX～》をバトルゾーンに出します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">②　その後手札、シールドを全て山札に全て戻し、山札の中から《X・ドキンダム等の禁断の鼓動の使用の際について(必ず目を通してください)》を墓地に送ります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">③　送った後、山札をシャッフルし山札の上から封印をシールドゾーンに一枚置き、残りの5枚を山札の上から「シールドの下へ」で封印の下に置き、シールド、手札の順番で残りのカードを設置します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">④　設置がすべて完了したらシールド番号1番が封印となりますと相手に伝えてください。</span></span></span></p>
+
+<p style="margin: 0mm 0mm 0.0001pt 40px; text-align: center;"><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170521-155704%5D.png" style="width: 640px; height: 392px;" /></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:16px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">- </span></span><b><span style="font-family: ">最終禁断フィールド/FORBIDDEN STAR ～世界最後の日～</span></b></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="color:#ff0000;"><span style="font-size: 14px;"><span century=""><i><u>前条件：FORBIDDEN STAR ～世界最後の日～/終焉の禁断 ドルマゲドンXは超次元ゾーンに含まれる処理となっています。</u></i></span></span></span><span style="color:#ff0000;"><span style="font-size: 14px;"><span century=""><i><u>《FORBIDDEN STAR ～世界最後の日～》は5枚全てデッキに入れるようにお願いします。</u></i></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①　超次元ゾーンから《FORBIDDEN STAR ～世界最後の日～》を全てバトルゾーンに出します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">②　山札の上から封印をシールドゾーンに4枚置きます。手札及び盾を一度山札に戻す必要はありません。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">③　相手に6～9番のシールドが封印であることをコメントで伝え処理完了です。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><strong><span style="font-size:14px;"><span century="">補足</span></span></strong></p>
+
+<p style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:10.5pt"><span century="" style="font-family:"><span style="font-size:12.0pt"><span style="font-family:"><span style="font-size:13px;">・封印の順番は6番が左上の封印、7番が右上、8番が左下、9番が右下となるのが基本です。</span></span></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:10.5pt"><span century="" style="font-family:"><span style="font-size:12.0pt"><span style="font-family:"><span style="font-size:13px;">・公式ではシールドセットの前に封印を置くというルールですが、封印を後に置いてもあまり変わりがないため処理の少ないこちらを推奨しております。</span></span></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:16px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">-<b> </b></span></span><b><span style="font-family: ">終焉の禁断 ドルマゲドンX及び禁断コアの処理</span></b></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">《終焉の禁断 ドルマゲドンX》に裏返す場合は禁断コアと書かれていない《FORBIDDEN STAR ～世界最後の日～</span></span></span><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">》を覚醒/解除ボタンで裏返します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">禁断コアは禁断コアと書かれている《FORBIDDEN STAR ～世界最後の日～》を覚醒/解除ボタンで全て裏返します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">《終焉の禁断 ドルマゲドンX》の効果による</span></span></span><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">禁断コアの消費は、シールドの下へのボタンを使いドルマゲドンXの下に指定された数を仕込むことで処理を完了させます。</span></span></span></p>
+
+<p style="margin: 0mm 0mm 0.0001pt 40px; text-align: center;"><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170521-162156%5D.png" style="width: 992px; height: 424px;" /></p>
+
+<p style="margin: 0mm 0mm 0.0001pt 40px; text-align: center;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="dodosuko"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『《トレジャー・マップ》、《ドンドン吸い込むナウ》等』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:10.5pt"><span century="" style="font-family:"><i><u><span style="font-size:12.0pt"><span style="font-family:">《<span style="font-size:14px;">自分の山札の上からX枚を見る。そのうちの1枚を相手に見せて手札に加え、残りを好きな順序で山札の一番下に置く。》</span></span></span></u></i></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①　めくるの選択項目である「めくった後、山札に戻す」と「自分だけが見る」にチェックを入れ「枚数を指定して」に変更後、めくるのボタンを押す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">②　枚数入力画面がバトルゾーン画面に出るので指定された数字を入力し決定ボタンを押す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:10.5pt"><span century="" style="font-family:"><span style="font-size:12.0pt"><span style="font-family:"><span style="font-size:13px;">③　めくったカードが表示されるので手札に加えたいカードを「墓地へ」、その他カードの順番を指定して「山札の下へ戻す」を押す。</span></span></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:10.5pt"><span century="" style="font-family:"><span style="font-size:12.0pt"><span style="font-family:"><span style="font-size:13px;">※カードを墓地に送る理由は、ログに手札に加えたカードの名前がが残らないため。<span style="color:#ff0000;">手札へで直接手札に加えてしまうと不正扱いされるので注意。</span></span></span></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">④　墓地にいったん置いたカードを手札に加え、呪文ならつかった呪文を墓地に置き処理完了。</span></span></span></p>
+
+<p style="margin: 0mm 0mm 0.0001pt 40px; text-align: center;"><img alt="" src="/cgi3_test/kcfinder/upload/images/amarecco%5B20170520-190203%5D.png" style="width: 592px; height: 184px;" /></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="shower"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『《フェアリー・シャワー》』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:10.5pt"><span century="" style="font-family:"><i><u><span style="font-size:12.0pt"><span style="font-family:">《<span style="font-size:14px;">自分の山札の上から2枚を見る。そのうちの1枚を自分の手札に加え、もう1枚をマナゾーンに置く。</span></span></span></u></i></span></span><span style="font-size:10.5pt"><span century="" style="font-family:"><i><u><span style="font-size:12.0pt"><span style="font-family:"><span style="font-size:14px;">》</span></span></span></u></i></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①　めくるの選択項目である「めくった後、山札に戻す」と「自分だけが見る」にチェックを入れ「枚数を指定して」に変更後、めくるのボタンを押す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">②　枚数入力画面がバトルゾーン画面に出るので2を入力し決定ボタンを押す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">③ 手札に加えるカードを「手札へ」、マナに置くカードを「1番上」に指定し「山札の上へ戻す」を押す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">④　フェアリー・ライフ等と同様の方法で山札の上からカードをマナゾーンに置き、呪文を墓地へ送り処理完了。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="judge"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『ガチンコ・ジャッジの処理』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">- </span></span><strong><span style="font-family: ">カードのコストを把握していない方向け</span></strong></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①山札の上のカードをマナゾーンに置く。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">②コストを確認後、コメントで相手にコストを伝え、自分のターンなら自分で山札の下に戻して完了。相手もマナゾーンに置く処理を行っている場合、相手のマナに出したジャッジ用カードも山札の下へ戻す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">- </span></span><strong><span style="font-family: ">カードのコストを把握済みの方向け</span></strong></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①山札の上のカードを山札の下に移動する。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">②コメントでコストを相手に伝え完了。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">※めくるでカード確認を行うと相手が操作できなくなるためやらないように。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="emeraru"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『《音感の精霊龍 エメラルーダ》の効果解決等』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">エメラルーダ等の手札に加えたシールドでS・トリガーを使用することのできる効果を持つカードは必ず手札に加える前に「シールドをめくる」で手札に加えるシールドの確認処理をする必要があります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">これは不正防止の役割があるため必ず行うようにお願いします。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">S</span></span><span style="font-family: ">・トリガーがある場合、そのカードを直接場に出すことで処理を行います。</span></span></span></p>
+
+<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a name="Sback"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『S(ストライク)・バック』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">S</span></span><span style="font-family: ">・バックはオート処理化されていないため手動で行う必要があります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">S</span></span><span style="font-family: ">・バックの処理は同時ブレイクの際は上記に記載しておりますのでそちらをご覧ください。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">- </span></span><span style="font-family: ">シングル・ブレイクによるS・バックの処理</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">①　ブレイクされたシールドに対してS・バックを行う場合、ログに書いてある<span style="color: rgb(227, 108, 10);">（《○○》を手に入れた）</span><span style="color: black;">という文章をコピーし、コメントにそれを張り付け相手に伝えます。</span></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: "><span style="color: black;">②　伝えた後「S・バックします」とコメントで宣言し、手札に加えられたカードを墓地に置き、S・バックのカードをバトルゾーンに出す。</span></span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span lang="EN-US"><span style="font-family: ">- </span></span><span style="font-family: ">エメラル等のシールドを手札に加える効果でのS・バックの処理</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">① 「シールドをめくる」を使い、シールド内容を確認する。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">② S・バックの条件を満たすカードであれば「S・バックします」とコメントで宣言し、シールドを直接墓地に置き、S・バックのカードをバトルゾーンに出す。</span></span></span></p>
+
+<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a id="侵略" name="侵略"><span style="font-size:16px;"><span century="" style="font-family: "><b><span style="font-family: ">『侵略、革命チェンジ、アタック・チャンス』</span></b></span></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">侵略、革命チェンジ及びアタック・チャンスはオート化されていませんので手動で行う必要があります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">侵略及び革命チェンジしたいクリーチャーで攻撃する前に「○○に侵略」または「○○を革命チェンジ」とコメントで宣言をします。アタック・チャンスも同様にコメントで使用宣言を行います。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">そのあと侵略なら侵略持ちのクリーチャーは基本マナ進化扱いのため進化元をマナゾーンに置き、侵略するクリーチャーを進化させバトルゾーンに出し攻撃します。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">革命チェンジの場合、チェンジ元を手札に戻し、チェンジさせるクリーチャーをバトルゾーンに出し攻撃します。革命チェンジでの注意点として同名のクリーチャーに革命チェンジする場合先にチェンジするクリーチャーをバトルゾーンに出してからチェンジ元を手札に戻してください。同名クリーチャーの場合同様の方法で行うと不正扱いを受ける場合があります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">アタック・チャンスは宣言後、場に出して解決で問題ありません。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a id="シャコガイル" name="シャコガイル"><span style="font-size:16px;"><strong><span century="">『《水上第九院 シャコガイル》のEXwin(エクストラウィン)』</span></strong></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;">シャコガイルがいても最後の一枚をドローした場合、CGIのライブラリアウト処理によってドローした側が強制的に敗北してしまいます。</span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;">そのため、最後の一枚を引かずに必ずコメントで相手に投了を求めるようにお願いします。</span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="display: none;"> </span> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a id="ワカメチャ" name="ワカメチャ"><span style="font-size:16px;"><strong><span century="">『《永遠の少女 ワカメチャ》』</span></strong></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:10.5pt"><span century="" style="font-family:"><i><u><span style="font-size:12.0pt"><span style="font-family:">《<span style="font-size:14px;">このクリーチャーがどこからでも自分の墓地に置かれた時、自分の墓地にあるカードをすべてシャッフルし、山札の一番下に置く。》</span></span></span></u></i></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">本CGIには墓地をシャッフルする機能がありません。そのため、以下の方法を使うことでシャッフル処理を再現します。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><strong>・自分の墓地のカードを全てシールドへ置く。その後、シールドに置いた墓地のカードを全てまとめて山札の下に戻す。</strong></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">CGIの処理の仕様上、まとめてカードを移動させた際にカードの順番がランダムに移動するため、処理を行うことが可能です。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">一度シールドを経由する必要があるのは戻した順番をわからなくするためですのでからなず行うようにお願いします。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><a id="バグ対処1" name="バグ対処1"><span style="font-size:16px;"><strong><span century="">『対戦中、自分のカードが相手のマナゾーンなどへ加わってしまった場合の対処方法』</span></strong></span></a></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">対戦中、まれに自分のカードが相手のカードが相手のゾーンに加わってしまう場合がございます。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">その時は以下の方法を使い、相手へ返すようにお願いします。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">・加わってしまったカードを山札の上に置く。その後<span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">、枚数を指定してめくるを使い、加わってしまったカードだけをめくる。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">　その後、そのカードの本来の所持者に行動キャンセルボタンを押す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">　そうするとめくったカードが本来の所持者の山札の上に戻ります。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">　その後もとにあった場所へ戻す。</span></span></span></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><strong><span style="font-size:20px;"><a id="original card" name="original card">○オリカについて</a></span></strong></p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">本サイトでは実際のカードには存在しないオリジナルカードを使うことができます。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">オリカは年に1～2回行われるオリカ募集にて皆様の考えたオリカを実装して使うことができるようにするという企画で実装されています。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">オリカは☆または★でカード名を囲んでいるカードが目印となっています。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">オリカを使用する上で注意すべき点があり、使用する際は必ず自分から部屋を立てることと、部屋を立てる際にコメント欄に「オリカを使用します。」と書き込む必要があります。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;">オリカは実際に存在しないカードなため、人によっては好まない人もいるということを忘れずに使用するようにお願いします。</p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"> </p>
+
+<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:10.5pt"><span century="" style="font-family:"><a name="kyoyu"><b><span style="font-size:13.5pt"><span style="font-family:">　<span style="font-size:16px;">★共有掲示板</span></span></span></b></a></span></span></p>
+
 <ul>
-  <li>共有掲示板とは、待ち受け部屋（チャットのある部屋）、各対戦部屋ごとに設置されている掲示板です。</li>
-  <li>共有掲示板は、対戦者も使えますが、「様子を見る」で観戦しているユーザーも使う事が出ます。なので、対戦者に対して観戦者が発言する事が可能です。</li>
-  <li><img src="picture8.gif" width="172" height="100" align="right">使い方は、一番上の[共有掲示板入力フォーム表示(クリック)]というところをクリックし、名前のところにユーザー名を入力し、コメント欄にコメントを書いて「書き込む」ボタンを押す事で下のチャットに掲示板に表示されます。※コメントは必ず入力してください。</li>
-  <li><font color=#ff0000>共有掲示板を入力しつつ対戦をしたい場合は、「旧モード」で対戦してください。今のところ「新モード」で書き込むとエラーになる事が多いです。</font></li>
-  <li><font color=#ff0000>共有掲示板に書いた内容は、全ての共有掲示板で共有されます。個人に対するコメント等は必ずユーザー指定、部屋指定等をしてください。また、全員に共有される内容ですので場にふさわしい言動をするようお願いします。あまりにひどいコメント（荒らし等）がある場合、共有掲示板をなくす等の処置をいたしますのでよろしくお願いします。</font></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">共有掲示板とは、待ち受け部屋（チャットのある部屋）、各対戦部屋ごとに設置されている掲示板です。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">共有掲示板は、対戦者も使えますが、「様子を見る」で観戦しているユーザーも使う事が出ます。なので、対戦者に対して観戦者が発言する事が可能です。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">使い方は、一番上の[共有掲示板入力フォーム表示(クリック)]というところをクリックし、名前のところにユーザー名を入力し、コメント欄にコメントを書いて「書き込む」ボタンを押す事で下のチャットに掲示板に表示されます。※コメントは必ず入力してください。</span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: "><span style="color: red;">共有掲示板を入力しつつ対戦をしたい場合は、「旧モード」で対戦してください。今のところ「新モード」で書き込むとエラーになる事が多いです。</span></span></span></span></li>
+	<li style="text-align:left; margin:0mm 0mm 0.0001pt"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: "><span style="color: red;">共有掲示板に書いた内容は、全ての共有掲示板で共有されます。個人に対するコメント等は必ずユーザー指定、部屋指定等をしてください。また、全員に共有される内容ですので場にふさわしい言動をするようお願いします。あまりにひどいコメント（荒らし等）がある場合、共有掲示板をなくす等の処置をいたしますのでよろしくお願いします。<img alt="" src="/cgi3_test/kcfinder/upload/images/%E5%85%B1%E6%9C%89%E6%8E%B2%E7%A4%BA%E6%9D%BF.png" style="width: 528px; height: 252px;" /></span></span></span></span></li>
+</ul>
+
+<p align="left" style="text-align:left; margin:0mm 0mm 0.0001pt"> </p>
+
+<p align="left" style="text-align: left; margin: 0mm 0mm 0.0001pt 40px;"><span style="font-size:13px;"><span century="" style="font-family: "><span style="font-family: ">更新日　2018年5月19日</span></span></span></p>
 </div>
+
+<p> </p>
+
+<p> </p>
+
+<p> </p>
+
 </body>
 </html>
