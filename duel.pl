@@ -278,6 +278,24 @@ sub prof {
 	$lose = 0 if !($lose);
 	$use = $P2{'usedeck'};
 	($deck,$dum) = split(/-/,$P2{"deck$use"});
+
+	# ユーザー検索（node連携）
+	my $url = 'http://localhost:1337/user/find?user_id='.$P2{'id'};
+	$request = POST( $url );
+
+	# 送信
+	my $ua = LWP::UserAgent->new;
+	my $res = $ua->request( $request );
+	my $arrRes = decode_json($res->content);
+	my $orica = 0;
+
+	if ($res->is_success) {
+		if (scalar @$arrRes > 0) {
+			#ユーザーが存在した場合
+			$orica = @$arrRes[0]->{orica};
+		}
+	}
+
 	&header;
 	print <<"EOM";
 </head>
@@ -292,6 +310,7 @@ sub prof {
 		<tr><th>勝　敗</th><td align="left">：$win勝$lose敗</td></tr>
 		<tr><th>ランク</th><td align="left">：$rankmark[$P2{'drank'}]</td></tr>
 		<tr><th>ポイント</th><td align="left">：$P2{'dpoint'}</td></tr>
+		<tr><th>オリカ作成権数</th><td align="left">：$orica</td></tr>
 		<tr><th>コメント</th><td align="left">：$P2{'comment'}</td></tr>
 		<tr><th>勝利数</th><td align="left">
 EOM
