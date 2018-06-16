@@ -48,6 +48,8 @@ sub html{
 			entrance.action = "nuisance.cgi";
 		} else if(M == "log") {
 			entrance.action = "log.php";
+		} else if(M == "log-old") {
+			entrance.action = "log-old.cgi";
 		} else if(M == "index") {
 			entrance.action = "index.cgi";
 		} else {
@@ -71,7 +73,7 @@ sub html{
 EOM
 	for(my($i) = $lognumber; $i >= 1; $i--) {
 		if($F{'room'} != $i) {
-			print "[<a href=\"javascript:sForm('log', '$i', '');\">$i</a>] ";
+			print "[<a href=\"javascript:sForm('log-old', '$i', '');\">$i</a>] ";
 		} else {
 			print "[<b>$i</b>] ";
 		}
