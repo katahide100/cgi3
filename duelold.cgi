@@ -75,6 +75,7 @@ unless($chudan_flg){
 &shinka_sel			if $F{'mode'} eq "shinka_sel";
 &b_shinka_sel		if $F{'mode'} eq "b_shinka_sel";
 &c_shinka_sel		if $F{'mode'} eq "c_shinka_sel";
+&add_up_card_sel	if $F{'mode'} eq "add_up_card_sel";
 &vor_sel1			if $F{'mode'} eq "vor_sel";
 &vor_sel2			if $F{'mode'} eq "vor_sel2";
 &vor_sel1			if $F{'mode'} eq "b_vor_sel";
@@ -363,6 +364,7 @@ EOM
 		<option value="7">進化獣の下へ</option>
 		<option value="8">シールドの下へ</option>
 		<option value="9">超次元ゾーンへ</option>
+		<option value="10">強制的に上にクリーチャーの上へ</option>
 	</select>
 	<input type="button" value="移動" onclick="if(confirm('本当にカードを移動しますか？')) { this.disabled = true; Move(document.card.parea.value); } return false;">
 </td></tr>
@@ -378,6 +380,7 @@ EOM
 	<input type="button" value="進化獣の下へ" onclick="if(confirm('本当に進化獣の下へ移動しますか？')) { this.disabled = true; Move('7'); } return false;"><br>
 	<input type="button" value="シールドの下へ" onclick="if(confirm('本当にシールドの下へ移動しますか？')) { this.disabled = true; Move('8'); } return false;">
 	<input type="button" value="超次元ゾーンへ" onclick="if(confirm('本当に超次元ゾーンへ移動しますか？')) { this.disabled = true; Move('9'); } return false;">
+	<input type="button" value="強制的にクリーチャーの上へ" onclick="if(confirm('本当にクリーチャーの上へ移動しますか？')) { this.disabled = true; Move('10'); } return false;"><br>
 </td></tr>
 <tr><td>
 	<p align="center">

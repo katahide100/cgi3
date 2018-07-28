@@ -1617,8 +1617,89 @@ sub move {
   &com_error("山札の一番上や一番下とそれ以外のカードを同時に移動させることはできません") if -1 < $#sel && $F{'decktop'};
   &com_error("移動させるカードを指定してください") if $#sel < 0 && $#fsel < 0 && $#ssel < 0 && $#gsel < 0 && $#csel < 0 && !($F{'decktop'});
 
-  # 超次元ゾーンへ
-  if ( $parea == 9 ) {
+  # 強制的に上に置く
+  if ( $parea == 10 ) {
+
+    if (-1 < $#sel || $F{'decktop'}) {  # 手札、墓地、山札からバトルゾーンへ
+      &com_error("一度にバトルゾーンに出せるカードは１枚ずつです") if 0 < $#sel;
+      &com_error("相手のカードを場に出すことはできません") if $vside == $u_side2;
+      if ($F{'decktop'}) {
+        #デッキのカード選択の場合
+        if ($F{'under'} == 1) {
+          $cardno = $deck[$vside][$#{$deck[$vside]}]; # デッキの一番下
+        } else {
+          $cardno = $deck[$vside][0]; # デッキの１番上（0番目）
+        }
+      } else {
+        # デッキ以外の場合
+        $cardno = $arr[$vside][$sel[0]];
+      }
+      return if $cardno eq ""; #未選択の場合はリターン
+      $s_cou = 0;
+      &fld_chk($u_side);
+      if (&syu_chk($cardno, 1)) { # クロスギア
+        &put_gear_chk($cardno);
+      } elsif (&syu_chk($cardno, 96)) { # 城
+        @res = &shield_chk($u_side);
+      } elsif (!(&syu_chk($cardno, 0))) { # 呪文以外
+        &put_cre_chk2($cardno);
+      }
+      if ($F{'decktop'}) {
+        if ($F{'under'} == 1) {
+          $deck[$u_side][$#{$deck[$u_side]}] = "";
+        } else {
+          $deck[$u_side][0] = "";
+        }
+      } else {
+        $arr[$u_side][$sel[0]] = "";
+      }
+      #&s_mes("$s_cou");
+      #&s_mes("$#res");
+      if (0 < $s_cou || -1 < $#res) {
+        &put_card_dialog2($cardno, sprintf("%d", $F{'decktop'} ? 2 : $varea));
+      } else {
+        &com_error("自分のシールドが無いので城をバトルゾーンに出すことはできません") if &syu_chk($cardno, 96);
+        if ($F{'decktop'}) {
+          if ($F{'under'} == 1) {
+            &s_mes("$pn[$u_side]は山札の一番下のカードをバトルゾーンに出した。");
+          } else {
+            &s_mes("$pn[$u_side]は山札の一番上のカードをバトルゾーンに出した。");
+          }
+        }
+
+        &s_mes(sprintf "$pn[$u_side]%s《$c_name[$cardno]》%s！",
+          "は",
+          "をバトルゾーンに出した");
+        if (&syu_chk($cardno, 1)) {
+          unshift @{$gear[$u_side]}, $cardno;
+        } else {
+          &put_battle_zone_sub;
+        }
+        &del_move;
+      }
+    } else {              # フィールドからバトルゾーンへ
+      &com_error("バトルゾーンからバトルゾーンに移動させることはできません") if -1 < $#gsel || -1 < $#csel;
+      &com_error("一度にバトルゾーンに移動できるカードは１枚ずつです") if 0 < $#ssel || 0 < $#fsel;
+      if (-1 < $#fsel) {
+        $fldno = $fsel[0];
+        &which_side($fldno);
+        &com_error("バトルゾーンからバトルゾーンに移動させることはできません") if $area < 2;
+        &pick_card2;
+      } else {
+        $ssel = $ssel[0];
+        &pick_card3;
+      }
+      &put_cre_chk2($cardno);
+      if (-1 < $#res) {
+        &put_card_dialog2($cardno, sprintf("%s", -1 < $#fsel ? "fld$fldno" : "shinka$ssel"));
+      } else {
+        &fld_chk($l_side);
+        &p_mess;
+        &put_battle_zone_sub;
+      }
+    }
+
+  } elsif ( $parea == 9 ) {# 超次元ゾーンへ
 
     if ( $F{'decktop'} ) {
       $cardno = ${$deck[$u_side]}[0];
@@ -2142,6 +2223,14 @@ sub shinka_sub {
     $shinka[$fldno] = join "-", @evo;
     undef @evo;
   }
+}
+
+sub add_up_card_sub {
+  $fno = $F{'select'};
+  my $cno = $fld[$fno];
+  $shinka[$fno] .= $shinka[$fno] eq "" ? "$cno" : "-$cno";
+  $f_block[$fno] = $f_drunk[$fno] = "";
+  $fld[$fno] = $chudan;
 }
 
 sub shinka_sub2 {
@@ -2674,6 +2763,11 @@ sub put_cre_chk {
   }
 }
 
+sub put_cre_chk2 { # 強制的に上に置く場合に使用
+  my $cno = $_[0];
+  map { push @res, $_} @{$fw1[$u_side]};
+}
+
 sub put_card_dialog {
   my ($cno, $process) = @_;
   my $str = &syu_chk($cno, 84) ? "Ｇ・リンクしますか？<>m-glink_sel<>o-する::しない"
@@ -2683,6 +2777,22 @@ sub put_card_dialog {
         3 < $c_evo[$cno] && $c_evo[$cno] != 8 && $c_evo[$cno] != 11 ? "一番下の" : "進化させる",
         &syu_chk($cno, 1) ? "クロスギア" : "クリーチャー",
         &syu_chk($cno, 1) && $c_evo[$cno] != 11 ? "c_shinka" : 3 < $c_evo[$cno] && $c_evo[$cno] != 8 ? $c_evo[$cno] == 11 ? "b_shinka" : 12 <= $c_evo[$cno] ?"b_vor" : "vor" : "shinka";
+  unshift @syori, sprintf "s-%d<>t-$str<>a-%s%s",
+        $process eq "tri" ? $btl[1] : $u_side,
+        $process eq "tri" ? "tri" : $F{'decktop'} ? "decktop" : $process ne "" ? "$process" : "",
+        $process eq "tri" ? "<>p-tri" : "";
+  $chudan_flg = "1";
+  $chudan = $cno;
+  $vor_cnt = 0 if 3 < $c_evo[$cno];
+  undef @res if &syu_chk($cno, 96);
+}
+
+sub put_card_dialog2 { # 強制的に置く場合に使用
+  my ($cno, $process) = @_;
+  my $str = sprintf "%s%sを選んでください<>m-%s_sel<>o-決定::やめる",
+        "下になる",
+        "クリーチャー",
+        "add_up_card";
   unshift @syori, sprintf "s-%d<>t-$str<>a-%s%s",
         $process eq "tri" ? $btl[1] : $u_side,
         $process eq "tri" ? "tri" : $F{'decktop'} ? "decktop" : $process ne "" ? "$process" : "",
@@ -2949,6 +3059,39 @@ sub shinka_sel {
     &put_battle_zone_koka($chudan, $fno);
   } else {
     &e_mes("進化をキャンセルしました", $u_side);
+    if ($S{'p'} eq "tri") {
+      &pursue;
+      &breaker;
+    } elsif ($S{'a'} =~ /^fld/) {
+      ($fldno = $S{'a'}) =~ s/fld//;
+      $fld[$fldno] = $chudan;
+    } elsif ($S{'a'} =~ /^shinka/) {
+      ($ssel = $S{'a'}) =~ s/shinka//;
+      ($fldno, $sno) = split /-/, $ssel;
+      my @evo = split /-/, $shinka[$fldno];
+      $evo[$sno] = $chudan;
+      $shinka[$fldno] = join "-", @evo;
+    } else {
+      local *arr = $S{'a'} eq "0" ? *hand : $S{'a'} eq "1" ? *boti : *deck;
+      unshift @{$arr[$u_side]}, $chudan;
+    }
+    shift @syori;
+    $chudan = $chudan_flg = "";
+  }
+  undef @res; undef %S; undef %F;
+}
+
+sub add_up_card_sel {
+  return if !($F{'run_select'}) && !($F{'not_select'});
+  &syori_p_set;
+  if ($F{'run_select'}) {
+    &s_mes(sprintf "%sは《$c_name[$chudan]》を出した！", "$pn[$u_side]");
+    &add_up_card_sub;
+    shift @syori;
+    $chudan_flg = "";
+    #&put_battle_zone_koka($chudan, $fno);
+  } else {
+    &e_mes("カードの移動をキャンセルしました", $u_side);
     if ($S{'p'} eq "tri") {
       &pursue;
       &breaker;
