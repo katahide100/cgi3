@@ -308,7 +308,7 @@ EOM
 			<input type="button" value="特殊能力でシールド破壊" onclick="if(confirm('本当に特殊能力でシールドを破壊しますか？\\nこの行動は、サイレントスキルなどの\\nバトル以外でのシールドブレイクでのみ、使います。')) { this.disabled = true; sForm('break'); } return false;">
 		</td></tr>
 		<tr align="center"><td>
-			<input type="button" value="行動をキャンセル" onclick="if(confirm('本当に行動をキャンセルしますか？\\nこの行動は、基本的にバグで何も出来なくなった状態からの\\n脱出に使われます。')) { this.disabled = true; sForm('cancel'); } return false;">
+			<input type="button" value="行動をキャンセル" onclick="if(confirm('本当に行動をキャンセルしますか？\\nこの行動は、基本的にバグで何も出来なくなった状態からの\\n脱出に使われます。\\nバグる恐れがあるため、「やめる」ボタンが出ている場合は、\\nそちらでキャンセル処理をするようお願い致します。')) { this.disabled = true; sForm('cancel'); } return false;">
 		</td></tr>
 	</table>
 </td></tr>
@@ -362,9 +362,9 @@ EOM
 		<option value="5">山札の下へ</option>
 		<option value="6">シールドへ</option>
 		<option value="7">進化獣の下へ</option>
-		<option value="8">シールドの下へ</option>
+		<option value="8">カードの下へ</option>
 		<option value="9">超次元ゾーンへ</option>
-		<option value="10">強制的に上にクリーチャーの上へ</option>
+		<option value="10">強制的にクリーチャーの上へ</option>
 	</select>
 	<input type="button" value="移動" onclick="if(confirm('本当にカードを移動しますか？')) { this.disabled = true; Move(document.card.parea.value); } return false;">
 </td></tr>
@@ -378,9 +378,9 @@ EOM
 	<input type="button" value="山札の上へ" onclick="if(confirm('本当に山札の上へ移動しますか？')) { this.disabled = true; Move('4'); } return false;">
 	<input type="button" value="山札の下へ" onclick="if(confirm('本当に山札の下へ移動しますか？')) { this.disabled = true; Move('5'); } return false;">
 	<input type="button" value="進化獣の下へ" onclick="if(confirm('本当に進化獣の下へ移動しますか？')) { this.disabled = true; Move('7'); } return false;"><br>
-	<input type="button" value="シールドの下へ" onclick="if(confirm('本当にシールドの下へ移動しますか？')) { this.disabled = true; Move('8'); } return false;">
+	<input type="button" value="カードの下へ" onclick="if(confirm('本当にカードの下へ移動しますか？')) { this.disabled = true; Move('8'); } return false;">
 	<input type="button" value="超次元ゾーンへ" onclick="if(confirm('本当に超次元ゾーンへ移動しますか？')) { this.disabled = true; Move('9'); } return false;">
-	<input type="button" value="強制的にクリーチャーの上へ" onclick="if(confirm('本当にクリーチャーの上へ移動しますか？')) { this.disabled = true; Move('10'); } return false;"><br>
+	<input type="button" value="強制的にクリーチャーの上へ" onclick="if(confirm('本当にクリーチャーの上へ移動しますか？\\nシステム的に対応していない場合のみこのボタンを使用してください。\\n（通常の進化などはバトルゾーンへボタンをご利用ください。）')) { this.disabled = true; Move('10'); } return false;"><br>
 </td></tr>
 <tr><td>
 	<p align="center">
