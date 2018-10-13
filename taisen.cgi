@@ -2228,11 +2228,11 @@ sub bosyuu {
 		my @ccc = split( /@@/, $bbb );
 
 		if ( $ccc[0] == 'bosyuu' and $ccc[1] == '1' ) {
-			print <<"HTML";
+			print <<"EOM";
 
-<img src="./tnm.png" width="80" height="20" name="myIMG"><br>
+<img src="./tnm.png" width="60" height="30" name="myIMG"><br>
 
-HTML
+EOM
 		}
 	}
 }
@@ -2247,11 +2247,11 @@ sub kaisai {
 		my @ccc = split( /@@/, $bbb );
 
 		if ( ( $ccc[1] != "kaisai" ) && ( $ccc[1] == '1' ) ) {
-			print <<"HTML";
+			print <<"EOM";
 
 <img src="./kaisai.png" width="60" height="17" name="myIMG"><br>
 
-HTML
+EOM
 		}
 	}
 }
