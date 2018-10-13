@@ -16,12 +16,14 @@
 -->
 <br>
 
+<!--
 <font color="blue" size=3>【寄付額に応じたオリカ券配布について】<br>
 特定期間において、ご寄付いただいた額に応じて、オリカ券を配布いたします。<br>
 期間など詳しい内容に関しましては、<big><a href="./etc/info.php"><font color="red">このページ</font></a></big>をご確認ください。<br>
 </font>
-
 <br>
+-->
+
 <font color=#0000cc>●このcgiでは、他のcgiの勝敗数、ランク、ポイント、勲章、勝利数（文明ごと）を引き継げます。<br>
 もし希望がある場合は、そのcgiの場所と、その場所でのユーザー名と、このcgiのID(xxx00000)を<br>
 katahide100@gmail.com(管理人)もしくはsyota.i3333@gmail.com(副管理人)
