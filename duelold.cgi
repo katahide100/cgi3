@@ -172,20 +172,20 @@ sub sousa {
 	function Tap(){
 		parent.field.fields.mode.value = "tap";
 		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
-			window.parent.s.emit("action", {mode:"tap",room:$room});
+			window.parent.s.emit("action", {mode:"tap",room:"$room"});
         });
 	}
 	function Cmd(f){
 		parent.field.fields.mode.value = f;
 		\$.post("duelold.cgi", \$(parent.field.fields).serialize(), function(data){
-			window.parent.s.emit("action", {mode:f,room:$room});
+			window.parent.s.emit("action", {mode:f,room:"$room"});
         });
 	}
 	function sForm(f) {
 		card.mode.value = f;
 		card.target = (f == "sousa") ? "_self" : "field";
 		\$.post("duelold.cgi", \$("[name=card]").serialize(), function(data){
-			window.parent.s.emit("action", {mode:f,room:$room});
+			window.parent.s.emit("action", {mode:f,room:"$room"});
         });
 	}
 	function Move(parea){
@@ -201,7 +201,7 @@ sub sousa {
 			if (F.elements[i].checked && F.elements[i].name.match(/^.?sel/)){ str += "&" + F.elements[i].name + "=on"; }
 		}
 		\$.post(str, \$("[name=card]").serialize(), function(data){
-			window.parent.s.emit("action", {mode:'move',room:$room});
+			window.parent.s.emit("action", {mode:'move',room:"$room"});
         });
 
 	}
@@ -215,7 +215,7 @@ sub sousa {
 	    	// postデータにsubmitタグのnameとvalueを追加する
 	    	var postData = \$(parent.field.fields).serialize() + '&' + \$(this).attr('name') + '=' + \$(this).val();
 		    \$.post("duelold.cgi", postData, function(data){
-				window.parent.s.emit("action", {mode:parent.field.fields.mode.value,room:$room});
+				window.parent.s.emit("action", {mode:parent.field.fields.mode.value,room:"$room"});
 	        });
 	        // 自動で submit されないように処理を止める
 	        return false;
@@ -500,7 +500,7 @@ sub frame {
 <script type="text/javascript"><!--
 var s = io.connect('$hostName:$nodePort');
    s.on("action", function (data) {
-           if (data.room == $room) {
+           if (data.room == "$room") {
                    parent.sousa.card.mode.value = 'field';
                    parent.sousa.card.target = "field";
                    parent.sousa.card.submit();
