@@ -734,6 +734,11 @@ sub janken_sel  {
   }
 }
 
+sub gacha { # ガチャを回す
+  my $num = int(rand(6)) + 1;
+  &regist("", "$pn[$u_side]はガチャを回した！結果は「$num」だ！", "system");
+}
+
 sub strike_chk {  # ストライク・バックのチェック
   my ($side) = @_;
   @res = grep &tri_chk($_, 6) && &bun_chk($cno, $c_bun[$_]), (@{$hand[$side]});

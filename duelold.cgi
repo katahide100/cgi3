@@ -68,6 +68,7 @@ unless($chudan_flg){
 	&break_btn		if $F{'mode'} eq "break";
 	&cloth			if $F{'mode'} eq "cloth";
 	&janken			if $F{'mode'} eq "janken";
+	&gacha			if $F{'mode'} eq "gacha";
 	&psychic			if $F{'mode'} eq "psychic";
 	&psy_link			if $F{'mode'} eq "psy_link";
 }
@@ -340,6 +341,9 @@ EOM
 </td></tr>
 <tr><td align="center">
 	<input type="button" value="ジャンケン" onclick="if(confirm('本当にジャンケンしますか？')) { this.disabled = true; sForm('janken'); } return false;">
+</td></tr>
+<tr><td align="center">
+<input type="button" value="ガチャを回す" onclick="if(confirm('本当にガチャを回しますか？')) { this.disabled = true; sForm('gacha'); } return false;">
 </td></tr>
 EOM
 		if($room =~ /^t/) {
