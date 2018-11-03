@@ -1,4 +1,9 @@
 <?php
+
+require_once '../config/common.php';
+
+$loginUser = $common->getUser();
+
 $fp = fopen('t_name.txt', 'r');
 $name = fgets($fp);
 $fp_t=fopen('t_time.csv','r');
@@ -32,7 +37,8 @@ else{
 主催者：<?php echo $syusai?><br>
 <br>
 <form action="t_kakunin.php" method="post">
-ユーザー名：<input type="text" name="namae" value="<?php echo $namae_c?>"><br>
+ユーザー名：<?php echo $loginUser['username']?><br><br>
+<input type="hidden" name="namae" value="<?php echo $loginUser['username']?>">
 <br>
 希望時間帯（複数選択可）<br>
 <?php

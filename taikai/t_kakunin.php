@@ -15,8 +15,20 @@
 	setcookie("namae",$_POST['namae']);
 	$namae=htmlentities($_POST['namae'],ENT_QUOTES,'UTF-8');
 	$time=$_POST['time'];
-	$fp=fopen("taikai.csv","a");
-	fwrite($fp,$namae.",");
+
+	$fp = fopen("taikai.csv", "r");
+	
+	$lines = "";
+	if($fp){
+		while ($line = fgets($fp)) {
+			$arrLine = explode(',', $line);
+			if ($arrLine[0] != $namae) {
+				$lines .= $line;
+			}
+		}
+	}
+	$fp = fopen("taikai.csv", "w");
+	fwrite($fp, $lines . $namae . ",");
 	fclose($fp);
 	$fp_t=fopen("taikai.csv","a");
 	foreach($time as $value){

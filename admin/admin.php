@@ -1,5 +1,4 @@
 <?php
-   require_once '../../config/define.php';
    require_once '../../config/common.php';
 
    $id = $common->loginId;
