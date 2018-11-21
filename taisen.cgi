@@ -430,51 +430,79 @@ sub chat {
 		entrance.pass2.value = '${pass}';
 		sForm('delete', '', '');
 	}
-// --></script>
-<script language="JavaScript">
-<!--
-vType   = ["visible","hidden"];
-flag    = 0;		//　点滅フラグ
-imgName = "myIMG";	//　点滅させる画像名
-function iFlash()
-{
 
-	document.images[imgName].style.visibility = vType[flag ^= 1];
-	setTimeout('iFlash()',800);
-}
+	vType   = ["visible","hidden"];
+	flag    = 0;		//　点滅フラグ
+	imgName = "myIMG";	//　点滅させる画像名
+	function iFlash()
+	{
+		document.images[imgName].style.visibility = vType[flag ^= 1];
+		setTimeout('iFlash()',800);
+	}
+
+	/**** アクティブ判定処理 ****/
+
+	isActive = true; // 全体のアクティブフラグ
+
+	var iframeIsActive = false; // iframeのアクティブフラグ
+
+	// iframeからメッセージ受け取り
+	\$(window).on('message', function(e){
+		var data = e.originalEvent.data;
+		if (data.isActive !== undefined) {
+			iframeIsActive = data.isActive;
+		}
+	});
+
+	\$('#chatFrame').focus();
+
+	// 各フレームがアクティブかどうか
+	parent.menu.window.onfocus = function () {
+		isActive = true;
+	};
+
+	parent.main.window.onfocus = function () {
+		isActive = true;
+	};
+
+	window.onfocus = function () {
+		isActive = true;
+	};
+
+	// 各フレームが非アクティブかどうか
+	parent.menu.window.onblur = function () {
+		isActive = false;
+	};
+
+	parent.main.window.onblur = function () {
+		isActive = false;
+	};
+
+	window.onblur = function () {
+	 	isActive = false;
+	};
+
+	var interval = setInterval(function () {
+		// 各フレーム、iframeいずれかがアクティブの場合のみアクティブチェック
+		if (iframeIsActive || isActive) {
+			\$.ajax({
+				url: '$hostName/cgi3/script/send_api.php',
+				type:'POST',
+				dataType: 'json',
+				data : {url: '$hostName:1337/userList', data: {user_id: "$id", user_name: "$P{'name'}", listFlg: 0}},
+				timeout:3000,
+			}).done(function(data) {
+				console.log("ok");
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log("参加ユーザーチェクエラー");
+			})
+		}
+	 }, 5000);
 
 // --></script>
 </head>
 <body onLoad="setTimeout('iFlash()',800); document.chatForm.submit();">
 <div align="center">
-<table border="0" width="640" cellpadding="0" cellspacing="0">
-<tr><td align="left">
-参加者一覧:
-EOM
-	my (@whitelist) = split( /\,/, $P{'white'} );
-	my (@blacklist) = split( /\,/, $P{'black'} );
-	for ( my ($i) = 0 ; $i <= $#new_member ; $i++ ) {
-		my ( $mem_id, $mem_name, $mem_rank, $mem_comment, $mem_time, $mem_ip,
-			$mem_channel )
-		  = split( /<>/, $new_member[$i] );
-		my ( $mem_sec, $mem_min, $mem_hour, $mem_mday, $mem_mon, $mem_year ) =
-		  localtime($mem_time);
-		$mem_wdate = sprintf( "%02d:%02d:%02d", $mem_hour, $mem_min, $mem_sec );
-		$bgcolor =
-		  ( grep( /^$mem_id$/, @blacklist ) )
-		  ? ' style="background-color: #888888;"'
-		  : ( grep( /^$mem_id$/, @whitelist ) )
-		  ? ' style="background-color: #ffffff;"'
-		  : '';
-		print
-" \[<a href=\"javascript:sForm('prof', '', '$mem_id');\"$bgcolor>$mem_name</a>\]";
-		print "," if ( $i < $#new_member );
-	}
-	print <<"EOM";
-</td></tr>
-</table>
-<hr width="640">
-
 <form id="entrance" action="taisen.cgi" method="post" name="entrance" style="display: inline;">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
@@ -954,9 +982,7 @@ function myFunc(){
   myMsg += myDate.getSeconds() + "秒";
   document.getElementById("myIDdate").innerHTML = myMsg;
 }
-// --></SCRIPT>
 
-<SCRIPT type="text/javascript"><!--
   setInterval( "myFunc()", 1000 );
 // --></SCRIPT>
 
@@ -1532,7 +1558,7 @@ EOM
   <input name="username" type="hidden" value="$id"/>
   <input name="password" type="hidden" value="$pass"/>
   <input name="url" type="hidden" value="/lobbyCgi"/>
-<iframe name="chatFrame" width="100%" height="465" scrolling="no"
+<iframe id="chatFrame" name="chatFrame" width="100%" height="465" scrolling="no"
  frameborder="0"></iframe>
 </td></tr>
 </table>
