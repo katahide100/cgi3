@@ -442,9 +442,9 @@ sub chat {
 
 	/**** アクティブ判定処理 ****/
 
-	isActive = true; // 全体のアクティブフラグ
-
+	var isActive = true; // 全体のアクティブフラグ
 	var iframeIsActive = false; // iframeのアクティブフラグ
+	var spIsActive = true; // スマホ対応用のアクティブフラグ
 
 	// iframeからメッセージ受け取り
 	\$(window).on('message', function(e){
@@ -482,9 +482,45 @@ sub chat {
 	 	isActive = false;
 	};
 
+	/**** スマホでホームボタン押下、ページ切り替えなどでもユーザーが消えるようにする対応 ***/
+
+	var hidden, visibilityChange;
+
+	if (typeof document.hidden !== "undefined") {
+		hidden = "hidden";
+		visibilityChange = "visibilitychange";
+	} else if (typeof document.mozHidden !== "undefined") {
+		hidden = "mozHidden";
+		visibilityChange = "mozvisibilitychange";
+	} else if (typeof document.msHidden !== "undefined") {
+		hidden = "msHidden";
+		visibilityChange = "msvisibilitychange";
+	} else if (typeof document.webkitHidden !== "undefined") {
+		hidden = "webkitHidden";
+		visibilityChange = "webkitvisibilitychange";
+	}
+	document.addEventListener(visibilityChange, function(){
+		// ページ非表示と表示時に呼ばれるため、表示から非表示になった時だけ呼ばれるように
+		// document.hidden条件を追加
+		if(document.hidden){
+			spIsActive = false;
+		} else {
+			spIsActive = true;
+		}
+	}, false);
+
+	window.addEventListener("pagehide", function(){
+		spIsActive = false;
+	}, false);
+
+	window.addEventListener("pageshow", function(){
+		spIsActive = true;
+	}, false);
+
+	// 一定間隔で、ユーザーが存在することをnodeに通知
 	var interval = setInterval(function () {
-		// 各フレーム、iframeいずれかがアクティブの場合のみアクティブチェック
-		if (iframeIsActive || isActive) {
+		// 各フレーム、iframeいずれかがアクティブかつスマホ用フラグもアクティブの場合のみアクティブチェック
+		if ((iframeIsActive || isActive) && spIsActive) {
 			\$.ajax({
 				url: '$hostName/cgi3/script/send_api.php',
 				type:'POST',
