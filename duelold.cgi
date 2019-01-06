@@ -726,11 +726,11 @@ EOM
 	print qq|<table border="0" cellpadding="10">\n<tr align="center"><td rowspan=6>|;
 print <<"EOM";
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 広告ユニット1 -->
+<!-- 広告ユニット２ -->
 <ins class="adsbygoogle"
-     style="display:inline-block;width:160px;height:600px"
+     style="display:inline-block;width:120px;height:600px"
      data-ad-client="ca-pub-1974859203649104"
-     data-ad-slot="1784652942"></ins>
+     data-ad-slot="1016891400"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
@@ -742,11 +742,11 @@ EOM
 	print qq|</td><td rowspan=6>|;
 print <<"EOM";
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 広告ユニット1 -->
+<!-- 広告ユニット２ -->
 <ins class="adsbygoogle"
-     style="display:inline-block;width:160px;height:600px"
+     style="display:inline-block;width:120px;height:600px"
      data-ad-client="ca-pub-1974859203649104"
-     data-ad-slot="1784652942"></ins>
+     data-ad-slot="1016891400"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
