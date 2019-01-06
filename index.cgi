@@ -60,19 +60,28 @@ EOM
 	print"<h1>$title</h1>";
 	if(($mon == 7) && ($mday == 30)) {
 		print <<"EOM";
-<table border="1" width="900" cellspacing="0" cellpadding="10">
+<table border="0" width="1260" cellspacing="0" cellpadding="10">
 EOM
 	} else {
 		print <<"EOM";
-<table border="1" width="800" cellspacing="0" cellpadding="10">
+<table border="0" width="1160" cellspacing="0" cellpadding="10">
 EOM
 	}
 	print <<"EOM";
-<tr><td class="table">
+<tr><td style="border-style: none;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 広告ユニット1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="1784652942"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td><td class="table">
 <div align="center">
 総数：<img src="dayx/dayx.cgi?gif" title="このページに来た総計人数"> 今日：<img src="dayx/dayx.cgi?today" title="今日の来た人の数"> 昨日：<img src="dayx/dayx.cgi?yes" title="昨日の来た人の数。"><br>
 <hr>
-
 <table border="0" cellspacing="0">
 <tr valign="top"><td>
 <form action="index.cgi" method="post" name="entrance">
@@ -153,6 +162,16 @@ CGI提供 <A href="mailto:mewsyoui\@hotmail.com">メシス</A>
 </div>
 </td></tr>
 </table>
+</td><td style="border-style: none;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 広告ユニット1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="1784652942"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 </td></tr>
 </table>
 EOM
