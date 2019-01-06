@@ -522,7 +522,7 @@ sub chat {
 		// 各フレーム、iframeいずれかがアクティブかつスマホ用フラグもアクティブの場合のみアクティブチェック
 		if ((iframeIsActive || isActive) && spIsActive) {
 			\$.ajax({
-				url: '$hostName/cgi3/script/send_api.php',
+				url: 'http://www11428uo.sakura.ne.jp/cgi3/script/send_api.php',
 				type:'POST',
 				dataType: 'json',
 				data : {url: '$hostName:1337/userList', data: {user_id: "$id", user_name: "$P{'name'}", listFlg: 0}},
