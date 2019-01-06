@@ -723,11 +723,35 @@ EOM
 	print "</td></tr>\n</table>\n";
 	print "<hr>\n";
 	&field_sel;
-	print qq|<table border="0" cellpadding="10">\n<tr align="center"><td>\n|;
+	print qq|<table border="0" cellpadding="10">\n<tr align="center"><td rowspan=6>|;
+print <<"EOM";
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 広告ユニット1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="1784652942"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+EOM
+        print qq|</td><td>\n|;
 	&view_field($u_side,0);
 	print "</td><td>\n";
 	&view_field($u_side,1);
-	print qq|</td></tr>\n<tr align="center"><td colspan="2">\n|;
+	print qq|</td><td rowspan=6>|;
+print <<"EOM";
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 広告ユニット1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="1784652942"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+EOM
+        print qq|</td></tr>\n<tr align="center"><td colspan="2">\n|;
 	&view_field($u_side,2);
 	print "</td></tr>\n";
 	&view_gear($u_side) if -1 < $#{$gear[$u_side]};
