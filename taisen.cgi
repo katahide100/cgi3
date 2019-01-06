@@ -896,8 +896,18 @@ sub roomlist {
 	$nextrank = " (next: " . ( $uppoint[ $P{'drank'} ] - $P{'dpoint'} ) . ")"
 	  if ( $P{'drank'} < 25 );
 	print <<"EOM";
-<table width="640" border="0" cellpadding="3" cellspacing="0" bgcolor="#FFFFFF">
+<table border="0" cellpadding="3" cellspacing="0">
 <tr><td>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 広告ユニット1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="1784652942"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td><td width="640" bgcolor="#FFFFFF">
 <div align="center" style="width: 600px; height: 200px; overflow: scroll;">
 <table border="0" cellpadding="5">
 <tr><th>ID</th><td>：$id</td></tr>
@@ -1521,6 +1531,16 @@ EOM
 <hr>
 <a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
 </div>
+</td><td>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 広告ユニット1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="1784652942"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 </td></tr></table>
 <hr width="640">
 EOM
