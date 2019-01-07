@@ -1,5 +1,6 @@
 #!/usr/local/bin/perl
 
+use Net::SSL;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use JSON;
@@ -898,6 +899,8 @@ sub roomlist {
 	print <<"EOM";
 <table border="0" cellpadding="3" cellspacing="0">
 <tr><td>
+<div style="width: 160px; font-size: 11px; color: blue;background-color: #c2d3e1">運営継続のため
+、たまにクリックして頂けると幸いです。</div>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -1532,6 +1535,8 @@ EOM
 <a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
 </div>
 </td><td>
+<div style="width: 160px; font-size: 11px; color: blue;background-color: #c2d3e1">運営継続のため     
+、たまにクリックして頂けると幸いです。</div>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -2009,7 +2014,7 @@ sub get_ini {
 	
 
 	# ユーザー検索（node連携）
-	my $url = 'http://localhost:1337/user/find?user_id='.$id;
+	my $url = 'http://manadream.net:1337/user/find?user_id='.$id;
 	$request = POST( $url );
 
 	# 送信
@@ -2024,7 +2029,7 @@ sub get_ini {
 		if (scalar @$arrRes > 0) {
 			#ユーザーが存在したら更新（node連携）
 
-			my $url = 'http://localhost:1337/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth;
+			my $url = 'http://manadream.net:1337/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth;
 			$request = POST( $url );
 
 			# 送信
@@ -2035,7 +2040,7 @@ sub get_ini {
 #	)
 		} else {
 			#存在しなかったら登録（node連携）
-			my $url = 'http://localhost:1337/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
+			my $url = 'http://manadream.net:1337/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
 			$request = POST( $url );
 
 			# 送信
