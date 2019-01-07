@@ -44,6 +44,7 @@ if ($F{'mode'} ne "cardview") {
 &frame				if !($F{'mode'}) || $F{'mode'} =~ /audience|duel/;
 &form				if $F{'mode'} eq "form";
 &sousa				if $F{'mode'} eq "sousa";
+&ad                             if $F{'mode'} eq "ad";
 &regist($pn[$u_side],$F{'mess'},"message$u_side")
 					if $F{'mode'} eq "regist" && !($read_only);
 &regist($P{'name'},$F{'mess'},"admin")
@@ -146,6 +147,31 @@ unless($chudan_flg){
 if(!($F{'mode'}) || $F{'mode'} ne "regist"){ &field; } else { &all; }
 
 &fileunlock($room);
+
+sub ad {
+  &header;
+  print <<"EOM";
+<script>
+setTimeout("location.reload()",180000);
+</script>
+</head>
+<body>
+<div style="width: 160px; font-size: 11px; color: blue;background-color: #c2d3e1">運営継続のため     
+、たまにクリックして頂けると幸いです。</div>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 広告ユニット1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="1784652942"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body></html>
+EOM
+&fileunlock($room);
+exit;
+}
 
 sub sousa {
 	&header;
@@ -516,7 +542,7 @@ function cView(c){
 }
 // --></script>
 </head>
-<frameset cols="220,*">
+<frameset cols="220,*,180">
 <frameset rows="*,200">
 <frame src="duelold.cgi?mode=sousa&id=$id&pass=$pass&room=$room" name="sousa">
 <frame src="duelold.cgi?mode=all&id=$id&pass=$pass&room=$room" name="message">
@@ -524,6 +550,9 @@ function cView(c){
 <frameset rows="100,*">
 <frame src="duelold.cgi?mode=form&id=$id&pass=$pass&room=$room" name="form">
 <frame src="duelold.cgi?mode=field&id=$id&pass=$pass&room=$room" name="field">
+</frameset>
+<frameset rows="*">
+<frame src="duelold.cgi?mode=ad&id=$id&pass=$pass&room=$room" name="ad">
 </frameset>
 <noframes>
 <body>デュエルCGIはフレーム対応のブラウザでプレイしてください。</body>
@@ -723,35 +752,11 @@ EOM
 	print "</td></tr>\n</table>\n";
 	print "<hr>\n";
 	&field_sel;
-	print qq|<table border="0" cellpadding="10">\n<tr align="center"><td rowspan=6>|;
-print <<"EOM";
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 広告ユニット２ -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:120px;height:600px"
-     data-ad-client="ca-pub-1974859203649104"
-     data-ad-slot="1016891400"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-EOM
-        print qq|</td><td>\n|;
+	print qq|<table border="0" cellpadding="10">\n<tr align="center"><td>\n|;
 	&view_field($u_side,0);
 	print "</td><td>\n";
 	&view_field($u_side,1);
-	print qq|</td><td rowspan=6>|;
-print <<"EOM";
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 広告ユニット２ -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:120px;height:600px"
-     data-ad-client="ca-pub-1974859203649104"
-     data-ad-slot="1016891400"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-EOM
-        print qq|</td></tr>\n<tr align="center"><td colspan="2">\n|;
+	print qq|</td></tr>\n<tr align="center"><td colspan="2">\n|;
 	&view_field($u_side,2);
 	print "</td></tr>\n";
 	&view_gear($u_side) if -1 < $#{$gear[$u_side]};
