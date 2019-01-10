@@ -1,4 +1,13 @@
-var io   = require('socket.io').listen(3002);
+var fs = require('fs');
+var opts = {
+  key: fs.readFileSync("/etc/letsencrypt/live/manadream.net/privkey.pem"),
+  cert: [fs.readFileSync("/etc/letsencrypt/live/manadream.net/cert.pem")],
+};
+const server = require("https").createServer(opts);
+server.listen(3002);
+
+const io = require("socket.io").listen(server);
+
 var logger = require('./logger');
 
 io.sockets.on('connection',function(socket) {

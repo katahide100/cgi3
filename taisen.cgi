@@ -526,7 +526,7 @@ sub chat {
 				url: '$hostName/cgi3/script/send_api.php',
 				type:'POST',
 				dataType: 'json',
-				data : {url: '$hostName:1337/userList', data: {user_id: "$id", user_name: "$P{'name'}", listFlg: 0}},
+				data : {url: '$chatNodeHost/userList', data: {user_id: "$id", user_name: "$P{'name'}", listFlg: 0}},
 				timeout:3000,
 			}).done(function(data) {
 				console.log("ok");
@@ -1615,7 +1615,7 @@ EOM
 <tr><td align="center">
 <table width="90%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
-<form action="$hostName:1337/processChat" method="post" target="chatFrame" name="chatForm">
+<form action="$chatNodeHost/processChat" method="post" target="chatFrame" name="chatForm">
   <input name="username" type="hidden" value="$id"/>
   <input name="password" type="hidden" value="$pass"/>
   <input name="url" type="hidden" value="/lobbyCgi"/>
@@ -2014,11 +2014,11 @@ sub get_ini {
 	
 
 	# ユーザー検索（node連携）
-	my $url = 'http://manadream.net:1337/user/find?user_id='.$id;
+	my $url = $chatNodeHost . '/user/find?user_id='.$id;
 	$request = POST( $url );
 
 	# 送信
-	my $ua = LWP::UserAgent->new;
+	my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
 	my $res = $ua->request( $request );
 	my $arrRes = decode_json($res->content);
 	my $auth = 0;
@@ -2029,22 +2029,22 @@ sub get_ini {
 		if (scalar @$arrRes > 0) {
 			#ユーザーが存在したら更新（node連携）
 
-			my $url = 'http://manadream.net:1337/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth;
+			my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth;
 			$request = POST( $url );
 
 			# 送信
-			my $ua = LWP::UserAgent->new;
+			my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
 			my $res = $ua->request( $request );
 #			&error(
 #$res->base
 #	)
 		} else {
 			#存在しなかったら登録（node連携）
-			my $url = 'http://manadream.net:1337/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
+			my $url = $chatNodeHost . '/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
 			$request = POST( $url );
 
 			# 送信
-			my $ua = LWP::UserAgent->new;
+			my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
 			my $res = $ua->request( $request );
 		}
 	}
