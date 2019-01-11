@@ -41,8 +41,13 @@ $lockfile2 		= "word.lock";						# 伝言板機能用ロックファイル名（
 $dendoufile     = "./data/dendou.txt";              # 殿堂入りカードのデータファイル
 $premiumfile    = "./data/premium.txt";             # P殿堂入りカードのデータファイル
 
-$hostName       = "http://153.121.71.202";          # ホスト名（node.jsなどで使用）
+$hostName       = "https://manadream.net";          # ホスト名（node.jsなどで使>
+用）
 $nodePort       = "3002";                           # node.jsのポート番号
+
+$chatNodePort   = "1337";                           # chatのnode.jsポート番号
+
+$chatNodeHost   = $hostName . ':' . $chatNodePort;  # chatのホスト
 
 # P殿堂入りカード読み込み
 open($fh, "<",$premiumfile);
