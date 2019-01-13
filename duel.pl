@@ -280,11 +280,11 @@ sub prof {
 	($deck,$dum) = split(/-/,$P2{"deck$use"});
 
 	# ユーザー検索（node連携）
-	my $url = 'http://localhost:1337/user/find?user_id='.$P2{'id'};
+	my $url = $chatNodeHost . '/user/find?user_id=' . $P2{'id'};
 	$request = POST( $url );
 
 	# 送信
-	my $ua = LWP::UserAgent->new;
+	my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
 	my $res = $ua->request( $request );
 	my $arrRes = decode_json($res->content);
 	my $orica = 0;

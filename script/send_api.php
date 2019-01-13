@@ -1,7 +1,5 @@
 <?php
 
-require_once '../config/define.php';
-
 $post = $_POST;
 
 $url = $post['url'];
@@ -12,11 +10,22 @@ $data = $post['data'];
 // URL エンコード
 $data = http_build_query($data, "", "&");
 
+$header = array(
+  "Content-Type: application/x-www-form-urlencoded",
+  "Content-Length: ".strlen($data)
+);
+
 // 送信時のオプション
-$options = array('http' => array(
+$options = array('http' => [
     'method' => 'POST',
     'content' => $data,
-));
+    'header' => implode("\r\n", $header),
+  ],
+  'ssl' => [
+    'verify_peer' => false,
+    'verify_peer_name' => false
+  ]
+);
  
 // ストリームコンテキストを作成
 $options = stream_context_create($options);
