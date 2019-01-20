@@ -68,7 +68,7 @@ EOM
 EOM
 	}
 	print <<"EOM";
-<tr><td style="border-style: none;">
+<tr><td style="border-style: none;vertical-align: top;">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -162,7 +162,7 @@ CGI提供 <A href="mailto:mewsyoui\@hotmail.com">メシス</A>
 </div>
 </td></tr>
 </table>
-</td><td style="border-style: none;">
+</td><td style="border-style: none;vertical-align: top;">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
