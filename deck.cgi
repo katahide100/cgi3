@@ -612,7 +612,19 @@ EOM
             <option value="139" $selstr[139]>ジョーカーズ・弾銃炸裂・スタートデッキ</option>
             <option value="140" $selstr[140]>オウ禍武斗・マッハ炸裂・スタートデッキ</option>
             <option value="142" $selstr[142]>ドルスザク・無月炸裂・スタートデッキ</option>
-            <option value="141" $selstr[141]>第1弾　豪快!!ジョラゴンGoFight!!</option>
+            <option value="147" $selstr[147]>煌世の剣・Z炸裂・スタートデッキ</option>
+            <option value="145" $selstr[145]>クロニクル・レガシー・デッキ2018 究極のバルガ龍幻郷</option>
+            <option value="146" $selstr[146]>クロニクル・レガシー・デッキ2018 至高のゼニス頂神殿</option>
+            <option value="154" $selstr[154]>超誕!!ツインヒーローデッキ80 聖剣神話†カリバーサーガ</option>
+            <option value="153" $selstr[153]>超誕!!ツインヒーローデッキ80 Jの超機兵ジョーカーズデラックス</option>
+            <option value="152" $selstr[152]>超誕!!ツインヒーローデッキ80 卍獄の虚無月ムーンレスムーン</option>
+            <option value="151" $selstr[151]>超誕!!ツインヒーローデッキ80 自然大暴走ファイナルハザード </option>
+            <option value="141" $selstr[141]>第1弾　豪快！！ジョラゴンGoFight！！</option>
+            <option value="143" $selstr[143]>第2弾　逆襲のギャラクシー 卍・獄・殺！！</option>
+            <option value="148" $selstr[148]>第3弾 †ギラギラ†煌世主と終葬のＱＸ！！</option>
+            <option value="155" $selstr[155]>第4弾 超決戦!バラギアラ!!無敵オラオラ輪廻∞</option>
+            <option value="144" $selstr[144]>デュエマクエスト・パック～伝説の最強戦略12～</option>
+            <option value="150" $selstr[150]>ペリッ！！スペシャルだらけのミステリーパック</option>
         <optgroup label = "デッキビルダー">
             <option value="88" $selstr[88]>デッキビルダーDX　ハンター・エディション</option>
             <option value="89" $selstr[89]>デッキビルダーDX　エイリアンエディション</option>
@@ -671,6 +683,8 @@ EOM
             <option value="82" $selstr[82]>プロモーションカード2013</option>
             <option value="94" $selstr[94]>アゲアゲVS(アゲインスト)パック</option>
             <option value="99" $selstr[99]>プロモーションカード2014</option>
+        <optgroup label = "CGI限定オリジナルカード">
+            <option value="149" $selstr[149]>2018年　オリカ募集　推進パック第４弾</option>
 
 </select>
     カード種別：
