@@ -132,6 +132,19 @@ sub cardview {
 	print qq|<td>$c_pow[$cno]</td><td>$syuzoku| if 1 < $c_syu[$cno];
 	print qq|</td><td>$c_kijutu[$cno]</td>\n|;
 	print qq|</tr></table>\n|;
+        print <<"EOM";
+<br>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 横長ビッグバナー -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1974859203649104"
+     data-ad-slot="2205669784"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+EOM
 	print qq|<p align="right"><a href="$keyword" target="_blank">キーワード一覧</a></p>\n|;
 	&footer;
 }
