@@ -899,8 +899,6 @@ sub roomlist {
 	print <<"EOM";
 <table border="0" cellpadding="3" cellspacing="0">
 <tr><td style="vertical-align: top;">
-<div style="width: 160px; font-size: 11px; color: blue;background-color: #c2d3e1">運営継続のため
-、たまにクリックして頂けると幸いです。</div>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -1535,8 +1533,6 @@ EOM
 <a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
 </div>
 </td><td style="vertical-align: top;">
-<div style="width: 160px; font-size: 11px; color: blue;background-color: #c2d3e1">運営継続のため     
-、たまにクリックして頂けると幸いです。</div>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"

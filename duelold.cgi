@@ -156,8 +156,6 @@ setTimeout("location.reload()",180000);
 </script>
 </head>
 <body>
-<div style="width: 160px; font-size: 11px; color: blue;background-color: #c2d3e1">運営継続のため     
-、たまにクリックして頂けると幸いです。</div>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
