@@ -43,7 +43,7 @@ sub deny {			# 禁止ID、プロクシのチェック
 
 sub all_clr {
 	my $sd = $_[0] ? $_[0] : "";
-	undef @hand; undef @boti; undef @deck; undef @gear; undef @psychic;
+	undef @hand; undef @boti; undef @deck; undef @gear; undef @psychic; undef @gr;
 	undef @fld; undef @f_tap; undef @f_block; undef @f_drunk; undef @f_cloth; undef @shinka; undef @res; undef @res2; undef @syori; undef @vor; undef @syu_add; undef @magic;
 	&battle_clr;
 	$lp[$sd] = $side[$sd] = $pn[$sd] = $pass[$sd] = $dnam[$sd] = $usedeck[$sd] = $date[$sd] = "" if $sd ne "";
@@ -118,7 +118,7 @@ sub start {
 	&error("あなたのIDは対戦規制をかけられています。<BR>悪いことをした覚えがないのにこのエラーが出た場合は、<BR>管理者まで連絡してください。") if($P{"deny"});
 	my $use = $F{'usedeck'};
 	&error("デッキを読み込むことができません。選択し直してください。") if !($P{"deck$use"});
-	($dummy,$dcond,$dcondp) = split(/-/,$P{"deck$use"});
+	($dummy,$dcond,$dcondp,$dcondg) = split(/-/,$P{"deck$use"});
 	my @odeck = split(/,/,$dcond);
 	&error("デッキが40枚になっていません。デッキを作り直してください。") if $#odeck != 39;
 
@@ -129,7 +129,14 @@ sub start {
 	my @odeckp = split(/,/,$dcondp);
 	&error("超次元カードが15枚以上入っています。デッキを作り直してください。") if $#odeckp > 14;
 
+	my @odeckg = split(/,/,$dcondg);
+	&error("GRカードが20枚以上入っています。デッキを作り直してください。") if $#odeckg > 19;
+
 	foreach my $card (@odeckp) {
+		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
+	}
+
+	foreach my $card (@odeckg) {
 		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
 	}
 
@@ -213,7 +220,7 @@ sub start {
 			for(my($i) = 0; $i <= $#zerodeck; $i ++) {
 				my($zero_diff) = 0;
 				foreach my $card (keys(%odeck_hash)) {
-					$zero_diff += $odeck_hash{$card} - $zerodeck_list[$i]{$card}; 
+					$zero_diff += $odeck_hash{$card} - $zerodeck_list[$i]{$card};
 				}
 				if($zero_diff <= 10) {
 					$zero_flag = 1;
@@ -406,7 +413,9 @@ EOM
 
 		@{$deck[$u_side]} = @odeck;
 		@{$psychic[$u_side]} = @odeckp;
+		@{$gr[$u_side]} = @odeckg;
 		&shuffle(*deck,$u_side);
+		&shuffle(*gr,$u_side);
 		$side[$u_side] = $id;
 		$ip[$u_side] = $ENV{'REMOTE_ADDR'};
 		$pn[$u_side] = $P{'name'};
@@ -509,7 +518,9 @@ EOM
 			$T{"p${mn}id"} = $id;
 			$T{"p${mn}pass"} = $P{'pass'};
 			$T{"p${mn}name"} = $P{'name'};
-			if(defined(@odeckp)){
+			if(defined(@odeckp) && defined(@odeckg)){
+				$T{"p${mn}deck"} = join(',', @odeck).'-'.join(',', @odeckp).'-'.join(',', @odeckg);
+			} elsif (defined(@odeckp)){
 				$T{"p${mn}deck"} = join(',', @odeck).'-'.join(',', @odeckp);
 			}else{
 				$T{"p${mn}deck"} = join(',', @odeck);
@@ -541,8 +552,10 @@ EOM
 						@arr_deck = split(/-/, $T{"p$num[$pnum]deck"});
 						@{$deck[$j]} = split(/\,/, $arr_deck[0]);
 						@{$psychic[$j]} = split(/\,/, $arr_deck[1]);
+						@{$gr[$j]} = split(/\,/, $arr_deck[2]);
 						#@{$deck[$j]} = split(/\,/, $T{"p$num[$pnum]deck"});
 						&shuffle(*deck,$j);
+						&shuffle(*gr,$j);
 						$side[$j] = $T{"p$num[$pnum]id"};
 						$pass[$j] = $T{"p$num[$pnum]pass"};
 						$pn[$j] = $T{"p$num[$pnum]name"};
@@ -651,8 +664,8 @@ sub start2{
 
 	my (@new, %tmp, $lfh, $lin, $data, $out);
 	my $cou = 0;
-	my @card = grep (!$tmp{$_}++, (@{$deck[1]}, @{$deck[2]}, @{$psychic[1]}, @{$psychic[2]}));
-	
+	my @card = grep (!$tmp{$_}++, (@{$deck[1]}, @{$deck[2]}, @{$psychic[1]}, @{$psychic[2]}, @{$gr[1]}, @{$gr[2]}));
+
 	my (%psy_top, %psy_back, %psy_super, %psy_cell);
 	eval (join "", (log_read("psychic.txt")));
 	
@@ -684,6 +697,7 @@ sub start2{
 	for my $i(1..2){
 		@{$hand[$i]} = ();
 		&shuffle(*deck,$i);
+		&shuffle(*gr,$i);
 		for (my $j=$fw3[$i][0]; $j<$fw3[$i][5]; $j++) {
 			$fld[$j] = shift(@{$deck[$i]});
 			push(@{$hand[$i]}, shift(@{$deck[$i]}));
@@ -762,6 +776,7 @@ sub end_game_sub {
 	for($i = 0; $i <= $#{$deck[1]}; $i ++) { push(@p_all1, $deck[1][$i]); }
 	for($i = 0; $i <= $#{$gear[1]}; $i ++) { push(@p_all1, $gear[1][$i]); }
 	for($i = 0; $i <= $#{$psychic[1]}; $i ++) { push(@p_all1, $psychic[1][$i]); }
+	for($i = 0; $i <= $#{$gr[1]}; $i ++) { push(@p_all1, $gr[1][$i]); }
 	for($i = 0; $i <= $#p_field2; $i ++) { push(@p_all2, $p_field2[$i]); }
 	for($i = 0; $i <= $#p_mana2; $i ++) { push(@p_all2, $p_mana2[$i]); }
 	for($i = 0; $i <= $#p_shield2; $i ++) { push(@p_all2, $p_shield2[$i]); }
@@ -770,6 +785,7 @@ sub end_game_sub {
 	for($i = 0; $i <= $#{$deck[2]}; $i ++) { push(@p_all2, $deck[2][$i]); }
 	for($i = 0; $i <= $#{$gear[2]}; $i ++) { push(@p_all2, $gear[2][$i]); }
 	for($i = 0; $i <= $#{$psychic[2]}; $i ++) { push(@p_all2, $psychic[2][$i]); }
+	for($i = 0; $i <= $#{$gr[2]}; $i ++) { push(@p_all2, $gr[2][$i]); }
 
 
 #	$shieldpoint1 = ($#p_shield1 + 1) * 5 if($sr[1] == 0);
@@ -1233,10 +1249,10 @@ sub put_shohai{
 			);
 			foreach $key (keys(%deck_color)) {
 				if(
-				((($light_point == 0) && (!$deck_color{$key}[0])) || (($light_point >= $deck_color{$key}[0]) && ($deck_color{$key}[0]))) && 
-				((($water_point == 0) && (!$deck_color{$key}[1])) || (($water_point >= $deck_color{$key}[1]) && ($deck_color{$key}[1]))) && 
-				((($dark_point == 0) && (!$deck_color{$key}[2])) || (($dark_point >= $deck_color{$key}[2]) && ($deck_color{$key}[2]))) && 
-				((($fire_point == 0) && (!$deck_color{$key}[3])) || (($fire_point >= $deck_color{$key}[3]) && ($deck_color{$key}[3]))) && 
+				((($light_point == 0) && (!$deck_color{$key}[0])) || (($light_point >= $deck_color{$key}[0]) && ($deck_color{$key}[0]))) &&
+				((($water_point == 0) && (!$deck_color{$key}[1])) || (($water_point >= $deck_color{$key}[1]) && ($deck_color{$key}[1]))) &&
+				((($dark_point == 0) && (!$deck_color{$key}[2])) || (($dark_point >= $deck_color{$key}[2]) && ($deck_color{$key}[2]))) &&
+				((($fire_point == 0) && (!$deck_color{$key}[3])) || (($fire_point >= $deck_color{$key}[3]) && ($deck_color{$key}[3]))) &&
 				((($nature_point == 0) && (!$deck_color{$key}[4])) || (($nature_point >= $deck_color{$key}[4]) && ($deck_color{$key}[4])))
 				) {
 					$P{$key . '_win'} ++;

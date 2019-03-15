@@ -660,6 +660,7 @@ sub cardlist {
 	my $varea = $F{'varea'} || 0;
 	&regist("","$pn[$u_side]は相手の手札を見た！", "system") if $varea == 0 && $vside eq $u_side2;
 	&regist("",sprintf ("$pn[$u_side]は%sの山札を見た！", $vside == $u_side2 ? "相手" : "自分"), "system") if $varea == 2;
+	&regist("",sprintf ("$pn[$u_side]は%sのGRゾーンを見た！", $vside == $u_side2 ? "相手" : "自分"), "system") if $varea == 4;
 	&del_null(sprintf("%s", $varea == 0 ? *hand : $varea == 1 ? *boti : $varea == 2 ? *deck : *psychic), $vside);
 	my @tmp = $varea == 0 ? @{$hand[$vside]} : $varea == 1 ? @{$boti[$vside]} : @{$deck[$vside]};
 	print "Content-Type: text/html; charset=UTF-8\n\n";
