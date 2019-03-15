@@ -9,7 +9,7 @@ sub access_chk {	# 強制退室チェック
 		# 強制退室処理
 		if(($room =~ /^t/) && ($times - $start_date > 60 * 60 * 24)) {
 			&s_mes("規定時刻になったため、デュエルを終了します！");
-			
+
 			if($tourtime[$u_side] < $tourtime[$u_side2]) {
 				&s_mes("待ち時間が少なかったため、$pn[$u_side]さんは敗北になります。");
 				$lp[$u_side] = 0;
@@ -130,7 +130,7 @@ sub start {
 	&error("超次元カードが15枚以上入っています。デッキを作り直してください。") if $#odeckp > 14;
 
 	my @odeckg = split(/,/,$dcondg);
-	&error("GRカードが12枚以上入っています。デッキを作り直してください。") if $#odeckg > 11;
+	&error("GRカードが12枚以上入っています。デッキを作り直してください。") if($#odeckg != 0 && $#odeckg != 12) ;
 
 	foreach my $card (@odeckp) {
 		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
