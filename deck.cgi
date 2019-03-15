@@ -70,13 +70,15 @@ if($P{'url'} ne ""){
   print qq|ウィンドウが開かない場合は、こちらのリンクをクリックすれば記事が開きます＞<a href="$site" target="_blank">Link</a></p>\n|;
   print qq|<p>また、<a href="http://www.stannet.ne.jp/fb/dm/" target="_blank">カードキングダムのサイト</a>にはサンプルデッキ以外にも数多くのデッキが掲載されておりますので、<br>よろしければご覧ください。</p>\n|;
 }
+my $deckname = $dnam[$F{'usedeck'}] if $dnam[$F{'usedeck'}] ne "記録なし";
+$deckname = $P{'c_dname'} if $P{'c_dname'} ne "";
   print <<"EOM";
 <div align="center">
 <form action="deck.cgi" method="post" name="form">
   <input type="hidden" name="id" value="$id">
   <input type="hidden" name="pass" value="$pass">
   <input type="hidden" name="mode"value="regist">
-  <input type="text" size="20" name="deckname" value="$P{'c_dname'}">&nbsp;
+  <input type="text" size="20" name="deckname" value="$deckname">&nbsp;
   <input type="submit" value="決定">&nbsp;
   <input type="reset" value="クリア">
 </form>
@@ -291,7 +293,7 @@ sub deckmake{
     $cardno =~ s/^sel//;
     &add_card($cardno,$kaisu);
   }
- 
+
   @deck_stack = sort decksort @deck;
   @deck = @deck_stack;
   @deckp_stack = sort decksort @deckp;
@@ -568,7 +570,7 @@ EOM
     拡張パック：
     <select name="series">
         <option value="9999"selected$selstr[9999]>全種</option>
-        
+
         <optgroup label = "基本編">
             <option value="109" $selstr[109]>第１弾</option>
             <option value="1" $selstr[1]>第２弾</option>
@@ -1368,7 +1370,7 @@ sub deckread{
   @deckg = $P{'predeckg'} ? split(/,/,$P{'predeckg'}) : $P{'usedeck'} ? split(/,/,$dcong[$P{'usedeck'}]) : ();
 }
 
-sub set_cookie{ 
+sub set_cookie{
   ($sec,$min,$hour,$mday,$mon,$year) = gmtime(time + 30*24*60*60);
   $gdate = sprintf("%02d\-%s\-%04d %02d:%02d:%02d", $mday, ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')[$mon], $year + 1900, $hour, $min, $sec);
   $cook = "id:$F{'id'},pass:$F{'pass'},pc:$pc_chk";
