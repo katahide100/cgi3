@@ -125,12 +125,12 @@ sub start {
 	foreach my $card (@odeck) {
 		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
 	}
-	
+
 	my @odeckp = split(/,/,$dcondp);
 	&error("超次元カードが15枚以上入っています。デッキを作り直してください。") if $#odeckp > 14;
 
 	my @odeckg = split(/,/,$dcondg);
-	&error("GRカードが20枚以上入っています。デッキを作り直してください。") if $#odeckg > 19;
+	&error("GRカードが12枚以上入っています。デッキを作り直してください。") if $#odeckg > 11;
 
 	foreach my $card (@odeckp) {
 		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
@@ -641,7 +641,7 @@ sub start2{
 	$phase = $turn = $lp[1] = $lp[2] = 1;
 	$turn2 = int(rand(2))+1;
 	$message = "";
-	
+
 	if($T{'date'}) {
 		$start_date = $T{'date'};
 	} else {
@@ -668,7 +668,7 @@ sub start2{
 
 	my (%psy_top, %psy_back, %psy_super, %psy_cell);
 	eval (join "", (log_read("psychic.txt")));
-	
+
 	my %psychic_back;
 	foreach my $cardno (@card) {
 		if ($psy_top{$cardno}) {
