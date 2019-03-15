@@ -670,7 +670,7 @@ EOM
             <option value="133" $selstr[133]>新3弾 気分 JOE×2 メラ冒険↑↑</option>
             <option value="137" $selstr[137]>新4弾 誕ジョー↑マスター・ドラゴン↑↑ ～正義ノ裁キ～</option>
             <option value="138" $selstr[138]>新4弾 誕ジョー↑ マスター・ドルスザク↑↑ ～無月の魔凰～</option>
-        <optgroup label = "双極編">
+        <optgroup label = "双極篇">
             <option value="139" $selstr[139]>ジョーカーズ・弾銃炸裂・スタートデッキ</option>
             <option value="140" $selstr[140]>オウ禍武斗・マッハ炸裂・スタートデッキ</option>
             <option value="142" $selstr[142]>ドルスザク・無月炸裂・スタートデッキ</option>
@@ -687,6 +687,11 @@ EOM
             <option value="155" $selstr[155]>第4弾 超決戦!バラギアラ!!無敵オラオラ輪廻∞</option>
             <option value="144" $selstr[144]>デュエマクエスト・パック～伝説の最強戦略12～</option>
             <option value="150" $selstr[150]>ペリッ！！スペシャルだらけのミステリーパック</option>
+            <option value="156" $selstr[156]>夢の最＆強!!ツインパクト超No.1パック</option>
+        <optgroup label = "超天篇">
+            <option value="158" $selstr[158]>超GRスタートデッキ ジョーのガチャメカ・ワンダフォー</option>
+            <option value="159" $selstr[159]>超GRスタートデッキ キャップのオレガ・オーラ・デリート</option>
+            <option value="157" $selstr[157]>第1弾 新世界ガチ誕!! 超GRとオレガ・オーラ!!</option>
         <optgroup label = "デッキビルダー">
             <option value="88" $selstr[88]>デッキビルダーDX　ハンター・エディション</option>
             <option value="89" $selstr[89]>デッキビルダーDX　エイリアンエディション</option>
