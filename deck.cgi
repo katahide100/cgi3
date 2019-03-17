@@ -34,7 +34,7 @@ if($F{'mode'} ne "cardview"){
 
 sub deck_chg {
   $P{'usedeck'} = $F{'usedeck'};
-  $P{'predeck'} = "" if $dnam[$F{'usedeck'}] ne "記録なし";
+  $P{'predeck'} = $P{'predeckp'} = $P{'predeckg'} = "" if $dnam[$F{'usedeck'}] ne "記録なし";
   $P{'c_dname'} = $P{'url'} = "";
   $selstr4[$F{'usedeck'}] = " selected";
   &pfl_write($id);
@@ -1345,6 +1345,13 @@ sub put_ini{
   $P{'predeck'} = join(",",@deck);
   $P{'predeckp'} = join(",",@deckp);
   $P{'predeckg'} = join(",",@deckg);
+  # 空の場合はnonを入れる
+  if (!$P{'predeckp'}) {
+    $P{'predeckp'} = "non";
+  }
+  if (!$P{'predeckg'}) {
+    $P{'predeckg'} = "non";
+  }
   &pfl_write($id);
 }
 
@@ -1366,8 +1373,16 @@ sub deckread{
   @deck = $P{'predeck'} ? split(/,/,$P{'predeck'}) : $P{'usedeck'} ? split(/,/,$dcon[$P{'usedeck'}]) : ();
   # サイキック
   @deckp = $P{'predeckp'} ? split(/,/,$P{'predeckp'}) : $P{'usedeck'} ? split(/,/,$dconp[$P{'usedeck'}]) : ();
+  if ($P{'predeckp'} eq "non") {
+    # nonの場合は空をセットする
+    @deckp = ();
+  }
   # GR
   @deckg = $P{'predeckg'} ? split(/,/,$P{'predeckg'}) : $P{'usedeck'} ? split(/,/,$dcong[$P{'usedeck'}]) : ();
+  if ($P{'predeckg'} eq "non") {
+    # nonの場合は空をセットする
+    @deckg = ();
+  }
 }
 
 sub set_cookie{
