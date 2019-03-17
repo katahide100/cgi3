@@ -1416,6 +1416,14 @@ sub psy_link {
 	undef @fsel;
 }
 
+sub gr_shoukan {
+  $F{'parea'} = 1;
+  $F{'decktop'} = "on";
+  $F{'fld'} = 4;
+
+	&move;
+}
+
 #--------------------------------------------------------
 
 sub rand_tehuda {

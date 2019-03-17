@@ -72,6 +72,7 @@ unless($chudan_flg){
 	&gacha			if $F{'mode'} eq "gacha";
 	&psychic			if $F{'mode'} eq "psychic";
 	&psy_link			if $F{'mode'} eq "psy_link";
+	&gr_shoukan			if $F{'mode'} eq "gr_shoukan";
 }
 &block_flg			if $F{'mode'} eq "block_flg";
 &shinka_sel			if $F{'mode'} eq "shinka_sel";
@@ -365,6 +366,9 @@ EOM
 </td></tr>
 <tr><td align="center">
 	<input type="button" value="覚醒リンク" onclick="if(confirm('本当に覚醒リンクしますか？')) { this.disabled = true; Cmd('psy_link'); } return false;">
+</td></tr>
+<tr><td align="center">
+	<input type="button" value="GR召喚" onclick="if(confirm('本当にGR召喚しますか？')) { this.disabled = true; Cmd('gr_shoukan'); } return false;">
 </td></tr>
 <tr><td align="center">
 	<input type="button" value="ジャンケン" onclick="if(confirm('本当にジャンケンしますか？')) { this.disabled = true; sForm('janken'); } return false;">
@@ -1474,4 +1478,3 @@ sub tourstart {
 		print "Location: ./index.cgi\n\n";
 	}
 }
-
