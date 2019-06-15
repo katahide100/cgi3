@@ -4,6 +4,8 @@ use Net::SSL;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use JSON;
+use File::Copy;
+use POSIX qw(strftime);
 
 require "cust.cgi";
 require "duel.pl";
@@ -1360,6 +1362,7 @@ EOM
 				}
 				print
 "現在使われていません。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"></p>\n";
+				copy "${room_dir}/" . $roomst . $i . '_log.cgi', "room_old/" . $roomst . $i . "_" . strftime("%Y%m%d%H%M%S", localtime(time)) . "_log.cgi";
 				unlink(
 					"${room_dir}/" . $roomst . $i . '.cgi',
 					"${room_dir}/" . $roomst . $i . '_log.cgi',

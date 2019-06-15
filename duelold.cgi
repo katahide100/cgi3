@@ -1,6 +1,9 @@
 #!/usr/local/bin/perl
 BEGIN{open STDERR, '>./logs/error.log'};
 
+use File::Copy;
+use POSIX qw(strftime);
+
 require "cust.cgi";
 require "action.pl";
 require "duel.pl";
@@ -470,6 +473,7 @@ sub drop {
 		&regist("","$nameさんが退室しました。(IP: $ENV{'REMOTE_ADDR'})", "system");
 		$sur_flg[$u_side2] = 0;
 		if((!($side[1]) || !($side[2])) || ($side[1] eq $side[2])){
+			copy "room/".$roomst.$room."_log.cgi", "room_old/".$roomst.$room."_".strftime("%Y%m%d%H%M%S", localtime(time))."_log.cgi";
 			unlink("room/".$roomst.$room.".cgi");
 			unlink("room/".$roomst.$room."_log.cgi","room/".$roomst.$room."_card.cgi");
 		} else {
