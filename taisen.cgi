@@ -529,7 +529,7 @@ sub chat {
 				type:'POST',
 				dataType: 'json',
 				data : {url: '$chatNodeHost/userList', data: {user_id: "$id", user_name: "$P{'name'}", listFlg: 0}},
-				timeout:3000,
+				timeout:7000,
 			}).done(function(data) {
 				console.log("ok");
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
