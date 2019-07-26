@@ -693,7 +693,13 @@ EOM
         <optgroup label = "超天篇">
             <option value="158" $selstr[158]>超GRスタートデッキ ジョーのガチャメカ・ワンダフォー</option>
             <option value="159" $selstr[159]>超GRスタートデッキ キャップのオレガ・オーラ・デリート</option>
+            <option value="161" $selstr[161]>超GRスタートデッキ キラのギラミリオン・ギラクシー</option>
+            <option value="162" $selstr[162]>超GRスタートデッキ キャップのWAVEガチャ・パラダイス</option>
+            <option value="163" $selstr[163]>超GRスタートデッキ ゼーロのオレガ無月の大罪</option>
             <option value="157" $selstr[157]>第1弾 新世界ガチ誕!! 超GRとオレガ・オーラ!!</option>
+            <option value="164" $selstr[164]>第2弾 青きC.A.Pと漆黒の大卍罪</option>
+            <option value="160" $selstr[160]>100%新世界！超GRパック100</option>
+            <option value="165" $selstr[165]>絶対王者!! デュエキングパック</option>
         <optgroup label = "デッキビルダー">
             <option value="88" $selstr[88]>デッキビルダーDX　ハンター・エディション</option>
             <option value="89" $selstr[89]>デッキビルダーDX　エイリアンエディション</option>
@@ -752,6 +758,7 @@ EOM
             <option value="82" $selstr[82]>プロモーションカード2013</option>
             <option value="94" $selstr[94]>アゲアゲVS(アゲインスト)パック</option>
             <option value="99" $selstr[99]>プロモーションカード2014</option>
+            <option value="166" $selstr[166]>プロモーション限定カード第17期〜</option>
         <optgroup label = "CGI限定オリジナルカード">
             <option value="149" $selstr[149]>2018年　オリカ募集　推進パック第４弾</option>
 

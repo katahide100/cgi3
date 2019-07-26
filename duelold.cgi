@@ -160,6 +160,16 @@ setTimeout("location.reload()",180000);
 </script>
 </head>
 <body>
+<!-- Research Artisan Pro Script Tag Start -->
+<script type="text/javascript">
+  var _Ra = {};
+  _Ra.hId = '0';
+  _Ra.uCd = '19070700007819331715';
+  _Ra.exceptCrawler = true;
+  (function() {var s=document.getElementsByTagName('script')[0],js=document.createElement('script');js.type='text/javascript';js.async='async';js.src='https://analyze.pro.research-artisan.com/track/script.php';s.parentNode.insertBefore(js,s);})();
+</script>
+<noscript><p><img src="https://analyze.pro.research-artisan.com/track/tracker.php?ucd=19070700007819331715&hid=0&guid=ON" alt="" width="1" height="1" /></p></noscript>
+<!-- Research Artisan Pro Script Tag End   -->
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"

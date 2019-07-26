@@ -68,7 +68,22 @@ EOM
 EOM
 	}
 	print <<"EOM";
-<tr><td style="border-style: none;vertical-align: top;">
+<tr><td style="border-style: none;vertical-align: top; width: 160px;">
+EOM
+my $randNum = int(rand 20);
+if ($randNum == 1) {
+        print <<"EOM";
+ads
+<!-- Research Artisan Pro Script Tag Start -->
+<script type="text/javascript">
+  var _Ra = {};
+  _Ra.hId = '0';
+  _Ra.uCd = '19070700007819331715';
+  _Ra.exceptCrawler = true;
+  (function() {var s=document.getElementsByTagName('script')[0],js=document.createElement('script');js.type='text/javascript';js.async='async';js.src='https://analyze.pro.research-artisan.com/track/script.php';s.parentNode.insertBefore(js,s);})();
+</script>
+<noscript><p><img src="https://analyze.pro.research-artisan.com/track/tracker.php?ucd=19070700007819331715&hid=0&guid=ON" alt="" width="1" height="1" /></p></noscript>
+<!-- Research Artisan Pro Script Tag End   -->
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -78,6 +93,9 @@ EOM
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+EOM
+}
+	print <<"EOM";
 </td><td class="table">
 <div align="center">
 総数：<img src="dayx/dayx.cgi?gif" title="このページに来た総計人数"> 今日：<img src="dayx/dayx.cgi?today" title="今日の来た人の数"> 昨日：<img src="dayx/dayx.cgi?yes" title="昨日の来た人の数。"><br>
@@ -162,7 +180,11 @@ CGI提供 <A href="mailto:mewsyoui\@hotmail.com">メシス</A>
 </div>
 </td></tr>
 </table>
-</td><td style="border-style: none;vertical-align: top;">
+</td><td style="border-style: none;vertical-align: top; width: 160px;">
+EOM
+if ($randNum == 1) {
+        print <<"EOM";
+ads
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -172,6 +194,9 @@ CGI提供 <A href="mailto:mewsyoui\@hotmail.com">メシス</A>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+EOM
+}
+	print <<"EOM";
 </td></tr>
 </table>
 EOM
