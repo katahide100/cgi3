@@ -160,6 +160,11 @@ setTimeout("location.reload()",180000);
 </script>
 </head>
 <body>
+EOM
+my $randNum = int(rand 20);
+if ($randNum == 1) {
+        print <<"EOM";
+ads
 <!-- Research Artisan Pro Script Tag Start -->
 <script type="text/javascript">
   var _Ra = {};
@@ -179,6 +184,9 @@ setTimeout("location.reload()",180000);
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+EOM
+}
+	print <<"EOM";
 </body></html>
 EOM
 &fileunlock($room);

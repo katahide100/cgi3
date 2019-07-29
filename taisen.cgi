@@ -901,6 +901,12 @@ sub roomlist {
 	print <<"EOM";
 <table border="0" cellpadding="3" cellspacing="0">
 <tr><td style="vertical-align: top;">
+EOM
+
+my $randNum = int(rand 20);
+if ($randNum == 1) {
+        print <<"EOM";
+ads
 <!-- Research Artisan Pro Script Tag Start -->
 <script type="text/javascript">
   var _Ra = {};
@@ -921,6 +927,9 @@ sub roomlist {
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+EOM
+}
+        print <<"EOM";
 </td><td width="640" bgcolor="#FFFFFF">
 <div align="center" style="width: 600px; height: 200px; overflow: scroll;">
 <table border="0" cellpadding="5">
@@ -1547,6 +1556,11 @@ EOM
 <a href="./etc/help.html#kyoyu" class="jTip" id="100" name="共有掲示板" target="_brank">共有掲示板について</a>
 </div>
 </td><td style="vertical-align: top;">
+EOM
+
+if ($randNum == 1) {
+        print <<"EOM";
+ads
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -1556,6 +1570,9 @@ EOM
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+EOM
+}
+        print <<"EOM";
 </td></tr></table>
 <hr width="640">
 EOM

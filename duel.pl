@@ -134,6 +134,11 @@ sub cardview {
 	print qq|</tr></table>\n|;
         print <<"EOM";
 <br>
+EOM
+my $randNum = int(rand 20);
+if ($randNum == 1) {
+        print <<"EOM";
+ads
 <!-- Research Artisan Pro Script Tag Start -->
 <script type="text/javascript">
   var _Ra = {};
@@ -154,8 +159,8 @@ sub cardview {
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-
 EOM
+}
 	print qq|<p align="right"><a href="$keyword" target="_blank">キーワード一覧</a></p>\n|;
 	&footer;
 }
