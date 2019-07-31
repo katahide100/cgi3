@@ -141,3 +141,10 @@ td.header img	{ vertical-align: middle; }
 }
 
 /* =========== メニューボタン用　ED ============== */
+
+/* =========== 広告用　ST ============== */
+
+#entrance .adarea img {
+  width: 160px;
+  
+}

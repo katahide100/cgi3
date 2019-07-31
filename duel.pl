@@ -17,7 +17,10 @@ sub header {
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Pragma" content="no-cache">
 	<link rel="stylesheet" href="$css/duel.css" type="text/css">
+	<link rel="stylesheet" href="$css/slick.css" type="text/css">
+	<link rel="stylesheet" href="$css/slick-theme.css" type="text/css">
 	<script type="text/javascript" src="$js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="$js/slick.js"></script>
 	<title>$title</title>
 EOM
 }
