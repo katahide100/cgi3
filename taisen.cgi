@@ -906,7 +906,6 @@ EOM
 my $randNum = int(rand 20);
 if ($randNum == 1) {
         print <<"EOM";
-ads
 <!-- Research Artisan Pro Script Tag Start -->
 <script type="text/javascript">
   var _Ra = {};
@@ -937,6 +936,7 @@ EOM
 		    autoplay: true,
 		    vertical: true,
 		    slidesToShow: 6,
+		    autoplaySpeed:10000,
 		  });
 		});
 		</script>
@@ -1588,7 +1588,6 @@ EOM
 
 if ($randNum == 1) {
         print <<"EOM";
-ads
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 広告ユニット1 -->
 <ins class="adsbygoogle"
@@ -1608,6 +1607,7 @@ EOM
 		    autoplay: true,
 		    vertical: true,
 		    slidesToShow: 6,
+		    autoplaySpeed:10000,
 		  });
 		});
 		</script>

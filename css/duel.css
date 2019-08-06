@@ -146,5 +146,30 @@ td.header img	{ vertical-align: middle; }
 
 #entrance .adarea img {
   width: 160px;
-  
+  transition-duration: 0.5s;
+}
+
+#entrance .adarea img:hover {
+  transform: scale(1.2,1.2);
+  cursor: pointer;
+}
+
+#index .adarea img {
+  width: 160px;
+  transition-duration: 0.5s;
+}
+
+#index .adarea img:hover {
+  transform: scale(1.2,1.2);
+  cursor: pointer;
+}
+
+#ad .adarea img {
+  width: 160px;
+  transition-duration: 0.5s;
+}
+
+#ad .adarea img:hover {
+  transform: scale(1.2,1.2);
+  cursor: pointer;
 }
