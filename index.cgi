@@ -94,7 +94,9 @@ if ($randNum == 1) {
 </script>
 EOM
 } else {
-        print <<'EOM';
+	open(ADSFILE, "< data/ads.txt");
+	
+    print <<'EOM';
         <script>
 		$(document).ready(function(){
 		  $('.ad-scroll1').slick({
@@ -108,20 +110,17 @@ EOM
 		</script>
 		
 		<div class="ad-scroll1" style="display:inline-block;width:160px;">
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810618157&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810618157"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810618157_8fdfe707ed0a4629ae914d693f4e1661.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810618157&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810895107&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810895107"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810895107.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810895107&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810896777&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810896777"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810896777.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810896777&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810139126&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810139126"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810139126_39c3e88e8e8f489c93f0a75363860a03.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810139126&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810114567&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810114567"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810114567_50c27e52edd84aaca5e7b9c34a9712b8.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810114567&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810139119&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810139119"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810139119_bac5e22af62b4b14a739ee90bc6ddfa3.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810139119&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810964384&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810964384"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810964384.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810964384&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810863342&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810863342"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810863342.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810863342&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810131526&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810131526"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810131526_6617fc8b9f9e4286a4abd85b3276995b.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810131526&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810872566&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810872566"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810872566.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810872566&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810114543&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810114543"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810114543_bb0361f226df4ae89734453bfefa4d1a.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810114543&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810618751&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810618751"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810618751_e4b5544580354aa986f3d525981a96be.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810618751&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810139102&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810139102"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810139102_ef272ae18fd84a7cb5072f708b7beb21.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810139102&type=2&subid=0" ></div>
 EOM
+	$count = 1;
+	while (my $ad = <ADSFILE>){
+	  if ($count % 2 != 0) {
+		chomp($ad);
+		print "<div class='adblock'>$ad</div>";
+	  }
+	  $count++;
+	}
+	
+	print "</div>";
 }
 	print <<"EOM";
 </td><td class="table">
@@ -223,10 +222,12 @@ if ($randNum == 1) {
 </script>
 EOM
 } else {
-        print <<'EOM';
+	open(ADSFILE, "< data/ads.txt");
+	
+    print <<'EOM';
         <script>
 		$(document).ready(function(){
-		  $('.ad-scroll1').slick({
+		  $('.ad-scroll2').slick({
 		  	draggable: true,
 		    autoplay: true,
 		    vertical: true,
@@ -236,19 +237,18 @@ EOM
 		});
 		</script>
 		
-		<div class="ad-scroll1" style="display:inline-block;width:160px;">
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810894827&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810894827"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810894827.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810894827&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810894858&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810894858"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810894858.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810894858&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810618768&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810618768"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810618768_42f314ab51334e9d8859686c0a27d0e4.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810618768&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810132721&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810132721"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810132721_464887a358004465a9de096b6021ea3a.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810132721&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810131540&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810131540"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810131540_57c5b11d52e341808cc16e087e491c91.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810131540&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810114642&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810114642"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810114642_9d50d326bd49448d9ce10b5c1a2deba6.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810114642&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810131533&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810131533"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810131533_981db18cd1d94f53853753e456cfcdfc.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810131533&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810894865&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810894865"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810894865.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810894865&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810131496&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810131496"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810131496_a1a7f38f8ad949c98f75019bb53e37ba.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810131496&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810618133&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810618133"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810618133_4786713fb8d3446cbf9fab4a1613b6bf.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810618133&type=2&subid=0" ></div>
-<div><a target='new' href="https://linksynergy.jrs5.com/link?id=MbBo1cILGsc&offerid=328106.4904810114666&type=2&murl=https%3A%2F%2Ftakaratomymall.jp%2Fshop%2Fg%2Fg4904810114666"><IMG border=0 src="https://dmwysfovhyfx3.cloudfront.net/img/goods/5/4904810114666_67427a902c42456fb193cd3209e86937.jpg" ></a><IMG border=0 width=1 height=1 src="https://ad.linksynergy.com/fs-bin/show?id=MbBo1cILGsc&bids=328106.4904810114666&type=2&subid=0" ></div>
+		<div class="ad-scroll2" style="display:inline-block;width:160px;">
 EOM
+	$count = 1;
+	while (my $ad = <ADSFILE>){
+	  if ($count % 2 == 0) {
+		chomp($ad);
+		print "<div class='adblock'>$ad</div>";
+	  }
+	  $count++;
+	}
+	
+	print "</div>";
 }
 	print <<"EOM";
 </td></tr>

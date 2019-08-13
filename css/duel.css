@@ -173,3 +173,21 @@ td.header img	{ vertical-align: middle; }
   transform: scale(1.2,1.2);
   cursor: pointer;
 }
+
+.adblock {/*親div*/
+  position: relative;/*相対配置*/
+  }
+
+.adblock p {
+  position: absolute;/*絶対配置*/
+  top: 0;/*画像の左上に配置*/
+  left: 0;
+  margin: 0; /*余計な隙間を除く*/
+  color: white;/*文字を白に*/
+  background: #000080;/*背景色*/
+  font-size: 10px;
+  line-height: 1;/*行高は1に*/
+  padding: 5px 10px;/*文字周りの余白*/
+  font-family: "Impacto", "Impact", sans-serif;
+  border-radius: 0px 0px 10px 0px / 0px 0px 10px 0px;
+  }
