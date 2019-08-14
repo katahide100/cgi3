@@ -903,7 +903,11 @@ sub roomlist {
 <tr><td class="adarea" style="vertical-align: top;">
 EOM
 
-my $randNum = int(rand 20);
+my $randNum = int(rand 2);
+# アドセンスがクリック済みの場合はアドセンスは表示しない
+if ($adsenseActive == 0) {
+	$randNum = 2;
+}
 if ($randNum == 1) {
         print <<"EOM";
 <!-- Research Artisan Pro Script Tag Start -->

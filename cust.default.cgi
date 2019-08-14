@@ -49,6 +49,8 @@ $chatNodePort   = "1337";                           # chatのnode.jsポート番
 
 $chatNodeHost   = $hostName . ':' . $chatNodePort;  # chatのホスト
 
+$adsenseClickIpsFile = "./data/adsense_click_ips.txt";  # アドセンスをクリックしたIPアドレスファイル
+
 # P殿堂入りカード読み込み
 open($fh, "<",$premiumfile);
 while(my $line = readline $fh){
@@ -62,6 +64,24 @@ while(my $line = readline $fh){
 	push(@dendou,$line);
 }
 close($fh);
+
+# アドセンスクリックIP読み込み
+open($fh, "<",$adsenseClickIpsFile);
+my $adsenseClickIpsStr = "";
+while(my $line = readline $fh){
+	$adsenseClickIpsStr = $line;
+}
+close($fh);
+
+my @adsenseClickIps = split(/,/, $adsenseClickIpsStr);
+
+$adsenseActive = 1;
+foreach my $adsenseClickIp (@adsenseClickIps) {
+	chomp($adsenseClickIp);
+	if(($ENV{'REMOTE_ADDR'} =~ /^$adsenseClickIp/) && ($ENV{'REMOTE_ADDR'} ne '')) {
+		$adsenseActive = 0;
+	}
+}
 
 @combi			= ();
 

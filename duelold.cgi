@@ -162,7 +162,11 @@ setTimeout("location.reload()",180000);
 <body id="ad">
 <div class="adarea">
 EOM
-my $randNum = int(rand 20);
+my $randNum = int(rand 2);
+# アドセンスがクリック済みの場合はアドセンスは表示しない
+if ($adsenseActive == 0) {
+	$randNum = 2;
+}
 if ($randNum == 1) {
         print <<"EOM";
 <!-- Research Artisan Pro Script Tag Start -->
