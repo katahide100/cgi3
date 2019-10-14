@@ -1827,7 +1827,7 @@ sub move {
     &del_move;
   } elsif (6 < $parea) { # 進化獣もしくはシールドの下
     @res = $parea == 7 ? grep $c_evo[$fld[$_]] ne "", @{$fw1[$u_side]} : grep $fld[$_] ne "", @{$fw3[$u_side]};
-    &com_error(sprintf "自分の%sが１%sもないので移動できません", $parea == 7 ? "進化クリーチャー" : "シールド", $parea == 7 ? "体" : "枚") if $#res < 0;
+    &com_error(sprintf "自分の%sが１%sもないので移動できません", $parea == 7 ? "進化クリーチャー" : $parea == 8 ? "カード" : "シールド", $parea == 7 ? "体" : "枚") if $#res < 0;
     &com_error("フィールドのクリーチャー以外を直接移動させる処理はまだできていません。ごめんなさいm(__)m") if -1 < $#ssel || -1 < $#gsel || -1 < $#csel;
     $chudan = "";
     if ($F{'decktop'}) {
@@ -1846,7 +1846,7 @@ sub move {
       }
 
     } elsif (-1 < $#sel) {
-      &com_error(sprintf "相手のカードを%sの下に移動させることはできません", $parea == 7 ? "進化クリーチャー" : "シールド") if $vside == $u_side2;
+      &com_error(sprintf "相手のカードを自分の%sの下に移動させることはできません", $parea == 7 ? "進化クリーチャー" : $parea == 8 ? "カード" : "シールド") if $vside == $u_side2;
       foreach my $sel(@sel) {
         next if &syu_chk($arr[$vside][$sel], 0, 1) && $parea == 7;
         &pick_card1($sel);
@@ -1860,8 +1860,9 @@ sub move {
       }
     }
     $chudan_flg = "1";
-    unshift @syori, sprintf "s-$u_side<>t-カードを下に置きたい%sを選んでください<>m-changer_sel1<>a-%s<>o-決定::やめる%s",
-                $parea == 7 ? "進化クリーチャー" : "シールド",
+    unshift @syori, sprintf "s-$u_side<>t-%sを下に置きたい%sを選んでください<>m-changer_sel1<>a-%s<>o-決定::やめる%s",
+                $c_name[$cardno] != "" ? "《$c_name[$cardno]》" : "選択したカード",
+                $parea == 7 ? "進化クリーチャー" : $parea == 8 ? "カード" : "シールド",
                 $F{'decktop'} ? "deck" : -1 < $#sel ? "$varea" : "field",
                 $parea == 7 ? "" : "<>p-shield";
     undef @res if $parea == 8;
@@ -2617,22 +2618,28 @@ sub changer_sel1 {
     }
     if ($S{'p'} eq "shield") {
       my $name = join "", map { "《" . $c_name[$_] . "》"; } @card if $S{'a'} eq "field";
-      &s_mes(sprintf "$pn[$u_side]は%s%sをシールドの下に置いた。",
-        $S{'a'} eq "field" ? "" : $S{'a'} eq "0" ? "手札から" : $S{'a'} eq "1" ? "墓地から" : "山札から",
+      &s_mes(sprintf "$pn[$u_side]は%s%sを選んだカードの下に置いた。",
+        $S{'a'} eq "field" ? "" : $S{'a'} eq "0" ? "手札から" : $S{'a'} eq "1" ? "墓地から" : $S{'a'} eq "4" ? "GRゾーンから" : "山札から",
         $S{'a'} eq "field" ? "$name" : "カード"
       );
       for (my ($i) = 0; $i < scalar @card; $i++) {
         if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || &syu_chk($card[$i], 151) || &syu_chk($card[$i], 185) || &syu_chk($card[$i], 186)) {
+          e_mes("サイキッククリーチャーは移動できないため超次元ゾーンに戻ります。", $u_side);
           s_mes("《$c_name[$card[$i]]》は超次元ゾーンに送られた。");
           push (@{$psychic[$u_side]}, splice (@card, $i, 1));
           $i--;
         }
         if (&syu_chk($card[$i], 222)) {
-          s_mes("《$c_name[$card[$i]]》はGRゾーンに送られた。");
-          push (@{$gr[$u_side]}, splice (@card, $i, 1));
-          $i--;
+          if ( !($fno >= 280 && $fno <= 319)) {
+            # バトルゾーン以外の場合はGRゾーンに戻す
+            e_mes("GRクリーチャーは移動できないためGRゾーンに戻ります。", $u_side);
+            s_mes("《$c_name[$card[$i]]》はGRゾーンに送られた。");
+            push (@{$gr[$u_side]}, splice (@card, $i, 1));
+            $i--;
+          }
         }
       }
+      
       $shinka[$fno] = join "-", @card;
       $chudan = $chudan_flg = "";
       undef @card;
