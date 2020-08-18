@@ -696,10 +696,27 @@ EOM
             <option value="161" $selstr[161]>超GRスタートデッキ キラのギラミリオン・ギラクシー</option>
             <option value="162" $selstr[162]>超GRスタートデッキ キャップのWAVEガチャ・パラダイス</option>
             <option value="163" $selstr[163]>超GRスタートデッキ ゼーロのオレガ無月の大罪</option>
+            <option value="169" $selstr[169]>超GRメガスタートデッキ ジョーの超ジョーカーズ旋風</option>
             <option value="157" $selstr[157]>第1弾 新世界ガチ誕!! 超GRとオレガ・オーラ!!</option>
             <option value="164" $selstr[164]>第2弾 青きC.A.Pと漆黒の大卍罪</option>
+            <option value="170" $selstr[170]>第3弾零誕！魔神おこせジョルネード1059‼︎</option>
+            <option value="174" $selstr[174]>超天篇 第4弾 超超超天! 覚醒ジョギラゴンvs.零龍卍誕</option>
             <option value="160" $selstr[160]>100%新世界！超GRパック100</option>
             <option value="165" $selstr[165]>絶対王者!! デュエキングパック</option>
+            <option value="171" $selstr[171]>必殺!!マキシマム・ザ・マスターパック</option>
+            <option value="167" $selstr[167]>アルティメット・クロニクル・デッキ 2019 必勝!! 闘将ブレードオーガ</option>
+            <option value="168" $selstr[168]>アルティメット・クロニクル・デッキ 2019 SSS!! 侵略デッドディザスター</option>
+            <option value="172" $selstr[172]>ガチヤバ4! 無限改造デッキセットDXデラックス!! ジョーのビッグバンGRガチャレンジ</option>
+            <option value="173" $selstr[173]>ガチヤバ4! 無限改造デッキセットDX!! ゼーロのドラゴンオーラ</option>
+        <optgroup label = "十王篇">
+            <option value="176" $selstr[176]>キングマスタースタートデッキ ジョーのキリフダッシュ</option>
+            <option value="177" $selstr[177]>キングマスタースタートデッキ 鬼札の鬼タイム</option>
+            <option value="178" $selstr[178]>第1弾 切札x鬼札 キングウォーズ!!!</option>
+            <option value="183" $selstr[183]> 爆皇×爆誕 ダイナボルト!!</option>
+            <option value="179" $selstr[179]>Wチームドッキングパック チーム切札＆チームウェイブ</option>
+            <option value="180" $selstr[180]>W王国ドッキングパック 鬼札王国＆不死樹王国</option>
+            <option value="182" $selstr[182]>Wチームドッキングパック チーム銀河＆チームボンバー</option>
+            <option value="184" $selstr[184]>最強戦略!!ドラリンパック</option>
         <optgroup label = "デッキビルダー">
             <option value="88" $selstr[88]>デッキビルダーDX　ハンター・エディション</option>
             <option value="89" $selstr[89]>デッキビルダーDX　エイリアンエディション</option>
@@ -714,6 +731,8 @@ EOM
         <optgroup label = "ヒーローズ・ビクトリー・パック">
             <option value="75" $selstr[75]>大乱闘！ヒーローズ・ビクトリー・パック　燃えるド根性大作戦</option>
             <option value="76" $selstr[76]>大乱闘！ヒーローズ・ビクトリー・パック　咆えろ野生の大作戦</option>
+        <optgroup label = "ブラックボックスパック">
+            <option value="175" $selstr[175]>謎のブラックボックスパック</option>
         <optgroup label = "ドラマティック・ウォーズ">
             <option value="77" $selstr[77]> ドラゴン＆ファイアー</option>
             <option value="78" $selstr[78]>エンジェル＆デーモン</option>
@@ -761,6 +780,7 @@ EOM
             <option value="166" $selstr[166]>プロモーション限定カード第17期〜</option>
         <optgroup label = "CGI限定オリジナルカード">
             <option value="149" $selstr[149]>2018年　オリカ募集　推進パック第４弾</option>
+            <option value="181" $selstr[181]>令和元年オリカ(推進パック第5弾)</option>
 
 </select>
     カード種別：
