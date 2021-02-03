@@ -191,3 +191,13 @@ td.header img	{ vertical-align: middle; }
   font-family: "Impacto", "Impact", sans-serif;
   border-radius: 0px 0px 10px 0px / 0px 0px 10px 0px;
   }
+  
+.adblock .amazon{
+  background: #ffa500;/*背景色*/
+  font-weight: bold;
+}
+
+.adblock .rakuten{
+  background: #ff0000;/*背景色*/
+  font-weight: bold;
+}
