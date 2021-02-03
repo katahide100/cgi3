@@ -1,4 +1,7 @@
 <?php
+
+date_default_timezone_set('Asia/Tokyo');
+
 // データを書き込むファイル
 define('DATA_FILE', './data/data');
 define('LOG_EXT', '.log');
@@ -34,7 +37,7 @@ function getUpdatedData() {
 function pushData($name, $data) {
 	if (!empty($data)) {
 		$data = $name.'  > '.str_replace(array("\n", "\r"), PHP_EOL, $data)
-		. ' (' . date("Y/m/d h:i:s") . ') - ' . $_SERVER["REMOTE_ADDR"] . PHP_EOL
+		. ' (' . date("Y/m/d H:i:s") . ') - ' . $_SERVER["REMOTE_ADDR"] . PHP_EOL
 		. '-------------------------------------------------------' . PHP_EOL;
 		$contentTemp=file(DATA_FILE.LOG_EXT);
 		array_unshift($contentTemp, $data);
