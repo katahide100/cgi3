@@ -30,6 +30,8 @@ chmod 777 popular.dat
 
 chmod 777 room
 
+chmod 777 chat/data
+
 touch chat/data/data.log
 
 chmod 777 chat/data/data.log
