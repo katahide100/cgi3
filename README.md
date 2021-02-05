@@ -30,6 +30,10 @@ chmod 777 popular.dat
 
 chmod 777 room
 
+touch chat/data/data.log
+
+chmod 777 chat/data/data.log
+
 cp cust.default.cgi cust.cgi
 
 上記実施後、cust.cgiを開き、必要な箇所を変更する
