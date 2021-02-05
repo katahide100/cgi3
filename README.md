@@ -20,6 +20,8 @@ vi /etc/httpd/conf.d/cgi3.conf
 ```
 
 ### 初期設定
+chmod 777 /var/www/html/cgi3
+
 cd /var/www/html/cgi3
 
 chmod 777 playerdata
@@ -35,6 +37,10 @@ chmod 777 chat/data
 touch chat/data/data.log
 
 chmod 777 chat/data/data.log
+
+touch member.dat
+
+chmod 777 member.dat
 
 cp cust.default.cgi cust.cgi
 
