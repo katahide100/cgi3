@@ -46,4 +46,12 @@ cp cust.default.cgi cust.cgi
 
 上記実施後、cust.cgiを開き、必要な箇所を変更する
 
+### cron設定
+crontab -e
 
+```
+* * * * * /var/www/html/cgi3/roomreset.sh
+* * * * * /var/www/html/cgi3/script/permission_reset.sh
+0 0 * * * /var/www/html/cgi3/script/logreset.sh
+0 0 * * 0 /var/www/html/cgi3/script/populerreset.sh
+```
