@@ -4,6 +4,9 @@
 yum -y install perl perl-CGI
 ln -s /usr/bin/perl /usr/local/bin/perl
 
+### phpインストール
+dnf install -y php php-mbstring php-xml php-xmlrpc php-gd php-pdo php-mysqlnd php-json
+
 ### 必要なモジュールインストール
 perl -MCPAN -e shell
 
