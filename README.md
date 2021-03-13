@@ -66,3 +66,9 @@ crontab -e
 0 0 * * * /var/www/html/cgi3/script/logreset.sh
 0 0 * * 0 /var/www/html/cgi3/script/populerreset.sh
 ```
+
+### node.js起動(duel_nodeのREADMEを行っている前提)
+npm install log4js@0.6.27
+npm install socket.io@1.3.7
+
+forever start app_node.js
