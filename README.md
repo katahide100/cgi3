@@ -45,6 +45,14 @@ touch member.dat
 
 chmod 777 member.dat
 
+touch taikai/t_time.csv
+
+chmod 777 taikai/t_time.csv
+
+touch taikai/taikai.csv
+
+chmod 777 taikai/taikai.csv
+
 cp cust.default.cgi cust.cgi
 
 上記実施後、cust.cgiを開き、必要な箇所を変更する
