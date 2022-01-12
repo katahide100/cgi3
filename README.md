@@ -45,6 +45,14 @@ touch member.dat
 
 chmod 777 member.dat
 
+touch taikai/t_time.csv
+
+chmod 777 taikai/t_time.csv
+
+touch taikai/taikai.csv
+
+chmod 777 taikai/taikai.csv
+
 cp cust.default.cgi cust.cgi
 
 上記実施後、cust.cgiを開き、必要な箇所を変更する
@@ -58,3 +66,9 @@ crontab -e
 0 0 * * * /var/www/html/cgi3/script/logreset.sh
 0 0 * * 0 /var/www/html/cgi3/script/populerreset.sh
 ```
+
+### node.js起動(duel_nodeのREADMEを行っている前提)
+npm install log4js@0.6.27
+npm install socket.io@1.3.7
+
+forever start app_node.js
