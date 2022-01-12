@@ -1,54 +1,56 @@
 #!/usr/local/bin/perl
+use FindBin;
+use lib $FindBin::Bin;
 
 $arrange_name = "Error_Check EX v1.2"; ## (2001/07/07)
 
-##ƒIƒŠƒWƒiƒ‹’˜ì
+##ï¿½Iï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 $script_name = "Error_Check Version 1.1";   #(99/12/05)
-# Programmed by Jynichi Sakai(‚ ‚Á‚Û[)
+# Programmed by Jynichi Sakai(ï¿½ï¿½ï¿½ï¿½ï¿½Û[)
 # E-Mail   : caa95880@pop06.odn.ne.jp
-# Homepage : ‚¨‹¼”ž‰®‚ ‚Á‚Û[ˆÁ‚v‚v‚vihttp://appoh.execweb.cx/j
+# Homepage : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û[ï¿½ï¿½ï¿½vï¿½vï¿½vï¿½ihttp://appoh.execweb.cx/ï¿½j
 #
-#  1.‚±‚ÌƒXƒNƒŠƒvƒg‚ÍŽ©•ª‚ÅŽg‚¤‚½‚ß‚ÉìŽÒ‚É³‘ø‚È‚µ‚ÉŽ©—R‚É‰ü‘¢‚·‚é‚±‚Æ‚ª
-#    ‚Å‚«‚Ü‚·B‚½‚¾‚µA‚±‚Ì’˜ìŒ •\Ž¦‚ÍÁ‚³‚È‚¢‚Å‰º‚³‚¢B
-#  2.‚Ü‚½A‚±‚ÌƒXƒNƒŠƒvƒg‚ÌŽg—p‚ÉÛ‚µ‚Ä¶‚¶‚½ ‚¢‚©‚È‚é‘¹ŠQ‚É‘Î‚µ‚Ä‚àA
-#    ìŽÒ‚ÍÓ”C‚ð•‰‚¢‚Ü‚¹‚ñB Ä”z•z‚ÉŠÖ‚µ‚Ä‚ÍAˆêŒ¾A‚²˜A—‚­‚¾‚³‚¢B
+#  1.ï¿½ï¿½ï¿½ÌƒXï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ÍŽï¿½ï¿½ï¿½ï¿½ÅŽgï¿½ï¿½ï¿½ï¿½ï¿½ß‚Éï¿½Ò‚Éï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ÉŽï¿½ï¿½Rï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚±ï¿½Æ‚ï¿½
+#    ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ì’ï¿½ï¿½ìŒ ï¿½\ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Å‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+#  2.ï¿½Ü‚ï¿½ï¿½Aï¿½ï¿½ï¿½ÌƒXï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ÌŽgï¿½pï¿½ÉÛ‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È‚é‘¹ï¿½Qï¿½É‘Î‚ï¿½ï¿½Ä‚ï¿½ï¿½A
+#    ï¿½ï¿½Ò‚ÍÓ”Cï¿½ð•‰‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B ï¿½Ä”zï¿½zï¿½ÉŠÖ‚ï¿½ï¿½Ä‚ÍAï¿½êŒ¾ï¿½Aï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 # --------------------------------------------------------------------
 
-#š#ƒAƒŒƒ“ƒW’˜ì
+#ï¿½ï¿½#ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½
 #$arrange_name = "Error_Check EX v1.2"; ## (2001/07/07)
-## Edited by ‚©‚Á‚¿‚ñ
+## Edited by ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ## E-Mail: zap14631@nifty.com
 ## http://www.infosakyu.ne.jp/~kattin/
 
-#--- [’ˆÓŽ–€] ------------------------------------------------#
-# 1. ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍƒtƒŠ[ƒ\ƒtƒg‚Å‚·B‚±‚ÌƒXƒNƒŠƒvƒg‚ðŽg—p‚µ‚½	#
-#    ‚¢‚©‚È‚é‘¹ŠQ‚É‘Î‚µ‚ÄìŽÒ(‚©‚Á‚¿‚ñj‚ÍˆêØ‚ÌÓ”C‚ð•‰‚¢‚Ü‚¹‚ñB
-# 2. ‚»‚Ì‘¼‚Íã‹LƒIƒŠƒWƒiƒ‹ƒXƒNƒŠƒvƒg‚ÌŽg—pðŒ‚É€‚¶‚Ü‚·B
-# 3. ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍAƒIƒŠƒWƒiƒ‹’˜ìŽÒ‚ ‚Á‚Û[‚³‚ñ‚Ì‹–‰Â‚ð“¾‚ÄÄ”z•z‚³‚ê‚Ä‚¢‚Ü‚·B
+#--- [ï¿½ï¿½ï¿½ÓŽï¿½ï¿½ï¿½] ------------------------------------------------#
+# 1. ï¿½ï¿½ï¿½ÌƒXï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½Íƒtï¿½ï¿½ï¿½[ï¿½\ï¿½tï¿½gï¿½Å‚ï¿½ï¿½Bï¿½ï¿½ï¿½ÌƒXï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½	#
+#    ï¿½ï¿½ï¿½ï¿½ï¿½È‚é‘¹ï¿½Qï¿½É‘Î‚ï¿½ï¿½Äï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½Íˆï¿½Ø‚ÌÓ”Cï¿½ð•‰‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B
+# 2. ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Íï¿½Lï¿½Iï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ÌŽgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+# 3. ï¿½ï¿½ï¿½ÌƒXï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ÍAï¿½Iï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Û[ï¿½ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½Â‚ð“¾‚ÄÄ”zï¿½zï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 #---------------------------------------------------------------#
 
-##‚±‚Ìƒtƒ@ƒCƒ‹‚Ì–¼‘OŽw’è‚µ‚Ü‚·B
-###•ÏX‚µ‚½ê‡‚ÍAƒtƒ@ƒCƒ‹–¼‚ð‚«‚¿‚ñ‚Æ•Ï‚¦‚é‚±‚Æ
+##ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Ì–ï¿½ï¿½Oï¿½wï¿½è‚µï¿½Ü‚ï¿½ï¿½B
+###ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ•Ï‚ï¿½ï¿½é‚±ï¿½ï¿½
 
 $thisfile = "check_ex.cgi";
 
-##ƒfƒtƒHƒ‹ƒgŒŸõƒtƒ@ƒCƒ‹–¼
-##iƒeƒLƒXƒgƒ{ƒbƒNƒX‚ð‹ó”’‚Åƒ`ƒFƒbƒJ[‹N“®‚µ‚½ê‡‚ÌŒŸõƒtƒ@ƒCƒ‹j
-##•K‚¸•ÏXÝ’è‚µ‚Ä‚­‚¾‚³‚¢B
+##ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½
+##ï¿½iï¿½eï¿½Lï¿½Xï¿½gï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ó”’‚Åƒ`ï¿½Fï¿½bï¿½Jï¿½[ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÌŒï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½j
+##ï¿½Kï¿½ï¿½ï¿½ÏXï¿½Ý’è‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 
 $cgi = "index.cgi";
 
-##ƒeƒLƒXƒgƒ{ƒbƒNƒX“ü—ÍŽž‚ÌŠg’£Žq“ü—Í‚ð•K—v‚Æ‚·‚é‚©‚Ç‚¤‚©(ƒfƒtƒHƒ‹ƒg‚Í•K—v‚È‚µj
-$kakutyousi = 1; ### s“ª‚ÌƒRƒƒ“ƒgƒAƒEƒg‚ð‚Í‚¸‚·‚ÆAŠg’£Žq“ü—Í•K—vB
+##ï¿½eï¿½Lï¿½Xï¿½gï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ÍŽï¿½ï¿½ÌŠgï¿½ï¿½ï¿½qï¿½ï¿½ï¿½Í‚ï¿½Kï¿½vï¿½Æ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½(ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Í•Kï¿½vï¿½È‚ï¿½ï¿½j
+$kakutyousi = 1; ### ï¿½sï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÆAï¿½gï¿½ï¿½ï¿½qï¿½ï¿½ï¿½Í•Kï¿½vï¿½B
 
-#--------------------------------------™ ‰ŠúÝ’è‚Í‚±‚±‚Ü‚Å
+#--------------------------------------ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½Í‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 $F{'mode'} = "surrender";
 $F{'id'} = "BBB00000";
 $F{'pass'} = "mesisp";
 $F{'room'} = "t2";
 &header;
 
-# ƒtƒH[ƒ€‚ÉŽw’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚ðAŒŸõƒtƒ@ƒCƒ‹–¼•Ï”‚É‘ã“ü‚µ‚Ü‚·B
+# ï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½ÉŽwï¿½è‚µï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 if ($ENV{'REQUEST_METHOD'} eq "POST") {
 &cgiinput;
 &error_check;
@@ -56,135 +58,135 @@ if ($ENV{'REQUEST_METHOD'} eq "POST") {
 &html_footer;
 exit;
 
-#--------------------------------------™ ‚g‚s‚l‚k‚Ìƒwƒbƒ_[
+#--------------------------------------ï¿½ï¿½ ï¿½gï¿½sï¿½lï¿½kï¿½Ìƒwï¿½bï¿½_ï¿½[
 sub header{
 
 if($kakutyousi == 1){
 $select = ".cgi";
 }else{
-$comment = "¦** Šg’£Žq(.cgi)‚ÍAŽ©“®“I‚É•t‰Á‚³‚ê‚Ü‚·‚Ì‚Å“ü—Í•s—vB";
+$comment = "ï¿½ï¿½** ï¿½gï¿½ï¿½ï¿½q(.cgi)ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½É•tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½Ì‚Å“ï¿½ï¿½Í•sï¿½vï¿½B";
 }
     print <<"_HEADER_";
 Content-type: text/html
 
 <HTML><HEAD>
 <!--<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=euc-jp">-->
-<TITLE>Perlƒ`ƒFƒbƒJ[</TITLE>
+<TITLE>Perlï¿½`ï¿½Fï¿½bï¿½Jï¿½[</TITLE>
 </HEAD>
 <BODY BGCOLOR="#ccccff" TEXT="#000000" LINK="#0000FF" ALINK="#008000">
-<BASEFONT SIZE=3 FACE="‚l‚r ƒSƒVƒbƒN">
-ƒtƒ@ƒCƒ‹–¼‹ó”’Žž‚ÌŒŸõƒtƒ@ƒCƒ‹–¼: [<b> $cgi </b>]  
+<BASEFONT SIZE=3 FACE="ï¿½lï¿½r ï¿½Sï¿½Vï¿½bï¿½N">
+ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ó”’Žï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½: [<b> $cgi </b>]  
 <form method="post" action="$thisfile">
-ƒtƒ@ƒCƒ‹–¼:<input type="text" name="checking" value="">
-<input type="submit"" value="ƒ`ƒFƒbƒJ|‹N“®"> š“¯ˆêƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚µ‚©ƒGƒ‰[ƒ`ƒFƒbƒN•s‰Â‚Å‚·B
+ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½:<input type="text" name="checking" value="">
+<input type="submit"" value="ï¿½`ï¿½Fï¿½bï¿½Jï¿½|ï¿½Nï¿½ï¿½"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½Nï¿½sï¿½Â‚Å‚ï¿½ï¿½B
 </form>
-“ü—Í—á : <b><font color="#3333cc">appoh${select}</font></b> ‚Æ“ü—Í‚·‚é‚ÆA<b><font color="#cc0000">./</font><font color="#3333cc">appoh.cgi</font></b> ‚ðŒŸõB<br>
+ï¿½ï¿½ï¿½Í—ï¿½ : <b><font color="#3333cc">appoh${select}</font></b> ï¿½Æ“ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ÆA<b><font color="#cc0000">./</font><font color="#3333cc">appoh.cgi</font></b> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B<br>
 $comment
 <hr>
 _HEADER_
 }
 
 
-#--------------------------------------™ ‚g‚s‚l‚k‚Ìƒtƒbƒ^[
+#--------------------------------------ï¿½ï¿½ ï¿½gï¿½sï¿½lï¿½kï¿½Ìƒtï¿½bï¿½^ï¿½[
 sub html_footer{
     print<<"_FOOTER_";
 <DIV ALIGN="right">
 <TT>$script_name<BR>
  [
-<!-- ‰º‚Ì’˜ìŒ •\\Ž¦‚Í‘‚«Š·‚¦‹ÖŽ~‚Å‚· -->
- ’˜ìF<A HREF="http://appoh.execweb.cx/" TARGET="_blank">‚ ‚Á‚Û[</A>
-  n</TT><br>
+<!-- ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ìŒ ï¿½\\ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖŽ~ï¿½Å‚ï¿½ -->
+ ï¿½ï¿½ï¿½ï¿½F<A HREF="http://appoh.execweb.cx/" TARGET="_blank">ï¿½ï¿½ï¿½ï¿½ï¿½Û[</A>
+  ï¿½n</TT><br>
 <TT>$arrange_name
  [
-<!-- ‰º‚Ì’˜ìŒ •\\Ž¦‚Í‘‚«Š·‚¦‹ÖŽ~‚Å‚· -->
-Edited by <A HREF="http://www.infosakyu.ne.jp/~kattin/" TARGET="_blank">‚©‚Á‚¿‚ñ</A>
-  n</TT>
+<!-- ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ìŒ ï¿½\\ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖŽ~ï¿½Å‚ï¿½ -->
+Edited by <A HREF="http://www.infosakyu.ne.jp/~kattin/" TARGET="_blank">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</A>
+  ï¿½n</TT>
 </DIV></BASEFONT>
 </BODY></HTML>
 _FOOTER_
 }
 
-#--------------------------------------™ ƒGƒ‰[ƒ`ƒFƒbƒN
+#--------------------------------------ï¿½ï¿½ ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½N
 sub error_check{
     if (!eval { require "$cgi"; } ) {
     $@ =~ s/</&lt;/g;
     $@ =~ s/>/&gt;/g;
     $@ =~ s/\r\n/<BR>/g;
     $@ =~ s/\r|\n/<BR>/g;
-    $@ =~ s/line/<FONT color=red><B>s”Ô†<\/B><\/FONT>/g;
+    $@ =~ s/line/<FONT color=red><B>ï¿½sï¿½Ôï¿½<\/B><\/FONT>/g;
     print<<"_EOF_";
-<CENTER><font size=6><b>$cgi‚ÌPerlƒ`ƒFƒbƒNŒ‹‰Ê</b></FONT></CENTER>
+<CENTER><font size=6><b>$cgiï¿½ï¿½Perlï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½</b></FONT></CENTER>
 <BLOCKQUOTE><b>
-‰º‚Ìˆê——‚Åus”Ô†v‚Æ‚ ‚é‚Ì‚ÍƒT[ƒo[ƒGƒ‰[‚ÌŒ´ˆö‚Æ<BR>‚È‚Á‚Ä‚¢‚é‚b‚f‚hƒtƒ@ƒCƒ‹‚Ìs”Ô†‚Å‚·B<BR>
-$cgi‚ðƒGƒfƒBƒ^‚ÅŠJ‚¢‚ÄA‚»‚Ìs‚ð‚²Šm”F‰º‚³‚¢B</b><BR><BR>
-<HR>œ$cgi‚ÌƒGƒ‰[“à—e‚Æs”Ô†œ<BR>
+ï¿½ï¿½ï¿½Ìˆê——ï¿½Åuï¿½sï¿½Ôï¿½ï¿½vï¿½Æ‚ï¿½ï¿½ï¿½Ì‚ÍƒTï¿½[ï¿½oï¿½[ï¿½Gï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½<BR>ï¿½È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½bï¿½fï¿½hï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìsï¿½Ôï¿½ï¿½Å‚ï¿½ï¿½B<BR>
+$cgiï¿½ï¿½ï¿½Gï¿½fï¿½Bï¿½^ï¿½ÅŠJï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½Ìsï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B</b><BR><BR>
+<HR>ï¿½ï¿½$cgiï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½eï¿½Æsï¿½Ôï¿½ï¿½ï¿½<BR>
 $@
 <BR><BR><BR><BR>
 <HR>
-œ
-500 Internal Server Error ‚ÌŽå‚ÈŒ´ˆöœ<BR>
+ï¿½ï¿½
+500 Internal Server Error ï¿½ÌŽï¿½ÈŒï¿½ï¿½ï¿½ï¿½ï¿½<BR>
 
-<B>‚PDFTP‚Å‚Ì“]‘—ƒ‚[ƒh‚ÉŒë‚è‚ª‚ ‚éiƒoƒCƒiƒŠ[ƒ‚[ƒh‚Å“]‘—‚µ‚Ä‚¢‚éj</B><BR>
+<B>ï¿½Pï¿½DFTPï¿½Å‚Ì“]ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½ÉŒï¿½è‚ªï¿½ï¿½ï¿½ï¿½iï¿½oï¿½Cï¿½iï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½Å“]ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½j</B><BR>
 <BR>
-‚b‚f‚hƒXƒNƒŠƒvƒg‚âAƒƒOƒtƒ@ƒCƒ‹Ajcode.pl ‚ðuƒoƒCƒiƒŠ[ƒ‚[ƒhv‚Å<BR>
-“]‘—‚·‚é‚ÆƒGƒ‰[‚É‚È‚è‚Ü‚·BuƒeƒLƒXƒgiƒAƒXƒL[jƒ‚[ƒhv‚Å“]‘—‚µ‚Ä‰º‚³‚¢B<BR>
-‰æ‘œ‚È‚Ç‚ÍuƒoƒCƒiƒŠ[ƒ‚[ƒhv‚Å“]‘—‚µ‚Ü‚·B<BR>
+ï¿½bï¿½fï¿½hï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ï¿½Aï¿½ï¿½ï¿½Oï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ajcode.pl ï¿½ï¿½ï¿½uï¿½oï¿½Cï¿½iï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½vï¿½ï¿½<BR>
+ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆƒGï¿½ï¿½ï¿½[ï¿½É‚È‚ï¿½Ü‚ï¿½ï¿½Bï¿½uï¿½eï¿½Lï¿½Xï¿½gï¿½iï¿½Aï¿½Xï¿½Lï¿½[ï¿½jï¿½ï¿½ï¿½[ï¿½hï¿½vï¿½Å“]ï¿½ï¿½ï¿½ï¿½ï¿½Ä‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B<BR>
+ï¿½æ‘œï¿½È‚Ç‚Íuï¿½oï¿½Cï¿½iï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½vï¿½Å“]ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B<BR>
 <BR>
-<B>‚QDƒvƒƒOƒ‰ƒ€æ“ªs‚ÌPerl‚ÌƒpƒX(#!/usr/bin/perl‚È‚Ç)‚Ì‹Lq‚ª³‚µ‚­‚È‚¢B</B><BR>
+<B>ï¿½Qï¿½Dï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½æ“ªï¿½sï¿½ï¿½Perlï¿½Ìƒpï¿½X(#!/usr/bin/perlï¿½È‚ï¿½)ï¿½Ì‹Lï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½B</B><BR>
 <BR>
-‚±‚ê‚ÍƒvƒƒoƒCƒ_‚É‚æ‚Á‚Ä‹Lq‚ªˆÙ‚È‚è‚Ü‚·B<BR>
-ƒvƒƒoƒCƒ_‚Ìƒz[ƒ€ƒy[ƒW‚É‘‚©‚ê‚Ä‚¢‚éƒz[ƒ€ƒy[ƒW‚É‘‚©‚ê‚Ä‚¢‚é‚Í‚¸‚Å‚·‚Ì‚ÅŠm”F‚µ‚Ä‚Ý‚Ä‚­‚¾‚³‚¢B<BR>
-”»‚ç‚È‚¯‚ê‚ÎƒvƒƒoƒCƒ_‚Öƒ[ƒ‹‚µ‚Ä–â‚¢‡‚í‚¹‚Ä‚Ý‚Ä‰º‚³‚¢B<BR>
+ï¿½ï¿½ï¿½ï¿½Íƒvï¿½ï¿½ï¿½oï¿½Cï¿½_ï¿½É‚ï¿½ï¿½ï¿½Ä‹Lï¿½qï¿½ï¿½ï¿½Ù‚È‚ï¿½Ü‚ï¿½ï¿½B<BR>
+ï¿½vï¿½ï¿½ï¿½oï¿½Cï¿½_ï¿½Ìƒzï¿½[ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½zï¿½[ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Å‚ï¿½ï¿½Ì‚ÅŠmï¿½Fï¿½ï¿½ï¿½Ä‚Ý‚Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B<BR>
+ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½Îƒvï¿½ï¿½ï¿½oï¿½Cï¿½_ï¿½Öƒï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä–â‚¢ï¿½ï¿½ï¿½í‚¹ï¿½Ä‚Ý‚Ä‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B<BR>
 <BR>
-Perl‚ÌƒpƒX‚Í•K‚¸æ“ªs‚É‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
-‚»‚Ìs‚Ì‘O‚Éu‰üsv‚âuƒXƒy[ƒXvs‚ª‚ ‚é‚ÆƒGƒ‰[‚É‚È‚è‚Ü‚·B <BR>
-‚Ü‚½A‰º‚Ì‚æ‚¤‚Éæ“ª‚Ìu#v‚âu!v‚ÍŽæ‚ç‚È‚¢‚Å‰º‚³‚¢B<BR>
+Perlï¿½Ìƒpï¿½Xï¿½Í•Kï¿½ï¿½ï¿½æ“ªï¿½sï¿½É‚È‚ï¿½ï¿½ï¿½Î‚È‚ï¿½Ü‚ï¿½ï¿½ï¿½B
+ï¿½ï¿½ï¿½Ìsï¿½Ì‘Oï¿½Éuï¿½ï¿½ï¿½sï¿½vï¿½ï¿½uï¿½Xï¿½yï¿½[ï¿½Xï¿½vï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆƒGï¿½ï¿½ï¿½[ï¿½É‚È‚ï¿½Ü‚ï¿½ï¿½B <BR>
+ï¿½Ü‚ï¿½ï¿½Aï¿½ï¿½ï¿½Ì‚æ‚¤ï¿½Éæ“ªï¿½Ìu#ï¿½vï¿½ï¿½u!ï¿½vï¿½ÍŽï¿½ï¿½È‚ï¿½ï¿½Å‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B<BR>
 <BR>
 /usr/bin/perl<BR>
 <BR>
-<B>‚RDƒXƒNƒŠƒvƒg‚ÌC³Žž‚ÉŒë‚Á‚Ä•¶–@ˆá”½‚ð‹N‚±‚µ‚Ä‚µ‚Ü‚Á‚Ä‚¢‚éB</B><BR>
+<B>ï¿½Rï¿½Dï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ÌCï¿½ï¿½ï¿½ï¿½ï¿½ÉŒï¿½ï¿½ï¿½Ä•ï¿½ï¿½@ï¿½á”½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½B</B><BR>
 <BR>
-ƒXƒNƒŠƒvƒg‚ðC³‚µ‚½Û‚ÉAŒë‚Á‚Ä•¶–@ˆá”½‚ð‹N‚±‚µ‚Ä‚¢‚é‚ÆƒGƒ‰[‚É‚È‚è‚Ü‚·B<BR>
-—á‚¦‚ÎAu"vu'v‚È‚Ç‚âs‚ÌÅŒã‚Ìu;v‚ð‹C•t‚©‚¸‚Éíœ‚µ‚Ä‚µ‚Ü‚Á‚½‚èAƒ^ƒCƒgƒ‹•”‚Ì‹Lq‚È‚Ç‚ÅA
-ƒ_ƒuƒ‹ƒNƒI[ƒe[ƒVƒ‡ƒ“ƒ}[ƒNu"v‚Ì‘O‚ÉƒGƒXƒP[ƒv‹L†u\\v‚ð•t‚¯–Y‚ê‚Ä‚¢‚½‚è
-‚È‚Ç‚Å‚·B<BR>
+ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÉAï¿½ï¿½ï¿½ï¿½Ä•ï¿½ï¿½@ï¿½á”½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ÆƒGï¿½ï¿½ï¿½[ï¿½É‚È‚ï¿½Ü‚ï¿½ï¿½B<BR>
+ï¿½á‚¦ï¿½ÎAï¿½u"ï¿½vï¿½u'ï¿½vï¿½È‚Ç‚ï¿½sï¿½ÌÅŒï¿½Ìu;ï¿½vï¿½ï¿½ï¿½Cï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Éíœï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì‹Lï¿½qï¿½È‚Ç‚ÅA
+ï¿½_ï¿½uï¿½ï¿½ï¿½Nï¿½Iï¿½[ï¿½eï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½[ï¿½Nï¿½u"ï¿½vï¿½Ì‘Oï¿½ÉƒGï¿½Xï¿½Pï¿½[ï¿½vï¿½Lï¿½ï¿½ï¿½u\\ï¿½vï¿½ï¿½tï¿½ï¿½ï¿½Yï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½È‚Ç‚Å‚ï¿½ï¿½B<BR>
 <BR>
-ˆ«‚¢—á~F<BR>
-print "&lt;font size="4" color="red"&gt;‚ ‚Á‚Û[‚a‚a‚r&lt;/font&gt;\\n";<BR>
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½F<BR>
+print "&lt;font size="4" color="red"&gt;ï¿½ï¿½ï¿½ï¿½ï¿½Û[ï¿½aï¿½aï¿½r&lt;/font&gt;\\n";<BR>
 <BR>
-—Ç‚¢—á›F<BR>
-print "&lt;font size=\\"4\\" color\\"red\\"&gt;‚ ‚Á‚Û[‚a‚a‚r&lt;/font&gt;\\n"; <BR>
+ï¿½Ç‚ï¿½ï¿½á›ï¿½F<BR>
+print "&lt;font size=\\"4\\" color\\"red\\"&gt;ï¿½ï¿½ï¿½ï¿½ï¿½Û[ï¿½aï¿½aï¿½r&lt;/font&gt;\\n"; <BR>
 <BR>
-‚±‚Ì‚æ‚¤‚Éu"v‚ÅˆÍ‚ñ‚¾“à—e‚ð“Ç‚Ýž‚Þ‚Ì‚ÅA‚»‚Ì’†‚Éu"v‚ð“ü‚ê‚éê‡‚ÍA
-u"v‚Ì‘O‚Éu\\v‚ð“ü‚ê‚Ü‚·B<BR>
+ï¿½ï¿½ï¿½Ì‚æ‚¤ï¿½Éu"ï¿½vï¿½ÅˆÍ‚ñ‚¾“ï¿½ï¿½eï¿½ï¿½Ç‚Ýï¿½ï¿½Þ‚Ì‚ÅAï¿½ï¿½ï¿½Ì’ï¿½ï¿½Éu"ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍA
+ï¿½u"ï¿½vï¿½Ì‘Oï¿½Éu\\ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B<BR>
 <BR>
 </BLOCKQUOTE>
 <BR><HR>
 _EOF_
 	}else{
-print "ƒGƒ‰[ƒ`ƒFƒbƒN‚É‚Íˆø‚Á‚©‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B";
+print "ï¿½Gï¿½ï¿½ï¿½[ï¿½`ï¿½Fï¿½bï¿½Nï¿½É‚Íˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½B";
 }
 }
 sub cgiinput {
-	# POST‚ð•W€“ü—Í‚©‚ç“Çž‚Ý
+	# POSTï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½Çï¿½ï¿½ï¿½
 	read(STDIN, $pairs, $ENV{'CONTENT_LENGTH'});
 
 	($form) = $pairs;
 
-#u•Ï”–¼=’lv‚ðƒCƒR[ƒ‹( = )‚Å•ª‰ðB
+#ï¿½uï¿½Ïï¿½ï¿½ï¿½=ï¿½lï¿½vï¿½ï¿½ï¿½Cï¿½Rï¿½[ï¿½ï¿½( = )ï¿½Å•ï¿½ï¿½ï¿½ï¿½B
 	($name,$value) = split(/=/, $form);
 
 	if($value ne ''){
-		# + ‚â %8A ‚È‚Ç‚ðƒfƒR[ƒh‚µ‚Ü‚·
+		# + ï¿½ï¿½ %8A ï¿½È‚Ç‚ï¿½ï¿½fï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½Ü‚ï¿½
 		$value =~ tr/+/ /;
 		$value =~ s/%([0-9a-fA-F][0-9a-fA-F])/pack("C", hex($1))/eg;
-		# ’²‚×‚½ƒtƒ@ƒCƒ‹–¼‚ð‘‚«o‚µ•\Ž¦‚µ‚Ü‚·
+		# ï¿½ï¿½ï¿½×‚ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 		$cgi = "./${value}.cgi";
 		if($kakutyousi == 1){
 		$cgi = "./${value}";
 		}
 	}
-	print "<b>$cgi</b>‚ð’²‚×‚Ü‚µ‚½B\n";
+	print "<b>$cgi</b>ï¿½ð’²‚×‚Ü‚ï¿½ï¿½ï¿½ï¿½B\n";
 	print "<hr>\n";
 }
 

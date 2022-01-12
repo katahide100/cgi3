@@ -1,4 +1,6 @@
 #!/usr/local/bin/perl
+use FindBin;
+use lib $FindBin::Bin;
 
 &bosyuu_gazo();
 
@@ -20,8 +22,8 @@ print <<"HTML";
 <script language="JavaScript">
 <!--
 vType   = ["visible","hidden"];
-flag    = 0;		//@“_–Åƒtƒ‰ƒO
-imgName = "myIMG";	//@“_–Å‚³‚¹‚é‰æ‘œ–¼
+flag    = 0;		//ï¿½@ï¿½_ï¿½Åƒtï¿½ï¿½ï¿½O
+imgName = "myIMG";	//ï¿½@ï¿½_ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½
 function iFlash()
 {
 	document.images[imgName].style.visibility = vType[flag ^= 1];

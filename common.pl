@@ -1,3 +1,6 @@
+use FindBin;
+use lib $FindBin::Bin;
+
 sub access_chk {	# 強制退室チェック
 	$timed_up = 0;
 	if(($side[1] && $date[$u_side2] && $natime) && $side[2] && !($read_only)){
@@ -518,9 +521,9 @@ EOM
 			$T{"p${mn}id"} = $id;
 			$T{"p${mn}pass"} = $P{'pass'};
 			$T{"p${mn}name"} = $P{'name'};
-			if(defined(@odeckp) && defined(@odeckg)){
+			if(@odeckp && @odeckg){
 				$T{"p${mn}deck"} = join(',', @odeck).'-'.join(',', @odeckp).'-'.join(',', @odeckg);
-			} elsif (defined(@odeckp)){
+			} elsif (@odeckp){
 				$T{"p${mn}deck"} = join(',', @odeck).'-'.join(',', @odeckp);
 			}else{
 				$T{"p${mn}deck"} = join(',', @odeck);

@@ -1,4 +1,6 @@
 #!/usr/local/bin/perl
+use FindBin;
+use lib $FindBin::Bin;
 
 require 'cust.cgi';
 require 'series.lib';

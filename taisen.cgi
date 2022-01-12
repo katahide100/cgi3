@@ -1,6 +1,8 @@
 #!/usr/local/bin/perl
+use FindBin;
+use lib $FindBin::Bin;
 
-use Net::SSL;
+use Net::SSLeay;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use JSON;
@@ -1700,12 +1702,20 @@ EOM
 <tr><td align="center">
 <table width="90%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
+<form action="$chatNodeHost" method="get" target="chatFrame" name="chatForm">
+  <input name="username" type="hidden" value="$id"/>
+  <input name="password" type="hidden" value="$pass"/>
+  <input name="url" type="hidden" value="/lobbyCgi"/>
+<iframe id="chatFrame" name="chatFrame" width="100%" height="465" scrolling="no"
+ frameborder="0"></iframe>
+<!--
 <form action="$chatNodeHost/processChat" method="post" target="chatFrame" name="chatForm">
   <input name="username" type="hidden" value="$id"/>
   <input name="password" type="hidden" value="$pass"/>
   <input name="url" type="hidden" value="/lobbyCgi"/>
 <iframe id="chatFrame" name="chatFrame" width="100%" height="465" scrolling="no"
  frameborder="0"></iframe>
+-->
 </td></tr>
 </table>
 </td></tr>
@@ -2099,12 +2109,13 @@ sub get_ini {
 	
 
 	# ユーザー検索（node連携）
-	my $url = $chatNodeHost . '/user/find?user_id='.$id;
-	$request = POST( $url );
-
+	my $url = $chatNodeHost . '/user?where={"userId":"'.$id.'"}';
+	$request = GET( $url );
+	
 	# 送信
 	my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
 	my $res = $ua->request( $request );
+	
 	my $arrRes = decode_json($res->content);
 	my $auth = 0;
 	if ($P{'admin'} > 0) {
@@ -2113,24 +2124,30 @@ sub get_ini {
 	if ($res->is_success) {
 		if (scalar @$arrRes > 0) {
 			#ユーザーが存在したら更新（node連携）
-
-			my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth;
-			$request = POST( $url );
+			my $url = $chatNodeHost . '/user/' . @$arrRes[0]->{id};
+			# TODO &auth=' . $auth も追加する
+			my %postdata = ( 'password' => $pass, 'fullName' => $P{'name'} );
+			$request = PATCH( $url, \%postdata );
 
 			# 送信
 			my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
 			my $res = $ua->request( $request );
-#			&error(
-#$res->base
-#	)
+# 			&error(
+# $res->base
+# 	)
 		} else {
 			#存在しなかったら登録（node連携）
-			my $url = $chatNodeHost . '/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
-			$request = POST( $url );
+			my $url = $chatNodeHost . '/user';
+			my %postdata = ( 'userId' => $id, 'password' => $pass, 'fullName' => $P{'name'} );
+			$request = POST( $url, \%postdata );
 
 			# 送信
 			my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
 			my $res = $ua->request( $request );
+
+			# &error(
+			# 	$res
+			# 		);
 		}
 	}
 

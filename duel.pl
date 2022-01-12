@@ -1,5 +1,8 @@
 $ver = "8.0 EX";
 
+
+use Data::Dumper;
+
 $ENV{'TZ'} = "JST-9";
 $times = time;
 %locks = ();
@@ -71,6 +74,7 @@ sub error {
 	foreach $key(keys(%locks)){ unlink $locks{$key} if ((-e $locks{$key}) && ($locks{$key})); }
 
 	&header;
+print Dumper $_[0];
 	print <<"EOM";
 </head>
 <body>

@@ -1,4 +1,7 @@
 #!/usr/local/bin/perl
+use FindBin;
+use lib $FindBin::Bin;
+
 BEGIN{open STDERR, '>./logs/error.log'};
 
 use File::Copy;
