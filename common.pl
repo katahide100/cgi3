@@ -68,6 +68,7 @@ sub start {
 	my $cf = 0;
 	my $mn = 0;
 	if($F{'mode'} eq 'duel') {
+		# 通常対戦の場合
 		$room = int($room);
 		&error("不正な部屋番号です") unless(($room > 0) && ($room <= $heyakazu));
 		&get_ini;
@@ -85,6 +86,7 @@ sub start {
 		$u_side = !($side[1]) ? 1 : 2;
 		&niheya_chk;
 	} else {
+		# 大会の場合
 		%T = ();
 		&filelock("tr");
 		chmod 0666, "./tour/part.dat";
@@ -123,13 +125,21 @@ sub start {
 	&error("デッキを読み込むことができません。選択し直してください。") if !($P{"deck$use"});
 	($dummy,$dcond,$dcondp,$dcondg) = split(/-/,$P{"deck$use"});
 	my @odeck = split(/,/,$dcond);
-	&error("デッキが40枚になっていません。デッキを作り直してください。") if $#odeck != 39;
+	my @odeckp = split(/,/,$dcondp); # サイキック
+	my $plusNum = 0;
+	foreach my $card(@odeckp){
+		if(grep(/^$card$/, 9705)) {
+			# デッキ上限枚数アップカードがある場合
+			$plusNum += 5;
+		}
+	}
+
+	&error("デッキが" . (40 + $plusNum) . "枚になっていません。デッキを作り直してください。") if $#odeck != (39 + $plusNum);
 
 	foreach my $card (@odeck) {
 		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
 	}
 
-	my @odeckp = split(/,/,$dcondp);
 	&error("超次元カードが15枚以上入っています。デッキを作り直してください。") if $#odeckp > 14;
 
 	my @odeckg = split(/,/,$dcondg);
@@ -234,9 +244,11 @@ sub start {
 		}
 		foreach my $card(@odeck){
 			if(grep(/^$card$/,@premium)){
+				# プレミアム殿堂入りカードがあるかチェック
 				$buffer .= "<FONT color=\"red\">$c_name[$card]</FONT><BR>";
 				$red_flag = 1;
 			} elsif(grep(/^$card$/,@dendou)){
+				# 殿堂入りカードがあるかチェック
 				$CHK{$card}++;
 				if ($CHK{$card} > 1) {
 					&error("殿堂入りカードが２枚以上入っています。デッキを作り直してください。");
@@ -283,8 +295,8 @@ sub start {
 			}
 			$cnt ++;
 		}
-		$buffer = "プレミアム電動入りカードが入っています。デッキを作り直してください。<BR>$buffer" if($red_flag);
-		$buffer = "電動入りカードが２枚以上入っています。デッキを作り直してください。<BR>$buffer" if($yellow_flag);
+		$buffer = "プレミアム殿堂入りカードが入っています。デッキを作り直してください。<BR>$buffer" if($red_flag);
+		$buffer = "殿堂入りカードが２枚以上入っています。デッキを作り直してください。<BR>$buffer" if($yellow_flag);
 		&error($buffer) if($red_flag || $yellow_flag);
 	} elsif ($dendou == 11) {
 		undef(%CHK);
