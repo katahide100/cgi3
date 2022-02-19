@@ -741,6 +741,7 @@ EOM
             <option value="201" $selstr[201]>20周年超感謝メモリアルパック 魂の章 名場面BEST</option>
             <option value="203" $selstr[203]>20周年超感謝メモリアルパック 技の章 英雄戦略パーフェクト20</option>
             <option value="208" $selstr[208]>20周年超感謝メモリアルパック 究極の章 デュエキングMAX</option>
+            <option value="213" $selstr[213]>20周年超感謝メモリアルパック 裏の章 パラレル･マスターズ</option>
             <option value="204" $selstr[204]>20thクロニクルデッキ 決闘！！ボルシャック・デュエル</option>
             <option value="205" $selstr[205]>20thクロニクルデッキ 熱血！！アウトレイジ・ビクトリー</option>
         <optgroup label = "レジェンドスーパーデッキ">
@@ -757,6 +758,7 @@ EOM
             <option value="91" $selstr[91]>デッキビルダー鬼DX　キラリ！レオ編</option>
         <optgroup label = "デュエル・マスターズ プレイス コラボ">
             <option value="193" $selstr[193]>デュエマプレイス・コラボデッキ 超竜の君臨＆天門の降臨</option>
+            <option value="212" $selstr[212]>デュエマプレイス・コラボデッキ 竜装の武者&魔弾の騎士</option>
         <optgroup label = "超王道戦略ファンタジスタ12">
             <option value="107" $selstr[107]>ドラゴン・サーガ　超王道戦略ファンタジスタ12</option>
         <optgroup label = "ヒーローズ・ビクトリー・パック">

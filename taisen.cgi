@@ -1578,6 +1578,13 @@ EOM
   <textarea cols="40" rows="3" id="chatData" /></textarea><br>
   <input id="chatAdd" type="button" value="書き込み" />
   <input type="button" onClick="javascript:sForm('freeroom', '', '');" value="更新する">
+  <div style="width:75%;font-size: 11px;">
+  <br><b><font color=#ff0000>// 共有掲示板、チャットに関する注意事項 //</font><br>
+<font color=blue>管理人及び副管理人が以下の行為に該当すると判断した場合、<font color=#ff0000>即刻アカウント規制</font>及び<font color=#ff0000>投稿の削除</font>をさせていただく場合がございますので、ご了承ください。<br></font>
+・誹謗中傷・公序良俗に反する言動・暴言などの書き込み<br>
+・不要な連投 ※対戦募集コメントなども含む（他の方の投稿が流れてしまうため、どうしても必要な場合は複数回投稿せずに1度の書き込みにまとめるようお願いいたします）。<br>
+・共有掲示板及びチャットの1chでデュエル・マスターズおよび当サイトと関係のない個人的な会話を延々と続けるなど(関係のない会話がしたい場合はチャットの1ch以外でお願いいたします)。<br></b>
+  </div>
 </div>
   <div align="center" style="width: 500px; height: 180px; overflow: scroll;">
   <dl>
