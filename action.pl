@@ -1816,13 +1816,16 @@ sub move {
         }
       } else {
         foreach my $evono (@ssel) {
+          # 進化獣を移動する場合
           my($cardno, $l_side, $area) = look_evo($evono);
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  if !check_psychic($cardno);
+          # P革命チェンジなど、バトルゾーンから通常カードを超次元ゾーンに送る場合があるため、ここでは超次元チェックを行わない
+          # TODO 特定カードが超次元ゾーンにある場合だけエラーにしないようにしたいが、面倒そうなので保留
         }
         foreach my $fldno (@fsel) {
           # バトルゾーン、マナゾーンなどから移動する場合
           my($cardno, $l_side, $area) = look_fld($fldno);
           # P革命チェンジなど、バトルゾーンから通常カードを超次元ゾーンに送る場合があるため、ここでは超次元チェックを行わない
+          # TODO 特定カードが超次元ゾーンにある場合だけエラーにしないようにしたいが、面倒そうなので保留
         }
         foreach my $gsel (@gsel) {
           my($cardno, $l_side, $area) = look_gene($gsel);
@@ -2075,6 +2078,7 @@ sub move {
   } elsif (-1 < $#fsel && -1 < $#ssel && $parea == ${PAREA()}{"DECK_TOP"}) { # 進化と進化元を同時に山札の一番上へ
     &return_deck3;
   } else {
+    # フィールドから手札、墓地、山札へ移動
     &move2;
   }
   undef @sel; undef @fsel; undef @ssel; undef @gsel; undef @csel;
@@ -2296,11 +2300,11 @@ sub pick_god {		# ゴッドの片方を取り出す
 
 sub pick_evo {		# 進化元を取り出す
 	my ($fldno, $evono) = split /-/, $_[0];
-	my @shinka = split /-/, $f_evo[$fldno];
-	next if $shinka[$evono] eq "";
-	$cardno = $shinka[$evono];
-	$shinka[$evono] = "";
-	$f_evo[$fldno] = join "-", @shinka;
+	my @evo = split /-/, $shinka[$fldno];
+	next if $evo[$evono] eq "";
+	$cardno = $evo[$evono];
+	$evo[$evono] = "";
+	$shinka[$fldno] = join "-", @evo;
 	which_side($fldno);
 	return $l_side
 }
@@ -2354,9 +2358,9 @@ sub look_god {		# ゴッドの片方を取り出す
 
 sub look_evo {		# 進化元を取り出す
 	my ($fldno, $evono) = split /-/, $_[0];
-	my @shinka = split /-/, $f_evo[$fldno];
-	next if $shinka[$evono] eq "";
-	my $cardno = $shinka[$evono];
+	my @evo = split /-/, $shinka[$fldno];
+	next if $evo[$evono] eq "";
+	my $cardno = $evo[$evono];
 	which_side($fldno);
 	return ($cardno, $l_side, $area)
 }
