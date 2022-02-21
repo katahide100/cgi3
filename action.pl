@@ -1800,19 +1800,21 @@ sub move {
   } elsif ( $parea == ${PAREA()}{"PSYCHIC_ZONE"} ) {# 超次元ゾーンへ
     if ( $F{'decktop'} ) {
       $cardno = ${$deck[$u_side]}[0];
-      com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  if !check_psychic($cardno);
+      # P革命チェンジなど、バトルゾーンから通常カードを超次元ゾーンに送る場合があるため、ここでは超次元チェックを行わない
+      # TODO 特定カードが超次元ゾーンにある場合だけエラーにしないようにしたいが、面倒そうなので保留
       $cardno = shift @{$deck[$u_side]};
-      move_sub($cardno, $u_side);
+      move_sub($u_side);
     } else {
       if (@sel) {
         foreach my $sel (@sel) {
           # 手札などから移動させる場合
           $cardno = ${ $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $hand[$vside] }[$sel];
-          com_error("サイキック・クリーチャー以外のカードを超次元ゾーンに移動することはできません")  if !check_psychic($cardno);
+          # P革命チェンジなど、バトルゾーンから通常カードを超次元ゾーンに送る場合があるため、ここでは超次元チェックを行わない
+          # TODO 特定カードが超次元ゾーンにある場合だけエラーにしないようにしたいが、面倒そうなので保留
         }
         foreach my $sel (@sel) {
           $cardno = pick_card($sel);
-          move_sub($cardno, $vside);
+          move_sub($vside);
         }
       } else {
         foreach my $evono (@ssel) {
