@@ -2497,8 +2497,9 @@ sub p_mess {
   }
   $p_mess .= $area == 2 ? "シールドを"
        : $area ne "" ? sprintf "%sを", "《$c_name[$cardno]》"
-       : $F{'decktop'} ? sprintf "%sの一番%sのカード%sを", $F{'fld'} == 4 ? "GR" : "山札", $F{'under'} == 1 ? "下" : "上", $parea != 3 ? "、《$c_name[$cardno]》" : ""
-       : $varea == ${VAREA()}{"HAND"} ? sprintf "%s%sを", $vside != $u_side ? "手札から、" : "", 3 < $parea && $vside == $u_side ? "カード" : "《$c_name[$cardno]》"
+       : $F{'decktop'} ? sprintf "%sの一番%sのカード%sを", $F{'fld'} == 4 ? "GR" : "山札", $F{'under'} == 1 ? "下" : "上", $parea != ${PAREA()}{"HAND"} ? "、《$c_name[$cardno]》" : ""
+       # 手札からの場合、超次元ゾーンに移動する場合はカード名を公表する
+       : $varea == ${VAREA()}{"HAND"} ? sprintf "%s%sを", ${PAREA()}{"PSYCHIC_ZONE"} == $parea || $vside != $u_side ? "手札から、" : "", ${PAREA()}{"PSYCHIC_ZONE"} != $parea && ${PAREA()}{"HAND"} < $parea && $vside == $u_side ? "カード" : "《$c_name[$cardno]》"
        : $varea == ${VAREA()}{"CEMETERY"} ? "墓地から、《$c_name[$cardno]》を"
        : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? "超次元ゾーンから、《$c_name[$cardno]》を"
        : $vside == $u_side && $parea == ${PAREA()}{"HAND"} && ($F{'show'}) ? "山札のカードを"
