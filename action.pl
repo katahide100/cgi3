@@ -1639,14 +1639,16 @@ sub unique {  # 順番の重複をチェック
   @rsel = sort { $F{$a} cmp $F{$b} } (grep /^rsel/, keys(%F));
 }
 
-#--------------------------------------------------------
-
+#----------------------------------
+# カードの移動
+# 　バトルゾーンや墓地など、各ゾーンにカードを移動する際に呼ばれる
+#
+# return void
+#----------------------------------
 sub move {
   local ($parea = $F{'parea'}, $varea = $F{'varea'}, $vside = (($u_side - 1) xor $F{'vside'}) + 1);
   local *zone = $parea == ${PAREA()}{"CEMETERY"} ? *boti : $parea == ${PAREA()}{"HAND"} ? *hand : ($parea == ${PAREA()}{"DECK_TOP"} || $parea == ${PAREA()}{"DECK_BOTTOM"}) ? *deck : $parea == ${PAREA()}{"PSYCHIC_ZONE"} ? *psychic : $parea == ${PAREA()}{"GR_ZONE"} ? *gr : "";
   local *arr = $varea == ${VAREA()}{"DECK"} ? *deck : $varea == ${VAREA()}{"CEMETERY"} ? *boti : $varea == ${VAREA()}{"HAND"} ? *hand : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? *psychic : *gr;
-# &com_error("$phasestr[$phase]にカードを移動することはできません") if $phase == 1;
-# &com_error("$phasestr[$phase]にはマナゾーン以外にカードを移動することはできません") if $phase == 2 && $parea != 0;
   &com_error("フォームから多重送信されたため、二度目以降の処理を中断しました") if(($multi eq $F{'random'}) && ($F{'random'} ne ''));
   $multi = $F{'random'};
 
@@ -1661,21 +1663,8 @@ sub move {
       &com_error("一度にバトルゾーンに出せるカードは１枚ずつです") if 0 < $#sel;
       &com_error("相手のカードを場に出すことはできません") if $vside == $u_side2;
       if ($F{'decktop'}) {
-        if ($F{'fld'} == 4) {
-          #デッキのカード選択の場合
-          if ($F{'under'} == 1) {
-            $cardno = $gr[$vside][$#{$gr[$vside]}]; # デッキの一番下
-          } else {
-            $cardno = $gr[$vside][0]; # デッキの１番上（0番目）
-          }
-        } else {
-          #デッキのカード選択の場合
-          if ($F{'under'} == 1) {
-            $cardno = $deck[$vside][$#{$deck[$vside]}]; # デッキの一番下
-          } else {
-            $cardno = $deck[$vside][0]; # デッキの１番上（0番目）
-          }
-        }
+        # デッキもしくはGRの一番上 or 一番下の場合
+        $cardno = &get_cardno_from_deck;
       } else {
         # デッキ以外の場合
         $cardno = $arr[$vside][$sel[0]];
@@ -1691,24 +1680,11 @@ sub move {
         &put_cre_chk2($cardno);
       }
       if ($F{'decktop'}) {
-        if ($F{'fld'} == 4) {
-          if ($F{'under'} == 1) {
-            $gr[$u_side][$#{$gr[$u_side]}] = "";
-          } else {
-            $gr[$u_side][0] = "";
-          }
-        } else {
-          if ($F{'under'} == 1) {
-            $deck[$u_side][$#{$deck[$u_side]}] = "";
-          } else {
-            $deck[$u_side][0] = "";
-          }
-        }
+        # デッキもしくはGRの一番上 or 一番下の場合
+        &delete_cardno_from_deck;
       } else {
         $arr[$u_side][$sel[0]] = "";
       }
-      #&s_mes("$s_cou");
-      #&s_mes("$#res");
       if (0 < $s_cou || -1 < $#res) {
         &put_card_dialog2($cardno, sprintf("%d", $F{'decktop'} ? 2 : $varea));
       } else {
@@ -1761,7 +1737,6 @@ sub move {
       }
     }
   } elsif ( $parea == ${PAREA()}{"GR_ZONE"} ) {# GRゾーンへ
-
     if ( $F{'decktop'} ) {
       $cardno = ${$deck[$u_side]}[0];
       com_error("GRクリーチャー以外のカードをGRゾーンに移動することはできません")  unless (syu_chk($cardno, 222));
@@ -1799,10 +1774,15 @@ sub move {
     &del_move;
   } elsif ( $parea == ${PAREA()}{"PSYCHIC_ZONE"} ) {# 超次元ゾーンへ
     if ( $F{'decktop'} ) {
-      $cardno = ${$deck[$u_side]}[0];
+      # デッキもしくはGRの一番上 or 一番下の場合
+
+      # カード番号取得
+      $cardno = &get_cardno_from_deck;
+      return if $cardno eq ""; #未選択の場合はリターン
+      # 移動元からカード除去
+      &delete_cardno_from_deck;
       # P革命チェンジなど、バトルゾーンから通常カードを超次元ゾーンに送る場合があるため、ここでは超次元チェックを行わない
       # TODO 特定カードが超次元ゾーンにある場合だけエラーにしないようにしたいが、面倒そうなので保留
-      $cardno = shift @{$deck[$u_side]};
       move_sub($u_side);
     } else {
       if (@sel) {
@@ -1900,20 +1880,8 @@ sub move {
       &com_error("一度にバトルゾーンに出せるカードは１枚ずつです") if 0 < $#sel;
       &com_error("相手のカードを場に出すことはできません") if $vside == $u_side2;
       if ($F{'decktop'}) {
-        if ($F{'fld'} == 4) {
-          if ($F{'under'} == 1) {
-            $cardno = $gr[$vside][$#{$gr[$vside]}];
-          } else {
-            $cardno = $gr[$vside][0];
-          }
-        } else {
-          if ($F{'under'} == 1) {
-            $cardno = $deck[$vside][$#{$deck[$vside]}];
-          } else {
-            $cardno = $deck[$vside][0];
-          }
-        }
-
+        # デッキもしくはGRの一番上 or 一番下の場合
+        $cardno = &get_cardno_from_deck;
       } else {
         $cardno = $arr[$vside][$sel[0]];
       }
@@ -1928,19 +1896,8 @@ sub move {
         &put_cre_chk($cardno);
       }
       if ($F{'decktop'}) {
-        if ($F{'fld'} == 4) {
-          if ($F{'under'} == 1) {
-            $gr[$u_side][$#{$gr[$u_side]}] = "";
-          } else {
-            $gr[$u_side][0] = "";
-          }
-        } else {
-          if ($F{'under'} == 1) {
-            $deck[$u_side][$#{$deck[$u_side]}] = "";
-          } else {
-            $deck[$u_side][0] = "";
-          }
-        }
+        # デッキもしくはGRの一番上 or 一番下の場合
+        &delete_cardno_from_deck;
       } else {
         $arr[$u_side][$sel[0]] = "";
       }
@@ -2086,9 +2043,56 @@ sub move {
   undef @sel; undef @fsel; undef @ssel; undef @gsel; undef @csel;
 }
 
-# サイキックのカードかどうか
+#----------------------------------
+# 山札もしくはGRの一番上 or 一番下からの移動の場合のカード番号取得
+# return int カード番号
+#----------------------------------
+sub get_cardno_from_deck {
+  my $_cardno = "";
+  if ($F{'fld'} == 4) {
+    #GRのカード選択の場合
+    if ($F{'under'} == 1) {
+      $_cardno = $gr[$vside][$#{$gr[$vside]}]; # GRの一番下
+    } else {
+      $_cardno = $gr[$vside][0]; # GRの１番上（0番目）
+    }
+  } else {
+    #デッキのカード選択の場合
+    if ($F{'under'} == 1) {
+      $_cardno = $deck[$vside][$#{$deck[$vside]}]; # デッキの一番下
+    } else {
+      $_cardno = $deck[$vside][0]; # デッキの１番上（0番目）
+    }
+  }
+  return $_cardno;
+}
+
+#----------------------------------
+# 山札もしくはGRの一番上 or 一番下からの移動の場合のカード除去
+#   この処理を行なったのち、所定の場所にカードが追加されるので、実質移動処理となる
+# return void
+#----------------------------------
+sub delete_cardno_from_deck {
+  if ($F{'fld'} == 4) {
+    if ($F{'under'} == 1) {
+      $gr[$u_side][$#{$gr[$u_side]}] = "";
+    } else {
+      $gr[$u_side][0] = "";
+    }
+  } else {
+    if ($F{'under'} == 1) {
+      $deck[$u_side][$#{$deck[$u_side]}] = "";
+    } else {
+      $deck[$u_side][0] = "";
+    }
+  }
+}
+
+#----------------------------------
+# サイキックのカードかどうか確認
 # @param カード番号
 # return bool サイキックカードの場合: true
+#----------------------------------
 sub check_psychic {
   my $cardno = $_[0];
   return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186);
