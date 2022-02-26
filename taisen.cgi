@@ -311,11 +311,15 @@ sub room {
 				dataType: 'html',
 				success: function (data) {
 					var html = jQuery.parseHTML(data);
-					\$('#room_list').html(\$(html).find('#room_list'));
-					\$('#user_list').html(\$(html).find('#user_list'));
+					var roomList = \$(html).find('#room_list').html();
+					var userList = \$(html).find('#user_list').html();
+					\$('#room_list').html(roomList);
+					\$('#user_list').html(userList);
 				}
 			});
 		}
+
+		// TODO 対戦部屋に入った瞬間にエミットで変更するようにしたい
 		setInterval(refresh, 10000);
   	});
     
