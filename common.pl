@@ -1046,6 +1046,10 @@ sub end_game_sub {
 	&put_ini;
 }
 
+#---------------------------
+# 対戦最終処理
+# 　勲章やポイントの付与もこの中で行なっている
+#---------------------------
 sub put_shohai{
 	my ($id,$tsno) = @_;
 	&pfl_read($id);
@@ -1140,6 +1144,7 @@ sub put_shohai{
 		my $light_point = 0;
 		my $water_point = 0;
 		my $dark_point = 0;
+		my $zero_point = 0;
 		my %deckcnt = ();
 		my $hirander = 1;
 		my $all_rainbow = 1;
@@ -1152,9 +1157,10 @@ sub put_shohai{
 			$light_point ++ if($c_bun[$wdeck] =~ /0/);
 			$water_point ++ if($c_bun[$wdeck] =~ /1/);
 			$dark_point ++ if($c_bun[$wdeck] =~ /2/);
+			$zero_point ++ if($c_bun[$wdeck] =~ /5/);
 			$deckcnt{$wdeck} ++;
 			$hirander = 0 if($deckcnt{$wdeck} > 1);
-			$all_rainbow = 0 if(($c_bun[$wdeck] eq '0') || ($c_bun[$wdeck] eq '1') || ($c_bun[$wdeck] eq '2') || ($c_bun[$wdeck] eq '3') || ($c_bun[$wdeck] eq '4'));
+			$all_rainbow = 0 if(($c_bun[$wdeck] eq '0') || ($c_bun[$wdeck] eq '1') || ($c_bun[$wdeck] eq '2') || ($c_bun[$wdeck] eq '3') || ($c_bun[$wdeck] eq '4') || ($c_bun[$wdeck] eq '5'));
 		}
 		if($turn >= 13) {
 			if(!$P{'order_weak'}) {
@@ -1181,7 +1187,8 @@ sub put_shohai{
 					&s_mes("$pn[$tsno]に、$order_text{'rainbow'}が贈られました。");
 				}
 			}
-			if(($fire_point == 40) && ($nature_point == 0) && ($light_point == 0) && ($water_point == 0) && ($dark_point == 0)) {
+			# 火文明の勲章
+			if(($fire_point >= 40) && ($nature_point == 0) && ($light_point == 0) && ($water_point == 0) && ($dark_point == 0) && ($zero_point == 0)) {
 				$P{'fire_win'} ++;
 				if((!$P{'order_fire'}) && ($P{'fire_win'} >= 10)) {
 					$P{'order_fire'} = 1;
@@ -1191,7 +1198,8 @@ sub put_shohai{
 					&s_mes("$pn[$tsno]に、$order_text{'highfire'}が贈られました。");
 				}
 			}
-			if(($fire_point == 0) && ($nature_point == 40) && ($light_point == 0) && ($water_point == 0) && ($dark_point == 0)) {
+			# 自然文明の勲章
+			if(($fire_point == 0) && ($nature_point >= 40) && ($light_point == 0) && ($water_point == 0) && ($dark_point == 0) && ($zero_point == 0)) {
 				$P{'nature_win'} ++;
 				if((!$P{'order_nature'}) && ($P{'nature_win'} >= 10)) {
 					$P{'order_nature'} = 1;
@@ -1201,7 +1209,8 @@ sub put_shohai{
 					&s_mes("$pn[$tsno]に、$order_text{'highnature'}が贈られました。");
 				}
 			}
-			if(($fire_point == 0) && ($nature_point == 0) && ($light_point == 40) && ($water_point == 0) && ($dark_point == 0)) {
+			# 光文明の勲章
+			if(($fire_point == 0) && ($nature_point == 0) && ($light_point >= 40) && ($water_point == 0) && ($dark_point == 0) && ($zero_point == 0)) {
 				$P{'light_win'} ++;
 				if((!$P{'order_light'}) && ($P{'light_win'} >= 10)) {
 					$P{'order_light'} = 1;
@@ -1211,7 +1220,8 @@ sub put_shohai{
 					&s_mes("$pn[$tsno]に、$order_text{'highlight'}が贈られました。");
 				}
 			}
-			if(($fire_point == 0) && ($nature_point == 0) && ($light_point == 0) && ($water_point == 40) && ($dark_point == 0)) {
+			# 水文明の勲章
+			if(($fire_point == 0) && ($nature_point == 0) && ($light_point == 0) && ($water_point >= 40) && ($dark_point == 0) && ($zero_point == 0)) {
 				$P{'water_win'} ++;
 				if((!$P{'order_water'}) && ($P{'water_win'} >= 10)) {
 					$P{'order_water'} = 1;
@@ -1221,7 +1231,8 @@ sub put_shohai{
 					&s_mes("$pn[$tsno]に、$order_text{'highwater'}が贈られました。");
 				}
 			}
-			if(($fire_point == 0) && ($nature_point == 0) && ($light_point == 0) && ($water_point == 0) && ($dark_point == 40)) {
+			# 闇文明の勲章
+			if(($fire_point == 0) && ($nature_point == 0) && ($light_point == 0) && ($water_point == 0) && ($dark_point >= 40) && ($zero_point == 0)) {
 				$P{'dark_win'} ++;
 				if((!$P{'order_dark'}) && ($P{'dark_win'} >= 10)) {
 					$P{'order_dark'} = 1;
@@ -1231,36 +1242,77 @@ sub put_shohai{
 					&s_mes("$pn[$tsno]に、$order_text{'highdark'}が贈られました。");
 				}
 			}
+			# ゼロ文明（無色）の勲章
+			if(($fire_point == 0) && ($nature_point == 0) && ($light_point == 0) && ($water_point == 0) && ($dark_point == 0) && ($zero_point >= 40)) {
+				$P{'zero_win'} ++;
+				if((!$P{'order_allzero'}) && ($P{'zero_win'} >= 1)) {
+					$P{'order_allzero'} = 1;
+					&s_mes("$pn[$tsno]に、$order_text{'allzero'}が贈られました。");
+				}
+			}
 
-			my $exist_color_d = 12;
-			my $exist_color_t = 8;
+			# 2色系の勲章の場合の各色の最低枚数
+			my $exist_color_d = 8;
+			# 3色以上系の勲章の場合の最低枚数
+			my $exist_color_t = 4;
 
+			# 各複合系勲章の枚数設定
 			my %deck_color = (
-			'lw' => [$exist_color_d, $exist_color_d, 0, 0, 0],
-			'wd' => [0, $exist_color_d, $exist_color_d, 0, 0],
-			'df' => [0, 0, $exist_color_d, $exist_color_d, 0],
-			'fn' => [0, 0, 0, $exist_color_d, $exist_color_d],
-			'nl' => [$exist_color_d, 0, 0, 0, $exist_color_d],
-			'ld' => [$exist_color_d, 0, $exist_color_d, 0, 0],
-			'wf' => [0, $exist_color_d, 0, $exist_color_d, 0],
-			'dn' => [0, 0, $exist_color_d, 0, $exist_color_d],
-			'fl' => [$exist_color_d, 0, 0, $exist_color_d, 0],
-			'nw' => [0, $exist_color_d, 0, 0, $exist_color_d],
-			'lwd' => [$exist_color_t, $exist_color_t, $exist_color_t, 0, 0],
-			'wfl' => [$exist_color_t, $exist_color_t, 0, $exist_color_t, 0],
-			'nlw' => [$exist_color_t, $exist_color_t, 0, 0, $exist_color_t],
-			'fld' => [$exist_color_t, 0, $exist_color_t, $exist_color_t, 0],
-			'ldn' => [$exist_color_t, 0, $exist_color_t, 0, $exist_color_t],
-			'fnl' => [$exist_color_t, 0, 0, $exist_color_t, $exist_color_t],
-			'wdf' => [0, $exist_color_t, $exist_color_t, $exist_color_t, 0],
-			'wdn' => [0, $exist_color_t, $exist_color_t, 0, $exist_color_t],
-			'nwf' => [0, $exist_color_t, 0, $exist_color_t, $exist_color_t],
-			'dfn' => [0, 0, $exist_color_t, $exist_color_t, $exist_color_t],
-			'nolight' => [0, $exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t],
-			'nowater' => [$exist_color_t, 0, $exist_color_t, $exist_color_t, $exist_color_t],
-			'nodark' => [$exist_color_t, $exist_color_t, 0, $exist_color_t, $exist_color_t],
-			'nofire' => [$exist_color_t, $exist_color_t, $exist_color_t, 0, $exist_color_t],
-			'nonature' => [$exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t, 0]
+				'lw' => [$exist_color_d, $exist_color_d, 0, 0, 0, 0],
+				'wd' => [0, $exist_color_d, $exist_color_d, 0, 0, 0],
+				'df' => [0, 0, $exist_color_d, $exist_color_d, 0, 0],
+				'fn' => [0, 0, 0, $exist_color_d, $exist_color_d, 0],
+				'nl' => [$exist_color_d, 0, 0, 0, $exist_color_d, 0],
+				'ld' => [$exist_color_d, 0, $exist_color_d, 0, 0, 0],
+				'wf' => [0, $exist_color_d, 0, $exist_color_d, 0, 0],
+				'dn' => [0, 0, $exist_color_d, 0, $exist_color_d, 0],
+				'fl' => [$exist_color_d, 0, 0, $exist_color_d, 0, 0],
+				'nw' => [0, $exist_color_d, 0, 0, $exist_color_d, 0],
+				'lz' => [$exist_color_d, 0, 0, 0, 0, $exist_color_d],
+				'wz' => [0, $exist_color_d, 0, 0, 0, $exist_color_d],
+				'dz' => [0, 0, $exist_color_d, 0, 0, $exist_color_d],
+				'fz' => [0, 0, 0, $exist_color_d, 0, $exist_color_d],
+				'nz' => [0, 0, 0, 0, $exist_color_d, $exist_color_d],
+				'lwd' => [$exist_color_t, $exist_color_t, $exist_color_t, 0, 0, 0],
+				'wfl' => [$exist_color_t, $exist_color_t, 0, $exist_color_t, 0, 0],
+				'nlw' => [$exist_color_t, $exist_color_t, 0, 0, $exist_color_t, 0],
+				'fld' => [$exist_color_t, 0, $exist_color_t, $exist_color_t, 0, 0],
+				'ldn' => [$exist_color_t, 0, $exist_color_t, 0, $exist_color_t, 0],
+				'fnl' => [$exist_color_t, 0, 0, $exist_color_t, $exist_color_t, 0],
+				'wdf' => [0, $exist_color_t, $exist_color_t, $exist_color_t, 0, 0],
+				'wdn' => [0, $exist_color_t, $exist_color_t, 0, $exist_color_t, 0],
+				'nwf' => [0, $exist_color_t, 0, $exist_color_t, $exist_color_t, 0],
+				'dfn' => [0, 0, $exist_color_t, $exist_color_t, $exist_color_t, 0],
+				'lwz' => [$exist_color_d, $exist_color_d, 0, 0, 0, $exist_color_d],
+				'wdz' => [0, $exist_color_d, $exist_color_d, 0, 0, $exist_color_d],
+				'dfz' => [0, 0, $exist_color_d, $exist_color_d, 0, $exist_color_d],
+				'fnz' => [0, 0, 0, $exist_color_d, $exist_color_d, $exist_color_d],
+				'nlz' => [$exist_color_d, 0, 0, 0, $exist_color_d, $exist_color_d],
+				'ldz' => [$exist_color_d, 0, $exist_color_d, 0, 0, $exist_color_d],
+				'wfz' => [0, $exist_color_d, 0, $exist_color_d, 0, $exist_color_d],
+				'dnz' => [0, 0, $exist_color_d, 0, $exist_color_d, $exist_color_d],
+				'flz' => [$exist_color_d, 0, 0, $exist_color_d, 0, $exist_color_d],
+				'nwz' => [0, $exist_color_d, 0, 0, $exist_color_d, $exist_color_d],
+				'nolight' => [0, $exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t, 0],
+				'nowater' => [$exist_color_t, 0, $exist_color_t, $exist_color_t, $exist_color_t, 0],
+				'nodark' => [$exist_color_t, $exist_color_t, 0, $exist_color_t, $exist_color_t, 0],
+				'nofire' => [$exist_color_t, $exist_color_t, $exist_color_t, 0, $exist_color_t, 0],
+				'nonature' => [$exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t, 0, 0],
+				'dfnz' => [0, 0, $exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t],
+				'wfnz' => [0, $exist_color_t, 0, $exist_color_t, $exist_color_t, $exist_color_t],
+				'wdnz' => [0, $exist_color_t, $exist_color_t, 0, $exist_color_t, $exist_color_t],
+				'wdfz' => [0, $exist_color_t, $exist_color_t, $exist_color_t, 0, $exist_color_t],
+				'lfnz' => [$exist_color_t, 0, 0, $exist_color_t, $exist_color_t, $exist_color_t],
+				'ldnz' => [$exist_color_t, 0, $exist_color_t, 0, $exist_color_t, $exist_color_t],
+				'ldfz' => [$exist_color_t, 0, $exist_color_t, $exist_color_t, 0, $exist_color_t],
+				'lwnz' => [$exist_color_t, $exist_color_t, 0, 0, $exist_color_t, $exist_color_t],
+				'lwfz' => [$exist_color_t, $exist_color_t, 0, $exist_color_t, 0, $exist_color_t],
+				'lwdz' => [$exist_color_t, $exist_color_t, $exist_color_t, 0, 0, $exist_color_t],
+				'nolightz' => [0, $exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t],
+				'nowaterz' => [$exist_color_t, 0, $exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t],
+				'nodarkz' => [$exist_color_t, $exist_color_t, 0, $exist_color_t, $exist_color_t, $exist_color_t],
+				'nofirez' => [$exist_color_t, $exist_color_t, $exist_color_t, 0, $exist_color_t, $exist_color_t],
+				'nonaturez' => [$exist_color_t, $exist_color_t, $exist_color_t, $exist_color_t, 0, $exist_color_t]
 			);
 			foreach $key (keys(%deck_color)) {
 				if(
@@ -1268,15 +1320,20 @@ sub put_shohai{
 				((($water_point == 0) && (!$deck_color{$key}[1])) || (($water_point >= $deck_color{$key}[1]) && ($deck_color{$key}[1]))) &&
 				((($dark_point == 0) && (!$deck_color{$key}[2])) || (($dark_point >= $deck_color{$key}[2]) && ($deck_color{$key}[2]))) &&
 				((($fire_point == 0) && (!$deck_color{$key}[3])) || (($fire_point >= $deck_color{$key}[3]) && ($deck_color{$key}[3]))) &&
-				((($nature_point == 0) && (!$deck_color{$key}[4])) || (($nature_point >= $deck_color{$key}[4]) && ($deck_color{$key}[4])))
+				((($nature_point == 0) && (!$deck_color{$key}[4])) || (($nature_point >= $deck_color{$key}[4]) && ($deck_color{$key}[4]))) &&
+				((($zero_point == 0) && (!$deck_color{$key}[5])) || (($zero_point >= $deck_color{$key}[5]) && ($deck_color{$key}[5])))
 				) {
 					$P{$key . '_win'} ++;
 					if((!$P{'order_' . $key}) && ($P{$key . '_win'} >= 10)) {
-						$P{'order_' . $key} = 1;
-						&s_mes("$pn[$tsno]に、$order_text{$key}が贈られました。");
+						if (exists($order_text{$key})) {
+							$P{'order_' . $key} = 1;
+							&s_mes("$pn[$tsno]に、$order_text{$key}が贈られました。");
+						}
 					} elsif((!$P{'order_high' . $key}) && ($P{$key . '_win'} >= 30)) {
+						if (exists($order_text{'high' . $key})) {
 						$P{'order_high' . $key} = 1;
-						&s_mes("$pn[$tsno]に、$order_text{'high' . $key}が贈られました。");
+							&s_mes("$pn[$tsno]に、$order_text{'high' . $key}が贈られました。");
+						}
 					}
 				}
 			}
@@ -1289,6 +1346,9 @@ sub put_shohai{
 				} elsif((!$P{'order_highfull'}) && ($P{'full_win'} >= 30)) {
 					$P{'order_highfull'} = 1;
 					&s_mes("$pn[$tsno]に、$order_text{'highfull'}が贈られました。");
+				} elsif((!$P{'order_spfull'}) && ($P{'full_win'} >= 100)) {
+					$P{'order_spfull'} = 1;
+					&s_mes("$pn[$tsno]に、$order_text{'spfull'}が贈られました。");
 				}
 			}
 		} else {
