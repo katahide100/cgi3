@@ -185,6 +185,9 @@ EOM
 	exit;
 }
 
+#-------------------------------------
+# 対戦部屋一覧表示
+#-------------------------------------
 sub room {
 	if ( mkdir( "./memlock", 0777 ) ) {
 		open( MEM, "./member.dat" );
@@ -299,6 +302,21 @@ sub room {
   				\$('#chatInputArea').hide("slow");
   			}
     	});
+
+		// 画面再描画
+		refresh = () => {
+			\$.ajax({
+				type: "GET",
+				url: location.href, // 取得先のURL
+				dataType: 'html',
+				success: function (data) {
+					var html = jQuery.parseHTML(data);
+					\$('#room_list').html(\$(html).find('#room_list'));
+					\$('#user_list').html(\$(html).find('#user_list'));
+				}
+			});
+		}
+		setInterval(refresh, 10000);
   	});
     
     
@@ -1357,7 +1375,7 @@ EOM
 	}
 	else {
 		print <<"EOM";
-<table border="1" cellspacing="0"><tr align="center" valign="top">
+<table id="room_list" border="1" cellspacing="0"><tr align="center" valign="top">
 EOM
 		for my $i ( 1 .. $heyakazu ) {
 			$notflg = 0;
@@ -1659,7 +1677,7 @@ EOM
 	}
 	print <<"EOM";
 <hr width="640">
-<select size="7" onChange="document.entrance.viewid.value = this.value;" style="width:600px;">
+<select id="user_list" size="7" onChange="document.entrance.viewid.value = this.value;" style="width:600px;">
 <option value="" selected>－ 参加者一覧 －</option>
 EOM
 	for ( my ($i) = 0 ; $i <= $#new_member ; $i++ ) {
