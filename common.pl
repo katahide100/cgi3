@@ -1162,7 +1162,8 @@ sub put_shohai{
 			$hirander = 0 if($deckcnt{$wdeck} > 1);
 			$all_rainbow = 0 if(($c_bun[$wdeck] eq '0') || ($c_bun[$wdeck] eq '1') || ($c_bun[$wdeck] eq '2') || ($c_bun[$wdeck] eq '3') || ($c_bun[$wdeck] eq '4') || ($c_bun[$wdeck] eq '5'));
 		}
-		if($turn >= 13) {
+		# 12ターン制限は一旦撤廃
+		# if($turn >= 13) {
 			if(!$P{'order_weak'}) {
 				if($weak_point >= 8) {
 					$P{'order_weak'} = 1;
@@ -1351,9 +1352,9 @@ sub put_shohai{
 					&s_mes("$pn[$tsno]に、$order_text{'spfull'}が贈られました。");
 				}
 			}
-		} else {
-			&s_mes("12ターン以内での勝利では、単色デッキ等の勝利数は増えません。");
-		}
+		# } else {
+		# 	&s_mes("12ターン以内での勝利では、単色デッキ等の勝利数は増えません。");
+		# }
 	}
 	if(!$P{'order_ex'}) {
 		if($dpoint >= 20000) {
