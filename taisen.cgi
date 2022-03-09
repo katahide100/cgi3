@@ -320,7 +320,7 @@ sub room {
 		}
 
 		// TODO 対戦部屋に入った瞬間にエミットで変更するようにしたい
-		setInterval(refresh, 10000);
+		//setInterval(refresh, 10000);
   	});
     
     
@@ -1379,7 +1379,7 @@ EOM
 	}
 	else {
 		print <<"EOM";
-<table id="room_list" border="1" cellspacing="0"><tr align="center" valign="top">
+<div id="room_list" style="text-align:left;">
 EOM
 		for my $i ( 1 .. $heyakazu ) {
 			$notflg = 0;
@@ -1405,16 +1405,16 @@ EOM
 			if ( $success == 0 ) {
 				if ( grep( /^$i$/, @beginner ) ) {
 					print
-"<td style=\"width:120px; background-color: #b0ffb0;\">\n";
+"<div style=\"border: solid 1px; background-color: #b0ffb0;\">\n";
 					print
-"<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
+"<strong style=\"margin: 5;\">部屋 $i</strong>[練習用]";
 				}
 				else {
-					print "<td style=\"width:120px;\">\n";
-					print "<p><strong>部屋番号 $i</strong><br>\n";
+					print "<div style=\"border: solid 1px;\">\n";
+					print "<strong style=\"margin: 5;\">部屋 $i</strong>";
 				}
 				print
-"部屋データを開けませんでした。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"></p>\n";
+"部屋データを開けませんでした。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">\n";
 				$exist = 0;
 			}
 			elsif (
@@ -1427,16 +1427,16 @@ EOM
 			{
 				if ( grep( /^$i$/, @beginner ) ) {
 					print
-"<td style=\"width:120px; background-color: #b0ffb0;\">\n";
+"<div style=\"border: solid 1px; background-color: #b0ffb0;\">\n";
 					print
-"<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
+"<strong style=\"margin: 5;\">部屋 $i</strong>[練習用]";
 				}
 				else {
-					print "<td style=\"width:120px;\">\n";
-					print "<p><strong>部屋番号 $i</strong><br>\n";
+					print "<div style=\"border: solid 1px;\">\n";
+					print "<strong style=\"margin: 5;\">部屋 $i</strong>";
 				}
 				print
-"現在使われていません。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"></p>\n";
+"<label style=\"background-color:#C0C0C0;border-radius: 6px;padding: 3px;\">空室</label><input type=\"hidden\" name=\"duelpass${i}\" value=\"\">\n";
 				copy "${room_dir}/" . $roomst . $i . '_log.cgi', "room_old/" . $roomst . $i . "_" . strftime("%Y%m%d%H%M%S", localtime(time)) . "_log.cgi";
 				unlink(
 					"${room_dir}/" . $roomst . $i . '.cgi',
@@ -1465,38 +1465,37 @@ EOM
 				  )
 				{
 					print
-"<td style=\"width:120px; background-color: #b0ffff;\">\n";
+"<div style=\"border: solid 1px; background-color: #b0ffff;\">\n";
 					print
-"<p><strong>部屋番号 $i</strong><BR>[一人練習用]<br>\n";
+"<strong style=\"margin: 5;\">部屋 $i</strong>[一人練習用]";
 				}
 				elsif ( grep( /^$i$/, @beginner ) ) {
 					print
-"<td style=\"width:120px; background-color: #b0ffb0;$dendou_cau\">\n";
+"<div style=\"border: solid 1px; background-color: #b0ffb0;$dendou_cau\">\n";
 					print
-"<p><strong>部屋番号 $i</strong><BR>[練習用]<br>\n";
+"<strong style=\"margin: 5;\">部屋 $i</strong>[練習用]";
 				}
 				else {
-					print "<td style=\"width:120px;$dendou_cau\">\n";
-					print "<p><strong>部屋番号 $i</strong><br>\n";
+					print "<div style=\"border: solid 1px; $dendou_cau\">\n";
+					print "<strong style=\"margin: 5;\">部屋 $i</strong>";
 				}
 				if ( $G{'end_flg'} ) {
 					$notflg = 1;
 					print
-"対戦が終了した部屋です。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><BR>\n";
+"対戦終了<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">";
 
-#				print "<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small><br>VS<br><a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small></p>\n";
+#				print "<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small>VS<a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small>\n";
 				}
 				elsif (( !( $G{'side1'} ) && $G{'side2'} )
 					|| ( !( $G{'side2'} ) && $G{'side1'} ) )
 				{
-					print "対戦相手を待っています。<br>\n";
+					print "対戦待ち";
 					printf
-"名前：<a href=\"javascript:sForm('prof',$i,'%s');\">%s</a><small>[%s]</small><br>\n",
+"<a href=\"javascript:sForm('prof',$i,'%s');\">%s</a><small>[%s]</small>\n",
 					  !( $G{'side1'} ) ? "$G{'side2'}" : "$G{'side1'}",
 					  !( $G{'side1'} ) ? $G{'pn2'}     : $G{'pn1'},
 					  !( $G{'side1'} ) ? $G{'side2'}   : $G{'side1'};
-					printf "ルール：%s</p>\n",
-					    $G{'dendou'} == 12 ? "殿堂禁止"
+					printf $G{'dendou'} == 12 ? "殿堂禁止"
 					  : $G{'dendou'} == 11 ? "CGIex公式"
 					  : $G{'dendou'} == 10 ? "おやぢ環境"
 					  : $G{'dendou'} == 4  ? "ゼロデュエル"
@@ -1505,28 +1504,28 @@ EOM
 					  : $G{'dendou'} == 1  ? "殿堂あり"
 					  :   "<font color=\"#FF0000\">殿堂なし</font>";
 					if ( $G{'dgroup'} eq '' ) {
-						print "禁止：なし";
+						print "禁止なし";
 					}
 					else {
 						print
-"禁止：あり （<A href=\"javascript:sForm('detail', $i, '');\">詳細</A>）";
+"禁止あり （<A href=\"javascript:sForm('detail', $i, '');\">詳細</A>）";
 					}
-					print "<br>\n";
+					print "\n";
 					if ( $G{'choose'} == 1 ) {
-						printf "パス指定：%s<br>\n",
+						printf "パス指定：%s\n",
 						  $G{'duelid'} eq ''
 						  ? "なし<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">"
 						  : "<input type=\"text\" size=\"8\" name=\"duelpass${i}\" value=\"\">";
 					}
 					elsif ( ( $G{'choose'} == 2 ) && ( $G{'white'} ne '' ) ) {
 						printf
-"友達のみ<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><br>\n";
+"友達のみ<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">\n";
 						$notflg = 1
 						  unless (
 							grep( /^$id$/, split( /\,/, $G{'white'} ) ) );
 					}
 					elsif ( $G{'choose'} == 3 ) {
-						printf "減算ポイント：$G{'duelid'}p以下<br>\n";
+						printf "減算ポイント：$G{'duelid'}p以下\n";
 					}
 					else {
 						if (
@@ -1538,10 +1537,10 @@ EOM
 						  )
 						{
 							print
-"一人対戦<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><br>\n";
+"<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">\n";
 						}
 						else {
-							printf "対戦者指定：%s<br>\n",
+							printf "対戦者指定：%s\n",
 							  $G{'duelid'} eq ''
 							  ? "なし<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">"
 							  : "$G{'duelid'}<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">";
@@ -1549,20 +1548,21 @@ EOM
 						$notflg = 1
 						  if ( $G{'duelid'} ne $id && $G{'duelid'} ne '' );
 					}
-					print "<br>\n";
-					printf "一言：%s<br>\n",
+					print "\n";
+					printf "一言：%s\n",
 					  $G{'message'} eq '' ? "なし" : $G{'message'};
 				}
 				else {
 					$notflg = 1;
 					print
-"使用中です。<input type=\"hidden\" name=\"duelpass${i}\" value=\"\"><BR>\n";
+"対戦中<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">\n";
 					print
-"<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small><br>VS<br><a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small></p>\n";
+"<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small>VS<a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small>\n";
 				}
-				print "最終チェック：$vdate<br>\n";
+				# 最終チェックはなくても良さげなので外してみる
+				# print "最終チェック：$vdate\n";
 				print
-"<a href=\"javascript:sForm('audience',$i,'')\">様子を見る</a><BR>\n";
+"<a href=\"javascript:sForm('audience',$i,'')\">様子を見る</a>\n";
 			}
 			if (
 				( $G{'dendou'} == 0 )
@@ -1579,12 +1579,12 @@ EOM
 "<input type=\"button\" value=\"入室\" onclick=\"sForm('duel',$i,$exist);\">\n"
 				  if !($notflg) && ( !($mente) || ( $P{'admin'} > 0 ) );
 			}
-			print "</td>\n";
-			print "</tr><tr align=\"center\" valign=\"top\">"
-			  if ( $i - 1 ) % 5 == 4;
+			print "</div>\n";
+			# print "</tr><tr align=\"center\" valign=\"top\">"
+			#   if ( $i - 1 ) % 5 == 4;
 		}
 		print <<"EOM";
-</tr></table>
+</div>
 EOM
 	}
 	if ( ( $P{'admin'} > 0 ) || ( $P{'subadmin'} > 0 ) ) {
