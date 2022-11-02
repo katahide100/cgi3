@@ -1058,8 +1058,10 @@ EOM
 <option value="3">減算ポイント</option>
 </select></th><td>：
 <input type="text" name="duelid" size="10"></td></tr>
+<!--
 <tr><th>一言メッセージ</th><td>：
 <input type="text" name="message" size="32"></td></tr>
+-->
 EOM
 	}
 	else {
@@ -1405,12 +1407,12 @@ EOM
 			if ( $success == 0 ) {
 				if ( grep( /^$i$/, @beginner ) ) {
 					print
-"<div style=\"border: solid 1px; background-color: #b0ffb0;\">\n";
+"<div class=\"training_room_area\">\n";
 					print
-"<strong style=\"margin: 5;\">部屋 $i</strong>[練習用]";
+"<strong style=\"margin: 5;\">部屋 $i</strong><span class=\"training_room_text\">練習用</span>";
 				}
 				else {
-					print "<div style=\"border: solid 1px;\">\n";
+					print "<div  class=\"room_area\">\n";
 					print "<strong style=\"margin: 5;\">部屋 $i</strong>";
 				}
 				print
@@ -1427,12 +1429,12 @@ EOM
 			{
 				if ( grep( /^$i$/, @beginner ) ) {
 					print
-"<div style=\"border: solid 1px; background-color: #b0ffb0;\">\n";
+"<div class=\"training_room_area\">\n";
 					print
-"<strong style=\"margin: 5;\">部屋 $i</strong>[練習用]";
+"<strong style=\"margin: 5;\">部屋 $i</strong><span class=\"training_room_text\">練習用</span>";
 				}
 				else {
-					print "<div style=\"border: solid 1px;\">\n";
+					print "<div  class=\"room_area\">\n";
 					print "<strong style=\"margin: 5;\">部屋 $i</strong>";
 				}
 				print
@@ -1465,36 +1467,32 @@ EOM
 				  )
 				{
 					print
-"<div style=\"border: solid 1px; background-color: #b0ffff;\">\n";
+"<div class=\"one_training_room_area\">\n";
 					print
-"<strong style=\"margin: 5;\">部屋 $i</strong>[一人練習用]";
+"<strong style=\"margin: 5;\">部屋 $i</strong><span class=\"one_training_room_text\">一人練習用</span>";
 				}
 				elsif ( grep( /^$i$/, @beginner ) ) {
 					print
-"<div style=\"border: solid 1px; background-color: #b0ffb0;$dendou_cau\">\n";
+"<div class=\"training_room_area\" style=\"$dendou_cau\">\n";
 					print
-"<strong style=\"margin: 5;\">部屋 $i</strong>[練習用]";
+"<strong style=\"margin: 5;\">部屋 $i</strong><span class=\"training_room_text\">練習用</span>";
 				}
 				else {
-					print "<div style=\"border: solid 1px; $dendou_cau\">\n";
+					print "<div class=\"room_area\" style=\"$dendou_cau\">\n";
 					print "<strong style=\"margin: 5;\">部屋 $i</strong>";
 				}
 				if ( $G{'end_flg'} ) {
 					$notflg = 1;
 					print
-"対戦終了<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">";
+"<span class=\"end_text\">対戦終了</span><input type=\"hidden\" name=\"duelpass${i}\" value=\"\">";
 
 #				print "<a href=\"javascript:sForm('prof','','$G{'side1'}');\">$G{'pn1'}</a><small>[$G{'side1'}]</small>VS<a href=\"javascript:sForm('prof','','$G{'side2'}');\">$G{'pn2'}</a><small>[$G{'side2'}]</small>\n";
 				}
 				elsif (( !( $G{'side1'} ) && $G{'side2'} )
 					|| ( !( $G{'side2'} ) && $G{'side1'} ) )
 				{
-					print "対戦待ち";
-					printf
-"<a href=\"javascript:sForm('prof',$i,'%s');\">%s</a><small>[%s]</small>\n",
-					  !( $G{'side1'} ) ? "$G{'side2'}" : "$G{'side1'}",
-					  !( $G{'side1'} ) ? $G{'pn2'}     : $G{'pn1'},
-					  !( $G{'side1'} ) ? $G{'side2'}   : $G{'side1'};
+					print "<span class=\"wait_text\">対戦待ち</span>";
+					print "<span class=\"dendo_text\">";
 					printf $G{'dendou'} == 12 ? "殿堂禁止"
 					  : $G{'dendou'} == 11 ? "CGIex公式"
 					  : $G{'dendou'} == 10 ? "おやぢ環境"
@@ -1503,8 +1501,13 @@ EOM
 					  : $G{'dendou'} == 2  ? "AG環境"
 					  : $G{'dendou'} == 1  ? "殿堂あり"
 					  :   "<font color=\"#FF0000\">殿堂なし</font>";
+					print "</span>";
+					printf
+"<a href=\"javascript:sForm('prof',$i,'%s');\">%s</a>\n",
+					  !( $G{'side1'} ) ? "$G{'side2'}" : "$G{'side1'}",
+					  !( $G{'side1'} ) ? $G{'pn2'}     : $G{'pn1'};
 					if ( $G{'dgroup'} eq '' ) {
-						print "禁止なし";
+						# print "禁止なし";
 					}
 					else {
 						print
@@ -1540,17 +1543,14 @@ EOM
 "<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">\n";
 						}
 						else {
-							printf "対戦者指定：%s\n",
-							  $G{'duelid'} eq ''
-							  ? "なし<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">"
-							  : "$G{'duelid'}<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">";
+							printf $G{'duelid'} ne ''? "対戦者指定：$G{'duelid'}<input type=\"hidden\" name=\"duelpass${i}\" value=\"\">\n": '';
 						}
 						$notflg = 1
 						  if ( $G{'duelid'} ne $id && $G{'duelid'} ne '' );
 					}
 					print "\n";
-					printf "一言：%s\n",
-					  $G{'message'} eq '' ? "なし" : $G{'message'};
+					# printf "一言：%s\n",
+					#   $G{'message'} eq '' ? "なし" : $G{'message'};
 				}
 				else {
 					$notflg = 1;
@@ -1571,12 +1571,12 @@ EOM
 			  )
 			{
 				print
-"<input type=\"button\" value=\"入室\" onclick=\"if(confirm('この部屋は殿堂ルールがなしに設定されています。')) sForm('duel',$i,$exist);\">\n"
+"<input type=\"button\" class=\"entry_button\" value=\"入室\" onclick=\"if(confirm('この部屋は殿堂ルールがなしに設定されています。')) sForm('duel',$i,$exist);\">\n"
 				  if !($notflg) && ( !($mente) || ( $P{'admin'} > 0 ) );
 			}
 			else {
 				print
-"<input type=\"button\" value=\"入室\" onclick=\"sForm('duel',$i,$exist);\">\n"
+"<input type=\"button\" class=\"entry_button\" value=\"入室\" onclick=\"sForm('duel',$i,$exist);\">\n"
 				  if !($notflg) && ( !($mente) || ( $P{'admin'} > 0 ) );
 			}
 			print "</div>\n";
