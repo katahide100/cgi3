@@ -744,6 +744,18 @@ EOM
             <option value="213" $selstr[213]>20周年超感謝メモリアルパック 裏の章 パラレル･マスターズ</option>
             <option value="204" $selstr[204]>20thクロニクルデッキ 決闘！！ボルシャック・デュエル</option>
             <option value="205" $selstr[205]>20thクロニクルデッキ 熱血！！アウトレイジ・ビクトリー</option>
+        <optgroup label = "王来MAX編">
+            <option value="215" $selstr[215]>キングマスタースタートデッキ ジョーのS-MAX進化</option>
+            <option value="216" $selstr[216]>キングマスタースタートデッキ アバクの鬼レクスターズ</option>
+            <option value="217" $selstr[217]>第1弾 鬼ヤバ逆襲S-MAX!!</option>
+            <option value="218" $selstr[218]>最終弾 切札!マスターCRYMAX!!</option>
+            <option value="219" $selstr[219]>マスター・ファイナル・メモリアル・パック</option>
+            <option value="220" $selstr[220]>クロニクル・ダークサイド・デッキ 「終焉」</option>
+            <option value="221" $selstr[221]>クロニクル・ダークサイド・デッキ 「零誕」</option>
+        <optgroup label = "ゴッド・オブ・アビス">
+            <option value="222" $selstr[222]>スタートWINデッキ 邪神・フロム・アビス</option>
+            <option value="224" $selstr[224]>第1弾 伝説の邪神</option>
+            <option value="225" $selstr[225]>黄金戦略!! デュエキングMAX2022</option>
         <optgroup label = "レジェンドスーパーデッキ">
             <option value="191" $selstr[191]> 蒼龍革命</option>
             <option value="210" $selstr[210]> 神歌繚嵐</option>
@@ -814,6 +826,8 @@ EOM
             <option value="188" $selstr[188]>プロモ限定カード第19期</option>
             <option value="195" $selstr[195]>プロモ限定カード第20期</option>
             <option value="209" $selstr[209]>プロモカード(時期バラバラ)</option>
+            <option value="214" $selstr[214]>プロモ限定カード第21期</option>
+            <option value="223" $selstr[223]>プロモ限定カード第22期 </option>
         <optgroup label = "CGI限定オリジナルカード">
             <option value="149" $selstr[149]>2018年　オリカ募集　推進パック第４弾</option>
             <option value="181" $selstr[181]>令和元年オリカ(推進パック第5弾)</option>
