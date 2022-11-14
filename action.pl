@@ -1253,6 +1253,7 @@ sub change_phase {
 # --------------------------------------------------------------------------
 
 
+    # f_drunk: 召喚酔い
     undef @f_drunk; undef @res; undef @syori; undef @syu_add;
     map { $f_tap[$_] = "" } (@{$fw3[1]}, @{$fw3[2]}); # めくったシールドの色を戻す
     unless (&c_chk("緑神龍クスダルフ", $turn2)) {   # マナゾーンのカードをアンタップ
@@ -1328,29 +1329,46 @@ sub psychic {
 	#com_error("$phasestr[$G{'phase'}]には覚醒/解除はできません") if $G{'phase'} =~ /[12]/;
 
 	map { push @fsel, $1 if $_ =~ /^fsel(\d+)/ } keys(%F);
+  map { push @gsel, $1 if $_ =~ /^gsel(.+)/ } keys(%F);
 
 	my (%psy_top, %psy_back, %psy_super, %psy_cell);
 	eval (join "", (log_read("psychic.txt")));
 
 	my %count;
 	map {
+    # バトルゾーンのカードが選択された場合
+
 		my ($fldno) = $_;
 		my ($cardno, $side, $area) = ($fldno =~ /\-/) ? look_god($fldno) : look_fld($fldno);
 		if ($psy_top{$cardno} || $psy_back{$cardno}) {
 			my ($reversedno) = ($psy_top{$cardno}) ? $psy_top{$cardno} : $psy_back{$cardno};
 			s_mes(sprintf "$pn[$side]の%sを%sに裏返した", "《$c_name[$cardno]》", "《$c_name[$reversedno]》");
-			# ゴッドの場合
+
 			if ($fldno =~ /\-/) {
+				# ゴッドの場合
 				my ($fldno, $godno) = split (/\-/, $fldno);
 				my @card = split (/\-/, $fld[$fldno]);
 				if ($card[$godno] ne "") {
 					$card[$godno] = $reversedno;
 				}
 				$fld[$fldno] = join ("-", @card);
+        # 召喚酔いを外す
 				$f_drunk[$fldno] = "";
-			# それ以外
+      } elsif (&syu_chk($reversedno, 1)) {
+        # クロスギアの場合
+
+        # 裏側のカードをクロスギアに追加
+        unshift @{$gear[$u_side]}, $reversedno;
+        # 表のカードをバトルゾーンから除去
+        $fld[$fldno] = "";
+        # 召喚酔いを外す
+        $f_drunk[$fldno] = "";
 			} else {
+        # それ以外
+
+        # 裏側のカードをバトルゾーンに出す（裏返す）
 				$fld[$fldno] = $reversedno;
+        # 召喚酔いを外す
 				$f_drunk[$fldno] = "";
 			}
 		} elsif ($psy_super{$cardno}) {
@@ -1372,6 +1390,54 @@ sub psychic {
 #		print FILE "$_\n";
 #		close (FILE);
 	} (grep !$count{$_}++, @fsel);
+
+  map {
+    # クロスギアのカードが選択された場合
+    
+		my ($fldno) = $_;
+		my ($cardno, $side, $area) = look_gene($fldno);
+		if ($psy_top{$cardno} || $psy_back{$cardno}) {
+			my ($reversedno) = ($psy_top{$cardno}) ? $psy_top{$cardno} : $psy_back{$cardno};
+			s_mes(sprintf "$pn[$side]の%sを%sに裏返した", "《$c_name[$cardno]》", "《$c_name[$reversedno]》");
+			
+      my ($side, $gno, $dummy) = split /-/, $fldno;
+
+      if (&syu_chk($reversedno, 1)) {
+        # クロスギアの場合
+
+        # クロスギアカードを入れ替え（裏返す）
+        @{$gear[$side]}[$gno] = $reversedno;
+			} else {
+        # それ以外
+        &fld_chk($u_side);
+        my $fno = !(&syu_chk($reversedno, 0)) ? $nf0 : $nf1;
+        $fno = $nf1 if (&syu_chk($reversedno, 96)); # 城用独自処理、本家実装で削除行
+        # 裏側のカードをバトルゾーンに出す
+        $fld[$fno] = $reversedno;
+        # クロスギア除去
+        @{$gear[$side]}[$gno] = "";
+        # ブロッカーのチェックを入れたりなど
+        &put_battle_zone_koka($reversedno, $fno);
+			}
+		} elsif ($psy_super{$cardno}) {
+			my (@cells) = @{$psy_super{$cardno}};
+			$fld[$fldno] = shift(@cells);
+			$f_drunk[$fldno] = "";
+			my ($splitednames) = "《$c_name[$fld[$fldno]]》";
+			map {
+				my ($fno) = fld_chk($side);
+				$fld[$fno] = $_;
+				$f_drunk[$fno] = "";
+				$splitednames .= "《$c_name[$_]》";
+			} @cells;
+			s_mes(sprintf "$pn[$side]の%sをリンク解除！ %sに分割された", "《$c_name[$cardno]》", $splitednames);
+		} else {
+			e_mes(sprintf ("%sを裏返すことはできません", "《$c_name[$cardno]》"), $u_side);
+		}
+#		open (FILE, ">> debug.txt");
+#		print FILE "$_\n";
+#		close (FILE);
+	} (grep !$count{$_}++, @gsel);
 
 	undef @fsel;
 }
@@ -1983,13 +2049,18 @@ sub move {
         &pick_card3;
         &put_card2_sub;
       }
+      
       foreach $fldno(@fsel) {
+        # バトルゾーン選択の場合
+
         &which_side($fldno);
         next if ($area < 2 && $parea == ${PAREA()}{"BATTLE_ZONE"}) || ($area == 3 && $parea == ${PAREA()}{"MANA_ZONE"}) || ($area == 2 && $parea == ${PAREA()}{"SHIELD"});
         &pick_card2;
         &put_card2_sub;
       }
       foreach $gsel(@gsel) {
+        # クロスギア選択の場合
+
         next if $parea == ${PAREA()}{"BATTLE_ZONE"};
         &pick_card5;
         &put_card2_sub;
@@ -2095,7 +2166,7 @@ sub delete_cardno_from_deck {
 #----------------------------------
 sub check_psychic {
   my $cardno = $_[0];
-  return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186);
+  return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186) || syu_chk($cardno, 334);
 }
 
 sub put_card_sub {
@@ -2120,6 +2191,11 @@ sub put_card_sub {
   }
 }
 
+#----------------------------------
+# バトルゾーンにカードを移動
+#
+# return void
+#----------------------------------
 sub put_battle_zone_sub {
   my $fno = !(&syu_chk($cardno, 0)) ? $nf0 : $nf1;
   $fno = $nf1 if (&syu_chk($cardno, 96)); # 城用独自処理、本家実装で削除行
@@ -2130,6 +2206,11 @@ sub put_battle_zone_sub {
   &put_battle_zone_koka($cardno, $fno);
 }
 
+#----------------------------------
+# バトルゾーンにカードを移動後の効果
+#
+# return void
+#----------------------------------
 sub put_battle_zone_koka {
   my ($cardno, $fno) = @_;
   $chudan_flg = $chudan = "";
@@ -2460,6 +2541,7 @@ sub pick_card3 {
   &which_side($fldno);
 }
 
+# ジェネレート済みのクロスギアを取り出す
 sub pick_card5 {
   ($l_side, $gno, $sno) = split /-/, $gsel;
   my @s_gear = split /:/, $gear[$l_side][$gno] if $sno ne "";
@@ -2666,7 +2748,7 @@ sub changer_sel1 {
         $S{'a'} eq "field" ? "$name" : "カード"
       );
       for (my ($i) = 0; $i < scalar @card; $i++) {
-        if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || &syu_chk($card[$i], 151) || &syu_chk($card[$i], 185) || &syu_chk($card[$i], 186)) {
+        if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || &syu_chk($card[$i], 151) || &syu_chk($card[$i], 185) || &syu_chk($card[$i], 186) || &syu_chk($card[$i], 334)) {
           e_mes("サイキッククリーチャーは移動できないため超次元ゾーンに戻ります。", $u_side);
           s_mes("《$c_name[$card[$i]]》は超次元ゾーンに送られた。");
           push (@{$psychic[$u_side]}, splice (@card, $i, 1));
@@ -3122,10 +3204,10 @@ sub put_card2_sub {
   my $e_side = $l_side ? 3 - $l_side : 3 - $u_side;
   if (check_psychic($cardno)) {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
-    push (@{$psychic[$side]}, $cardno);
+    push (@{$psychic[$l_side]}, $cardno);
   } elsif (syu_chk($cardno, 222)) {
     s_mes("《$c_name[$cardno]》はGRゾーンに送られた。");
-    push (@{$gr[$side]}, $cardno);
+    push (@{$gr[$l_side]}, $cardno);
   } else {
     $f_tap[$fno] = &k_chk($cardno, 12) || &c_chk("停滞の影タイム・トリッパー", $e_side) ? "1" : "0" if $parea == ${PAREA()}{"MANA_ZONE"};
     $fld[$fno] = $cardno;
