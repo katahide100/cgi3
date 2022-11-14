@@ -300,6 +300,10 @@ sub sousa {
 		    \$.post("duelold.cgi", postData, function(data){
 				window.parent.s.emit("action", {mode:parent.field.fields.mode.value,room:"$room"});
 	        });
+
+			// 多重送信防止
+			\$(this).prop('disabled', 'true');
+			
 	        // 自動で submit されないように処理を止める
 	        return false;
 	    });
@@ -793,11 +797,23 @@ function bFlag(c){
     	});
   	});
 
-// --></script>
+// -->
+\$(function () {
+	\$("form").submit(function () {
+		alert('submit');
+		\$(this).find(':submit').prop('disabled', 'true');
+	});
+
+	// \$('[name=run_select]').on('click', function () {
+		//	alert('testtesttest');
+		//	\$('#testtest').submit();
+		//});
+});
+</script>
 </head>
 <body onload="Load();">
 <div align="center">
-<form name="fields" method="post" action="duelold.cgi">
+<form id="testtest" name="fields" method="post" action="duelold.cgi">
 	<input type="hidden" name="room" value="$room">
 	<input type="hidden" name="id" value="$id">
 	<input type="hidden" name="pass" value="$pass">
@@ -934,6 +950,7 @@ sub view_gear {
 	print "</td></tr>\n";
 }
 
+# ジェネレート済みのクロスギア表示
 sub view_gear_sub {
 	my ($gside,$cno,$k) = @_;
 	&view_card($cno,1);
@@ -949,6 +966,7 @@ sub view_gear_sub {
 	}
 }
 
+# クロス済みのクロスギア表示
 sub view_gear_sub2 {
 	my ($v_side,$cno,$k,$flg) = @_;
 	print "<tr>\n<td>";
@@ -999,10 +1017,10 @@ sub view_field_sub {
 						for my $j (0 .. $#s_cloth) {
 							next if $s_cloth[$j] eq "";
 							$flg = $j == $#s_cloth ? 0 : 1;
-							&view_gear_sub($v_side, $s_cloth[$j], $fno.'-'.$i.'-'.$j, "csel", $flg);
+							&view_gear_sub2($v_side, $s_cloth[$j], $fno.'-'.$i.'-'.$j, "csel", $flg);
 						}
 					} else {
-						&view_gear_sub($v_side, $cloth[$i], $fno.'-'.$i, "csel");
+						&view_gear_sub2($v_side, $cloth[$i], $fno.'-'.$i, "csel");
 					}
 					print "</table>";
 				}
