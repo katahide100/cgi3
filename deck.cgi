@@ -759,6 +759,7 @@ EOM
         <optgroup label = "レジェンドスーパーデッキ">
             <option value="191" $selstr[191]> 蒼龍革命</option>
             <option value="210" $selstr[210]> 神歌繚嵐</option>
+            <option value="226" $selstr[226]>龍覇爆炎</option>
         <optgroup label = "フルホイルパック">
             <option value="73" $selstr[73]>リバイバル・ヒーロー　ザ・ハンター</option>
             <option value="74" $selstr[74]>リバイバル・ヒーロー　ザ・エイリアン</option>
