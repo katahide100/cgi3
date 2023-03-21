@@ -755,7 +755,9 @@ EOM
         <optgroup label = "ゴッド・オブ・アビス">
             <option value="222" $selstr[222]>スタートWINデッキ 邪神・フロム・アビス</option>
             <option value="224" $selstr[224]>第1弾 伝説の邪神</option>
+            <option value="227" $selstr[227]>第2弾 轟炎の竜皇</option>
             <option value="225" $selstr[225]>黄金戦略!! デュエキングMAX2022</option>
+            <option value="228" $selstr[228]>ヒーローズ・ダークサイド・パック ～闇のキリフダたち～</option>
         <optgroup label = "レジェンドスーパーデッキ">
             <option value="191" $selstr[191]> 蒼龍革命</option>
             <option value="210" $selstr[210]> 神歌繚嵐</option>
@@ -772,6 +774,7 @@ EOM
         <optgroup label = "デュエル・マスターズ プレイス コラボ">
             <option value="193" $selstr[193]>デュエマプレイス・コラボデッキ 超竜の君臨＆天門の降臨</option>
             <option value="212" $selstr[212]>デュエマプレイス・コラボデッキ 竜装の武者&魔弾の騎士</option>
+            <option value="229" $selstr[229]>デュエマプレイス・コラボデッキ 激竜の英雄＆邪眼の始祖</option>
         <optgroup label = "超王道戦略ファンタジスタ12">
             <option value="107" $selstr[107]>ドラゴン・サーガ　超王道戦略ファンタジスタ12</option>
         <optgroup label = "ヒーローズ・ビクトリー・パック">
