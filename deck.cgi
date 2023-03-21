@@ -496,6 +496,8 @@ sub html{
   &j_script;
   $viewst = $F{'view'} ? qq|<a href="javascript:deckV();">通常表示</a>| : qq|<a href="javascript:deckV('text');">テキスト表示</a>|;
   print <<"EOM";
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1974859203649104"
+     crossorigin="anonymous"></script>
 <script type="text/javascript"><!--
 function chkCB(){
   with(document.form){
