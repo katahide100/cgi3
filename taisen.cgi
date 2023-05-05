@@ -2136,7 +2136,7 @@ sub get_ini {
 	if ($res->is_success) {
 		if (scalar @$arrRes > 0) {
 			#ユーザーが存在したら更新（node連携）
-			my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth;
+			my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth . '&kunsyo=' . $P{'order'};
 			$request = POST( $url );
 
 			# 送信
