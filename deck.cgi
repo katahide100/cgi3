@@ -496,8 +496,6 @@ sub html{
   &j_script;
   $viewst = $F{'view'} ? qq|<a href="javascript:deckV();">通常表示</a>| : qq|<a href="javascript:deckV('text');">テキスト表示</a>|;
   print <<"EOM";
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1974859203649104"
-     crossorigin="anonymous"></script>
 <script type="text/javascript"><!--
 function chkCB(){
   with(document.form){
@@ -760,6 +758,12 @@ EOM
             <option value="227" $selstr[227]>第2弾 轟炎の竜皇</option>
             <option value="225" $selstr[225]>黄金戦略!! デュエキングMAX2022</option>
             <option value="228" $selstr[228]>ヒーローズ・ダークサイド・パック ～闇のキリフダたち～</option>
+        <optgroup label = "アビス・レボリューション">
+            <option value="230" $selstr[230]>スタートWINデッキ 竜軍・オブ・ボルシャック</option>
+            <option value="233" $selstr[233]>スタートWIN・スーパーデッキ 深淵の邪襲</option>
+            <option value="234" $selstr[234]>スタートWINデッキ 聖沌・クノイチ・チェンジ</option>
+            <option value="232" $selstr[232]> 第1弾 　双竜戦記</option>
+            <option value="235" $selstr[235]>第2弾 　忍邪乱武</option>
         <optgroup label = "レジェンドスーパーデッキ">
             <option value="191" $selstr[191]> 蒼龍革命</option>
             <option value="210" $selstr[210]> 神歌繚嵐</option>
@@ -834,6 +838,7 @@ EOM
             <option value="209" $selstr[209]>プロモカード(時期バラバラ)</option>
             <option value="214" $selstr[214]>プロモ限定カード第21期</option>
             <option value="223" $selstr[223]>プロモ限定カード第22期 </option>
+            <option value="231" $selstr[231]>プロモ限定カード第23期  </option>
         <optgroup label = "CGI限定オリジナルカード">
             <option value="149" $selstr[149]>2018年　オリカ募集　推進パック第４弾</option>
             <option value="181" $selstr[181]>令和元年オリカ(推進パック第5弾)</option>
