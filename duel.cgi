@@ -99,7 +99,10 @@ unless ($chudan_flg) {
 &arcadia_sel		if $F{'mode'} eq "arcadia_sel";
 &runba_sel			if $F{'mode'} eq "runba_sel";
 &ninja_sel			if $F{'mode'} eq "ninja_sel";
+&ninja_change_sel	if $F{'mode'} eq "ninja_change_sel";
+&ninja_change_sel2	if $F{'mode'} eq "ninja_change_sel2";
 &ninja_end			if $F{'mode'} eq "ninja_end";
+&ninja_change_end	if $F{'mode'} eq "ninja_change_end";
 &mekuru_sel1		if $F{'mode'} eq "mekuru_sel1";
 &mekuru_sel2		if $F{'mode'} =~ /mekuru_sel[23]/;
 &mekuru_sel4		if $F{'mode'} =~ /mekuru_sel[45]/;

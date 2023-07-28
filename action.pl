@@ -342,6 +342,9 @@ sub attacked_trigger {
   } elsif ((&ninja_chk($btl[1])) && !($btl[10])) {
     unshift @syori, "s-$btl[1]<>t-ニンジャ・ストライクを使いますか？<>m-ninja_sel<>o-使う::使わない<>g-attack<>p-1";
     $trigger_flg = $chudan_flg = "1";
+  } elsif ((&ninja_change_chk($btl[1])) && !($btl[10])) {
+    unshift @syori, "s-$btl[1]<>t-ニンジャ・チェンジを使いますか？<>m-ninja_change_sel<>o-使う::使わない<>g-change_attack<>p-1";
+    $trigger_flg = $chudan_flg = "1";
   } elsif (&c_chk("ミラクル・ルンバ", $btl[1]) && $btl[4] eq "player") {
     &s_mes("《ミラクル・ルンバ》の能力発動！　自分のマナゾーンにない文明の数、マナゾーンのカードをタップしないと攻撃できない！");
     unshift @syori, "t-攻撃を続行しますか？<>m-runba_sel<>o-続行する::中止する";
@@ -821,6 +824,161 @@ sub ninja_end {
   &s_mes("$pn[$S{'s'}]はニンジャ・ストライクの処理を終了した。");
   $chudan_flg = "1"; $trigger_flg = "";
   if ($S{'g'} eq "attack") {
+    &syori_clr;
+    &attacked_trigger;
+  } else {
+    &syori_clr;
+    &blocked_trigger;
+  }
+}
+
+# ニンジャ・チェンジのチェック
+sub ninja_change_chk {
+  my ($side) = $_[0];
+  my ($max_cost) = 0;
+
+  # バトルゾーンにあるメカ or シノビの最大コストを取得
+  foreach my $i (@{$fw1[$btl[1]]}) {
+    my $battle_card = $fld[$i];
+    $max_cost = $c_mana[$battle_card] if ((&syu_chk($battle_card, 18) || &syu_chk($battle_card, 19) || &syu_chk($battle_card, 23)
+      || &syu_chk($battle_card, 290) || &syu_chk($battle_card, 326) || &syu_chk($battle_card, 336)
+      || &syu_chk($battle_card, 95) || &syu_chk($battle_card, 272)) && ($max_cost eq 0 || $max_cost < $c_mana[$battle_card]))
+  }
+
+  # 手札からニンジャ・チェンジ能力発動可能なクリーチャーを抽出
+  foreach my $card (@{$hand[$side]}) {
+    push @res, $card if ($c_name[$card] =~ /聖なる混沌 クノイチマントラ/ && $max_cost >= 3 )
+      || ($c_name[$card] =~ /聖カオスマントラ/ && $max_cost >= 5 )
+  }
+  return 1 if -1 < $#res;
+  return 0;
+}
+
+# ニンジャ・チェンジのチェック(戻すクリーチャ抽出)
+sub ninja_change_chk2 {
+  my ($btl_cards) = $_[0];
+  my ($mana) = $_[1];
+
+  # バトルゾーンにあるメカ or シノビを取得
+  foreach my $i (@{$btl_cards}) {
+    my $battle_card = $fld[$i];
+    push @res, $battle_card if ((&syu_chk($battle_card, 18) || &syu_chk($battle_card, 19) || &syu_chk($battle_card, 23)
+      || &syu_chk($battle_card, 290) || &syu_chk($battle_card, 326) || &syu_chk($battle_card, 336)
+      || &syu_chk($battle_card, 95) || &syu_chk($battle_card, 272)) && $mana <= $c_mana[$battle_card])
+  }
+
+  return 1 if -1 < $#res;
+  return 0;
+}
+
+# TODO 忍者チェンジの処理の書き方が途中からわからず、この処理は使ってない
+sub get_ninja_change_mana {
+  my ($card_name) = $_[0];
+  my ($max_cost) = 0;
+
+  $ninja_change_mana = '';
+  # 手札からニンジャ・チェンジ能力発動可能なクリーチャーを抽出
+  $ninja_change_mana = 3 if ($card_name =~ /聖なる混沌 クノイチマントラ/ );
+  $ninja_change_mana = 5 if ($card_name =~ /聖カオスマントラ/ );
+  
+  return $ninja_change_mana;
+}
+
+# ニンジャ・チェンジの処理
+sub ninja_change_sel {
+  return if !($F{'run_select'}) && !($F{'not_select'});
+  &syori_p_set;
+  if ($F{'run_select'}) {
+    &com_error("出すクリーチャーを指定してください") if $F{'select'} eq "";
+    $cardno = $F{'select'};
+    foreach my $i(0..$#{$hand[$S{'s'}]}) {
+      if ($hand[$S{'s'}][$i] == $cardno) { splice @{$hand[$S{'s'}]}, $i, 1; last; }
+    }
+    $btl_cards = $fw1[$btl[1]];
+    &s_mes("ニンジャ・チェンジ！　$pn[$S{'s'}]は《$c_name[$cardno]》をバトルゾーンに出した！");
+    &fld_chk($S{'s'});
+    &put_battle_zone_sub;
+    undef @res;
+    # if (&ninja_change_chk2($btl_cards, get_ninja_change_mana($c_name[$cardno]))) {
+    #   $syori[0] = "s-$btl[1]<>t-どのクリーチャーを戻しますか？<>m-ninja_change_sel2<>o-決定<>g-change_attack<>p-1";
+    # }
+    
+    $syori[0] = "s-$S{'s'}<>t-対象クリーチャーをバトルゾーンから手札に戻し、終了するを押してください。<>m-ninja_change_end<>o-終了する<>g-$S{'g'}";
+    $btl[10] = "1";
+    $chudan_flg = ""; $trigger_flg = "1";
+  } else {
+    undef @res;
+    $chudan_flg = $trigger_flg = "";
+    $btl[10] = "1";
+    if ($S{'g'} eq "change_attack") {
+      &syori_clr;
+      &attacked_trigger;
+    } else {
+      &syori_clr;
+      &blocked_trigger;
+    }
+  }
+}
+
+# ニンジャ・チェンジの処理（戻すクリーチャー選択）
+# TODO 戻す場合の処理がわからず、保留
+sub ninja_change_sel2 {
+  return if !($F{'run_select'}) && !($F{'not_select'});
+  &syori_p_set;
+  $cardno = $F{'select'};
+  &s_mes($cardno);
+  if ($F{'run_select'}) {
+    &com_error("戻すクリーチャーを指定してください") if $F{'select'} eq "";
+    # foreach my $i(0..$#{$hand[$S{'s'}]}) {
+    #   if ($hand[$S{'s'}][$i] == $cardno) { splice @{$hand[$S{'s'}]}, $i, 1; last; }
+    # }
+    # &s_mes("ニンジャ・チェンジ！　$pn[$S{'s'}]は《$c_name[$cardno]》をバトルゾーンに出した！");
+    &fld_chk($S{'s'});
+    # @{$hand[$btl[1]]} = (@shield, @{$hand[$btl[1]]});
+
+    # $parea = ${PAREA()}{"HAND"}
+    # &move2;
+    # &put_battle_zone_sub;
+
+    # $F{'parea'} = ${PAREA()}{"HAND"};
+    # $F{'decktop'} = "on";
+    # # $F{'fld'} = 4;
+
+    # &move;
+
+    @shield = split /-/, $shinka[$btl[1]];
+    unshift @shield, $fld[$btl[1]];
+    shift @syori;
+    $name = join "<br>", map { "《" . $c_name[$_] . "》"; } @shield;
+    &s_mes($name);
+    $fld[$btl[1]] = $shinka[$btl[1]] = "";
+    $f_block[$btl[1]] = "";
+    # $btl[5]-- if $btl[5] != 40;
+
+    undef @res;
+    $syori[0] = "s-$S{'s'}<>t-ニンジャ・チェンジの処理を終了しますか？<>m-ninja_change_end<>o-終了する<>g-$S{'g'}";
+    $btl[10] = "1";
+    $chudan_flg = ""; $trigger_flg = "1";
+  } else {
+    undef @res;
+    $chudan_flg = $trigger_flg = "";
+    $btl[10] = "1";
+    if ($S{'g'} eq "change_attack") {
+      &syori_clr;
+      &attacked_trigger;
+    } else {
+      &syori_clr;
+      &blocked_trigger;
+    }
+  }
+}
+
+sub ninja_change_end {
+  return if !($F{'run_select'});
+  &syori_p_set;
+  &s_mes("$pn[$S{'s'}]はニンジャ・チェンジの処理を終了した。");
+  $chudan_flg = "1"; $trigger_flg = "";
+  if ($S{'g'} eq "change_attack") {
     &syori_clr;
     &attacked_trigger;
   } else {
