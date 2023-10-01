@@ -849,6 +849,7 @@ sub ninja_change_chk {
   foreach my $card (@{$hand[$side]}) {
     push @res, $card if ($c_name[$card] =~ /聖なる混沌 クノイチマントラ/ && $max_cost >= 3 )
       || ($c_name[$card] =~ /聖カオスマントラ/ && $max_cost >= 5 )
+      || ($c_name[$card] =~ /堕カオスマントラ/ && $max_cost >= 3 )
   }
   return 1 if -1 < $#res;
   return 0;
