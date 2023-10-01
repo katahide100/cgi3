@@ -762,12 +762,16 @@ EOM
             <option value="230" $selstr[230]>スタートWINデッキ 竜軍・オブ・ボルシャック</option>
             <option value="233" $selstr[233]>スタートWIN・スーパーデッキ 深淵の邪襲</option>
             <option value="234" $selstr[234]>スタートWINデッキ 聖沌・クノイチ・チェンジ</option>
+            <option value="238" $selstr[238]>スタートWINデッキ 革命・アメイジン・マジック</option>
             <option value="232" $selstr[232]> 第1弾 　双竜戦記</option>
             <option value="235" $selstr[235]>第2弾 　忍邪乱武</option>
+            <option value="239" $selstr[239]>第3弾　魔覇革命</option>
+            <option value="236" $selstr[236]>大感謝祭 ビクトリーBEST</option>
         <optgroup label = "レジェンドスーパーデッキ">
             <option value="191" $selstr[191]> 蒼龍革命</option>
             <option value="210" $selstr[210]> 神歌繚嵐</option>
             <option value="226" $selstr[226]>龍覇爆炎</option>
+            <option value="237" $selstr[237]>禁王創来</option>
         <optgroup label = "フルホイルパック">
             <option value="73" $selstr[73]>リバイバル・ヒーロー　ザ・ハンター</option>
             <option value="74" $selstr[74]>リバイバル・ヒーロー　ザ・エイリアン</option>
