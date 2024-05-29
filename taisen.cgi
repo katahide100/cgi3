@@ -1722,10 +1722,9 @@ EOM
 <tr><td align="center">
 <table width="90%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 <tr><td>
-<form action="$chatNodeHost/processChat" method="post" target="chatFrame" name="chatForm">
-  <input name="username" type="hidden" value="$id"/>
-  <input name="password" type="hidden" value="$pass"/>
-  <input name="url" type="hidden" value="/lobbyCgi"/>
+<form action="$newChatNodeHost/next/chat" method="get" target="chatFrame" name="chatForm">
+  <input name="id" type="hidden" value="$id"/>
+  <input name="pass" type="hidden" value="$pass"/>
 <iframe id="chatFrame" name="chatFrame" width="100%" height="465" scrolling="no"
  frameborder="0"></iframe>
 </td></tr>
