@@ -295,6 +295,18 @@ sub pfl_write {
 	foreach $key(keys(%P)){ print PFL "$key\t$P{$key}\n"; }
 	close(PFL);
 #	chmod 0000, "${player_dir}/".$id.".cgi";
+
+	# リニューアル版との連携
+	my $ret = system("cd /var/www/duel_next; node convert.mjs $id > /tmp/log.txt 2>&1");
+	if ($ret != 0) {
+		open(PFL, "< /tmp/log.txt") || &error("読み込みエラーです。");
+		while (<PFL>) {
+			$test .= $_;
+		}
+		close(PFL);
+
+		&error($test);
+	}
 }
 
 sub prof {
