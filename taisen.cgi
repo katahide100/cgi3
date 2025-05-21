@@ -2135,7 +2135,16 @@ sub get_ini {
 	if ($res->is_success) {
 		if (scalar @$arrRes > 0) {
 			#ユーザーが存在したら更新（node連携）
-			my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth . '&kunsyo=' . $P{'order'};
+			my $token = '';
+			if (@$arrRes[0]->{token} != '') {
+				# &error("test")
+				$token = @$arrRes[0]->{token}
+			} else {
+				# &error("test2")
+				$token = join '', map { ('a'..'z', 'A'..'Z', 0..9)[rand 62] } 1..16;
+			}
+			
+			my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth . '&kunsyo=' . $P{'order'} . '&token=' . $token;
 			$request = POST( $url );
 
 			# 送信
