@@ -975,8 +975,80 @@ EOM
 	
 	print "</div>";
 }
-        print <<"EOM";
+        print <<'EOM';
 </td><td width="640" bgcolor="#FFFFFF">
+
+<script>
+$(document).ready(function() {
+  // 初期表示設定
+  $('#new-content').hide();
+  $('.old-content').show();
+
+  // 初期スタイル設定
+  $('#select-old').css({
+    'background': '#66d0d0',
+    'padding': '8px',
+    'display': 'inline-block',
+    'cursor': 'pointer'
+  });
+  $('#select-new').css({
+    'background': '#eee',
+    'padding': '8px',
+    'display': 'inline-block',
+	'margin-right': '10px',
+    'cursor': 'pointer'
+  });
+
+  // 新版クリック時
+  $('#select-new').click(function() {
+    $('#new-content').show();
+    $('.old-content').hide();
+
+    $('#select-new').css({
+      'background': '#66d0d0',
+    });
+    $('#select-old').css({
+      'background': '#eee',
+    });
+  });
+
+  // 旧版クリック時
+  $('#select-old').click(function() {
+    $('.old-content').show();
+    $('#new-content').hide();
+
+    $('#select-old').css({
+      'background': '#66d0d0',
+    });
+    $('#select-new').css({
+      'background': '#eee',
+    });
+  });
+
+  window.addEventListener('message', (e) => {
+	if (e.data.action === 'openNextDuel') {
+		window.top.location.href = event.data.url;
+	}
+  });
+});
+
+EOM
+
+        print <<"EOM";
+</script>
+<div style="text-align: center; margin-bottom: 10px;">
+<div id="select-old" style="display:inline-block; padding:8px; background:#66d0d0; cursor:pointer; border:1px solid #000000;">CGI版</div>
+<div id="select-new" style="display:inline-block; padding:8px; background:#66d0d0; cursor:pointer; border:1px solid #000000;">リニューアル版(開発中)</div>
+</div>
+
+<p id="new-content">
+<iframe id="lobby-frame"
+  width="100%" height="500"
+  frameborder="0"
+  src="$newChatNodeHost/next/lobbyCgi">
+</iframe>
+</p>
+<div class="old-content">
 <div align="center" style="width: 600px; height: 200px; overflow: scroll;">
 <table border="0" cellpadding="5">
 <tr><th>ID</th><td>：$id</td></tr>
@@ -1074,7 +1146,9 @@ EOM
 </div>
 <hr>
 ここまで-->
+</div> <!-- old-content end -->
 <div align="center">
+<div class="old-content">
 EOM
 	if ($mente) {
 		print <<"EOM";
@@ -1114,6 +1188,8 @@ EOM
 		&fileunlock("tr");
 		print "<p>$T{'title'}</p>\n" if ( $T{'scale'} );
 		print <<"EOM";
+
+
 <table border="0" cellspacing="0" cellpadding="0"><tr align="center" valign="middle">
 <tr>
 <td>
@@ -1582,6 +1658,8 @@ EOM
 		$admin_flg = 1;
 	}
 	print <<"EOM";
+
+</div> <!-- old-conetents end -->
 <hr>
 <div class="dispChangeChat">
 	<a id="dispChangeChat">入力する</a>
