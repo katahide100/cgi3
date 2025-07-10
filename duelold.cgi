@@ -664,7 +664,7 @@ function sFlag(flag) {
 	<input type="hidden" name="room" value="$room">
 	<input type="hidden" name="mode" value="regist">
 <table border="0" cellpadding="2" cellspacing="0" align="center">
-<tr><td colspan="2">　$str</td></tr>
+<tr><td colspan="2">　$str<br>　　　　　　　　　　<strong>★対戦前に挨拶をしましょう★</strong></td></tr>
 <tr>
 EOM
 	if(!($read_only) || (($P{'admin'} > 0) || ($P{'subadmin'} > 0))){
