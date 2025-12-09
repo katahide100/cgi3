@@ -778,9 +778,10 @@ sub ninja_chk {   # ニンジャ・ストライクのチェック
   foreach my $card (@{$hand[$side]}) {
     push @res, $card if ($c_name[$card] =~ /轟火シシガミグレンオー|バイナラドンデン|裏斬隠蒼頭龍 バジリスク|裏斬隠 カタビラ/ && 7 < $mana)
      || ($c_name[$card] =~ /斬隠オロチ|威牙の幻ハンゾウ|光牙王機ゼロカゲ|怒流牙 サイゾウミスト|轟牙忍 ハヤブサリュウ/ && 6 < $mana)
-     || ($c_name[$card] =~ /土隠の式神センブーン|怒流牙 佐助の超人|超越男|裏斬隠 ハットリトリ/ && 4 < $mana)
+     || ($c_name[$card] =~ /蒼斬しのぶ/ && 5 < $mana)
+     || ($c_name[$card] =~ /土隠の式神センブーン|怒流牙 佐助の超人|超越男|裏斬隠 ハットリトリ|躱す混沌 ウツセミマントラ|本能寺カレン&カオスマントラ -裏切のヒロイン-/ && 4 < $mana)
      || ($c_name[$card] =~ /光牙忍ハヤブサマル|斬隠テンサイ・ジャニット|威牙忍ヤミノザンジ|威牙忍クロカゲ|身代わり人形トレント|裏斬隠 フォクシットト|忍者妖精ユリカマ|終断χ ベガスランチャー/ && 3 < $mana)
-     || ($c_name[$card] =~ /土隠風の化身/ && 2 < $mana)
+     || ($c_name[$card] =~ /土隠風の化身|裏斬隠 テンサイ・ハート|走る混沌 マキビシマントラ|裏斬隠 メタバース・ラピア|裏斬隠 デコキック・デコリアーヌ|裏斬隠 メッサー・シュミット/ && 2 < $mana)
      || ($c_name[$card] =~ /威牙忍ヤミカゼ・ドラグーン|裏斬隠 カクシ・レシピ/ && 1 < $mana)
      || ($c_name[$card] =~ /光牙忍ライデン/ && 0 < $mana)
   }
@@ -1411,7 +1412,6 @@ sub change_phase {
 # フィールドの初期化
 # --------------------------------------------------------------------------
 
-
     # f_drunk: 召喚酔い
     undef @f_drunk; undef @res; undef @syori; undef @syu_add;
     map { $f_tap[$_] = "" } (@{$fw3[1]}, @{$fw3[2]}); # めくったシールドの色を戻す
@@ -1502,7 +1502,7 @@ sub psychic {
 		if ($psy_top{$cardno} || $psy_back{$cardno}) {
 			my ($reversedno) = ($psy_top{$cardno}) ? $psy_top{$cardno} : $psy_back{$cardno};
 			s_mes(sprintf "$pn[$side]の%sを%sに裏返した", "《$c_name[$cardno]》", "《$c_name[$reversedno]》");
-
+			
 			if ($fldno =~ /\-/) {
 				# ゴッドの場合
 				my ($fldno, $godno) = split (/\-/, $fldno);
@@ -1536,8 +1536,9 @@ sub psychic {
 			$f_drunk[$fldno] = "";
 			my ($splitednames) = "《$c_name[$fld[$fldno]]》";
 			map {
-				my ($fno) = fld_chk($side);
-				$fld[$fno] = $_;
+				&fld_chk($l_side);
+        my $fno = $nf0;
+        $fld[$fno] = $_;
 				$f_drunk[$fno] = "";
 				$splitednames .= "《$c_name[$_]》";
 			} @cells;
@@ -1584,8 +1585,9 @@ sub psychic {
 			$f_drunk[$fldno] = "";
 			my ($splitednames) = "《$c_name[$fld[$fldno]]》";
 			map {
-				my ($fno) = fld_chk($side);
-				$fld[$fno] = $_;
+				&fld_chk($l_side);
+        my $fno = $nf0;
+        $fld[$fno] = $_;
 				$f_drunk[$fno] = "";
 				$splitednames .= "《$c_name[$_]》";
 			} @cells;
@@ -3150,9 +3152,7 @@ sub put_cre_chk {
          :$c_name[$cno] eq "崇高神ケミカル" ? ("1911", "1904")
          :$c_name[$cno] eq "至高神オービタル" ? ("1911", "1904")
          :$c_name[$cno] eq "無上神アンダーワールド" ? ("1910", "1906")
-         :$c_name[$cno] eq "龍神ヘヴィ" ? ("1953", "1954", "1953-1954")
          :$c_name[$cno] eq "破壊神デス" ? ("1952", "1954", "1952-1954")
-         :$c_name[$cno] eq "龍神メタル" ? ("1952", "1953", "1952-1953")
          :$c_name[$cno] eq "朱雀神ガリョウ" ? ("2029")
          :$c_name[$cno] eq "白虎神テンセイ" ? ("2030")
          :$c_name[$cno] eq "魔光神ルドヴィカ２世" ? ("2032")
@@ -3181,6 +3181,9 @@ sub put_cre_chk {
          :$c_name[$cno] eq "名も無き神人類" ? ("1709","1711","1712","1713","1721","1723","1724","1729","1763","1766","1821","1822","1837","1839","1842","1846","1847","1848","1850","1851","1894","1899","1904","1906","1911","1952","1953","1954","1962","1963","1964")
          :$c_name[$cno] eq "神王オセロー" ? ("2621","2875","2621-2875","2603-2621-2875")
          :$c_name[$cno] eq "神王マクベス" ? ("2873","2603","2603-2873","2621-2603-2873")
+         :$c_name[$cno] eq "「黒幕」" ? ("3968-3969")
+         :$c_name[$cno] eq "龍神ヘヴィ" ? ("1953","1954","1953-1954")
+         :$c_name[$cno] eq "龍神メタル" ? ("1952","1953","1952-1953")
          :("2031");
       foreach my $i (@{$fw1[$u_side]}) {
         next if $fld[$i] eq "";
