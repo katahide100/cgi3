@@ -11,7 +11,8 @@ use constant PAREA => {
   "SHIELD_BOTTOM" => 8, # シールドの下
   "PSYCHIC_ZONE"  => 9, # 超次元ゾーン
   "FORCED_BOTTOM" => 10, # 強制的にクリーチャーの下
-  "GR_ZONE"       => 11 # GRゾーン
+  "GR_ZONE"       => 11, # GRゾーン
+  "SEPARATE_ZONE" => 12 # デッキ外(深淵ゾーン)
 };
 
 # 表示エリア
@@ -20,7 +21,8 @@ use constant VAREA => {
   "CEMETERY"     => 1, # 墓地
   "DECK"         => 2, # 山札
   "PSYCHIC_ZONE" => 3, # 超次元ゾーン
-  "GR_ZONE"      => 4 # GRゾーン
+  "GR_ZONE"      => 4, # GRゾーン
+  "SEPARATE_ZONE" => 5 # デッキ外(深淵ゾーン)
 };
 
 sub act_cancel {
@@ -1874,8 +1876,8 @@ sub unique {  # 順番の重複をチェック
 #----------------------------------
 sub move {
   local ($parea = $F{'parea'}, $varea = $F{'varea'}, $vside = (($u_side - 1) xor $F{'vside'}) + 1);
-  local *zone = $parea == ${PAREA()}{"CEMETERY"} ? *boti : $parea == ${PAREA()}{"HAND"} ? *hand : ($parea == ${PAREA()}{"DECK_TOP"} || $parea == ${PAREA()}{"DECK_BOTTOM"}) ? *deck : $parea == ${PAREA()}{"PSYCHIC_ZONE"} ? *psychic : $parea == ${PAREA()}{"GR_ZONE"} ? *gr : "";
-  local *arr = $varea == ${VAREA()}{"DECK"} ? *deck : $varea == ${VAREA()}{"CEMETERY"} ? *boti : $varea == ${VAREA()}{"HAND"} ? *hand : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? *psychic : *gr;
+  local *zone = $parea == ${PAREA()}{"CEMETERY"} ? *boti : $parea == ${PAREA()}{"HAND"} ? *hand : ($parea == ${PAREA()}{"DECK_TOP"} || $parea == ${PAREA()}{"DECK_BOTTOM"}) ? *deck : $parea == ${PAREA()}{"PSYCHIC_ZONE"} ? *psychic : $parea == ${PAREA()}{"GR_ZONE"} ? *gr : $parea == ${PAREA()}{"SEPARATE_ZONE"} ? *separate : "";
+  local *arr = $varea == ${VAREA()}{"DECK"} ? *deck : $varea == ${VAREA()}{"CEMETERY"} ? *boti : $varea == ${VAREA()}{"HAND"} ? *hand : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? *psychic : $varea == ${VAREA()}{"GR_ZONE"} ? *gr : *separate;
   &com_error("フォームから多重送信されたため、二度目以降の処理を中断しました") if(($multi eq $F{'random'}) && ($F{'random'} ne ''));
   $multi = $F{'random'};
 
@@ -1972,7 +1974,7 @@ sub move {
     } else {
       if (@sel) {
         foreach my $sel (@sel) {
-          $cardno = ${ $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $hand[$vside] }[$sel];
+          $cardno = ${ $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $varea == ${VAREA()}{"SEPARATE_ZONE"} ? $separate[$vside] : $hand[$vside] }[$sel];
           com_error("GRクリーチャー以外のカードをGRゾーンに移動することはできません")  unless (syu_chk($cardno, 222));
         }
         foreach my $sel (@sel) {
@@ -2015,7 +2017,7 @@ sub move {
       if (@sel) {
         foreach my $sel (@sel) {
           # 手札などから移動させる場合
-          $cardno = ${ $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $hand[$vside] }[$sel];
+          $cardno = ${ $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $varea == ${VAREA()}{"SEPARATE_ZONE"} ? $separate[$vside] : $hand[$vside] }[$sel];
           # P革命チェンジなど、バトルゾーンから通常カードを超次元ゾーンに送る場合があるため、ここでは超次元チェックを行わない
           # TODO 特定カードが超次元ゾーンにある場合だけエラーにしないようにしたいが、面倒そうなので保留
         }
@@ -2061,7 +2063,7 @@ sub move {
 
     }
     &del_move;
-  } elsif (${PAREA()}{"SHIELD"} < $parea) { # 進化獣もしくはシールドの下
+  } elsif ( $parea == ${PAREA()}{"EVO_BOTTOM"} || $parea == ${PAREA()}{"SHIELD_BOTTOM"} || $parea == ${PAREA()}{"FORCED_BOTTOM"}) { # 進化獣もしくはシールドの下
     @res = $parea == ${PAREA()}{"EVO_BOTTOM"} ? grep $c_evo[$fld[$_]] ne "", @{$fw1[$u_side]} : grep $fld[$_] ne "", @{$fw3[$u_side]};
     &com_error(sprintf "自分の%sが１%sもないので移動できません", $parea == ${PAREA()}{"EVO_BOTTOM"} ? "進化クリーチャー" : $parea == ${PAREA()}{"SHIELD_BOTTOM"} ? "カード" : "シールド", $parea == ${PAREA()}{"EVO_BOTTOM"} ? "体" : "枚") if $#res < 0;
     &com_error("フィールドのクリーチャー以外を直接移動させる処理はまだできていません。ごめんなさいm(__)m") if -1 < $#ssel || -1 < $#gsel || -1 < $#csel;
@@ -2515,7 +2517,7 @@ sub pick_god {
 
 
 sub pick_card {	# 手札、墓地、山札、超次元、GRからカードを取り出す
-	my $arr = $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $hand[$vside];
+	my $arr = $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $varea == ${VAREA()}{"SEPARATE_ZONE"} ? $separate[$vside] : $hand[$vside];
 	next if ${$arr}[$_[0]] eq "";
 	my $cardno = ${$arr}[$_[0]];
 	${$arr}[$_[0]] = "";
@@ -2581,7 +2583,7 @@ sub pick_cloth {	# クロス中のクロスギアもしくは城を取り出す
 }
 
 sub look_card {	# 手札、墓地、山札、超次元、GRからカードを取り出す
-	my $arr = $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $hand[$vside];
+	my $arr = $varea == ${VAREA()}{"HAND"} ? $hand[$vside] : $varea == ${VAREA()}{"CEMETERY"} ? $boti[$vside] : $varea == ${VAREA()}{"DECK"} ? $deck[$vside] : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? $psychic[$vside] : $varea == ${VAREA()}{"GR_ZONE"} ? $gr[$vside] : $varea == ${VAREA()}{"SEPARATE_ZONE"} ? $separate[$vside] : $hand[$vside];
 	next if ${$arr}[$_[0]] eq "";
 	my $cardno = ${$arr}[$_[0]];
 	return $cardno
@@ -2749,12 +2751,14 @@ sub p_mess {
        : $varea == ${VAREA()}{"HAND"} ? sprintf "%s%sを", ${PAREA()}{"PSYCHIC_ZONE"} == $parea || $vside != $u_side ? "手札から、" : "", ${PAREA()}{"PSYCHIC_ZONE"} != $parea && ${PAREA()}{"HAND"} < $parea && $vside == $u_side ? "カード" : "《$c_name[$cardno]》"
        : $varea == ${VAREA()}{"CEMETERY"} ? "墓地から、《$c_name[$cardno]》を"
        : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? "超次元ゾーンから、《$c_name[$cardno]》を"
+       : $varea == ${VAREA()}{"SEPARATE_ZONE"} ? "深淵ゾーンから、《$c_name[$cardno]》を"
        : $vside == $u_side && $parea == ${PAREA()}{"HAND"} && ($F{'show'}) ? "山札のカードを"
        : "山札から、《$c_name[$cardno]》を";
   $p_mess .= $parea == ${PAREA()}{"BATTLE_ZONE"} && &syu_chk($cardno, 1) ? "ジェネレートした。"
        : $parea == ${PAREA()}{"MANA_ZONE"} || $parea == ${PAREA()}{"BATTLE_ZONE"} || $parea == ${PAREA()}{"SHIELD"} ? sprintf "%sに移動した。", $parea == ${PAREA()}{"MANA_ZONE"} ? "マナゾーン" : $parea == ${PAREA()}{"BATTLE_ZONE"} ? "バトルゾーン" : "シールド"
        : $parea == ${PAREA()}{"CEMETERY"} ? "墓地に送った。"
        : $parea == ${PAREA()}{"PSYCHIC_ZONE"} ? "超次元ゾーンに送った。"
+       : $parea == ${PAREA()}{"SEPARATE_ZONE"} ? "深淵送りにした。"
        : $parea == ${PAREA()}{"HAND"} ? sprintf "手札に%s。", @sel > 0 || $F{'decktop'} ? "加えた" : "戻した"
        : sprintf "山札の%sに戻した。", $parea == ${PAREA()}{"DECK_TOP"} ? "上" : "下";
   &s_mes("$p_mess");
@@ -2794,7 +2798,7 @@ sub magic {
 }
 
 sub del_move {  # 手札、山札、墓地の不要なスペースを削除
-  &del_null(sprintf("%s", $varea == ${VAREA()}{"HAND"} ? *hand : $varea == ${VAREA()}{"CEMETERY"} ? *boti : $varea == ${VAREA()}{"DECK"} ? *deck : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? *psychic : *gr), $vside);
+  &del_null(sprintf("%s", $varea == ${VAREA()}{"HAND"} ? *hand : $varea == ${VAREA()}{"CEMETERY"} ? *boti : $varea == ${VAREA()}{"DECK"} ? *deck : $varea == ${VAREA()}{"PSYCHIC_ZONE"} ? *psychic : $varea == ${VAREA()}{"GR_ZONE"} ? *gr : *separate), $vside);
 }
 
 sub del_move2 { # 進化クリーチャーの不要なスペースを削除
@@ -2905,7 +2909,7 @@ sub changer_sel1 {
     if ($S{'p'} eq "shield") {
       my $name = join "", map { "《" . $c_name[$_] . "》"; } @card if $S{'a'} eq "field";
       &s_mes(sprintf "$pn[$u_side]は%s%sを選んだカードの下に置いた。",
-        $S{'a'} eq "field" ? "" : $S{'a'} eq "0" ? "手札から" : $S{'a'} eq "1" ? "墓地から" : $S{'a'} eq "4" ? "GRゾーンから" : "山札から",
+        $S{'a'} eq "field" ? "" : $S{'a'} eq "0" ? "手札から" : $S{'a'} eq "1" ? "墓地から" : $S{'a'} eq "4" ? "GRゾーンから" : $S{'a'} eq "5" ? "深淵ゾーンから" : "山札から",
         $S{'a'} eq "field" ? "$name" : "カード"
       );
       for (my ($i) = 0; $i < scalar @card; $i++) {

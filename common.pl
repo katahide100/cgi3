@@ -46,7 +46,7 @@ sub deny {			# 禁止ID、プロクシのチェック
 
 sub all_clr {
 	my $sd = $_[0] ? $_[0] : "";
-	undef @hand; undef @boti; undef @deck; undef @gear; undef @psychic; undef @gr;
+	undef @hand; undef @boti; undef @deck; undef @gear; undef @psychic; undef @gr; undef @separate;
 	undef @fld; undef @f_tap; undef @f_block; undef @f_drunk; undef @f_cloth; undef @shinka; undef @res; undef @res2; undef @syori; undef @vor; undef @syu_add; undef @magic;
 	&battle_clr;
 	$lp[$sd] = $side[$sd] = $pn[$sd] = $pass[$sd] = $dnam[$sd] = $usedeck[$sd] = $date[$sd] = "" if $sd ne "";
@@ -123,7 +123,7 @@ sub start {
 	&error("あなたのIDは対戦規制をかけられています。<BR>悪いことをした覚えがないのにこのエラーが出た場合は、<BR>管理者まで連絡してください。") if($P{"deny"});
 	my $use = $F{'usedeck'};
 	&error("デッキを読み込むことができません。選択し直してください。") if !($P{"deck$use"});
-	($dummy,$dcond,$dcondp,$dcondg) = split(/-/,$P{"deck$use"});
+	($dummy,$dcond,$dcondp,$dcondg,$dcond_separate) = split(/-/,$P{"deck$use"});
 	my @odeck = split(/,/,$dcond);
 	my @odeckp = split(/,/,$dcondp); # サイキック
 	my $plusNum = 0;
@@ -152,6 +152,8 @@ sub start {
 	foreach my $card (@odeckg) {
 		&error("対応していないカードが入っています。デッキを作り直してください") if($card > $#c_name);
 	}
+
+	my @odeck_separate = split(/,/,$dcond_separate);
 
 	if($F{'mode'} eq 'duel') {
 		$black = $P{'black'} if !($side[1]) && !($side[2]);
@@ -429,8 +431,10 @@ EOM
 		@{$deck[$u_side]} = @odeck;
 		@{$psychic[$u_side]} = @odeckp;
 		@{$gr[$u_side]} = @odeckg;
+		@{$separate[$u_side]} = @odeck_separate;
 		&shuffle(*deck,$u_side);
 		&shuffle(*gr,$u_side);
+		&shuffle(*separate,$u_side);
 		$side[$u_side] = $id;
 		$ip[$u_side] = $ENV{'REMOTE_ADDR'};
 		$pn[$u_side] = $P{'name'};
@@ -533,7 +537,9 @@ EOM
 			$T{"p${mn}id"} = $id;
 			$T{"p${mn}pass"} = $P{'pass'};
 			$T{"p${mn}name"} = $P{'name'};
-			if(@odeckp && @odeckg){
+			if(@odeckp && @odeckg && @odeck_separate){
+				$T{"p${mn}deck"} = join(',', @odeck).'-'.join(',', @odeckp).'-'.join(',', @odeckg).'-'.join(',', @odeck_separate);
+			} elsif (@odeckp && @odeckg){
 				$T{"p${mn}deck"} = join(',', @odeck).'-'.join(',', @odeckp).'-'.join(',', @odeckg);
 			} elsif (@odeckp){
 				$T{"p${mn}deck"} = join(',', @odeck).'-'.join(',', @odeckp);
@@ -568,9 +574,11 @@ EOM
 						@{$deck[$j]} = split(/\,/, $arr_deck[0]);
 						@{$psychic[$j]} = split(/\,/, $arr_deck[1]);
 						@{$gr[$j]} = split(/\,/, $arr_deck[2]);
+						@{$separate[$j]} = split(/\,/, $arr_deck[3]);
 						#@{$deck[$j]} = split(/\,/, $T{"p$num[$pnum]deck"});
 						&shuffle(*deck,$j);
 						&shuffle(*gr,$j);
+						&shuffle(*separate,$j);
 						$side[$j] = $T{"p$num[$pnum]id"};
 						$pass[$j] = $T{"p$num[$pnum]pass"};
 						$pn[$j] = $T{"p$num[$pnum]name"};
@@ -679,7 +687,7 @@ sub start2{
 
 	my (@new, %tmp, $lfh, $lin, $data, $out);
 	my $cou = 0;
-	my @card = grep (!$tmp{$_}++, (@{$deck[1]}, @{$deck[2]}, @{$psychic[1]}, @{$psychic[2]}, @{$gr[1]}, @{$gr[2]}));
+	my @card = grep (!$tmp{$_}++, (@{$deck[1]}, @{$deck[2]}, @{$psychic[1]}, @{$psychic[2]}, @{$gr[1]}, @{$gr[2]}, @{$separate[1]}, @{$separate[2]}));
 
 	my (%psy_top, %psy_back, %psy_super, %psy_cell);
 	eval (join "", (log_read("psychic.txt")));
@@ -710,9 +718,16 @@ sub start2{
 	chmod 0666, "room/duelist${room}_card.cgi";
 
 	for my $i(1..2){
+		# バトルゾーン初期配置
+		@{$deck[$i]} = init_buttle_zone_by_koka(\@{$deck[$i]}, $i, \@{$fw1[$i]}, 36);
+		@{$gr[$i]} = init_buttle_zone_by_koka(\@{$gr[$i]}, $i, \@{$fw1[$i]}, 36);
+		@{$psychic[$i]} = init_buttle_zone_by_koka(\@{$psychic[$i]}, $i, \@{$fw1[$i]}, 36);
+		@{$separate[$i]} = init_buttle_zone_by_koka(\@{$separate[$i]}, $i, \@{$fw1[$i]}, 36);
+
 		@{$hand[$i]} = ();
 		&shuffle(*deck,$i);
 		&shuffle(*gr,$i);
+		&shuffle(*separate,$i);
 		for (my $j=$fw3[$i][0]; $j<$fw3[$i][5]; $j++) {
 			$fld[$j] = shift(@{$deck[$i]});
 			push(@{$hand[$i]}, shift(@{$deck[$i]}));
@@ -726,6 +741,24 @@ sub start2{
 	&s_mes("$pn[$turn2]のターン！");
 #	&s_mes("$pn[$turn2]の$phasestr[$phase]。");
 	&put_ini;
+}
+
+# 効果によって初期バトルゾーンに配置
+sub init_buttle_zone_by_koka {
+    my ($array_ref, $player, $fw1_ref, $koka) = @_;
+    my @new_array = ();
+    foreach my $card (@$array_ref) {
+        if (&k_chk($card, $koka)) {
+            my $_nf = -1;
+            foreach my $k (@$fw1_ref) { 
+                if ($fld[$k] eq "") { $_nf = $k; last; } 
+            }
+            $fld[$_nf] = $card if $_nf != -1;
+        } else {
+            push(@new_array, $card);
+        }
+    }
+    return @new_array;
 }
 
 sub end_game_sub {
@@ -792,6 +825,7 @@ sub end_game_sub {
 	for($i = 0; $i <= $#{$gear[1]}; $i ++) { push(@p_all1, $gear[1][$i]); }
 	for($i = 0; $i <= $#{$psychic[1]}; $i ++) { push(@p_all1, $psychic[1][$i]); }
 	for($i = 0; $i <= $#{$gr[1]}; $i ++) { push(@p_all1, $gr[1][$i]); }
+	for($i = 0; $i <= $#{$separate[1]}; $i ++) { push(@p_all1, $separate[1][$i]); }
 	for($i = 0; $i <= $#p_field2; $i ++) { push(@p_all2, $p_field2[$i]); }
 	for($i = 0; $i <= $#p_mana2; $i ++) { push(@p_all2, $p_mana2[$i]); }
 	for($i = 0; $i <= $#p_shield2; $i ++) { push(@p_all2, $p_shield2[$i]); }
@@ -801,6 +835,7 @@ sub end_game_sub {
 	for($i = 0; $i <= $#{$gear[2]}; $i ++) { push(@p_all2, $gear[2][$i]); }
 	for($i = 0; $i <= $#{$psychic[2]}; $i ++) { push(@p_all2, $psychic[2][$i]); }
 	for($i = 0; $i <= $#{$gr[2]}; $i ++) { push(@p_all2, $gr[2][$i]); }
+	for($i = 0; $i <= $#{$separate[2]}; $i ++) { push(@p_all2, $separate[2][$i]); }
 
 
 #	$shieldpoint1 = ($#p_shield1 + 1) * 5 if($sr[1] == 0);

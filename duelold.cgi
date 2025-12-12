@@ -23,7 +23,7 @@ $room = 't' if($F{'mode'} eq 'tourjoin' || $F{'mode'} eq "tourcancel");
 @pfldata	= qw (dendou phase turn turn2 chudan chudan_flg end_flg trigger_flg skip_flg boru_cnt vor_cnt message dgroup duelid choose white black multi roomid start_date nid1 nnm1 nid2 nnm2 reverse_flg);
 @pfldata2	= qw (lp side pn pass dnam usedeck date sur_flg drank ip janken tourtime);
 @pflst		= qw (fld f_tap f_block f_drunk f_cloth shinka res syori btl vor syu_add shield magic res2);
-@pflst2		= qw (deck hand boti gear psychic gr);
+@pflst2		= qw (deck hand boti gear psychic gr separate);
 @phasestr	= qw (ターン開始フェイズ ドローフェイズ マナチャージフェイズ メインフェイズ アタックフェイズ);
 
 @{$fw1[1]} = (280..319); @{$fw2[1]} = (240..279); @{$fw3[1]} = (200..239); @{$fw4[1]} = (160..199);
@@ -241,6 +241,7 @@ sub sousa {
 		$botino[$i] = @{$boti[$i]};
 		$psychicno[$i] = @{$psychic[$i]};
 		$grno[$i] = @{$gr[$i]};
+		$separate_no[$i] = @{$separate[$i]};
 	}
 	my($sec,$min,$hour,$mday,$mon,$year) = localtime($date[$u_side]);
 	my $dat1 = sprintf("%02d:%02d",$hour,$min);
@@ -337,6 +338,7 @@ if (&c_chk("ラグーン・マーメイド",3)) {
 【墓地】$pn[$u_side]：$botino[$u_side]／$pn[$u_side2]：$botino[$u_side2]<br>
 【次元】$pn[$u_side]：$psychicno[$u_side]／$pn[$u_side2]：$psychicno[$u_side2]<br>
 【GR】$pn[$u_side]：$grno[$u_side]／$pn[$u_side2]：$grno[$u_side2]<br>
+【深淵】$pn[$u_side]：$separate_no[$u_side]／$pn[$u_side2]：$separate_no[$u_side2]<br>
 【最終アクセス】<br>
 $pn[$u_side]\[$side[$u_side]\]：$dat1$side1_mark<br>
 $pn[$u_side2]\[$side[$u_side2]\]：$dat2$side2_mark
@@ -462,6 +464,7 @@ EOM
 		<option value="8">カードの下へ</option>
 		<option value="9">超次元ゾーンへ</option>
 		<option value="11">GRゾーンへ</option>
+		<option value="12">深淵ゾーンへ</option>
 		<option value="10">強制的にクリーチャーの上へ</option>
 	</select>
 	<input type="button" value="移動" onclick="if(confirm('本当にカードを移動しますか？')) { this.disabled = true; Move(document.card.parea.value); } return false;">
@@ -479,6 +482,7 @@ EOM
 	<input type="button" value="カードの下へ" onclick="if(confirm('本当にカードの下へ移動しますか？')) { this.disabled = true; Move('8'); } return false;">
 	<input type="button" value="超次元ゾーンへ" onclick="if(confirm('本当に超次元ゾーンへ移動しますか？')) { this.disabled = true; Move('9'); } return false;">
 	<input type="button" value="GRゾーンへ" onclick="if(confirm('本当にGRゾーンへ移動しますか？')) { this.disabled = true; Move('11'); } return false;">
+	<input type="button" value="深淵ゾーンへ" onclick="if(confirm('本当に深淵ゾーンへ移動しますか？')) { this.disabled = true; Move('12'); } return false;">
 	<input type="button" value="強制的にクリーチャーの上へ" onclick="if(confirm('本当にクリーチャーの上へ移動しますか？\\nシステム的に対応していない場合のみこのボタンを使用してください。\\n（通常の進化などはバトルゾーンへボタンをご利用ください。）')) { this.disabled = true; Move('10'); } return false;"><br>
 </td></tr>
 <tr><td>
@@ -494,15 +498,17 @@ EOM
 		print qq|<option value="2"$selstr2[2]>山札</option>\n| unless &c_chk("巡霊者メスタポ",3);
 		print qq|<option value="3"$selstr2[3]>次元</option>\n|;
 		print qq|<option value="4"$selstr2[4]>GR</option>\n|;
+		print qq|<option value="5"$selstr2[5]>深淵</option>\n|;
 		print qq|</select>\n|;
 		print qq|<input type="button" value="切替" onclick="sForm('sousa'); return false;">\n|;
 		print qq|</p>\n|;
 		&regist("","$pn[$u_side]は相手の手札を見た！") if $varea == 0 && $vside eq $u_side2;
 		&regist("",sprintf "$pn[$u_side]は%sの山札を見た！", $vside == $u_side2 ? "相手" : "自分") if $varea == 2;
 		&regist("",sprintf "$pn[$u_side]は%sのGRゾーンを見た！", $vside == $u_side2 ? "相手" : "自分") if $varea == 4;
-		&del_null(sprintf(%s,$varea == 0 ? *hand : $varea == 1 ? *boti : $varea == 2 ? *deck : $varea == 3 ? *psychic : *gr),$vside);
-		my @tmp = $varea == 0 ? @{$hand[$vside]} : $varea == 1 ? @{$boti[$vside]} : $varea == 2 ? @{$deck[$vside]} : $varea == 3 ? @{$psychic[$vside]} : @{$gr[$vside]};
-		printf "%s$pn[$vside]の%s%s\n",$#tmp < 0 ? "" : "<strong>", $varea == 0 ? "手札": $varea == 1 ? "墓地": $varea == 2 ? "山札" : $varea == 3 ? "超次元ゾーン" : "GRゾーン", $#tmp < 0 ? "は０です":"</strong>";
+		&regist("",sprintf "$pn[$u_side]は%sの深淵ゾーンのカードを見た！", $vside == $u_side2 ? "相手" : "自分") if $varea == 5;
+		&del_null(sprintf(%s,$varea == 0 ? *hand : $varea == 1 ? *boti : $varea == 2 ? *deck : $varea == 3 ? *psychic : $varea == 4 ? *gr : *separate),$vside);
+		my @tmp = $varea == 0 ? @{$hand[$vside]} : $varea == 1 ? @{$boti[$vside]} : $varea == 2 ? @{$deck[$vside]} : $varea == 3 ? @{$psychic[$vside]} : $varea == 4 ? @{$gr[$vside]} : @{$separate[$vside]};
+		printf "%s$pn[$vside]の%s%s\n",$#tmp < 0 ? "" : "<strong>", $varea == 0 ? "手札": $varea == 1 ? "墓地": $varea == 2 ? "山札" : $varea == 3 ? "超次元ゾーン" : $varea == 4 ? "GRゾーン" : "深淵ゾーンのカード", $#tmp < 0 ? "は０です":"</strong>";
 		if(0 <= $#tmp){
 			my $cou = 0;
 			foreach my $cno(@tmp){
@@ -726,6 +732,7 @@ sub field {
 		&del_null(*gear,$i);
 		&del_null(*psychic,$i);
 		&del_null(*gr,$i);
+		&del_null(*separate,$i);
 	}
 	&header;
 	print <<"EOM";
@@ -1449,9 +1456,11 @@ sub tourreset {
 				@{$deck[$j]} = split(/\,/, $arr_deck[0]);
 				@{$psychic[$j]} = split(/\,/, $arr_deck[1]);
 				@{$gr[$j]} = split(/\,/, $arr_deck[2]);
+				@{$separate[$j]} = split(/\,/, $arr_deck[3]);
 				#@{$deck[$j]} = split(/\,/, $T{"p${pnum}deck"});
 				&shuffle(*deck,$j);
 				&shuffle(*gr,$j);
+				&shuffle(*separate,$j);
 				$side[$j] = $T{"p${pnum}id"};
 				$pass[$j] = $T{"p${pnum}pass"};
 				$pn[$j] = $T{"p${pnum}name"};
@@ -1514,8 +1523,10 @@ sub tourstart {
 					@{$deck[$j]} = split(/\,/, $arr_deck[0]);
 					@{$psychic[$j]} = split(/\,/, $arr_deck[1]);
 					@{$gr[$j]} = split(/\,/, $arr_deck[2]);
+					@{$separate[$j]} = split(/\,/, $arr_deck[3]);
 					&shuffle(*deck,$j);
 					&shuffle(*gr,$j);
+					&shuffle(*separate,$j);
 					$side[$j] = $T{"p$num[$win[$pnum]]id"};
 					$pass[$j] = $T{"p$num[$win[$pnum]]pass"};
 					$pn[$j] = $T{"p$num[$win[$pnum]]name"};

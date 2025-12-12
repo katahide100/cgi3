@@ -36,7 +36,7 @@ if($F{'mode'} ne "cardview"){
 
 sub deck_chg {
   $P{'usedeck'} = $F{'usedeck'};
-  $P{'predeck'} = $P{'predeckp'} = $P{'predeckg'} = "" if $dnam[$F{'usedeck'}] ne "記録なし";
+  $P{'predeck'} = $P{'predeckp'} = $P{'predeckg'} = $P{'predeck_separate'} = "" if $dnam[$F{'usedeck'}] ne "記録なし";
   $P{'c_dname'} = $P{'url'} = "";
   $selstr4[$F{'usedeck'}] = " selected";
   &pfl_write($id);
@@ -125,6 +125,20 @@ EOM
     $count++;
   }
   print <<"EOM";
+</td></tr>
+<tr valign="top"><td colspan="2">
+デッキ外
+</td></tr>
+<tr valign="top"><td width="250">
+EOM
+  my $count = 0;
+  foreach my $card(@deck_separate){
+    $c_name[$card] = '不明なカード' if($c_name[$card] eq '');
+    print qq|<a href="sForm('cardview',$card);">$c_name[$card]</a><br>\n|;
+    print qq|</td><td>\n| if $count == 19;
+    $count++;
+  }
+  print <<"EOM";
 </td></tr></table>
 <br><br>
 <a href="javascript:form.mode.value=''; form.submit();">戻る</a>
@@ -198,9 +212,11 @@ sub regist{
   $dcon = join(",",@deck);
   $dconp = join(",",@deckp);
   $dcong = join(",",@deckg);
+  $dcon_separate = join(",",@deck_separate);
   delete $P{'predeck'};
   delete $P{'predeckp'};
   delete $P{'predeckg'};
+  delete $P{'predeck_separate'};
   my $cou = 0;
   $usedeck = 1 if(!$usedeck);
 # foreach my $i(1..$maxdeck){
@@ -219,7 +235,8 @@ sub regist{
     $dcon[$usedeck] = $dcon;
     $dconp[$usedeck] = $dconp;
     $dcong[$usedeck] = $dcong;
-    $P{"deck$usedeck"}="$dnam[$usedeck]\-$dcon[$usedeck]\-$dconp[$usedeck]\-$dcong[$usedeck]";
+    $dcon_separate[$usedeck] = $dcon_separate;
+    $P{"deck$usedeck"}="$dnam[$usedeck]\-$dcon[$usedeck]\-$dconp[$usedeck]\-$dcong[$usedeck]\-$dcon_separate[$usedeck]";
 # }
   $P{'c_dname'} = $P{'url'} = "";
   &pfl_write($id);
@@ -266,6 +283,15 @@ sub deckmake{
         for($j=0;$j<$TX{$c_name[$i]};$j++){ push(@deckg,$i); }
       }
     }
+    undef(@deck_separate);
+    @tmp = split(/\n/,$F{'text_separate'});
+    foreach my $card(@tmp){ $TX{$card}++ if $card; }
+    foreach my $i(0..$#c_name){
+      if($TX{$c_name[$i]}){
+        $TXC{$c_name[$i]} = 1;
+        for($j=0;$j<$TX{$c_name[$i]};$j++){ push(@deck_separate,$i); }
+      }
+    }
     foreach $key (keys(%TX)){ $overmsg.="<strong>$keyというカードは存在しません</strong><br>\n" unless $TXC{$key}; }
   }
 
@@ -287,6 +313,12 @@ sub deckmake{
     &add_card($deckg_new[$i],1) unless $F{'delg'.$i};
   }
 
+  @deck_separate_new = @deck_separate;
+  undef(@deck_separate);
+  for($i=$#deck_separate_new;$i>-1;$i--){
+    &add_card($deck_separate_new[$i],1) unless $F{'del_separate'.$i};
+  }
+
   @mai = grep(/^sel/,keys(%F));
   foreach $cardno(@mai){
     $kaisu = $F{$cardno};
@@ -302,6 +334,8 @@ sub deckmake{
   @deckp = @deckp_stack;
   @deckg_stack = sort decksort @deckg;
   @deckg = @deckg_stack;
+  @deck_separate_stack = sort decksort @deck_separate;
+  @deck_separate = @deck_separate_stack;
 
   &put_ini;
 }
@@ -359,6 +393,9 @@ sub add_card{
           } else {
             $overmsg .= "<strong>GRゾーンに入れられるカードは１種類2枚までです</strong><br>\n";
           }
+        } elsif (k_chk($cardnum, 35)) {
+          # デッキ外の場合
+          unshift(@deck_separate,$cardnum);
         } else {
           # 通常
           unshift(@deck,$cardnum);
@@ -542,6 +579,24 @@ function chkCB(){
         for (i = 0; i < elements.length; i++) {
           if (elements["delg" + i]) {
             elements["delg" + i].checked = false;
+          }
+        }
+      }
+    }
+  }
+
+  function chkCBseparate() {
+    with (document.form) {
+      if (allchk_separate.checked == true) {
+        for (i = 0; i < elements.length; i++) {
+          if (elements["del_separate" + i]) {
+            elements["del_separate" + i].checked = true;
+          }
+        }
+      } else if (allchk_separate.checked == false) {
+        for (i = 0; i < elements.length; i++) {
+          if (elements["del_separate" + i]) {
+            elements["del_separate" + i].checked = false;
           }
         }
       }
@@ -1060,6 +1115,18 @@ EOM
     $deckgcou = $#main_deck_gr+1;
   }
   if ($F{'view'} eq "text"){ &deckgview_text; } else { &deckgview; }
+  print "<hr />デッキ外<br />";
+  if(@deck_separate == 0){ @main_deck_separate = @main_separate_num = (); $deck_separate_cou = 0; }
+  else{
+    $count_separate = 0;
+    foreach $card(@deck_separate){
+      push(@main_deck_separate,$card);
+      push(@main_separate_num,$count_separate);
+      $count_separate++;
+    }
+    $deck_separate_cou = $#main_deck_separate+1;
+  }
+  if ($F{'view'} eq "text"){ &deck_separate_view_text; } else { &deck_separate_view; }
   print <<"EOM";
   </td></tr>
   </table>
@@ -1442,6 +1509,14 @@ sub deckgview_text {
   print "\n</textarea>\n";
 }
 
+# デッキ外一覧表示（テキスト形式）
+sub deck_separate_view_text {
+  print "　デッキ枚数-$deck_separate_cou枚<br><br>\n";
+  print q|<textarea cols="30" rows="70" name="text">|;
+  map { $c_name[$_] = '不明なカード' if($c_name[$_] eq ''); print "$c_name[$_]\n" } @main_deck_separate if $deck_separate_cou != 0;
+  print "\n</textarea>\n";
+}
+
 sub deckpview {
   print "　デッキ枚数　現在$deckpcou枚\n";
   print qq|　　<small><label><input type="checkbox" name="allchkp" onclick="chkCBp();" class="none">全チェック</label></small><br><br>\n|;
@@ -1469,6 +1544,20 @@ sub deckgview {
   }
 }
 
+# デッキ外一覧表示
+sub deck_separate_view {
+  print "　デッキ枚数　現在$deck_separate_cou枚\n";
+  print qq|　　<small><label><input type="checkbox" name="allchk_separate" onclick="chkCBseparate();" class="none">全チェック</label></small><br><br>\n|;
+  if($deck_separate_cou != 0){
+    foreach my $i(0 .. $#main_deck_separate){
+      $j = $main_deck_separate[$i];
+      print qq|<input type="checkbox" name="del_separate$main_separate_num[$i]" class="none">\n|;
+      &print_line;
+      print "<br>\n";
+    }
+  }
+}
+
 sub syu_chk {
   my ($card, $syu) = @_;
   return grep $_ == $syu, (split /,/, $c_syu[$card]);
@@ -1479,12 +1568,16 @@ sub put_ini{
   $P{'predeck'} = join(",",@deck);
   $P{'predeckp'} = join(",",@deckp);
   $P{'predeckg'} = join(",",@deckg);
+  $P{'predeck_separate'} = join(",",@deck_separate);
   # 空の場合はnonを入れる
   if (!$P{'predeckp'}) {
     $P{'predeckp'} = "non";
   }
   if (!$P{'predeckg'}) {
     $P{'predeckg'} = "non";
+  }
+  if (!$P{'predeck_separate'}) {
+    $P{'predeck_separate'} = "non";
   }
   &pfl_write($id);
 }
@@ -1494,10 +1587,10 @@ sub deckread{
   &pfl_read($id);
   my $cou = 0;
   foreach my $i(1 .. $maxdeck){
-    if(!($P{"deck$i"})){ $dnam[$i] = "記録なし"; @{$deck[$i]} = (); @{$deckp[$i]} = (); @{$deckg[$i]} = (); next; }
+    if(!($P{"deck$i"})){ $dnam[$i] = "記録なし"; @{$deck[$i]} = (); @{$deckp[$i]} = (); @{$deckg[$i]} = (); @{$deck_separate[$i]} = (); next; }
     else{
       # プレイヤーデータから-区切りで各種類のカード番号取得
-      ($dnam[$i],$dcon[$i],$dconp[$i],$dcong[$i]) = split(/-/,$P{"deck$i"});
+      ($dnam[$i],$dcon[$i],$dconp[$i],$dcong[$i],$dcon_separate[$i]) = split(/-/,$P{"deck$i"});
       $cou = $i;
     }
   }
@@ -1516,6 +1609,12 @@ sub deckread{
   if ($P{'predeckg'} eq "non") {
     # nonの場合は空をセットする
     @deckg = ();
+  }
+  # デッキ外
+  @deck_separate = $P{'predeck_separate'} ? split(/,/,$P{'predeck_separate'}) : $P{'usedeck'} ? split(/,/,$dcon_separate[$P{'usedeck'}]) : ();
+  if ($P{'predeck_separate'} eq "non") {
+    # nonの場合は空をセットする
+    @deck_separate = ();
   }
 }
 
