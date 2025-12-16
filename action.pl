@@ -12,7 +12,8 @@ use constant PAREA => {
   "PSYCHIC_ZONE"  => 9, # 超次元ゾーン
   "FORCED_BOTTOM" => 10, # 強制的にクリーチャーの下
   "GR_ZONE"       => 11, # GRゾーン
-  "SEPARATE_ZONE" => 12 # デッキ外(深淵ゾーン)
+  "SEPARATE_ZONE" => 12, # デッキ外(深淵ゾーン)
+  "FUUIN"         => 13 # 封印としてつける
 };
 
 # 表示エリア
@@ -1882,12 +1883,62 @@ sub move {
   $multi = $F{'random'};
 
   map { push @{$1}, $2 if $_ =~ /(^.?sel)(.+)/ } keys(%F);
-  &com_error("場に出ているカードとそれ以外のカードを同時に移動させることはできません") if (-1 < $#sel || $F{'decktop'}) && (-1 < $#fsel || -1 < $#ssel || -1 < $#gsel || -1 < $#csel);
+  map {
+    push @{$1}, $2
+        if $_ =~ /^(fuuin_sel)(.+)$/;
+  } keys %F;
+  &com_error("場に出ているカードとそれ以外のカードを同時に移動させることはできません") if (-1 < $#sel || $F{'decktop'}) && (-1 < $#fsel || -1 < $#ssel || -1 < $#gsel || -1 < $#csel || -1 < $#fuuin_sel);
   &com_error("山札の一番上や一番下とそれ以外のカードを同時に移動させることはできません") if -1 < $#sel && $F{'decktop'};
-  &com_error("移動させるカードを指定してください") if $#sel < 0 && $#fsel < 0 && $#ssel < 0 && $#gsel < 0 && $#csel < 0 && !($F{'decktop'});
+  &com_error("移動させるカードを指定してください") if $#sel < 0 && $#fsel < 0 && $#ssel < 0 && $#gsel < 0 && $#csel < 0 && $#fuuin_sel < 0 && !($F{'decktop'});
 
-  # 強制的に上に置く
-  if ( $parea == ${PAREA()}{"FORCED_BOTTOM"} ) {
+  if ( $parea == ${PAREA()}{"FUUIN"} ) { # 封印としてつける
+    if (-1 < $#sel || $F{'decktop'}) {  # 手札、墓地、山札からバトルゾーンへ
+      &com_error("一度にバトルゾーンに出せるカードは１枚ずつです") if 0 < $#sel;
+      &com_error("相手のカードを場に出すことはできません") if $vside == $u_side2;
+      if ($F{'decktop'}) {
+        # デッキもしくはGRの一番上 or 一番下の場合
+        $cardno = &get_cardno_from_deck;
+      } else {
+        # デッキ以外の場合
+        $cardno = $arr[$vside][$sel[0]];
+      }
+      return if $cardno eq ""; #未選択の場合はリターン
+      $s_cou = 0;
+      &fld_chk($u_side);
+      
+      &put_cre_chk2($cardno);
+
+      if ($F{'decktop'}) {
+        # デッキもしくはGRの一番上 or 一番下の場合
+        &delete_cardno_from_deck;
+      } else {
+        $arr[$u_side][$sel[0]] = "";
+      }
+
+      &put_card_dialog_fuuin($cardno, sprintf("%d", $F{'decktop'} ? 2 : $varea));
+
+    } else {              # フィールドからバトルゾーンへ MEMO: 無駄な処理とかありそう。あまり検証してない。
+      &com_error("バトルゾーンからバトルゾーンに移動させることはできません") if -1 < $#gsel || -1 < $#csel;
+      &com_error("一度にバトルゾーンに移動できるカードは１枚ずつです") if 0 < $#ssel || 0 < $#fsel;
+      if (-1 < $#fsel) {
+        $fldno = $fsel[0];
+        &which_side($fldno);
+        &com_error("バトルゾーンからバトルゾーンに移動させることはできません") if $area < 2;
+        &pick_card2;
+      } else {
+        $ssel = $ssel[0];
+        &pick_card3;
+      }
+      &put_cre_chk2($cardno);
+      if (-1 < $#res) {
+        &put_card_dialog_fuuin($cardno, sprintf("%s", -1 < $#fsel ? "fld$fldno" : "shinka$ssel"));
+      } else {
+        &fld_chk($l_side);
+        &p_mess;
+        &put_battle_zone_sub;
+      }
+    }
+  } elsif ( $parea == ${PAREA()}{"FORCED_BOTTOM"} ) { # 強制的に上に置く
     if (-1 < $#sel || $F{'decktop'}) {  # 手札、墓地、山札からバトルゾーンへ
       &com_error("一度にバトルゾーンに出せるカードは１枚ずつです") if 0 < $#sel;
       &com_error("相手のカードを場に出すことはできません") if $vside == $u_side2;
@@ -1945,6 +1996,7 @@ sub move {
         &del_move;
       }
     } else {              # フィールドからバトルゾーンへ
+      &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
       &com_error("バトルゾーンからバトルゾーンに移動させることはできません") if -1 < $#gsel || -1 < $#csel;
       &com_error("一度にバトルゾーンに移動できるカードは１枚ずつです") if 0 < $#ssel || 0 < $#fsel;
       if (-1 < $#fsel) {
@@ -1966,6 +2018,7 @@ sub move {
       }
     }
   } elsif ( $parea == ${PAREA()}{"GR_ZONE"} ) {# GRゾーンへ
+    &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
     if ( $F{'decktop'} ) {
       $cardno = ${$deck[$u_side]}[0];
       com_error("GRクリーチャー以外のカードをGRゾーンに移動することはできません")  unless (syu_chk($cardno, 222));
@@ -2002,6 +2055,7 @@ sub move {
     }
     &del_move;
   } elsif ( $parea == ${PAREA()}{"PSYCHIC_ZONE"} ) {# 超次元ゾーンへ
+    &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
     if ( $F{'decktop'} ) {
       # デッキもしくはGRの一番上 or 一番下の場合
 
@@ -2065,6 +2119,7 @@ sub move {
     &del_move;
   } elsif ( $parea == ${PAREA()}{"EVO_BOTTOM"} || $parea == ${PAREA()}{"SHIELD_BOTTOM"} || $parea == ${PAREA()}{"FORCED_BOTTOM"}) { # 進化獣もしくはシールドの下
     @res = $parea == ${PAREA()}{"EVO_BOTTOM"} ? grep $c_evo[$fld[$_]] ne "", @{$fw1[$u_side]} : grep $fld[$_] ne "", @{$fw3[$u_side]};
+    &com_error("封印は墓地以外に移動できません") if $#fuuin_sel > -1 && !($F{'decktop'});
     &com_error(sprintf "自分の%sが１%sもないので移動できません", $parea == ${PAREA()}{"EVO_BOTTOM"} ? "進化クリーチャー" : $parea == ${PAREA()}{"SHIELD_BOTTOM"} ? "カード" : "シールド", $parea == ${PAREA()}{"EVO_BOTTOM"} ? "体" : "枚") if $#res < 0;
     &com_error("フィールドのクリーチャー以外を直接移動させる処理はまだできていません。ごめんなさいm(__)m") if -1 < $#ssel || -1 < $#gsel || -1 < $#csel;
     $chudan = "";
@@ -2105,6 +2160,7 @@ sub move {
                 $parea == ${PAREA()}{"EVO_BOTTOM"} ? "" : "<>p-shield";
     undef @res if $parea == ${PAREA()}{"SHIELD_BOTTOM"};
   } elsif ($parea == ${PAREA()}{"BATTLE_ZONE"}) {
+    &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
     if (-1 < $#sel || $F{'decktop'}) {  # 手札、墓地、山札からバトルゾーンへ
       &com_error("一度にバトルゾーンに出せるカードは１枚ずつです") if 0 < $#sel;
       &com_error("相手のカードを場に出すことはできません") if $vside == $u_side2;
@@ -2161,6 +2217,7 @@ sub move {
         &del_move;
       }
     } else {              # フィールドからバトルゾーンへ
+      &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
       &com_error("バトルゾーンからバトルゾーンに移動させることはできません") if -1 < $#gsel || -1 < $#csel;
       &com_error("一度にバトルゾーンに移動できるカードは１枚ずつです") if 0 < $#ssel || 0 < $#fsel;
       if (-1 < $#fsel) {
@@ -2182,6 +2239,7 @@ sub move {
       }
     }
   } elsif ($parea =~ /[06]/) {
+    &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
     if (-1 < $#sel || $F{'decktop'}) {  # 手札、墓地、山札からマナゾーン、シールドへ
       &com_error("相手のカードを場に出すことはできません") if $vside == $u_side2;
       local $e_side = 3 - $u_side;
@@ -2237,6 +2295,7 @@ sub move {
       &del_move4;
     }
   } elsif (-1 < $#sel || $F{'decktop'}) { # 手札、墓地、山札から手札、墓地、山札へ
+    &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
     &com_error("墓地にあるカードを墓地に送ることはできません") if !($F{'decktop'}) && $varea == ${VAREA()}{"CEMETERY"} && $parea == ${PAREA()}{"CEMETERY"};
     &com_error("手札のカードを手札に入れることはできません") if !($F{'decktop'}) && $varea == ${VAREA()}{"HAND"} && $parea == ${PAREA()}{"HAND"};
     &com_error("山札のカードを山札の上に戻すことはできません") if ($varea == ${VAREA()}{"DECK"} || $F{'decktop'}) && $parea == ${PAREA()}{"DECK_TOP"};
@@ -2263,15 +2322,19 @@ sub move {
     }
     &del_move;
   } elsif (-1 < $#gsel) {         # ジェネレートしたクロスギアを手札、墓地、山札へ
+    &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
     foreach $gsel(@gsel) {
       &pick_card5;
       &move_sub($l_side);
     }
     &del_move3;
   } elsif (-1 < $#fsel && -1 < $#ssel && $parea == ${PAREA()}{"DECK_TOP"}) { # 進化と進化元を同時に山札の一番上へ
+    &e_mes("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'});
     &return_deck3;
   } else {
     # フィールドから手札、墓地、山札へ移動
+    &com_error("封印は墓地以外に移動できません", $u_side) if $#fuuin_sel > -1 && !($F{'decktop'}) && $parea != ${PAREA()}{"CEMETERY"};
+
     &move2;
   }
   undef @sel; undef @fsel; undef @ssel; undef @gsel; undef @csel;
@@ -2455,16 +2518,23 @@ sub move2 {     # フィールドから手札、墓地、山札へ移動
     &move_sub($l_side);
   }
   &del_move5;
-  undef @fsel; undef @ssel; undef @csel;
+  foreach $fuuin_sel (@fuuin_sel) { # 封印
+    &pick_card7;
+    &move_sub($l_side, 1);
+  }
+  &del_move6;
+  undef @fsel; undef @ssel; undef @csel; undef @fuuin_sel;
 }
 
 sub move_sub {
-  my $side = $_[0];
-  &p_mess;
-  if (check_psychic($cardno) && ($parea != 9)) {
+  my ($side, $is_fuuin) = @_;  # @_ から取り出す
+  $is_fuuin //= 0;
+
+  &p_mess($is_fuuin);
+  if (check_psychic($cardno) && ($parea != 9) && $parea != ${PAREA()}{"SEPARATE_ZONE"}) {
     s_mes("《$c_name[$cardno]》は超次元ゾーンに送られた。");
     push (@{$psychic[$side]}, $cardno);
-  } elsif (syu_chk($cardno, 222)) {
+  } elsif (syu_chk($cardno, 222) && $parea != ${PAREA()}{"SEPARATE_ZONE"}) {
       s_mes("《$c_name[$cardno]》はGRゾーンに送られた。");
       push (@{$gr[$side]}, $cardno);
   } else {
@@ -2652,6 +2722,15 @@ sub add_up_card_sub {
   $fld[$fno] = $chudan;
 }
 
+# 封印追加
+sub add_fuuin_card_sub {
+  $fno = $F{'select'};
+  my $cno = $fld[$fno];
+  $f_fuuin[$fno] .= $f_fuuin[$fno] eq "" ? "$chudan" : "-$chudan";
+  $f_block[$fno] = $f_drunk[$fno] = "";
+  # $fld[$fno] = $chudan;
+}
+
 sub shinka_sub2 {
   $fno = $F{'select'};
   my $cno = $fld[$fno];
@@ -2694,6 +2773,7 @@ sub boti_shinka_sub {
   $fld[$fno] = $chudan;
 }
 
+# 進化獣処理関数
 sub pick_card3 {
   ($fldno, $sno) = split /-/, $ssel;
   my @evo = split /-/, $shinka[$fldno];
@@ -2726,6 +2806,17 @@ sub pick_card6 {
   &which_side($fno);
 }
 
+# 封印カード取得
+sub pick_card7 {
+  ($fldno, $no) = split /-/, $fuuin_sel;
+  my @fuuin = split /-/, $f_fuuin[$fldno];
+  next if $fuuin[$no] eq "";
+  $cardno = $fuuin[$no];
+  $fuuin[$no] = "";
+  $f_fuuin[$fldno] = join "-", @fuuin;
+  &which_side($fldno);
+}
+
 sub sforth_sub {  # シールドフォースを持つクリーチャーが場を離れた時の処理
   my $fldno = $_[0];
   foreach my $i (@{$fw3[$l_side]}) {
@@ -2737,6 +2828,11 @@ sub sforth_sub {  # シールドフォースを持つクリーチャーが場を
 }
 
 sub p_mess {
+  my ($is_fuuin) = @_;  # @_ から取り出す
+  $is_fuuin //= 0;
+
+  my $card_name = $is_fuuin == 1 ? "封印（《$c_name[$cardno]》）" : "《$c_name[$cardno]》";
+
   my $p_mess = "";
   if (!($l_side)) {
     $p_mess = "$pn[$u_side]は";
@@ -2745,7 +2841,7 @@ sub p_mess {
     $p_mess = $l_side == $u_side ? "$pn[$u_side]は" : "$pn[$l_side]の";
   }
   $p_mess .= $area == 2 ? "シールドを"
-       : $area ne "" ? sprintf "%sを", "《$c_name[$cardno]》"
+       : $area ne "" ? sprintf "%sを", $card_name
        : $F{'decktop'} ? sprintf "%sの一番%sのカード%sを", $F{'fld'} == 4 ? "GR" : "山札", $F{'under'} == 1 ? "下" : "上", $parea != ${PAREA()}{"HAND"} ? "、《$c_name[$cardno]》" : ""
        # 手札からの場合、超次元ゾーンに移動する場合はカード名を公表する
        : $varea == ${VAREA()}{"HAND"} ? sprintf "%s%sを", ${PAREA()}{"PSYCHIC_ZONE"} == $parea || $vside != $u_side ? "手札から、" : "", ${PAREA()}{"PSYCHIC_ZONE"} != $parea && ${PAREA()}{"HAND"} < $parea && $vside == $u_side ? "カード" : "《$c_name[$cardno]》"
@@ -2832,6 +2928,12 @@ sub del_gear_sub {
 sub del_move5 { # ゴッドの不要なスペースを削除
   foreach my $i(@{$fw1[1]}, @{$fw1[2]}) {
     $fld[$i] = join "-", grep $_ ne "", (split /-/, $fld[$i]) if $fld[$i] =~ /\-/;
+  }
+}
+
+sub del_move6 { # 封印の不要なスペースを削除
+  foreach my $i (@{$fw1[1]}, @{$fw1[2]}) {
+    $f_fuuin[$i] = join "-", grep $_ ne "", (split /-/, $f_fuuin[$i]) if $f_fuuin[$i] ne "";
   }
 }
 
@@ -3238,6 +3340,22 @@ sub put_card_dialog2 { # 強制的に置く場合に使用
   undef @res if &syu_chk($cno, 96);
 }
 
+sub put_card_dialog_fuuin { # 封印に使用
+  my ($cno, $process) = @_;
+  my $str = sprintf "%s%sを選んでください<>m-%s_sel<>o-決定::やめる",
+        "下になる",
+        "クリーチャー",
+        "add_fuuin_card";
+  unshift @syori, sprintf "s-%d<>t-$str<>a-%s%s",
+        $process eq "tri" ? $btl[1] : $u_side,
+        $process eq "tri" ? "tri" : $F{'decktop'} ? "decktop" : $process ne "" ? "$process" : "",
+        $process eq "tri" ? "<>p-tri" : "";
+  $chudan_flg = "1";
+  $chudan = $cno;
+  $vor_cnt = 0 if 3 < $c_evo[$cno];
+  undef @res if &syu_chk($cno, 96);
+}
+
 sub rainbow_chk { # 多色クリーチャーの配列を返す
   return (grep &k_chk($fld[$_], 12)
          || $fld[$_] =~ /\-/  # リンク中のゴッド
@@ -3544,6 +3662,41 @@ sub add_up_card_sel {
       $shinka[$fldno] = join "-", @evo;
     } else {
       local *arr = $S{'a'} eq "0" ? *hand : $S{'a'} eq "1" ? *boti : *deck;
+      unshift @{$arr[$u_side]}, $chudan;
+    }
+    shift @syori;
+    $chudan = $chudan_flg = "";
+  }
+  undef @res; undef %S; undef %F;
+}
+
+# 封印を追加
+sub add_fuuin_card_sel {
+  return if !($F{'run_select'}) && !($F{'not_select'});
+  &syori_p_set;
+  if ($F{'run_select'}) {
+    &s_mes(sprintf "%sは封印を追加した！", "$pn[$u_side]");
+    &add_fuuin_card_sub;
+    shift @syori;
+    $chudan_flg = "";
+    #&put_battle_zone_koka($chudan, $fno);
+  } else {
+    &e_mes("カードの移動をキャンセルしました", $u_side);
+    if ($S{'p'} eq "tri") {
+      &pursue;
+      &breaker;
+    } elsif ($S{'a'} =~ /^fld/) {
+      ($fldno = $S{'a'}) =~ s/fld//;
+      $fld[$fldno] = $chudan;
+    } elsif ($S{'a'} =~ /^shinka/) {
+      ($ssel = $S{'a'}) =~ s/shinka//;
+      ($fldno, $sno) = split /-/, $ssel;
+      my @evo = split /-/, $shinka[$fldno];
+      $evo[$sno] = $chudan;
+      $shinka[$fldno] = join "-", @evo;
+    } else {
+      # MEMO: 超次元やGRなどは封印の場合だけくる
+      local *arr = $S{'a'} eq "0" ? *hand : $S{'a'} eq "1" ? *boti : $S{'a'} eq "2" ? *deck : $S{'a'} eq "3" ? *psychic : $S{'a'} eq "4" ? *gr : *separate;
       unshift @{$arr[$u_side]}, $chudan;
     }
     shift @syori;

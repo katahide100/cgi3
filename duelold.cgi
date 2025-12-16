@@ -22,7 +22,7 @@ $room = 't' if($F{'mode'} eq 'tourjoin' || $F{'mode'} eq "tourcancel");
 
 @pfldata	= qw (dendou phase turn turn2 chudan chudan_flg end_flg trigger_flg skip_flg boru_cnt vor_cnt message dgroup duelid choose white black multi roomid start_date nid1 nnm1 nid2 nnm2 reverse_flg);
 @pfldata2	= qw (lp side pn pass dnam usedeck date sur_flg drank ip janken tourtime);
-@pflst		= qw (fld f_tap f_block f_drunk f_cloth shinka res syori btl vor syu_add shield magic res2);
+@pflst		= qw (fld f_tap f_block f_drunk f_cloth shinka res syori btl vor syu_add shield magic res2 f_fuuin);
 @pflst2		= qw (deck hand boti gear psychic gr separate);
 @phasestr	= qw (ターン開始フェイズ ドローフェイズ マナチャージフェイズ メインフェイズ アタックフェイズ);
 
@@ -85,6 +85,7 @@ unless($chudan_flg){
 &b_shinka_sel		if $F{'mode'} eq "b_shinka_sel";
 &c_shinka_sel		if $F{'mode'} eq "c_shinka_sel";
 &add_up_card_sel	if $F{'mode'} eq "add_up_card_sel";
+&add_fuuin_card_sel	if $F{'mode'} eq "add_fuuin_card_sel";
 &vor_sel1			if $F{'mode'} eq "vor_sel";
 &vor_sel2			if $F{'mode'} eq "vor_sel2";
 &vor_sel1			if $F{'mode'} eq "b_vor_sel";
@@ -286,6 +287,7 @@ sub sousa {
 		var F = parent.field.fields;
 		for(i=0;i<F.elements.length;i++){
 			if (F.elements[i].checked && F.elements[i].name.match(/^.?sel/)){ str += "&" + F.elements[i].name + "=on"; }
+			if (F.elements[i].checked && F.elements[i].name.match(/^fuuin_sel/)){ str += "&" + F.elements[i].name + "=on"; }
 		}
 		\$.post(str, \$("[name=card]").serialize(), function(data){
 			window.parent.s.emit("action", {mode:'move',room:"$room"});
@@ -465,6 +467,7 @@ EOM
 		<option value="9">超次元ゾーンへ</option>
 		<option value="11">GRゾーンへ</option>
 		<option value="12">深淵ゾーンへ</option>
+		<option value="13">封印としてつける</option>
 		<option value="10">強制的にクリーチャーの上へ</option>
 	</select>
 	<input type="button" value="移動" onclick="if(confirm('本当にカードを移動しますか？')) { this.disabled = true; Move(document.card.parea.value); } return false;">
@@ -483,6 +486,7 @@ EOM
 	<input type="button" value="超次元ゾーンへ" onclick="if(confirm('本当に超次元ゾーンへ移動しますか？')) { this.disabled = true; Move('9'); } return false;">
 	<input type="button" value="GRゾーンへ" onclick="if(confirm('本当にGRゾーンへ移動しますか？')) { this.disabled = true; Move('11'); } return false;">
 	<input type="button" value="深淵ゾーンへ" onclick="if(confirm('本当に深淵ゾーンへ移動しますか？')) { this.disabled = true; Move('12'); } return false;">
+	<input type="button" value="封印としてつける" onclick="if(confirm('本当に封印としてつけますか？')) { this.disabled = true; Move('13'); } return false;"><br>
 	<input type="button" value="強制的にクリーチャーの上へ" onclick="if(confirm('本当にクリーチャーの上へ移動しますか？\\nシステム的に対応していない場合のみこのボタンを使用してください。\\n（通常の進化などはバトルゾーンへボタンをご利用ください。）')) { this.disabled = true; Move('10'); } return false;"><br>
 </td></tr>
 <tr><td>
@@ -998,6 +1002,7 @@ sub view_gear_sub2 {
 	print "</td>\n<tr>";
 }
 
+# カード１毎の表示処理
 sub view_field_sub {
 	local ($fno) = $_[0];
 	if ($fld[$fno] eq "") {
@@ -1036,13 +1041,16 @@ sub view_field_sub {
 				}
 			}
 		}
+
+		my $has_fuuin = defined $f_fuuin[$fno] && $f_fuuin[$fno] ne "";
+
 		if ($shinka[$fno] ne "") {
 			@{$shinka[$fno]} = split /-/, $shinka[$fno];
 			print qq|<table cellpadding="0" cellspacing="0" width="96%" align="center">| if $area == 2;
 			foreach my $i(0..$#{$shinka[$fno]}){
 				next if $shinka[$fno][$i] eq "";
 				print  qq|<tr>| if $area == 2;
-				printf qq|%s<input type="checkbox" name="ssel$fno-$i" value="on">%s|, $area == 2 ? "<td>" : "", $area == 2 ? "</td>" : "", if &control_chk;
+				printf qq|%s<input type="checkbox" name="ssel$fno-$i" value="on">%s|, $area == 2 ? "<td>" : "", $area == 2 ? "</td>" : "", if &control_chk && ! $has_fuuin;
 				print  qq|<td width="99%">| if $area == 2;
 				if ($area == 2) {
 					print qq|<div class="p_shield"></div>|;
@@ -1053,13 +1061,34 @@ sub view_field_sub {
 			}
 			print qq|</table>| if $area == 2;
 		}
+		
 		print "召喚酔い<br>\n" if $f_drunk[$fno] && !(&k_chk($cno, 6)) && !(&cloth_chk($fno, 1105));
-		if ($cno =~ /\-/) {
+		if ($has_fuuin) {
+			print "$c_name[$cno]<br>\n";
+		} elsif ($cno =~ /\-/) {
 			&view_god($fno, $area) if $area == 0;
 		} else {
 			&view_card($cno, $area);
 		}
-		&view_fldbutton($area) if &control_chk;
+		&view_fldbutton($area) if &control_chk && ! $has_fuuin;
+
+		# 封印状態の表示
+		if (defined $f_fuuin[$fno] && $f_fuuin[$fno] ne "") {
+			my @fuuin = split /-/, $f_fuuin[$fno];
+			for my $i (0 .. $#fuuin) {
+				my $card_id = $fuuin[$i];
+
+				if ($i == $#fuuin) {
+					# 最後の1件だけカード表示
+					&view_card_fuuin();
+					print qq|<div onmouseover="this.style.backgroundColor='yellow'" onmouseout="this.style.backgroundColor=''"><label style="display: block; width:100%;height:100%;"><input type="checkbox" name="fuuin_sel$fno-$i" value="on"><br></label></div>|;
+				} else {
+					printf qq|<input type="checkbox" name="fuuin_sel$fno-$i" value="on">| if &control_chk;
+					print "封印<br>\n";
+				}
+			}
+		}
+		
 		map { print "$c_name[$fld[$_]]<br>\n" } (split /-/, $f_block[$fno]) if $f_block[$fno] ne "" && $area == 2;
 	}
 	print "</td>\n";
@@ -1088,6 +1117,7 @@ sub view_card {
 #	print "</table>\n";
 #}
 
+# バトルゾーンカード表示
 sub view_card1 {
 	my $tmpst = $area == 0 && $v_side == $u_side && !($chudan_flg) && !($read_only)
 		? sprintf qq|<input type="checkbox" name="block$fno"%s onclick="bFlag();" class="none">ブロッカー\n|, $f_block[$fno] ? " checked" : ""
@@ -1110,6 +1140,7 @@ sub view_card2 {
 	print "</div>\n";
 }
 
+# マナカード表示
 sub view_card3 {
 	print qq|<div class="$bgc"%s>\n|;
 	print qq|<span class="center"><a href="javascript:parent.cView($cno);">$c_name[$cno]</a></span>\n|;
@@ -1118,11 +1149,25 @@ sub view_card3 {
 	print "</div>\n";
 }
 
+# シールドカード表示
 sub view_card4 {
 	my $cou = $fno - $fw3[$v_side][0] + 1;
 	print qq|<table border="1" cellpadding="0" cellspacing="0" class="shield"><tr>\n|;
 	print qq|<td align="center" valign="bottom"><br>$cou<br><span class="shield">＿＿＿＿＿</span></td>\n|;
 	print "</tr></table>\n";
+}
+
+# 封印カード表示
+sub view_card_fuuin {
+	print qq|<table border="1" cellpadding="0" cellspacing="0" class="shield"><tr>\n|;
+	print qq|<td align="center" valign="bottom"><br>封印<br><span class="shield">＿＿＿＿＿</span></td>\n|;
+	print "</tr></table>\n";
+}
+
+# 封印カード表示
+sub view_card_fuuin2 {
+	printf "<input type=\"checkbox\" name=\"ssel$fno-$i\" value=\"on\">";
+	print "封印<br>\n";
 }
 
 sub view_god {

@@ -724,6 +724,11 @@ sub start2{
 		@{$psychic[$i]} = init_buttle_zone_by_koka(\@{$psychic[$i]}, $i, \@{$fw1[$i]}, 36);
 		@{$separate[$i]} = init_buttle_zone_by_koka(\@{$separate[$i]}, $i, \@{$fw1[$i]}, 36);
 
+		# バトルゾーンの初期配置
+		my @priority = (5758,5759,5760,5761,5757);
+
+		sort_battle_zone_for_player(\@{$fw1[$i]}, \@priority);
+
 		@{$hand[$i]} = ();
 		&shuffle(*deck,$i);
 		&shuffle(*gr,$i);
@@ -760,6 +765,54 @@ sub init_buttle_zone_by_koka {
     }
     return @new_array;
 }
+
+sub sort_battle_zone_for_player {
+    my ($fw1_ref, $priority_ref) = @_;
+    my @priority = @$priority_ref;
+
+    # 優先度マップ（カードID → 優先index）
+    my %prio;
+    @prio{@priority} = (0..$#priority);
+
+    # そのプレイヤーのバトルゾーン位置だけ集める
+    my @positions = @$fw1_ref;
+
+    # 現在のカードだけを抜き出す
+    my @cards = map { $fld[$_] } grep { defined $fld[$_] && $fld[$_] ne "" } @positions;
+
+    # ソート
+    my @sorted = sort {
+        # 両方優先リストにある場合
+        if (exists $prio{$a} && exists $prio{$b}) {
+            $prio{$a} <=> $prio{$b}
+        }
+        # aだけ優先リストにある
+        elsif (exists $prio{$a}) {
+            -1
+        }
+        # bだけ優先リストにある
+        elsif (exists $prio{$b}) {
+            1
+        }
+        # どちらもない → カードIDの昇順
+        else {
+            $a <=> $b
+        }
+    } @cards;
+
+    # 空にする
+    for my $pos (@positions) {
+        $fld[$pos] = "";
+    }
+
+    # ソート後をスロット順に戻す
+    for my $i (0..$#sorted) {
+        $fld[ $positions[$i] ] = $sorted[$i];
+    }
+
+    # 余ったポジションはそのまま空欄
+}
+
 
 sub end_game_sub {
 	undef(%T);
