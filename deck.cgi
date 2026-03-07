@@ -840,6 +840,7 @@ EOM
             <option value="264" $selstr[264]>第1弾 「邪神VS邪神 ～ソウル・オブ・ジ・アビス～」</option>
             <option value="266" $selstr[266]>第2弾 邪神vs邪神Ⅱ ～ジャシン・イン・ザ・シェル～</option>
             <option value="271" $selstr[271]>第3弾 邪神vs時皇 ～ビヨンド・ザ・タイム～</option>
+            <option value="274" $selstr[274]>第4弾 終淵 ～LOVE＆ABYSS～</option>
             <option value="267" $selstr[267]>愛感謝祭 ヒロインBEST</option>
             <option value="272" $selstr[272]>王道vs邪道 デュエキングWDreaM 2025</option>
             <option value="268" $selstr[268]>ドリーム英雄譚デッキ ボルシャックの書</option>

@@ -132,8 +132,8 @@ EOM
 	print <<"EOM";
 </td><td class="table">
 <div align="center">
-総数：<img src="dayx/dayx.cgi?gif" title="このページに来た総計人数"> 今日：<img src="dayx/dayx.cgi?today" title="今日の来た人の数"> 昨日：<img src="dayx/dayx.cgi?yes" title="昨日の来た人の数。"><br>
-<hr>
+<!-- 総数：<img src="dayx/dayx.cgi?gif" title="このページに来た総計人数"> 今日：<img src="dayx/dayx.cgi?today" title="今日の来た人の数"> 昨日：<img src="dayx/dayx.cgi?yes" title="昨日の来た人の数。"><br>
+<hr> -->
 <table border="0" cellspacing="0">
 <tr valign="top"><td>
 <form action="index.cgi" method="post" name="entrance">
