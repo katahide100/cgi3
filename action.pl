@@ -2392,7 +2392,7 @@ sub delete_cardno_from_deck {
 #----------------------------------
 sub check_psychic {
   my $cardno = $_[0];
-  return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186) || syu_chk($cardno, 334) || syu_chk($cardno, 483) || syu_chk($cardno, 484) || syu_chk($cardno, 485);
+  return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186) || syu_chk($cardno, 334) || syu_chk($cardno, 483) || syu_chk($cardno, 484) || syu_chk($cardno, 485) || syu_chk($cardno, 503);
 }
 
 sub put_card_sub {
