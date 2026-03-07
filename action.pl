@@ -2392,7 +2392,7 @@ sub delete_cardno_from_deck {
 #----------------------------------
 sub check_psychic {
   my $cardno = $_[0];
-  return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186) || syu_chk($cardno, 334);
+  return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186) || syu_chk($cardno, 334) || syu_chk($cardno, 485) || syu_chk($cardno, 486) || syu_chk($cardno, 487);
 }
 
 sub put_card_sub {
@@ -3015,7 +3015,7 @@ sub changer_sel1 {
         $S{'a'} eq "field" ? "$name" : "カード"
       );
       for (my ($i) = 0; $i < scalar @card; $i++) {
-        if (&syu_chk($card[$i], 145) || &syu_chk($card[$i], 150) || &syu_chk($card[$i], 103) || &syu_chk($card[$i], 119) || &syu_chk($card[$i], 151) || &syu_chk($card[$i], 185) || &syu_chk($card[$i], 186) || &syu_chk($card[$i], 334)) {
+        if (check_psychic($card[$i])) {
           e_mes("サイキッククリーチャーは移動できないため超次元ゾーンに戻ります。", $u_side);
           s_mes("《$c_name[$card[$i]]》は超次元ゾーンに送られた。");
           push (@{$psychic[$u_side]}, splice (@card, $i, 1));

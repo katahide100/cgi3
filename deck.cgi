@@ -383,7 +383,7 @@ sub add_card{
   foreach my $cardnum (@$couno) {
     for(1 .. $kaisu){
       if($card_cou[$cardnum] < 4){
-        if (syu_chk($cardnum, 145) || syu_chk($cardnum, 150) || syu_chk($cardnum, 103) || syu_chk($cardnum, 119) || syu_chk($cardnum, 151) || syu_chk($cardnum, 185) || syu_chk($cardnum, 186) || syu_chk($cardnum, 334)) {
+        if (check_psychic($cardnum)) {
           # サイキックの場合
           unshift(@deckp,$cardnum);
         } elsif (syu_chk($cardnum, 222)) {
@@ -1458,7 +1458,7 @@ sub cardsort {
     if (&syu_chk($i, 96)) { push @sort_src4, $i; }
     elsif (&syu_chk($i, 1)) { push @sort_src3, $i; }
     elsif (&syu_chk($i, 0)) { push @sort_src2, $i; }
-    elsif (&syu_chk($i, 145) || &syu_chk($i, 150) || &syu_chk($i, 103) || &syu_chk($i, 119) || &syu_chk($i, 151) || &syu_chk($i, 185) || &syu_chk($i, 186) || &syu_chk($i, 334)) { push @sort_src5, $i; }
+    elsif (check_psychic($i)) { push @sort_src5, $i; }
     else { push @sort_src1, $i; }
   }
   @sort_res1 = $F{'sortkey1'} == 0 ? sort s_bunmei @sort_src1 : $F{'sortkey1'} == 1 ? sort s_mana @sort_src1: $F{'sortkey1'} == 2 ? sort s_power @sort_src1 : $F{'sortkey1'} == 3 ? sort s_syuzoku @sort_src1 : sort s_name @sort_src1;
@@ -1714,4 +1714,9 @@ sub info_read {
   for(my($i) = 0; $i <= $#plus1; $i ++) {
     $c_point[$plus1[$i]] += 1;
   }
+}
+
+sub check_psychic {
+  my $cardno = $_[0];
+  return syu_chk($cardno, 145) || syu_chk($cardno, 150) || syu_chk($cardno, 103) || syu_chk($cardno, 119) || syu_chk($cardno, 151) || syu_chk($cardno, 185) || syu_chk($cardno, 186) || syu_chk($cardno, 334) || syu_chk($cardno, 485) || syu_chk($cardno, 486) || syu_chk($cardno, 487);
 }
