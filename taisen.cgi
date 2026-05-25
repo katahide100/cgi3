@@ -2198,53 +2198,46 @@ sub get_ini {
 	
 
 	# ユーザー検索（node連携）
-	my $url = $chatNodeHost . '/user/find?user_id='.$id;
-	$request = POST( $url );
-	
-	# 送信
-	my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
-	my $res = $ua->request( $request );
-	
-	my $arrRes = decode_json($res->content);
-	my $auth = 0;
-	if ($P{'admin'} > 0) {
-		$auth = $P{'admin'};
-	}
-	if ($res->is_success) {
-		if (scalar @$arrRes > 0) {
-			#ユーザーが存在したら更新（node連携）
-			my $token = '';
-			if (@$arrRes[0]->{token} != '') {
-				# &error("test")
-				$token = @$arrRes[0]->{token}
-			} else {
-				# &error("test2")
-				$token = join '', map { ('a'..'z', 'A'..'Z', 0..9)[rand 62] } 1..16;
-			}
-			
-			my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth . '&kunsyo=' . $P{'order'} . '&token=' . $token;
-			$request = POST( $url );
+	eval {
+		my $url = $chatNodeHost . '/user/find?user_id='.$id;
+		$request = POST( $url );
 
-			# 送信
-			my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
-			my $res = $ua->request( $request );
-# 			&error(
-# $res->base
-# 	)
-		} else {
-			#存在しなかったら登録（node連携）
-			my $url = $chatNodeHost . '/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
-			$request = POST( $url );
+		# 送信
+		my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0, timeout => 5 });
+		my $res = $ua->request( $request );
 
-			# 送信
-			my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
-			my $res = $ua->request( $request );
-
-			# &error(
-			# 	$res
-			# 		);
+		my $arrRes = decode_json($res->content);
+		my $auth = 0;
+		if ($P{'admin'} > 0) {
+			$auth = $P{'admin'};
 		}
-	}
+		if ($res->is_success) {
+			if (scalar @$arrRes > 0) {
+				#ユーザーが存在したら更新（node連携）
+				my $token = '';
+				if (@$arrRes[0]->{token} != '') {
+					$token = @$arrRes[0]->{token}
+				} else {
+					$token = join '', map { ('a'..'z', 'A'..'Z', 0..9)[rand 62] } 1..16;
+				}
+
+				my $url = $chatNodeHost . '/user/update/' . @$arrRes[0]->{id} . '?password=' . $pass . '&username=' . $P{'name'} . '&auth=' . $auth . '&kunsyo=' . $P{'order'} . '&token=' . $token;
+				$request = POST( $url );
+
+				# 送信
+				my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0, timeout => 5 });
+				my $res = $ua->request( $request );
+			} else {
+				#存在しなかったら登録（node連携）
+				my $url = $chatNodeHost . '/user/create?user_id=' . $id . '&password=' . $pass . '&username=' . $P{'name'};
+				$request = POST( $url );
+
+				# 送信
+				my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0, timeout => 5 });
+				my $res = $ua->request( $request );
+			}
+		}
+	};
 
 	for my $i ( 1 .. $maxdeck ) {
 		unless ( $P{"deck$i"} ) { $dnam[$i] = "記録なし"; next; }

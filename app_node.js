@@ -1,10 +1,29 @@
 var fs = require('fs');
-var opts = {
-  key: fs.readFileSync("/etc/letsencrypt/live/manadream.net/privkey.pem"),
-  cert: [fs.readFileSync("/etc/letsencrypt/live/manadream.net/fullchain.pem")],
-};
-const server = require("https").createServer(opts);
-server.listen(3002);
+var http = require('http');
+var https = require('https');
+
+var SSL_KEY  = process.env.SSL_KEY  || "/etc/letsencrypt/live/manadream.net/privkey.pem";
+var SSL_CERT = process.env.SSL_CERT || "/etc/letsencrypt/live/manadream.net/fullchain.pem";
+
+var useHttps = false;
+try {
+  if (fs.existsSync(SSL_KEY) && fs.existsSync(SSL_CERT)) {
+    useHttps = true;
+  }
+} catch(e) {}
+
+var server;
+if (useHttps) {
+  console.log('Starting HTTPS server on port ' + (process.env.NODE_PORT || 3002));
+  server = https.createServer({
+    key: fs.readFileSync(SSL_KEY),
+    cert: [fs.readFileSync(SSL_CERT)]
+  });
+} else {
+  console.log('Starting HTTP server on port ' + (process.env.NODE_PORT || 3002) + ' (no SSL certs found)');
+  server = http.createServer();
+}
+server.listen(process.env.NODE_PORT || 3002);
 
 const io = require("socket.io").listen(server);
 
@@ -17,7 +36,7 @@ io.sockets.on('connection',function(socket) {
 	socket.on('foo', function (data) {
 	  console.log('here we are in action event and data is: ' + data);
 	});
-	
+
 	socket.on('action', function (data) {
 		console.log(data.mode);
                 logger.request.info(data.mode);

@@ -1,0 +1,10 @@
+.git
+node_modules
+logs/*.log
+*.JPG
+*.jpg
+*.png
+README.md
+docker
+!docker/entrypoint.sh
+!docker/apache-cgi3.conf
