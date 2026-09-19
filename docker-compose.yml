@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  cgi3:
+    build: .
+    ports:
+      - "8080:80"
+      - "3002:3002"
+    volumes:
+      - ./playerdata:/var/www/html/cgi3/playerdata
+      - ./room:/var/www/html/cgi3/room
+      - ./logs:/var/www/html/cgi3/logs
+      - ./chat/data:/var/www/html/cgi3/chat/data
+      - ./data:/var/www/html/cgi3/data
+      - ./taikai:/var/www/html/cgi3/taikai
+      - ./tmp:/var/www/html/cgi3/tmp
+      - ./lock:/var/www/html/cgi3/lock
+    environment:
+      - HOST_NAME=${HOST_NAME:-http://localhost:8080}

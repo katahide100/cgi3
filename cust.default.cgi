@@ -19,7 +19,7 @@ $image			= "./images";						# 観戦中画像のパス（絶対パスでも相�
 
 $natime			= 5;								# アクセスなしで負けになる時間（分）
 
-@deny_id		= ("OBA35431","ID");						# 対戦へのアクセスを拒否するユーザーID
+@deny_id		= ("OBA35431");						# 対戦へのアクセスを拒否するユーザーID
 $deny_proxy		= 0;								# プロクシ経由で来る訪問者を排除する？(YES=1 NO=0)
 
 $max_file		= "";								# 保存するプレイヤーファイルの最大数
@@ -41,8 +41,7 @@ $lockfile2 		= "word.lock";						# 伝言板機能用ロックファイル名（
 $dendoufile     = "./data/dendou.txt";              # 殿堂入りカードのデータファイル
 $premiumfile    = "./data/premium.txt";             # P殿堂入りカードのデータファイル
 
-$hostName       = "https://manadream.net";          # ホスト名（node.jsなどで使>
-用）
+$hostName       = "https://manadream.net";          # ホスト名（node.jsなどで使用）
 $nodePort       = "3002";                           # node.jsのポート番号
 
 $chatNodePort   = "1337";                           # chatのnode.jsポート番号

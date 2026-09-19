@@ -1,0 +1,9 @@
+{
+  "name": "cgi3-node",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "log4js": "0.6.27",
+    "socket.io": "1.3.7"
+  }
+}

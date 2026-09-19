@@ -297,15 +297,17 @@ sub pfl_write {
 #	chmod 0000, "${player_dir}/".$id.".cgi";
 
 	# リニューアル版との連携
-	my $ret = system("cd /var/www/duel_next; node convert.mjs $id > /tmp/log.txt 2>&1");
-	if ($ret != 0) {
-		open(PFL, "< /tmp/log.txt") || &error("読み込みエラーです。");
-		while (<PFL>) {
-			$test .= $_;
-		}
-		close(PFL);
+	if (-d "/var/www/duel_next") {
+		my $ret = system("cd /var/www/duel_next; node convert.mjs $id > /tmp/log.txt 2>&1");
+		if ($ret != 0) {
+			open(PFL, "< /tmp/log.txt") || &error("読み込みエラーです。");
+			while (<PFL>) {
+				$test .= $_;
+			}
+			close(PFL);
 
-		&error($test);
+			&error($test);
+		}
 	}
 }
 
@@ -324,21 +326,23 @@ sub prof {
 	($deck,$dum) = split(/-/,$P2{"deck$use"});
 
 	# ユーザー検索（node連携）
-	my $url = $chatNodeHost . '/user/find?user_id=' . $P2{'id'};
-	$request = POST( $url );
-
-	# 送信
-	my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 });
-	my $res = $ua->request( $request );
-	my $arrRes = decode_json($res->content);
 	my $orica = 0;
+	eval {
+		my $url = $chatNodeHost . '/user/find?user_id=' . $P2{'id'};
+		$request = POST( $url );
 
-	if ($res->is_success) {
-		if (scalar @$arrRes > 0) {
-			#ユーザーが存在した場合
-			$orica = @$arrRes[0]->{orica};
+		# 送信
+		my $ua = LWP::UserAgent->new(ssl_opts => { verify_hostname => 0, timeout => 5 });
+		my $res = $ua->request( $request );
+		my $arrRes = decode_json($res->content);
+
+		if ($res->is_success) {
+			if (scalar @$arrRes > 0) {
+				#ユーザーが存在した場合
+				$orica = @$arrRes[0]->{orica};
+			}
 		}
-	}
+	};
 
 	&header;
 	print <<"EOM";
