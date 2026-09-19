@@ -36,7 +36,7 @@ sub access_chk {	# 強制退室チェック
 }
 
 sub deny {			# 禁止ID、プロクシのチェック
-	map { &error("あなたのIDは対戦を禁止されています") if $id =~ /^$_/ } @deny_id;
+	map { &error("あなたのIDは対戦を禁止されています") if $id eq $_ } @deny_id;
 	if ($deny_proxy) {
 		while (my ($envkey, $envvalue) = each(%ENV)) {
 			&error("プロクシ経由での対戦は禁止されてます") if $envkey =~ /proxy/i || $envvalue =~ /proxy/i;

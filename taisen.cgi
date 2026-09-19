@@ -1045,7 +1045,7 @@ EOM
 <iframe id="lobby-frame"
   width="100%" height="500"
   frameborder="0"
-  src="$newChatNodeHost/next/lobbyCgi">
+  src="$newChatNodeHost/next/lobby">
 </iframe>
 </p>
 <div class="old-content">
