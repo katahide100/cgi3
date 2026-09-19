@@ -2473,7 +2473,7 @@ sub put_battle_zone_koka {
       &s_mes(sprintf "《$c_name[$cardno]》の能力で、%sの%sクリーチャーはすべてブロッカーとなった！",
         $c_name[$cardno] eq "蒼黒の知将ディアブロスト" ? "$pn[$e_side]" : "$pn[$l_side]",
         $c_name[$cardno] eq "蒼黒の知将ディアブロスト" ? "" : $c_name[$cardno] eq "金色の精霊クロスヘイム" ? "多色" :"ナイト・");
-    } elsif (&k_chk($cardno, 28) && &shield_chk($l_side)) {
+    } elsif (&sforth_chk($cardno) && &shield_chk($l_side)) {
       $chudan_flg = $trigger_flg = "1";
       $chudan = $fno;
       unshift @syori, "s-$l_side<>t-シールド・フォースのシールドを選んでください<>m-sforth_sel<>o-決定";
@@ -2484,6 +2484,14 @@ sub put_battle_zone_koka {
               || (&c_chk("霊騎ラファーム", $e_side) && &bun_chk($cardno, 3, 4))
               || (&c_chk("緊縛の影バインド・シャドウ", 3) && &bun_chk($cardno, 2));
   }
+}
+
+sub sforth_chk {  # シールド・フォースの処理を行うカードか
+  my ($cardno) = @_;
+  # 【暫定対応 2026-09-19】EXライフ(効果37)は cgi3 では未実装のため、シールド・フォース(効果28)と同じ処理に流している。
+  # EXライフを本実装するときは、ここから 37 の判定を外して専用の処理に置き換えること。
+  # (action.pl は duel_h の app/View/Godlinks/action.ctp から生成されるので、両方を同じ内容に保つこと)
+  return &k_chk($cardno, 28) || &k_chk($cardno, 37);
 }
 
 sub sforth_sel {  # シールドフォースのシールドを選択
