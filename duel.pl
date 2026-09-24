@@ -168,6 +168,27 @@ EOM
 	&footer;
 }
 
+# 進化種別コードの正規化。
+#
+# 進化欄(card1.txt の「進化」列 = duel_h の cards.evolution)には、cgi3 が実装していない
+# 種別コードが入ることがある(duel_h 側でカードを登録すると card1.txt に直接書き出される)。
+# action.pl の put_cre_chk は「12 以上は墓地進化V・GV」のように範囲で分岐しているため、
+# 未実装のコードをそのまま通すと墓地から進化元を探しに行き、候補が揃わず召喚できなくなる。
+#
+# そこで cgi3 が実装しているコードだけを通し、それ以外は空(=非進化)に落とす。
+#   14 NEO進化 / 15 G-NEO進化 … 当面は通常クリーチャーと同じ扱い(進化させない)。
+#                               対応する時はこのホワイトリストに加えて put_cre_chk に分岐を足す。
+#   その他の未知の値(誤入力など)も非進化として扱う。
+# 「1,8」のような複合値は先頭のコードで判定する(従来の数値比較と同じ挙動)。
+my %EVO_IMPLEMENTED = map { $_ => 1 } (1..13);
+sub evo_norm {
+	my $evo = shift;
+	return "" unless defined $evo && $evo ne "";
+	my ($head) = ($evo =~ /^\s*(\d+)/);
+	return "" unless defined $head;
+	return $EVO_IMPLEMENTED{$head} ? $evo : "";
+}
+
 sub cardread{
 	my $cou = 0;
 	open(DATA,"card1.txt") || &error("カードデータを読み込めません。");
@@ -175,6 +196,7 @@ sub cardread{
 	while(<DATA>){
 		chomp;
 		($c_name[$cou],$c_bun[$cou],$c_syu[$cou],$c_pow[$cou],$c_mana[$cou],$c_evo[$cou],$c_kok[$cou],$c_tri[$cou]) = split(/\t/);
+		$c_evo[$cou] = &evo_norm($c_evo[$cou]);
 		$cou++;
 	}
 	close(DATA);
@@ -190,7 +212,7 @@ sub cardread2{
 			$c_syu[$cou] = $tc_syu;
 			$c_pow[$cou] = $tc_pow;
 			$c_mana[$cou] = $tc_mana;
-			$c_evo[$cou] = $tc_evo;
+			$c_evo[$cou] = &evo_norm($tc_evo);
 			$c_kok[$cou] = $tc_kok;
 			$c_tri[$cou] = $tc_tri;
 		}

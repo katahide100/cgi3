@@ -156,6 +156,8 @@ sub read_cardfile {
 		my @card = split /\t/;
 		$cou = shift @card;
 		($c_name[$cou], $c_bun[$cou], $c_syu[$cou], $c_pow[$cou], $c_mana[$cou], $c_evo[$cou], $c_kok[$cou], $c_tri[$cou]) = @card;
+		# 未実装の進化種別(NEO進化・G-NEO進化など)は非進化に落とす。duel.pl の evo_norm 参照
+		$c_evo[$cou] = &evo_norm($c_evo[$cou]);
 	}
 	close DATA;
 }
