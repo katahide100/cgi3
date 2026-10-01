@@ -1827,7 +1827,7 @@ EOM
 #-------------------------------------
 sub next_banner {
 	print <<"EOM";
-<a href="$newChatNodeHost/next/lobby" target="_top" style="display: block; margin-bottom: 16px; padding: 8px 16px; background: linear-gradient(to right, #d5ebfa, #44a9ee 81.51%); border-bottom: 2px solid #7d9db8; color: #243746; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none;">リニューアル版(開発中)へ</a>
+<a href="$newChatNodeHost/next/lobby" target="_top" style="display: block; margin-bottom: 16px; padding: 14px 16px; background: linear-gradient(to right, #d5ebfa, #44a9ee 81.51%); border-bottom: 2px solid #7d9db8; color: #243746; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none;">リニューアル版(開発中)へ &gt;&gt;</a>
 EOM
 }
 
