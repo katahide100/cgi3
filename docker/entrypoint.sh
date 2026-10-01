@@ -16,6 +16,16 @@ if [ -n "$HOST_NAME" ]; then
     echo "[entrypoint] Set hostName = $HOST_NAME"
 fi
 
+# Update duel-next host in cust.cgi (行が無い古い cust.cgi には chatNodeHost の後ろに追加)
+if [ -n "$NEXT_HOST" ]; then
+    if grep -q '^\$newChatNodeHost' cust.cgi; then
+        sed -i "s|^\$newChatNodeHost.*|\\\$newChatNodeHost   = \"$NEXT_HOST\";|" cust.cgi
+    else
+        sed -i "/^\$chatNodeHost/a \\\$newChatNodeHost   = \"$NEXT_HOST\";" cust.cgi
+    fi
+    echo "[entrypoint] Set newChatNodeHost = $NEXT_HOST"
+fi
+
 # Set permissions
 chmod 777 playerdata 2>/dev/null || true
 chmod 777 room 2>/dev/null || true

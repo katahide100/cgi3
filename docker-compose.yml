@@ -17,3 +17,5 @@ services:
       - ./lock:/var/www/html/cgi3/lock
     environment:
       - HOST_NAME=${HOST_NAME:-http://localhost:8080}
+      # duel-next（npm run socket-dev）のホスト。リニューアル版ロビー/チャットのリンク先
+      - NEXT_HOST=${NEXT_HOST:-http://localhost:3000}

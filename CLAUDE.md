@@ -65,6 +65,8 @@ docker-compose up -d
 # → http://localhost:8080/cgi3/index.cgi
 ```
 
+`docker/entrypoint.sh` rewrites `cust.cgi` at startup: `$hostName` from `HOST_NAME` (default `http://localhost:8080`) and `$newChatNodeHost` (duel-next, used for the renewal-lobby banner and the chat iframe) from `NEXT_HOST` (default `http://localhost:3000`). Source is baked into the image, so re-run `make up` (or use `make watch`) after editing.
+
 ### On existing Apache (production)
 
 Per README.md: requires Apache with `Options +ExecCGI` and `AddHandler cgi-script .cgi .pl`, Perl with CPAN modules (Net::SSLeay, LWP::UserAgent, HTTP::Request::Common, JSON), PHP with mbstring/xml/gd/pdo extensions, and Node.js for `app_node.js` (started via `forever start app_node.js`).

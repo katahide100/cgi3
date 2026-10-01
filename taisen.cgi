@@ -327,6 +327,9 @@ sub room {
 // --></script>
 </head>
 <body>
+EOM
+	&next_banner;
+	print <<"EOM";
 <div align="center">
 EOM
 	if ( int( rand(12) ) == 0 ) {
@@ -721,6 +724,9 @@ sub html {
 // --></script>
 </head>
 <body>
+EOM
+	&next_banner;
+	print <<"EOM";
 <div align="center">
 <!--<h1>$title</h1>-->
 EOM
@@ -1036,6 +1042,7 @@ EOM
 
         print <<"EOM";
 </script>
+<!-- リニューアル版ロビーの iframe 埋め込みは一旦停止（ヘッダー帯のリンクから全画面で開く）
 <div style="text-align: center; margin-bottom: 10px;">
 <div id="select-old" style="display:inline-block; padding:8px; background:#66d0d0; cursor:pointer; border:1px solid #000000;">CGI版</div>
 <div id="select-new" style="display:inline-block; padding:8px; background:#66d0d0; cursor:pointer; border:1px solid #000000;">リニューアル版(開発中)</div>
@@ -1048,6 +1055,7 @@ EOM
   src="$newChatNodeHost/next/lobby">
 </iframe>
 </p>
+-->
 <div class="old-content">
 <div align="center" style="width: 600px; height: 200px; overflow: scroll;">
 <table border="0" cellpadding="5">
@@ -1810,6 +1818,16 @@ EOM
 </td></tr>
 </table>
 
+EOM
+}
+
+#-------------------------------------
+# リニューアル版(duel-next)ロビーへのヘッダー帯
+# 帯全体がリンク。フレーム版でも全画面で開くよう target="_top"
+#-------------------------------------
+sub next_banner {
+	print <<"EOM";
+<a href="$newChatNodeHost/next/lobby" target="_top" style="display: block; margin-bottom: 16px; padding: 8px 16px; background: linear-gradient(to right, #d5ebfa, #44a9ee 81.51%); border-bottom: 2px solid #7d9db8; color: #243746; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none;">リニューアル版(開発中)へ</a>
 EOM
 }
 

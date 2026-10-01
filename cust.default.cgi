@@ -47,6 +47,7 @@ $nodePort       = "3002";                           # node.jsのポート番号
 $chatNodePort   = "1337";                           # chatのnode.jsポート番号
 
 $chatNodeHost   = $hostName . ':' . $chatNodePort;  # chatのホスト
+$newChatNodeHost   = $hostName;  # 新chat(duel-next)のホスト
 
 $adsenseClickIpsFile = "./data/adsense_click_ips.txt";  # アドセンスをクリックしたIPアドレスファイル
 
